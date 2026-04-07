@@ -207,7 +207,7 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
               onClick={() => setSelectedId(address.id)}
               className="flex items-start gap-3 cursor-pointer"
             >
-              {/* Radio Circle */}
+             
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
                   selectedId === address.id
