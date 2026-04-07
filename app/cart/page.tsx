@@ -8,6 +8,7 @@ import { useBooking } from "@/context/BookingContext";
 import AddressSelectionModal from "@/components/AddressSelectionModal";
 import { TermsConditionsModal } from "@/components/TermsConditionsModal";
 import { Trash2, Plus, ChevronDown } from "lucide-react";
+import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
 
 interface Address {
   id: string;
@@ -23,6 +24,7 @@ export default function CartPage() {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
+const [showDateTimeModal, setShowDateTimeModal] = useState(false);
 
   const totalMRP = cartItems.reduce((sum, item) => sum + item.price * 1.2, 0);
   const totalDiscount = totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -49,100 +51,93 @@ export default function CartPage() {
     },
   ];
 
-  if (cartItems.length === 0) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-7xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
-          <p className="text-gray-600 mb-8">Start by selecting a service</p>
-          <button
-            onClick={() => router.push("/services")}
-            style={{ backgroundColor: "#FF6B00" }}
-            className="text-white font-bold px-8 py-3 rounded-lg hover:opacity-90"
-          >
-            Browse Services
-          </button>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+const handleContinue = () => {
 
-  const handleContinue = () => {
-    if (!selectedAddress) {
-      setShowAddressModal(true);
-    } else if (!showTCModal) {
-      setShowTCModal(true);
-    } else {
-      router.push("/booking-payment");
-    }
-  };
+    setShowDateTimeModal(true); // 👈 open date modal instead
+  
+};
 
+const handleDateTimeContinue = (date, time, notes) => {
+  console.log(date, time, notes);
+
+  setShowDateTimeModal(false);
+
+  // 👇 IMPORTANT: do NOT open address again
+  setShowTCModal(true); // or go to payment
+};
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Cart Summary</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left: Order Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Customer Details */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Customer Details</h2>
-              <div className="space-y-3">
+            <div className="bg-white rounded-2xl border border-gray-200 p-5">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                Customer Details
+              </h2>
+
+              <div className="flex items-start justify-between">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-                  />
+                  <p className="font-medium text-gray-800">
+                    Mr Tikesh Dewangan
+                    <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded">
+                      Home
+                    </span>
+                  </p>
+
+                  <p className="text-sm text-gray-500 mt-1 max-w-md">
+                    Office No 201, atlantis Corporate Park, Ring Road No.1,
+                    Telibandha, Raipur 492001
+                  </p>
+
+                  <p className="text-sm text-gray-500 mt-1">+91 7247999000</p>
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
-                  <input
-                    type="tel"
-                    placeholder="10 digit number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-                  />
-                </div>
+
+                <button className="border border-orange-500 text-orange-500 px-4 py-1.5 rounded-lg text-sm">
+                  Change Address
+                </button>
               </div>
             </div>
 
             {/* Order Summary */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Order Summary</h2>
-              <div className="space-y-3">
+            <div className="bg-white rounded-2xl border border-gray-200 p-5">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                Order Summary
+              </h2>
+
+              <div className="space-y-4">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="flex items-start justify-between p-4 border border-gray-200 rounded-lg">
-                    <div className="flex-grow">
-                      <h3 className="font-bold text-gray-900">{item.subService}</h3>
-                      <p className="text-sm text-gray-600">
-                        {item.serviceName} • {item.capacity || "Standard"}
-                        {item.amc && ` • ${item.amc} AMC`}
+                  <div key={item.id} className="grid grid-cols-3 items-center">
+                    {/* Title */}
+                    <div>
+                      <p className="text-sm text-gray-600">{item.subService}</p>
+                      <p className="text-xs text-gray-400">
+                        {item.serviceName}
                       </p>
-                      <p className="text-sm text-gray-500">Duration: {item.duration}</p>
                     </div>
+
+                    {/* Qty */}
+                    <div className="flex justify-center">
+                      <div className="flex items-center border border-orange-400 rounded-md px-2 gap-2 h-7">
+                        <button>-</button>
+                        <span>{item.quantity || 1}</span>
+                        <button>+</button>
+                      </div>
+                    </div>
+
+                    {/* Price */}
                     <div className="text-right">
-                      <p className="font-bold text-gray-900">₹{item.price}</p>
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-red-600 text-sm hover:underline mt-1"
-                      >
-                        <Trash2 className="w-4 h-4 inline mr-1" />
-                        Remove
-                      </button>
+                      <p className="font-semibold text-gray-900">
+                        ₹{item.price}
+                      </p>
+                      <p className="text-xs text-gray-400 line-through">
+                        ₹{Math.round(item.price * 1.2)}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -150,12 +145,14 @@ export default function CartPage() {
             </div>
 
             {/* Frequently Added Together */}
-            <div className="bg-white rounded-xl shadow-md p-6">
+            {/* <div className="bg-white rounded-xl shadow-md p-6">
               <button
                 onClick={() => setFrequentlyAddedOpen(!frequentlyAddedOpen)}
                 className="w-full flex items-center justify-between mb-4"
               >
-                <h2 className="text-lg font-bold text-gray-900">Frequently Added Together</h2>
+                <h2 className="text-lg font-bold text-gray-900">
+                  Frequently Added Together
+                </h2>
                 <ChevronDown
                   className={`w-5 h-5 text-gray-600 transition-transform ${
                     frequentlyAddedOpen ? "rotate-180" : ""
@@ -172,8 +169,12 @@ export default function CartPage() {
                         className="flex-shrink-0 w-40 p-3 border border-gray-200 rounded-lg text-center hover:shadow-md transition-shadow"
                       >
                         <div className="w-full h-24 bg-gray-100 rounded-lg mb-2"></div>
-                        <p className="font-semibold text-gray-900 text-sm mb-1">{item.name}</p>
-                        <p className="text-green-600 font-bold mb-2">₹{item.price}</p>
+                        <p className="font-semibold text-gray-900 text-sm mb-1">
+                          {item.name}
+                        </p>
+                        <p className="text-green-600 font-bold mb-2">
+                          ₹{item.price}
+                        </p>
                         <button
                           className="w-full bg-orange-100 text-orange-600 font-bold py-1 rounded hover:bg-orange-200 transition-colors flex items-center justify-center gap-1"
                           style={{ color: "#FF6B00" }}
@@ -186,49 +187,70 @@ export default function CartPage() {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
 
           {/* Right: Amount Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-md p-6 sticky top-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Amount Summary</h2>
 
-              <div className="space-y-3 mb-6 pb-4 border-b border-gray-200">
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>Total MRP</span>
+          <div className="lg:col-span-1 gap-5 flex flex-col">
+            <div className="border border-orange-400 rounded-xl p-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="font-semibold text-gray-900">Coupons $ Offer</p>
+                  <p className="text-xs text-gray-500">
+                    Save upto 15% on every booking
+                  </p>
+                </div>
+                <ChevronDown className="w-5 h-5 text-gray-500" />
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-200 p-5 sticky top-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                Amount Summary
+              </h2>
+
+              <div className="space-y-3 text-sm mb-4">
+                <div className="flex justify-between text-gray-600">
+                  <span>Total Item (3)</span>
                   <span>₹{totalMRP.toFixed(0)}</span>
                 </div>
-                <div className="flex justify-between text-sm text-green-600">
-                  <span>Discount</span>
-                  <span>-₹{totalDiscount.toFixed(0)}</span>
+
+                <div className="flex justify-between text-gray-400 ">
+                  <span>Total Discount</span>
+                  <span>₹{totalDiscount.toFixed(0)}</span>
+                </div>
+
+                <div className="flex justify-between text-green-600">
+                  <span>Coupon Discount</span>
+                  <span>₹50</span>
                 </div>
               </div>
 
-              <div className="mb-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm text-blue-900">
-                  <span className="font-bold">WELCOME20</span> - Get 20% off on first booking
-                </p>
-              </div>
-
-              <div className="mb-6 pb-4 border-b border-gray-200">
-                <div className="flex justify-between font-bold text-lg text-gray-900">
-                  <span>Total Amount</span>
-                  <span style={{ color: "#FF6B00" }}>₹{totalAmount}</span>
-                </div>
+              <div className="flex justify-between font-semibold text-lg mb-4">
+                <span>Total Amount</span>
+                <span>₹{totalAmount}</span>
               </div>
 
               <button
+                className="w-full py-3 rounded-full text-white font-semibold bg-orange-600 hover:bg-orange-700 transition-colors"
                 onClick={handleContinue}
-                style={{ backgroundColor: "#FF6B00" }}
-                className="w-full text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity"
               >
                 Continue
               </button>
 
-              <p className="text-xs text-gray-500 text-center mt-4">
-                ✓ Secure Checkout • Next day delivery available
-              </p>
+              <div className="flex items-center gap-3">
+                <p className="text-xs text-gray-500 text-center mt-3">
+                  🔒 Safe & secure checkout
+                </p>
+                <img
+                  src="/grp.png"
+                  alt="Payment Methods"
+                  className="w-40 mt-4"
+                />
+              </div>
+            </div>
+            <div>
+              <img src="/easy.png" alt="Payment Methods" className="w-full" />
             </div>
           </div>
         </div>
@@ -241,11 +263,14 @@ export default function CartPage() {
         onContinue={(address: Address) => {
           setSelectedAddress(address);
           setShowAddressModal(false);
-          setShowTCModal(true);
+          setShowDateTimeModal(true); // 👈 open DateTime here
         }}
-        onAddNewAddress={() => {
-          // Handle add new address
-        }}
+        onAddNewAddress={() => {}}
+      />
+      <SelectDateTimeModal
+        isOpen={showDateTimeModal}
+        onClose={() => setShowDateTimeModal(false)}
+        onContinue={handleDateTimeContinue}
       />
 
       <TermsConditionsModal

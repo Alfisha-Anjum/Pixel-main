@@ -68,12 +68,12 @@ export default function ServiceSection() {
   const router = useRouter();
 
   return (
-    <section className="w-full bg-white py-12 lg:py-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+    <section className="w-full bg-white p-5">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-10">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[35%] flex flex-col">
-            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 mb-10 leading-[1.2] text-left max-w-[580px]">
+            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 mb-5 leading-[1.2] text-left max-w-[580px]">
               How can we serve you<br/>
               today?
             </h2>
@@ -89,7 +89,7 @@ export default function ServiceSection() {
                     className="flex flex-col items-center cursor-pointer group"
                     onClick={() => router.push(service.link)}
                   >
-                    <div className={`${card} w-24 h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}>
+                    <div className={`${card} w-32 h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}>
                       <Icon className={`w-10 h-10 ${icon}`} />
                     </div>
                     <p className="mt-4 text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-orange-600 transition-colors">

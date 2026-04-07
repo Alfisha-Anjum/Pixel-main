@@ -144,7 +144,7 @@ const DeepCleaningServices = () => {
           {/* Navigation Buttons */}
           <button 
             onClick={scrollLeft}
-            className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-gray-200 text-gray-700 hover:shadow-xl"
+            className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
             style={{
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
             }}
@@ -153,7 +153,7 @@ const DeepCleaningServices = () => {
           </button>
           <button 
             onClick={scrollRight}
-            className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-gray-200 text-gray-700 hover:shadow-xl"
+            className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
             style={{
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
             }}
