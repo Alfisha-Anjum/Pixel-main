@@ -9,6 +9,8 @@ import AddressSelectionModal from "@/components/AddressSelectionModal";
 import { TermsConditionsModal } from "@/components/TermsConditionsModal";
 import { Trash2, Plus, ChevronDown } from "lucide-react";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
+import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
+import AddNewAddressModal from "@/components/AddNewAddressModal";
 
 interface Address {
   id: string;
@@ -25,7 +27,7 @@ export default function CartPage() {
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
 const [showDateTimeModal, setShowDateTimeModal] = useState(false);
-
+const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
   const totalMRP = cartItems.reduce((sum, item) => sum + item.price * 1.2, 0);
   const totalDiscount = totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -56,14 +58,11 @@ const handleContinue = () => {
     setShowDateTimeModal(true); // 👈 open date modal instead
   
 };
-
 const handleDateTimeContinue = (date, time, notes) => {
   console.log(date, time, notes);
 
-  setShowDateTimeModal(false);
-
-  // 👇 IMPORTANT: do NOT open address again
-  setShowTCModal(true); // or go to payment
+  setShowDateTimeModal(false); // close date modal
+  setShowAddressModal(true); // ✅ OPEN ADDRESS MODAL
 };
   return (
     <div className="min-h-screen bg-gray-50">
@@ -257,20 +256,37 @@ const handleDateTimeContinue = (date, time, notes) => {
       </main>
 
       {/* Modals */}
-      <AddressSelectionModal
+      <SelectAddressModal
         isOpen={showAddressModal}
         onClose={() => setShowAddressModal(false)}
-        onContinue={(address: Address) => {
+        onContinue={(address) => {
           setSelectedAddress(address);
           setShowAddressModal(false);
-          setShowDateTimeModal(true); // 👈 open DateTime here
+          setShowTCModal(true);
         }}
-        onAddNewAddress={() => {}}
+        onAddNew={() => {
+          setShowAddressModal(false); // close current
+          setShowAddNewAddressModal(true); // open new one
+        }}
       />
       <SelectDateTimeModal
         isOpen={showDateTimeModal}
         onClose={() => setShowDateTimeModal(false)}
         onContinue={handleDateTimeContinue}
+      />
+
+      <AddNewAddressModal
+        isOpen={showAddNewAddressModal}
+        onClose={() => setShowAddNewAddressModal(false)}
+        onSave={(newAddress) => {
+          console.log(newAddress);
+
+          setShowAddNewAddressModal(false);
+          setShowAddressModal(true); // 👈 go back to address list
+
+          // optional: auto-select new address
+          // setSelectedAddress(newAddress);
+        }}
       />
 
       <TermsConditionsModal

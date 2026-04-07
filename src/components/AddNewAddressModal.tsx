@@ -218,15 +218,10 @@ const AddNewAddressModal = ({
 
         {/* Footer with Buttons */}
         <div className="px-6 py-4 bg-[#F9F9F9] flex gap-3 border-t border-[#F0F0F0]">
-          <button
-            onClick={onClose}
-            className="flex-1 h-11 rounded-[10px] border border-[#DDD] text-[#333] font-semibold text-sm hover:bg-gray-50 transition-colors"
-          >
-            Cancel
-          </button>
+          
           <button
             onClick={handleSave}
-            className="flex-1 h-11 rounded-[10px] bg-gradient-to-r from-[#FF8C42] to-[#FF6B00] text-white font-semibold text-sm hover:from-[#FF7B20] hover:to-[#F55900] transition-all"
+            className="flex-1 h-11 rounded-full bg-gradient-to-r from-[#FF8C42] to-[#FF6B00] text-white font-semibold text-sm hover:from-[#FF7B20] hover:to-[#F55900] transition-all"
           >
             Continue
           </button>
