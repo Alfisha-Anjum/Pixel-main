@@ -102,6 +102,7 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({ initial = "main"
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <span
+          
             className="hover:text-orange-500 cursor-pointer"
             onClick={() => setStep("main")}
           >
