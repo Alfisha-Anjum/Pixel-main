@@ -107,7 +107,7 @@ const AMCServicePlan = () => {
   }, [currentSlide]);
 
   return (
-    <section className="w-full bg-white py-20">
+    <section className="w-full bg-white py-5">
       <LayoutContainer className="relative">
         <h2 className="text-2xl font-semibold text-gray-900 mb-5">
           AMC Service Plan
@@ -116,13 +116,13 @@ const AMCServicePlan = () => {
         {/* Navigation Arrows */}
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-gray-100 text-gray-700"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-gray-100 text-gray-700"
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
         >
           <ChevronRight className="w-6 h-6" />
         </button>

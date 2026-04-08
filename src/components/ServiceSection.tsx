@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import ApplianceModal from "./ApplianceModal";
+import { useState } from "react";
 
 const services = [
   {
@@ -65,16 +67,18 @@ const getColorClasses = (color: string) => {
 };
 
 export default function ServiceSection() {
+  
   const router = useRouter();
-
+const [showApplianceModal, setShowApplianceModal] = useState(false);
   return (
-    <section className="w-full bg-white py-12 lg:py-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+    <section className="w-full bg-white p-5">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-10">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[35%] flex flex-col">
-            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 mb-10 leading-[1.2] text-left max-w-[580px]">
-              How can we serve you<br/>
+            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 mb-5 leading-[1.2] text-left max-w-[580px]">
+              How can we serve you
+              <br />
               today?
             </h2>
 
@@ -82,14 +86,22 @@ export default function ServiceSection() {
               {services.map((service, index) => {
                 const { card, icon } = getColorClasses(service.color);
                 const Icon = service.icon;
-                
+
                 return (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="flex flex-col items-center cursor-pointer group"
-                    onClick={() => router.push(service.link)}
+                    onClick={() => {
+                      if (service.title === "AC & Appliance Repair") {
+                        setShowApplianceModal(true);
+                      } else {
+                        router.push(service.link);
+                      }
+                    }}
                   >
-                    <div className={`${card} w-24 h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}>
+                    <div
+                      className={`${card} w-32 h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}
+                    >
                       <Icon className={`w-10 h-10 ${icon}`} />
                     </div>
                     <p className="mt-4 text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-orange-600 transition-colors">
@@ -103,14 +115,14 @@ export default function ServiceSection() {
 
           {/* Right Side - Hero Image Banner */}
           <div className="w-full lg:w-[60%] relative h-[300px] lg:h-[450px] rounded-3xl overflow-hidden shadow-xl group lg:ml-8">
-             <Image
+            <Image
               src="/heroimage.jpg"
               alt="Home Services"
               fill
               className="object-cover w-full h-full"
               priority
             />
-            
+
             {/* Slider Navigation Buttons */}
             <button className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 duration-300">
               <ChevronLeft className="w-6 h-6 text-gray-800" />
@@ -121,6 +133,10 @@ export default function ServiceSection() {
           </div>
         </div>
       </div>
+      <ApplianceModal
+        isOpen={showApplianceModal}
+        onClose={() => setShowApplianceModal(false)}
+      />
     </section>
   );
 }

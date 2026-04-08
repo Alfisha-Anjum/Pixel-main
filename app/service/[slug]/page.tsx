@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Star, Plus, Minus, Trash2, Check, ChevronLeft, ChevronDown } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ServiceSummaryCard } from "@/components/ServiceSummaryCard";
@@ -14,10 +14,1232 @@ import { AMCDurationModal } from "@/components/AMCDurationModal";
 import { useBooking, CartItem } from "@/context/BookingContext";
 import { SERVICES_DATA } from "@/data/services";
 
+import { Clock } from "lucide-react";
+import DeepCleaningServices from "@/components/DeepCleaningServices";
+import OnDemandServices from "@/components/OnDemandServices";
+import Link from "next/link";
+import ServiceDetailsModal from "@/components/ServiceDetailsModal";
+import { SelectCapacityModal } from "@/components/booking-flow/SelectCapacityModal";
+import ServiceSection from "@/components/ServiceSection";
+import ServicesSection from "@/components/ServicesSection";
+
+interface Service {
+  id: number;
+  title: string;
+  description: string;
+  rating: number;
+  reviewCount: number;
+  duration: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+}
+
+interface CartItemService extends Service {
+  quantity: number;
+}
+
+// AC Repair Component
+const ACRepairLayout = () => {
+  const [showCoupons, setShowCoupons] = useState(false);
+  const [showCapacityModal, setShowCapacityModal] = useState(false);
+  // const [selectedService, setSelectedService] = useState(null);
+  const [activeTab, setActiveTab] = useState('split');
+  const [cartItems, setCartItems] = useState<CartItemService[]>([]);
+// const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
+   const [openIndex, setOpenIndex] = useState(null);
+const [selectedService, setSelectedService] = useState(null);
+const [showModal, setShowModal] = useState(false);
+const [showAMCModal, setShowAMCModal] = useState(false);
+const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
+
+   const toggleFAQ = (index) => {
+     setOpenIndex(openIndex === index ? null : index);
+   };
+
+  // Check scroll position to show/hide arrows
+  const checkScrollPosition = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    setShowLeftArrow(scrollLeft > 0);
+    setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 10); // 10px threshold
+  };
+
+  // Scroll left function
+
+const faqData = [
+  {
+    question: "There are many variation of passages of lorem ipsum available?",
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+  },
+  {
+    question: "There are many variation of passages of lorem ipsum available?",
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+  },
+  {
+    question: "There are many variation of passages of lorem ipsum available?",
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+  },
+  {
+    question: "There are many variation of passages of lorem ipsum available?",
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+  },
+];
+  // Scroll right function
+const brands = [
+  {
+    name: "VOLTAS",
+    logo: "/volt.png", // Replace with your actual image path
+    service: "Voltas AC Repair & Service",
+    width: 132,
+    height: 27,
+  },
+  {
+    name: "DAIKIN",
+    logo: "/daikin.png",
+    service: "Daikin AC Repair & Service",
+    width: 132,
+    height: 27,
+  },
+  {
+    name: "Samsung",
+    logo: "/sam.png",
+    service: "Samsung AC Repair & Service",
+    width: 132,
+    height: 27,
+  },
+  {
+    name: "Blue Star",
+    logo: "/blueStar.png",
+    service: "Blue Star AC Repair & Service",
+    width: 132,
+    height: 27,
+  },
+  {
+    name: "HITACHI",
+    logo: "/hit.png",
+    service: "Hitachi AC Repair & Service",
+    width: 132,
+    height: 27,
+  },
+  {
+    name: "MITSUBISHI",
+    logo: "/mits.png",
+    service: "Mitsubishi AC Repair & Service",
+    width: 132,
+    height: 27,
+  },
+ 
+];
+
+  // Add scroll event listener
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    container.addEventListener("scroll", checkScrollPosition);
+    window.addEventListener("resize", checkScrollPosition);
+    checkScrollPosition();
+    return () => {
+      container.removeEventListener("scroll", checkScrollPosition);
+      window.removeEventListener("resize", checkScrollPosition);
+    };
+  }, []);
+ // Initial check
+
+   const reviews = [
+     {
+       id: 1,
+       name: "Tikesh Dewangan",
+       stars: 5,
+       timeAgo: "1m ago",
+       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
+     },
+     {
+       id: 2,
+       name: "Tikesh Dewangan",
+       stars: 5,
+       timeAgo: "1m ago",
+       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
+     },
+   ];
+   
+  const servicesData: Record<string, Service[]> = {
+    split: [
+      {
+        id: 1,
+        title: 'Split AC Service',
+        description: 'Complete service including cleaning and maintenance',
+        rating: 4.9,
+        reviewCount: 856,
+        duration: '45 mins',
+        price: 2999,
+        originalPrice: 3999,
+        image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop'
+      },
+      {
+        id: 2,
+        title: 'Split AC Repair',
+        description: 'Repair for compressor, gas refill, electrical issues',
+        rating: 4.7,
+        reviewCount: 654,
+        duration: '1-2 hours',
+        price: 3499,
+        originalPrice: 4999,
+        image: 'https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop'
+      },
+      {
+        id: 3,
+        title: 'Split AC Installation',
+        description: 'Professional installation of new AC units',
+        rating: 4.8,
+        reviewCount: 432,
+        duration: '2-3 hours',
+        price: 1999,
+        originalPrice: 2999,
+        image: 'https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop'
+      }
+    ],
+    window: [
+      {
+        id: 4,
+        title: 'Window AC Service',
+        description: 'Complete cleaning and maintenance service',
+        rating: 4.8,
+        reviewCount: 623,
+        duration: '40 mins',
+        price: 2499,
+        originalPrice: 3499,
+        image: 'https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop'
+      },
+      {
+        id: 5,
+        title: 'Window AC Repair',
+        description: 'Comprehensive repair for all window AC issues',
+        rating: 4.6,
+        reviewCount: 412,
+        duration: '1-2 hours',
+        price: 2999,
+        originalPrice: 4499,
+        image: 'https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop'
+      }
+    ],
+    cassette: [
+      {
+        id: 6,
+        title: 'Cassette AC Service',
+        description: 'Professional service for cassette AC units',
+        rating: 4.9,
+        reviewCount: 287,
+        duration: '60 mins',
+        price: 3999,
+        originalPrice: 5499,
+        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop'
+      },
+      {
+        id: 7,
+        title: 'Cassette AC Installation',
+        description: 'Expert installation for commercial spaces',
+        rating: 4.8,
+        reviewCount: 156,
+        duration: '3-4 hours',
+        price: 4999,
+        originalPrice: 6999,
+        image: 'https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop'
+      }
+    ]
+  };
+
+  const tabs = [
+    { id: 'split', label: 'Split AC' },
+    { id: 'window', label: 'Window AC' },
+    { id: 'cassette', label: 'Cassette AC' }
+  ];
+
+  const currentServices = servicesData[activeTab] || [];
+
+  const addToCart = (service: Service) => {
+    setCartItems(prev => {
+      const existing = prev.find(item => item.id === service.id);
+      if (existing) {
+        return prev.map(item =>
+          item.id === service.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { ...service, quantity: 1 }];
+    });
+  };
+
+  const updateQuantity = (id: number, quantity: number) => {
+    if (quantity === 0) {
+      removeFromCart(id);
+    } else {
+      setCartItems(prev =>
+        prev.map(item =>
+          item.id === id ? { ...item, quantity } : item
+        )
+      );
+    }
+  };
+
+  const removeFromCart = (id: number) => {
+    setCartItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+const scrollContainerRef = useRef(null);
+
+const scrollLeft = () => {
+  if (scrollContainerRef.current) {
+    scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  }
+};
+
+const scrollRight = () => {
+  if (scrollContainerRef.current) {
+    scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  }
+};
+  
+  return (
+    <>
+      <Header />
+
+      {/* Hero Section */}
+      <section className="bg-white">
+        <div className="w-full sm:max-w-[80%] mx-auto px-6 py-6">
+          <div className="text-xl text-gray-600 mb-4">
+            <a href="/" className="hover:text-[#FF6A00]">
+              Home
+            </a>
+            <span className="mx-2">/</span>
+            <a
+              href="/services/ac-appliance-repair"
+              className="hover:text-[#FF6A00]"
+            >
+              AC & Appliance Repair
+            </a>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 font-semibold">AC Repair</span>
+          </div>
+
+          {/* Title & Rating Section */}
+
+          {/* TASPro Cover */}
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="w-full sm:max-w-[80%] p-6 pb-11 mx-auto bg-white">
+        <div className="w-full flex justify-center">
+          <div className="">
+            <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">
+                Best Air Condition (AC) <br />
+                Repair Service in Raipur
+              </h1>
+              <div className="flex flex-col items-end">
+                <div className="flex items-center gap-1 mb-6">
+                  <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
+                  <span className="text-gray-900 font-semibold">4.5</span>
+                  <span className="text-gray-600">(480 review)</span>
+                  <span className="text-gray-600 mx-1">|</span>
+                  <span className="text-gray-900 font-semibold">5785</span>
+                  <span className="text-gray-600">(Bookings in Raipur)</span>
+                </div>
+              </div>
+              <div className="bg-white border border-[#c1c1c1] rounded-2xl p-4 my-6 relative">
+                {/* Top Badge */}
+                <div className="absolute -top-4 left-4 bg-white border border-gray-200 rounded-lg px-3 py-1 flex items-center gap-2 shadow-sm">
+                  <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
+                    ✓
+                  </div>
+                  <span className="text-sm font-medium text-gray-800">
+                    TAS<span className="text-orange-500">Pro</span> Cover
+                  </span>
+                </div>
+
+                {/* Items */}
+                <div className="mt-4 space-y-3">
+                  {/* Item 1 */}
+                  <div className="flex items-center justify-between  border rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-1">
+                      <span className="text-lg">🏅</span>
+                      <span className="text-sm text-gray-300 hover:text-orange-600 ">
+                        30 days unconditional warranty
+                      </span>
+                    </div>
+                    <span className="text-gray-400 text-lg">›</span>
+                  </div>
+
+                  {/* Item 2 */}
+                  <div className="flex items-center justify-between border rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-1">
+                      <span className="text-lg">💳</span>
+                      <p className="text-sm text-gray-300 hover:text-orange-600 ">
+                        <Link href="/rate-card">
+                          Standard rate card no hidden charges
+                        </Link>
+                      </p>
+                    </div>
+                    <span className="text-gray-400 text-lg">›</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex ">
+            <div className=" w-full h-full rounded-[24px] overflow-hidden relative">
+              <Image
+                src="/heroimage.jpg"
+                alt="Hero"
+                className="object-cover"
+                fill
+
+                // sizes="(max-width: 1024px) 100vw, 500px"
+              />
+            </div>
+          </div>
+          {/* Service Cards - 2 rows, 3 cards per row */}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 py-12">
+          {/* Left Column - Categories */}
+          <div className="">
+            <div className="bg-white rounded-xl ">
+              {/* <h3 className="text-lg font-bold text-gray-900 mb-4">
+                AC Service Categories
+              </h3> */}
+              <div className="relative flex items-center">
+                {/* Left Chevron Button */}
+                <button
+                  onClick={scrollLeft}
+                  className="absolute -left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0 z-10"
+                >
+                  <ChevronLeft className="w-6 h-6 text-[#FF6A00]" />
+                </button>
+
+                {/* Scrollable Cards Container */}
+                <div
+                  ref={scrollContainerRef}
+                  className="flex  gap-4 overflow-hidden"
+                  // style={{ scrollbarWidth: "thin" }} // optional: hides scrollbar visually
+                >
+                  {tabs.map((tab) => (
+                    <div
+                      key={tab.id}
+                      className="flex-shrink-0 w-40" // fixed width for consistent card size
+                    >
+                      <div
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`
+                cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border
+                ${
+                  activeTab === tab.id
+                    ? "border-[#FF6A00]  shadow-md"
+                    : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
+                }
+              `}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) =>
+                          (e.key === "Enter" || e.key === " ") &&
+                          setActiveTab(tab.id)
+                        }
+                      >
+                        {/* Optional: you can still have icons inside the card if desired */}
+                        <div className="mb-2 text-3xl">
+                          {tab.id === "split" && "❄️"}
+                          {tab.id === "window" && "🪟"}
+                          {tab.id === "cassette" && "📦"}
+                        </div>
+                        <div
+                          className={`font-medium ${
+                            activeTab === tab.id
+                              ? "text-[#FF6A00]"
+                              : "text-gray-700"
+                          }`}
+                        >
+                          {tab.label}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Right Chevron Button */}
+                <button
+                  onClick={scrollRight}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0"
+                >
+                  <ChevronRight className="w-6 h-6 text-[#FF6A00]" />
+                </button>
+              </div>
+            </div>
+            <div className="lg:col-span-6 mt-12">
+              <div className="space-y-6">
+                {currentServices.map((service) => (
+                  <div key={service.id} className="border-b pb-6">
+                    {/* Category Title (Split AC etc) */}
+                    <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                      {service.category || "Split AC"}
+                    </h3>
+
+                    <div className="flex gap-4">
+                      {/* LEFT IMAGE + ADD */}
+                      <div className="flex flex-col items-center">
+                        <div className="relative w-28 h-28 rounded-lg overflow-hidden">
+                          <Image
+                            src={service.image}
+                            alt={service.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+
+                        <button
+                          // onClick={() => addToCart(service)}
+                          onClick={() => {
+                            setSelectedService(service);
+                            setShowCapacityModal(true);
+                          }}
+                          className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
+                        >
+                          Add
+                        </button>
+                      </div>
+
+                      {/* RIGHT CONTENT */}
+                      <div className="flex-1">
+                        <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md">
+                          30 Days Warranty
+                        </span>
+                        <div className=" w-[60%] flex justify-between items-start">
+                          <div>
+                            {/* Title */}
+                            <h4 className="font-semibold text-gray-900 mt-1">
+                              {service.title}
+                            </h4>
+
+                            {/* Rating + Time */}
+                            <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
+                              <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
+                              <span>
+                                {typeof service.rating === "number"
+                                  ? service.rating.toFixed(1)
+                                  : "0.0"}
+                              </span>
+                              <span>
+                                ({Math.round(service.reviewCount / 1000)}m
+                                reviews)
+                              </span>
+                            </div>
+                            <div className=" flex gap-2 py-2">
+                              {" "}
+                              <Clock className="w-4 h-4" />
+                              <p className="text-xs text-gray-700">
+                                {" "}
+                                {service.duration} approx
+                              </p>
+                            </div>
+                          </div>
+                          {/* Warranty Badge */}
+
+                          {/* Price Row */}
+                          <div className="flex  flex-col mt-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-gray-900">
+                                ₹{service.price}
+                              </span>
+                              {service.originalPrice && (
+                                <span className="text-xs text-gray-400 line-through">
+                                  ₹{service.originalPrice}
+                                </span>
+                              )}
+                            </div>
+
+                            <span className="text-green-600 text-xs font-medium">
+                              30% off
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Description Points */}
+                      </div>
+                    </div>
+
+                    <div>
+                      <ul className="text-xs text-gray-500 mt-2 space-y-1">
+                        <li>
+                          • Get 2X deeper dust removal with Foam + PowerJet
+                          technology
+                        </li>
+                        <li>
+                          • Intense cleaning of both indoor & outdoor units
+                        </li>
+                      </ul>
+
+                      {/* More Details */}
+                      <p
+                        onClick={() => {
+                          setSelectedService(service);
+                          setShowModal(true);
+                        }}
+                        className="text-blue-600 text-xs mt-2 cursor-pointer"
+                      >
+                        More Details {">>"}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="">
+            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
+              {cartItems.length === 0 ? (
+                <div className="text-center">
+                  <Image
+                    src="/pana.png"
+                    alt="Empty Cart"
+                    width={200}
+                    height={200}
+                    className="mx-auto mb-4"
+                  />
+                  <p className="text-gray-600 font-medium mb-2">
+                    Your Cart is empty
+                  </p>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {/* Cart Header */}
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Cart
+                  </h3>
+
+                  {/* Cart Items */}
+                  <div className="space-y-4 mb-4">
+                    {cartItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="grid grid-cols-3 items-center gap-2"
+                      >
+                        {/* Title */}
+                        <div className="truncate">
+                          <p className="text-sm text-gray-400 truncate">
+                            {item.title}
+                          </p>
+                        </div>
+
+                        {/* Quantity */}
+                        <div className="flex justify-end">
+                          <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
+                            <button
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity - 1)
+                              }
+                              className="text-orange-500"
+                            >
+                              -
+                            </button>
+
+                            <span className="text-sm">{item.quantity}</span>
+
+                            <button
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity + 1)
+                              }
+                              className="text-orange-500"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Price */}
+                        <div className="text-right">
+                          <p className="text-sm font-semibold text-gray-900">
+                            ₹{item.price * item.quantity}
+                          </p>
+                          <p className="text-xs text-gray-400 line-through">
+                            ₹{item.price + 50}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Footer */}
+                  <div className=" pt-4 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">
+                        ₹
+                        {cartItems.reduce(
+                          (acc, item) => acc + item.price * item.quantity,
+                          0,
+                        )}
+                      </p>
+                      <p className="text-green-600 text-xs font-semibold">
+                        You save ₹102 on this order
+                      </p>
+                    </div>
+
+                    <button className="bg-orange-500 text-white px-5 py-3 rounded-lg text-sm font-medium">
+                      <Link href="/cart">View Cart</Link>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="border rounded-xl p-5 mb-6">
+              <h4 className="font-semibold text-sm text-gray-900 mb-3">
+                Why TASPro Company
+              </h4>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/y1.png" // 👈 your image path
+                    alt="check"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="text-xs text-gray-600">
+                    Trained & skilled technician serviceman
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/y2.png"
+                    alt="check"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="text-xs text-gray-600">
+                    100% satisfaction guaranteed
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/y3.png"
+                    alt="check"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="text-xs text-gray-600">
+                    On time service delivery
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/y4.png"
+                    alt="check"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="text-xs text-gray-600">
+                    Quality assured service
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/y5.png"
+                    alt="check"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="text-xs text-gray-600">
+                    Best price guaranteed
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/y6.png"
+                    alt="check"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="text-xs text-gray-600">
+                    Hassle free work
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="mb-6 border border-orange-500 rounded-xl px-4 py-3">
+              {/* Header */}
+              <button
+                onClick={() => setShowCoupons(!showCoupons)}
+                className="w-full flex items-center justify-between "
+              >
+                <div className="flex gap-4">
+                  <div className=" ">
+                    <img src="/coupon.png" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-start ">
+                    {" "}
+                    <p className="text-sm font-semibold text-gray-900">
+                      Coupons & Offer
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Save upto 15% on every booking
+                    </p>
+                  </div>
+                </div>
+
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-500 transition-transform ${
+                    showCoupons ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Expand Section */}
+              {showCoupons && (
+                <div className="mt-8 space-y-4">
+                  {/* Item 1 */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                      %
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm font-medium text-gray-800">
+                        Assured Cashback on Paytm
+                      </p>
+                      <p className="text-xs text-gray-500">Flat ₹30 Cashback</p>
+                    </div>
+                  </div>
+
+                  {/* Item 2 */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                      %
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">
+                        Assured Cashback on CRED
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Get cashback of ₹10
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Item 3 */}
+                  <div className="flex items-start gap-3 pb-6">
+                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                      %
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">
+                        15% off on Kotak Debit Cards
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        15% off up to ₹250
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* {cartItems.length > 0 && (
+              <div className="border-t mt-6 pt-4">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-lg font-bold text-gray-900">
+                    Total: ₹{getTotalPrice()}
+                  </span>
+                </div>
+                <button className="w-full bg-[#FF6A00] text-white py-3 rounded-lg font-semibold hover:opacity-95 transition-opacity">
+                  Proceed to Checkout
+                </button>
+              </div>
+            )} */}
+          </div>
+          {/* Middle Column - Service Cards */}
+
+          {/* Right Column - Cart */}
+        </div>
+        <div className=" w-full mx-auto mb-10 ">
+          {/* Testimonial Card - Background filter isolated */}
+          <div className="relative max-w-[1240px] text-center mx-auto rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 overflow-visible">
+            {/* Background image layer with brightness filter only */}
+            <div
+              className="absolute inset-0 z-0 h-full"
+              style={{
+                backgroundImage: "url('/wht.png')",
+                backgroundSize: "auto 518px",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                filter: "brightness(0.7)",
+                height: "450px",
+                borderRadius: "16px",
+              }}
+            />
+
+            {/* Content layer - all text now white */}
+            <div className="relative z-10">
+              <h2 className="text-lg md:text-2xl font-semibold text-white text-right mb-2">
+                What our Customers Say?
+              </h2>
+
+              {/* Rating Summary - text white */}
+              <div className="flex items-center justify-end gap-2 mb-8">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-5 h-5 fill-current"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-lg font-semibold text-white">4.5</span>
+                <span className="text-sm text-white/80">(12M Reviews)</span>
+              </div>
+              <div className="flex flex-col max-w-4xl mx-auto">
+                <div
+                  ref={scrollContainerRef}
+                  className=" flex w-full mx-auto bg-transparent rounded-2xl gap-8"
+                >
+                  {reviews.map((review, idx) => (
+                    <div key={review.id}>
+                      {/* Review card */}
+                      <div className="flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
+                        {/* Avatar */}
+                        <div className="flex">
+                          <div className="relative w-20 h-20 rounded-full overflow-hidden -top-12 -left-6">
+                            <Image
+                              src={"/tiku.png"}
+                              alt={review.name}
+                              fill
+                              className="object-cover"
+                              sizes="64px"
+                              priority={false}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 text-left">
+                          <h3 className="font-semibold text-white text-base md:text-lg ">
+                            {review.name}
+                          </h3>
+
+                          {/* Stars */}
+                          <div className="flex items-center mt-1.5 gap-0.5">
+                            <div className="flex text-yellow-400 gap-0.5">
+                              {[...Array(review.stars)].map((_, i) => (
+                                <svg
+                                  key={i}
+                                  className="w-4 h-4 fill-current"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Timestamp */}
+                          <div className="mt-1.5 flex items-center">
+                            <span className="text-white text-xs font-medium tracking-wide">
+                              {review.timeAgo}
+                            </span>
+                          </div>
+
+                          {/* Review text */}
+                          <p className="text-white text-left leading-relaxed font-thin text-[15px] mt-3">
+                            {review.text}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Divider (except after last review) */}
+                      {/* {idx < reviews.length - 1 && (
+                      <div className="relative my-6 md:my-7">
+                        <div className="border-t border-white/10"></div>
+                      </div>
+                    )} */}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="my-8 relative flex items-start justify-start">
+                  <p className="inline-flex items-center gap-1 text-[#FF6A00] font-medium">
+                    View All Reviews
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={scrollLeft}
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
+              aria-label="Previous reviews"
+            >
+              <ChevronLeft className="w-6 h-6 text-orange-600" />
+            </button>
+
+            {/* Right Chevron Button */}
+
+            <button
+              onClick={scrollRight}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+              aria-label="Next reviews"
+            >
+              <ChevronRight className="w-6 h-6 text-orange-600" />
+            </button>
+          </div>
+
+          {/* Global styles for hiding scrollbar */}
+
+          {/* View All Reviews Link */}
+        </div>
+        <div className="container mx-auto relative">
+          {/* Heading */}
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-5">
+            We covered AC Brand
+          </h2>
+
+          {/* Scrollable container with hidden scrollbar */}
+          <div
+            ref={scrollContainerRef}
+            className="flex px-10 overflow-x-auto hide-scrollbar scroll-smooth gap-4 pb-4"
+          >
+            {brands.map((brand, index) => (
+              <div className="flex flex-col">
+                <div
+                  key={index}
+                  className="flex-shrink-0  bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border border-gray-100 w-36 mx-auto"
+                >
+                  {/* Logo */}
+                  <div className="relative mb-2 h-[60px] w-full flex items-center justify-center">
+                    <Image
+                      src={brand.logo}
+                      alt={`${brand.name} logo`}
+                      width={brand.width}
+                      height={brand.height}
+                      className="object-contain"
+                      priority={index < 4}
+                    />
+                  </div>
+
+                  {/* Service description */}
+                </div>
+                <p className="text-xs mt-2 text-center">{brand.service}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Left Arrow Button */}
+
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+            aria-label="Previous brands"
+          >
+            <ChevronLeft className="w-6 h-6 text-orange-600" />
+          </button>
+
+          {/* Right Arrow Button */}
+
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
+            aria-label="Next brands"
+          >
+            <ChevronRight className="w-6 h-6 text-orange-600" />
+          </button>
+
+          {/* Global styles for hiding scrollbar */}
+          <style jsx>{`
+            .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+            .hide-scrollbar {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+          `}</style>
+        </div>
+        <div className="flex flex-col gap-4 mt-6">
+          <h2 className="text-2xl font-semibold">
+            AC Repair service in Raipur
+          </h2>
+          <p>
+            There are many variations of passages of Lorem Ipsum available, but
+            the majority have suffered alteration in some form, by injected
+            humour, or randomized words which don't look even slightly
+            believable. If you are going to use a passage of Lorem Ipsum, you
+            need to be sure there isn't anything embarrassing hidden in the
+            middle of text. All the Lorem Ipsum generators on the Internet tend
+            to repeat predefined chunks as necessary, making this the first true
+            generator on the Internet. It uses a dictionary of over 200 Latin
+            words, combined with a handful of model sentence structures, to
+            generate Lorem Ipsum which looks reasonable. The generated Lorem
+            Ipsum is therefore always free from repetition, injected humor, or
+            non-characteristic words etc. The standard chunk of Lorem Ipsum used
+            since the 1500s is reproduced below for those interested. Sections
+            1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero
+            are also reproduced in their exact original form, accompanied by
+            English versions from the 1914 translation by H. Rackham
+          </p>
+        </div>
+        <div className="flex flex-col gap-4 mt-6">
+          <h2 className="text-2xl font-semibold">
+            Hiring guide for AC Repair service in Raipur
+          </h2>
+          <p>
+            There are many variations of passages of Lorem Ipsum available, but
+            the majority have suffered alteration in some form, by injected
+            humour, or randomized words which don't look even slightly
+            believable. If you are going to use a passage of Lorem Ipsum, you
+            need to be sure there isn't anything embarrassing hidden in the
+            middle of text. All the Lorem Ipsum generators on the Internet tend
+            to repeat predefined chunks as necessary, making this the first true
+            generator on the Internet. It uses a dictionary of over 200 Latin
+            words, combined with a handful of model sentence structures, to
+            generate Lorem Ipsum which looks reasonable. The generated Lorem
+            Ipsum is therefore always free from repetition, injected humor, or
+            non-characteristic words etc. The standard chunk of Lorem Ipsum used
+            since the 1500s is reproduced below for those interested. Sections
+            1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero
+            are also reproduced in their exact original form, accompanied by
+            English versions from the 1914 translation by H. Rackham
+          </p>
+        </div>
+        <div className=" mx-auto mt-6">
+          <h2 className="text-3xl font-semibold my-8">
+            Frequently Asked Questions (FAQ)?
+          </h2>
+
+          <div className="space-y-4">
+            {faqData.map((faq, index) => (
+              <div key={index} className="border-b pb-4">
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex justify-between items-center text-left"
+                >
+                  <span className="font-medium text-gray-800">
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`transition-transform ${
+                      openIndex === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {openIndex === index && (
+                  <p className="text-gray-500 mt-3 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <DeepCleaningServices />
+      </div>
+      <ServicesSection />
+
+      <SelectCapacityModal
+        isOpen={showCapacityModal}
+        onClose={() => setShowCapacityModal(false)}
+        onContinue={(capacity) => {
+          // ✅ save capacity
+          setSelectedCapacity(capacity);
+
+          // ✅ close capacity modal
+          setShowCapacityModal(false);
+
+          // ✅ open AMC modal
+          setShowAMCModal(true);
+        }}
+      />
+      <AMCDurationModal
+        isOpen={showAMCModal}
+        onClose={() => setShowAMCModal(false)}
+        onConfirm={(duration) => {
+          console.log("Capacity:", selectedCapacity);
+          console.log("AMC:", duration);
+
+          if (selectedService && selectedCapacity) {
+            addToCart({
+              ...selectedService,
+              capacity: selectedCapacity,
+              amcDuration: duration,
+            });
+          }
+
+          // reset flow
+          setShowAMCModal(false);
+          setSelectedCapacity(null);
+          setSelectedService(null);
+        }}
+      />
+      <ServiceDetailsModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        service={selectedService}
+        onAdd={() => {
+          addToCart(selectedService);
+          setShowModal(false);
+        }}
+      />
+      <Footer />
+    </>
+  );
+};
+
 export default function ServiceDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const { addToCart } = useBooking();
+
+  // If it's the AC repair service, use the new layout
+  if (slug === "ac-repair") {
+    return <ACRepairLayout />;
+  }
 
   const service = SERVICES_DATA.find((s) => s.slug === slug);
   const [activeTab, setActiveTab] = useState(
@@ -30,9 +1252,9 @@ export default function ServiceDetailPage() {
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen ">
         <Header />
-        <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <div className="max-w-7xl mx-auto px-6 py-16 text-center">
           <h1 className="text-2xl font-bold text-gray-900">Service Not Found</h1>
         </div>
         <Footer />
@@ -76,7 +1298,7 @@ export default function ServiceDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -97,7 +1319,7 @@ export default function ServiceDetailPage() {
         <div className="grid lg:grid-cols-3 gap-8 mb-8">
           {/* Left: Banner Image */}
           <div className="lg:col-span-2">
-            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-gray-200">
+            <div className="relative w-full h-96 rounded-xl overflow-hidden ">
               <Image
                 src={service.image}
                 alt={service.name}
@@ -130,13 +1352,8 @@ export default function ServiceDetailPage() {
                 onClick={() => setActiveTab(type.id)}
                 style={{
                   backgroundColor:
-                    activeTab === type.id
-                      ? "#FF6B00"
-                      : "#F3F4F6",
-                  color:
-                    activeTab === type.id
-                      ? "white"
-                      : "#374151",
+                    activeTab === type.id ? "#FF6B00" : "#F3F4F6",
+                  color: activeTab === type.id ? "white" : "#374151",
                 }}
                 className="px-6 py-2 rounded-lg font-semibold whitespace-nowrap transition-all"
               >
@@ -178,24 +1395,7 @@ export default function ServiceDetailPage() {
         </div>
       </main>
 
-      {/* Modals */}
-      <CapacitySelectionModal
-        isOpen={showCapacityModal}
-        onClose={() => {
-          setShowCapacityModal(false);
-          setSelectedService(null);
-        }}
-        serviceName={selectedService?.name || "Service"}
-        onConfirm={handleCapacitySelected}
-        onSelectAMC={() => setShowAMCModal(true)}
-      />
-
-      <AMCDurationModal
-        isOpen={showAMCModal}
-        onClose={() => setShowAMCModal(false)}
-        onConfirm={handleAMCDurationSelected}
-      />
-
+     
       <Footer />
     </div>
   );

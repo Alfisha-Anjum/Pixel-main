@@ -65,7 +65,7 @@ const ServiceCard = ({
           <h3
             className="text-gray-900"
             style={{
-              fontSize: "13px",
+              fontSize: "16px",
               fontWeight: 600,
               lineHeight: "1.2",
               marginBottom: "6px",
@@ -106,16 +106,17 @@ const ServiceCard = ({
 
           <button
             onClick={onAdd}
-            className="text-white font-semibold rounded-md hover:opacity-95 transition-opacity"
+            className="text-white font-semibold rounded-sm hover:opacity-95 transition-opacity"
             style={{
               background: "#FF6A00",
-              padding: "7px 14px",
+              padding: "7px 10px 7px 10px",
               fontSize: "12px",
               lineHeight: 1,
               whiteSpace: "nowrap",
+              width: "100px",
             }}
           >
-            Add
+            Book Now
           </button>
         </div>
       </div>

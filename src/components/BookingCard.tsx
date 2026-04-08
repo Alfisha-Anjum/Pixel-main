@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, MessageCircle, Phone, Calendar, Clock, MapPin } from "lucide-react";
+import { Star } from "lucide-react";
 
 interface BookingCardProps {
   service: string;
@@ -10,11 +10,7 @@ interface BookingCardProps {
   date: string;
   time: string;
   status: "Pending" | "Completed" | "Cancelled";
-  technicianImage?: string;
-  onChat?: () => void;
-  onCall?: () => void;
-  onReschedule?: () => void;
-  onCancel?: () => void;
+  serviceImage?: string;
   onViewDetails?: () => void;
 }
 
@@ -26,121 +22,75 @@ const BookingCard: React.FC<BookingCardProps> = ({
   date,
   time,
   status,
-  technicianImage = "/placeholder-user.jpg",
-  onChat,
-  onCall,
-  onReschedule,
-  onCancel,
+  serviceImage = "/ac.png",
   onViewDetails,
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Pending":
-        return { bg: "bg-orange-100", text: "text-orange-600" };
+        return "bg-orange-100 text-orange-600";
       case "Completed":
-        return { bg: "bg-green-100", text: "text-green-600" };
+        return "bg-green-100 text-green-600";
       case "Cancelled":
-        return { bg: "bg-red-100", text: "text-red-600" };
+        return "bg-red-100 text-red-600";
       default:
-        return { bg: "bg-gray-100", text: "text-gray-600" };
+        return "bg-gray-100 text-gray-600";
     }
   };
 
-  const statusColors = getStatusColor(status);
-
   return (
-    <div className="bg-white rounded-[20px] shadow-sm p-5 hover:shadow-md transition-shadow">
-      <div className="flex gap-4">
-        {/* LEFT: Technician Image */}
-        <div className="flex-shrink-0">
-          <div className="w-24 h-24 rounded-3xl overflow-hidden bg-pink-100 flex items-center justify-center">
-            <img
-              src={technicianImage}
-              alt="Technician"
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "/placeholder-user.jpg";
-              }}
-            />
+    <div
+      onClick={onViewDetails}
+      className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex gap-4 hover:shadow-md transition cursor-pointer"
+    >
+      {/* Image */}
+      <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+        <img
+          src={serviceImage}
+          alt={service}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/service-ac.jpg";
+          }}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1">
+        {/* Top Row */}
+        <div className="flex justify-between items-start">
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 leading-tight">
+              {service}
+            </h3>
+            <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
           </div>
+
+          <span
+            className={`text-[10px] px-2.5 py-1 rounded-md font-medium ${getStatusColor(
+              status,
+            )}`}
+          >
+            {status}
+          </span>
         </div>
 
-        {/* RIGHT: Content Column */}
-        <div className="flex-1">
-          {/* Top Row: Title + Status Badge */}
-          <div className="flex items-start justify-between mb-1">
-            <h3 className="text-base font-bold text-gray-900">{service}</h3>
-            <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ml-2 ${statusColors.bg} ${statusColors.text}`}>
-              {status}
-            </span>
-          </div>
+        {/* Rating */}
+        <div className="flex items-center gap-1 mt-1 text-xs text-gray-600">
+          <Star className="w-3 h-3 fill-orange-400 text-orange-400" />
+          <span>{rating}</span>
+          <span className="text-gray-400">| {reviews} reviews</span>
+        </div>
 
-          {/* Subtitle */}
-          <p className="text-sm text-gray-500 mb-2">{subtitle}</p>
+        {/* Divider */}
+        <div className="border-t border-gray-100 my-2"></div>
 
-          {/* Third Row: Rating + Icons */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 text-orange-500 fill-orange-500" />
-              <span className="text-sm text-gray-700">
-                {rating} | {reviews.toLocaleString()} reviews
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={onChat}
-                className="p-1.5 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-              </button>
-              <button
-                onClick={onCall}
-                className="p-1.5 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div className="border-t border-gray-200 my-3" />
-
-          {/* Bottom Row: Date & Time */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Date & Time</p>
-              <p className="text-sm font-bold text-gray-900">
-                {date} | {time}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              {onReschedule && (
-                <button
-                  onClick={onReschedule}
-                  className="px-3 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Reschedule
-                </button>
-              )}
-              {onCancel && (
-                <button
-                  onClick={onCancel}
-                  className="px-3 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                >
-                  Cancel
-                </button>
-              )}
-              {onViewDetails && (
-                <button
-                  onClick={onViewDetails}
-                  style={{ backgroundColor: "#FF6B00" }}
-                  className="px-3 py-2 text-xs font-medium text-white rounded-lg hover:opacity-90 transition-opacity"
-                >
-                  View Details
-                </button>
-              )}
-            </div>
-          </div>
+        {/* Date Time */}
+        <div className="flex justify-between text-xs text-gray-600">
+          <span className="text-gray-400">Date & Time</span>
+          <span className="font-medium text-gray-800">
+            {date} | {time}
+          </span>
         </div>
       </div>
     </div>

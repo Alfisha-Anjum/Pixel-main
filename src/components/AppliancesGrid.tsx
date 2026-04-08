@@ -2,26 +2,82 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ChevronsRight } from "lucide-react";
+import { ChevronsRight, X } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 import LayoutContainer from "./LayoutContainer";
-
 const appliances = [
-  { title: "AC Repair", image: "/service-icons/ac.svg" },
-  { title: "Geyser Repair", image: "/service-icons/geyser.svg" },
-  { title: "Gas Stove Repair", image: "/service-icons/gas-stove.svg" },
-  { title: "Water Cooler Repair", image: "/service-icons/water-cooler.svg" },
-  { title: "Washing Machine Repair", image: "/service-icons/washing-machine.svg" },
-  { title: "Kitchen Chimney Repair", image: "/service-icons/chimney.svg" },
-  { title: "Refrigerator Repair", image: "/service-icons/refrigerator.svg" },
-  { title: "Microwave Repair", image: "/service-icons/microwave.svg" },
-  { title: "Water Purifier Repair", image: "/service-icons/water-purifier.svg" },
-  { title: "TV Repair", image: "/service-icons/tv.svg" },
-  { title: "Computer Repair", image: "/service-icons/computer.svg" },
-  { title: "See All", isAction: true },
+  { image: "/ac.png", label: "AC Repair", slug: "ac-repair" },
+  { image: "/geyser.png", label: "Geyser Repair", slug: "geyser-repair" },
+  {
+    image: "/gas-stove.png",
+    label: "Gas Stove Repair",
+    slug: "gas-stove-repair",
+  },
+  {
+    image: "/water-cooler.png",
+    label: "Water Cooler Repair",
+    slug: "water-cooler-repair",
+  },
+  {
+    image: "/washing-machine.png",
+    label: "Washing Machine Repair",
+    slug: "washing-machine-repair",
+  },
+  {
+    image: "/chimney.png",
+    label: "Kitchen Chimney Repair",
+    slug: "chimney-repair",
+  },
+  {
+    image: "/refrigerator.png",
+    label: "Refrigerator Repair",
+    slug: "refrigerator-repair",
+  },
+  {
+    image: "/microwave.png",
+    label: "Microwave Repair",
+    slug: "microwave-repair",
+  },
+  {
+    image: "/water-purifier.png",
+    label: "Water Purifier Repair",
+    slug: "water-purifier-repair",
+  },
+  { image: "/tv.png", label: "TV Repair", slug: "tv-repair" },
+  { image: "/computer.png", label: "Computer Repair", slug: "computer-repair" },
+  { image: "/see-all.png", label: "See All" },
 ];
 
 const AppliancesGrid = () => {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+    if (isModalOpen) {
+      document.addEventListener("keydown", handleEsc);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "unset";
+    };
+  }, [isModalOpen]);
+
+ const handleCardClick = (item) => {
+   if (item.label === "See All") {
+     setIsModalOpen(true);
+   } else {
+     router.push(`/service/${item.slug}`);
+   }
+ };
+  // Filter out "See All" for modal content
+  // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
   return (
     <section className="w-full bg-white py-15">
@@ -32,55 +88,28 @@ const AppliancesGrid = () => {
 
         {/* Desktop Layout - 6 cards per row */}
         <div className="hidden lg:block">
-          <div className="grid grid-cols-6 gap-4 justify-items-center">
-            {appliances.map((item, index) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {appliances.map((appliance, index) => (
               <div
                 key={index}
-                className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full max-w-[160px]"
-                onClick={() => router.push("/services")}
+                onClick={() => handleCardClick(appliance)}
+                className="flex flex-col items-center text-center gap-3 group cursor-pointer"
               >
-                {/* Card */}
-                <div
-                  className="flex items-center justify-center w-full"
-                  style={{ 
-                    height: '140px',
-                    borderRadius: '16px',
-                    backgroundColor: '#F3F4F6',
-                    padding: '16px'
-                  }}
-                >
-                  {item.isAction ? (
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-orange-50 transition-colors">
-                      <ChevronsRight className="w-6 h-6 text-orange-500" />
-                    </div>
-                  ) : (
-                    <Image
-                      src={item.image || ""}
-                      alt={item.title}
-                      width={100}
-                      height={100}
-                      className="object-contain"
-                      style={{ objectFit: 'contain' }}
-                      onError={(e) => {
-                        // Fallback to a placeholder if image is missing
-                        (e.target as HTMLImageElement).src = "https://via.placeholder.com/120?text=" + item.title.charAt(0);
-                      }}
-                    />
-                  )}
+                <div className="w-full h-28 bg-gray-100 rounded-2xl flex items-center justify-center hover:bg-gray-200 transition">
+                  <img
+                    src={appliance.image}
+                    alt={appliance.label}
+                    className="h-14 object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://via.placeholder.com/56?text=" +
+                        appliance.label.charAt(0);
+                    }}
+                  />
                 </div>
-                
-                {/* Title Text */}
-                <p 
-                  className={`${item.isAction ? 'text-orange-500' : 'text-gray-800'}`}
-                  style={{ 
-                    marginTop: '10px',
-                    fontSize: '13px',
-                    fontWeight: '500',
-                    color: '#222'
-                  }}
-                >
-                  {item.title}
-                </p>
+                <span className="text-sm text-gray-700 font-medium leading-tight">
+                  {appliance.label}
+                </span>
               </div>
             ))}
           </div>
@@ -89,115 +118,157 @@ const AppliancesGrid = () => {
         {/* Tablet Layout - 3 cards per row */}
         <div className="hidden md:block lg:hidden">
           <div className="grid grid-cols-3 gap-4 justify-items-center">
-            {appliances.map((item, index) => (
-              <div
-                key={index}
-                className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full max-w-[180px]"
-                onClick={() => router.push("/services")}
-              >
-                {/* Card */}
+            {appliances.map((item, index) => {
+              const isAction = item.label === "See All";
+              return (
                 <div
-                  className="flex items-center justify-center w-full"
-                  style={{ 
-                    height: '160px',
-                    borderRadius: '16px',
-                    backgroundColor: '#F3F4F6',
-                    padding: '18px'
-                  }}
+                  key={index}
+                  className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full max-w-[180px]"
+                  onClick={() => handleCardClick(item.label, index)}
                 >
-                  {item.isAction ? (
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-orange-50 transition-colors">
-                      <ChevronsRight className="w-6 h-6 text-orange-500" />
-                    </div>
-                  ) : (
-                    <Image
-                      src={item.image || ""}
-                      alt={item.title}
-                      width={110}
-                      height={110}
-                      className="object-contain"
-                      style={{ objectFit: 'contain' }}
-                      onError={(e) => {
-                        // Fallback to a placeholder if image is missing
-                        (e.target as HTMLImageElement).src = "https://via.placeholder.com/120?text=" + item.title.charAt(0);
-                      }}
-                    />
-                  )}
+                  <div
+                    className="flex items-center justify-center w-full"
+                    style={{
+                      height: "160px",
+                      borderRadius: "16px",
+                      backgroundColor: "#F3F4F6",
+                      padding: "18px",
+                    }}
+                  >
+                    {isAction ? (
+                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-orange-50 transition-colors">
+                        <ChevronsRight className="w-6 h-6 text-orange-500" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={item.image}
+                        alt={item.label}
+                        width={110}
+                        height={110}
+                        className="object-contain"
+                        style={{ objectFit: "contain" }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://via.placeholder.com/120?text=" +
+                            item.label.charAt(0);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <p
+                    className={`${isAction ? "text-orange-500" : "text-gray-800"} mt-3 text-sm font-medium`}
+                  >
+                    {item.label}
+                  </p>
                 </div>
-                
-                {/* Title Text */}
-                <p 
-                  className={`${item.isAction ? 'text-orange-500' : 'text-gray-800'}`}
-                  style={{ 
-                    marginTop: '12px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: '#222'
-                  }}
-                >
-                  {item.title}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* Mobile Layout - 2 cards per row */}
         <div className="md:hidden">
           <div className="grid grid-cols-2 gap-3 justify-items-center">
-            {appliances.map((item, index) => (
-              <div
-                key={index}
-                className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full"
-                onClick={() => router.push("/services")}
-              >
-                {/* Card */}
+            {appliances.map((item, index) => {
+              const isAction = item.label === "See All";
+              return (
                 <div
-                  className="flex items-center justify-center w-full"
-                  style={{ 
-                    height: '120px',
-                    borderRadius: '12px',
-                    backgroundColor: '#F3F4F6',
-                    padding: '12px'
-                  }}
+                  key={index}
+                  className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full"
+                  onClick={() => handleCardClick(item.label, index)}
                 >
-                  {item.isAction ? (
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-orange-50 transition-colors">
-                      <ChevronsRight className="w-5 h-5 text-orange-500" />
-                    </div>
-                  ) : (
-                    <Image
-                      src={item.image || ""}
-                      alt={item.title}
-                      width={80}
-                      height={80}
-                      className="object-contain"
-                      style={{ objectFit: 'contain' }}
-                      onError={(e) => {
-                        // Fallback to a placeholder if image is missing
-                        (e.target as HTMLImageElement).src = "https://via.placeholder.com/120?text=" + item.title.charAt(0);
-                      }}
-                    />
-                  )}
+                  <div
+                    className="flex items-center justify-center w-full"
+                    style={{
+                      height: "120px",
+                      borderRadius: "12px",
+                      backgroundColor: "#F3F4F6",
+                      padding: "12px",
+                    }}
+                  >
+                    {isAction ? (
+                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-orange-50 transition-colors">
+                        <ChevronsRight className="w-5 h-5 text-orange-500" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={item.image}
+                        alt={item.label}
+                        width={80}
+                        height={80}
+                        className="object-contain"
+                        style={{ objectFit: "contain" }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://via.placeholder.com/120?text=" +
+                            item.label.charAt(0);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <p
+                    className={`${isAction ? "text-orange-500" : "text-gray-800"} mt-2 text-xs font-medium`}
+                  >
+                    {item.label}
+                  </p>
                 </div>
-                
-                {/* Title Text */}
-                <p 
-                  className={`${item.isAction ? 'text-orange-500' : 'text-gray-800'}`}
-                  style={{ 
-                    marginTop: '8px',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    color: '#222'
-                  }}
-                >
-                  {item.title}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </LayoutContainer>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl w-[90%] max-w-sm p-5 relative shadow-xl">
+            {/* Close Button (inside like image) */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute -top-3 -right-3 bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm shadow-md"
+            >
+              ✕
+            </button>
+
+            {/* Title */}
+            <h2 className="text-center text-sm font-semibold text-orange-600">
+              Appliance Repair & Service
+            </h2>
+
+            <p className="text-center text-[11px] text-gray-500 mt-1 mb-4 px-2">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor
+            </p>
+
+            {/* Grid */}
+            <div className="grid grid-cols-4 gap-3">
+              {appliances
+                .filter((item) => item.label !== "See All")
+                .map((item, i) => (
+                  <a
+                    key={i}
+                    href={`/service/${item.slug}`}
+                    className="flex flex-col items-center gap-1"
+                  >
+                    {/* Circle Icon */}
+                    <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
+                      <img
+                        src={item.image}
+                        alt={item.label}
+                        className="h-7 object-contain"
+                      />
+                    </div>
+
+                    {/* Label */}
+                    <span className="text-[10px] text-center text-gray-600 leading-tight">
+                      {item.label}
+                    </span>
+                  </a>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

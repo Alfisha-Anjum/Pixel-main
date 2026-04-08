@@ -1,6 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
+import { useState } from "react";
 
 interface AMCDurationModalProps {
   isOpen: boolean;
@@ -9,9 +10,25 @@ interface AMCDurationModalProps {
 }
 
 const amcOptions = [
-  { duration: "1 Month", value: "1m" },
-  { duration: "6 Month", value: "6m" },
-  { duration: "12 Month", value: "12m", recommended: true },
+  {
+    title: "12 Month Maintenance",
+    value: "12m",
+    price: 550,
+    oldPrice: 650,
+  },
+  {
+    title: "24 Month Maintenance",
+    value: "24m",
+    price: 1050,
+    oldPrice: 1650,
+    recommended: true,
+  },
+  {
+    title: "36 Month Maintenance",
+    value: "36m",
+    price: 1550,
+    oldPrice: 2650,
+  },
 ];
 
 export const AMCDurationModal: React.FC<AMCDurationModalProps> = ({
@@ -19,56 +36,85 @@ export const AMCDurationModal: React.FC<AMCDurationModalProps> = ({
   onClose,
   onConfirm,
 }) => {
+  const [selected, setSelected] = useState<string | null>(null);
+
   if (!isOpen) return null;
 
+  const handleDone = () => {
+    if (selected) {
+      onConfirm(selected);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 relative">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-[24px] w-full max-w-sm p-5 relative">
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full"
+          className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md"
         >
-          <X className="w-5 h-5 text-gray-600" />
+          <X className="w-5 h-5" />
         </button>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-gray-900 mb-5">
           Select AMC Duration
         </h2>
 
-        <div className="space-y-3 mb-6">
+        {/* Options */}
+        <div className="space-y-5">
           {amcOptions.map((option) => (
             <div
               key={option.value}
-              className="relative flex items-center justify-between p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-orange-300"
-              onClick={() => onConfirm(option.value)}
+              onClick={() => setSelected(option.value)}
+              className="flex items-start gap-3 cursor-pointer"
             >
-              <div className="flex items-center gap-3">
-                <span className="font-semibold text-gray-900">
-                  {option.duration}
-                </span>
+              {/* Radio */}
+              <div
+                className={`w-5 h-5 mt-1 rounded-full border-2 flex items-center justify-center
+                  ${
+                    selected === option.value
+                      ? "border-orange-500"
+                      : "border-gray-300"
+                  }`}
+              >
+                {selected === option.value && (
+                  <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col">
+                <p className="text-sm text-gray-800">{option.title}</p>
+
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="font-semibold text-gray-900">
+                    ₹{option.price}
+                  </span>
+                  <span className="text-gray-400 line-through text-sm">
+                    ₹{option.oldPrice}
+                  </span>
+                </div>
+
                 {option.recommended && (
-                  <span
-                    style={{ backgroundColor: "#22C55E" }}
-                    className="text-white text-xs font-bold px-3 py-1 rounded-full"
-                  >
-                    Recommended
+                  <span className="text-green-600 text-xs font-semibold mt-1">
+                    RECOMMENDED
                   </span>
                 )}
               </div>
-              <button
-                style={{ backgroundColor: "#FF6B00" }}
-                className="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
-              >
-                Select
-              </button>
             </div>
           ))}
         </div>
 
+        {/* Done Button */}
         <button
-          onClick={onClose}
-          style={{ backgroundColor: "#FF6B00" }}
-          className="w-full text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity"
+          onClick={handleDone}
+          disabled={!selected}
+          className="w-full mt-6 py-3 rounded-full text-white font-semibold disabled:opacity-50"
+          style={{
+            background: "linear-gradient(90deg, #FF6B00, #FFA500)",
+          }}
         >
           Done
         </button>

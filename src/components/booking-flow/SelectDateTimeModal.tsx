@@ -1,7 +1,138 @@
+// "use client";
+
+// import { X } from "lucide-react";
+// import { useState } from "react";
+
+// interface SelectDateTimeModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   onContinue: (date: string, time: string, notes: string) => void;
+// }
+
+// const timeSlots = [
+//   "9:00 AM - 12:00 PM",
+//   "12:00 PM - 3:00 PM",
+//   "3:00 PM - 6:00 PM",
+//   "6:00 PM - 9:00 PM",
+// ];
+
+// export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
+//   isOpen,
+//   onClose,
+//   onContinue,
+// }) => {
+//   const [selectedDate, setSelectedDate] = useState("");
+//   const [selectedTime, setSelectedTime] = useState("");
+//   const [notes, setNotes] = useState("");
+
+//   if (!isOpen) return null;
+
+//   const handleContinue = () => {
+//     if (selectedDate && selectedTime) {
+//       onContinue(selectedDate, selectedTime, notes);
+//     }
+//   };
+
+//   return (
+//     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+//       <div className="bg-white rounded-[28px] w-full max-w-md p-6 relative">
+//         {/* Close Button */}
+//         <button
+//           onClick={onClose}
+//           className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md"
+//         >
+//           <X className="w-5 h-5" />
+//         </button>
+
+//         {/* Title */}
+//         <h2 className="text-xl font-semibold text-gray-900 mb-6">
+//           Select Date
+//         </h2>
+
+//         {/* Date Input */}
+//         <div className="relative mb-5">
+//           <input
+//             type="date"
+//             value={selectedDate}
+//             onChange={(e) => setSelectedDate(e.target.value)}
+//             className="w-full bg-gray-100 px-4 py-3 rounded-xl outline-none"
+//           />
+//           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500">
+//             📅
+//           </span>
+//         </div>
+
+//         {/* Time */}
+//         <h2 className="text-lg font-semibold text-gray-900 mb-3">
+//           Select Time Slot
+//         </h2>
+
+//         <div className="relative mb-6">
+//           <select
+//             value={selectedTime}
+//             onChange={(e) => setSelectedTime(e.target.value)}
+//             className="w-full bg-gray-100 px-4 py-3 rounded-xl outline-none appearance-none"
+//           >
+//             <option value="">Time</option>
+//             {timeSlots.map((slot) => (
+//               <option key={slot} value={slot}>
+//                 {slot}
+//               </option>
+//             ))}
+//           </select>
+
+//           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500">
+//             🕒
+//           </span>
+//         </div>
+
+//         {/* Notes */}
+//         <h2 className="text-lg font-semibold text-gray-900 mb-3">
+//           Special Notes
+//         </h2>
+
+//         <textarea
+//           value={notes}
+//           onChange={(e) => setNotes(e.target.value)}
+//           placeholder="Write Here"
+//           className="w-full bg-gray-100 px-4 py-4 rounded-xl outline-none resize-none mb-6 h-32"
+//         />
+
+//         {/* Button */}
+//         <button
+//           onClick={handleContinue}
+//           disabled={!selectedDate || !selectedTime}
+//           className="w-full py-3 rounded-full text-white font-semibold"
+//           style={{
+//             background:
+//               selectedDate && selectedTime
+//                 ? "linear-gradient(90deg, #FF6B00, #FFA500)"
+//                 : "#D1D5DB",
+//           }}
+//         >
+//           Continue
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+
+
+
+
+
 "use client";
 
-import { X } from "lucide-react";
+import { CalendarDays, X } from "lucide-react";
 import { useState } from "react";
+import { Clock } from "lucide-react";
+
+// import DatePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 interface SelectDateTimeModalProps {
   isOpen: boolean;
@@ -24,7 +155,8 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [notes, setNotes] = useState("");
-
+const [showCalendar, setShowCalendar] = useState(false);
+const [dateObj, setDateObj] = useState(null);
   if (!isOpen) return null;
 
   const handleContinue = () => {
@@ -34,86 +166,97 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative max-h-96 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-[28px] w-full max-w-md p-6 relative">
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full"
+          className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md"
         >
-          <X className="w-5 h-5 text-gray-600" />
+          <X className="w-5 h-5" />
         </button>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Select Date & Time
+        {/* Title */}
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          Select Date
         </h2>
 
-        <div className="space-y-4 mb-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Select Date
-            </label>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-orange-500"
+        {/* Date Input */}
+        <div className="mb-5 relative">
+          <input
+            type="text"
+            value={selectedDate}
+            placeholder="Select Date"
+            readOnly
+            onClick={() => setShowCalendar(true)}
+            className="w-full text-xs bg-gray-100 px-4 py-3 rounded-xl outline-none pr-10 cursor-pointer"
+          />
+
+          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500">
+            <CalendarDays className="w-4" />
+          </span>
+        </div>
+        {/* Time */}
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">
+          Select Time Slot
+        </h2>
+
+        {showCalendar && (
+          <div className="absolute z-50">
+            <DatePicker
+              selected={dateObj}
+              onChange={(date) => {
+                setDateObj(date);
+                setSelectedDate(date.toLocaleDateString());
+                setShowCalendar(false);
+              }}
+              inline
+              minDate={new Date()}
             />
           </div>
+        )}
+        <div className="relative mb-6">
+          <select
+            value={selectedTime}
+            onChange={(e) => setSelectedTime(e.target.value)}
+            className="w-full text-xs bg-gray-100 px-4 py-4 rounded-xl outline-none appearance-none"
+          >
+            <option value="">Time</option>
+            {timeSlots.map((slot) => (
+              <option key={slot} value={slot}>
+                {slot}
+              </option>
+            ))}
+          </select>
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Select Time Slot
-            </label>
-            <div className="space-y-2">
-              {timeSlots.map((slot) => (
-                <label
-                  key={slot}
-                  className="flex items-center p-3 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-orange-500 transition-colors"
-                  style={{
-                    borderColor:
-                      selectedTime === slot ? "#FF6B00" : "#E5E7EB",
-                    backgroundColor:
-                      selectedTime === slot ? "#FFF4E6" : "transparent",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="time"
-                    value={slot}
-                    checked={selectedTime === slot}
-                    onChange={(e) => setSelectedTime(e.target.value)}
-                    className="w-4 h-4"
-                  />
-                  <span className="ml-3 font-semibold text-gray-900">
-                    {slot}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Special Notes (Optional)
-            </label>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Any special requests or notes..."
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-orange-500 resize-none"
-              rows={3}
-            />
-          </div>
+          <span className="absolute  right-4 top-1/2 -translate-y-1/2 text-orange-500">
+            <Clock className="w-4" />
+          </span>
         </div>
 
+        {/* Notes */}
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">
+          Special Notes
+        </h2>
+
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="Write Here"
+          className="w-full bg-gray-100 px-4 py-4 rounded-xl outline-none resize-none mb-6 h-32"
+        />
+
+        {/* Button */}
         <button
           onClick={handleContinue}
           disabled={!selectedDate || !selectedTime}
+          className="w-full py-3 rounded-full text-white font-semibold"
           style={{
-            backgroundColor:
-              selectedDate && selectedTime ? "#FF6B00" : "#D1D5DB",
+            background:
+              selectedDate && selectedTime
+                ? "linear-gradient(90deg, #FF6B00, #FFA500)"
+                : "#D1D5DB",
           }}
-          className="w-full text-white font-bold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:cursor-not-allowed"
         >
           Continue
         </button>
@@ -121,3 +264,5 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
     </div>
   );
 };
+
+

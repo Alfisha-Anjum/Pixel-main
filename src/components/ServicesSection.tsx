@@ -4,98 +4,113 @@ import LayoutContainer from "./LayoutContainer";
 
 const ServicesSection = () => {
   return (
-    <section className="bg-gray-50 py-8">
-      <LayoutContainer>
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 md:p-7">
-          
-          {/* Main Title */}
+    <>
+      <section className=" pt-8">
+        <LayoutContainer>
+          <div className=" ">
+            {/* Main Title
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-5 text-center">
             Services we offer in Raipur Chhattisgarh
-          </h2>
+          </h2> */}
 
-          {/* SECTION 1: On-demand Services */}
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-3">
-              On-demand Services we offer in Raipur Chhattisgarh
-            </h3>
-            
-            {/* Appliances Repair & Service */}
-            <div className="mb-3">
-              <h4 className="text-sm font-bold text-gray-800 mb-1.5">
-                Appliances Repair & Service
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                AC Repair | Air Cooler Repair | Gas Stove Repair | Geyser Repair | Kitchen Chimney Cleaning | Kitchen Chimney Repair | Microwave Oven Repair | Refrigerator Repair | Residential Inverter Repair | TV & Fan Installation | TV Repair | Washing Machine Repair | Water Cooler Repair | Water Purifier Repair
-              </p>
+            {/* SECTION 1: On-demand Services */}
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
+                On-demand Services we offer in Raipur Chhattisgarh
+              </h3>
+
+              {/* Appliances Repair & Service */}
+              <div className="mb-3">
+                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                  Appliances Repair & Service
+                </h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  AC Repair | Air Cooler Repair | Gas Stove Repair | Geyser
+                  Repair | Kitchen Chimney Cleaning | Kitchen Chimney Repair |
+                  Microwave Oven Repair | Refrigerator Repair | Residential
+                  Inverter Repair | TV & Fan Installation | TV Repair | Washing
+                  Machine Repair | Water Cooler Repair | Water Purifier Repair
+                </p>
+              </div>
+
+              {/* Deep Cleaning Services */}
+              <div className="mb-3">
+                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                  Deep Cleaning Services
+                </h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Bathroom Cleaning | Carpet Cleaning | Floor Cleaning | Home
+                  Deep Cleaning | Kitchen Deep Cleaning | Office Deep Cleaning |
+                  Sofa Cleaning | Water Tank Cleaning | Carpenter | Electrician
+                  | Furniture Assembly & Dismantle | Plumber | House Painter
+                </p>
+              </div>
+
+              {/* Construction & Remodeling */}
+              <div className="mb-3">
+                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                  Construction & Remodeling
+                </h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Home Renovation & Remodeling | Bathroom Renovation &
+                  Remodeling | Commercial Chimney Service | Painting Contractor
+                  | Plumbing Contractor | Electrical Contractor | False Ceiling
+                  Contractor | Water Proofing Contractor | Cockroaches, Ants &
+                  General Pest Control | Termites Control | Bed Bugs Control
+                </p>
+              </div>
             </div>
 
-            {/* Deep Cleaning Services */}
-            <div className="mb-3">
-              <h4 className="text-sm font-bold text-gray-800 mb-1.5">
-                Deep Cleaning Services
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Bathroom Cleaning | Carpet Cleaning | Floor Cleaning | Home Deep Cleaning | Kitchen Deep Cleaning | Office Deep Cleaning | Sofa Cleaning | Water Tank Cleaning | Carpenter | Electrician | Furniture Assembly & Dismantle | Plumber | House Painter
-              </p>
+            {/* Divider Line */}
+            <div className="border-t border-gray-200 my-5"></div>
+
+            {/* SECTION 2: AMC Services */}
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
+                AMC Services we offer in Raipur Chhattisgarh
+              </h3>
+
+              {/* Annual Maintenance Contract (AMC) */}
+              <div className="mb-3">
+                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                  Annual Maintenance Contract (AMC)
+                </h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Air Conditioner (AC) AMC | Water Purifier (RO) AMC | Kitchen
+                  Chimney AMC
+                </p>
+              </div>
+
+              {/* Cleaning Packages */}
+              <div className="mb-3">
+                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                  Cleaning Packages
+                </h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Bathroom Cleaning Package | Water Tank Cleaning Package | Sofa
+                  Cleaning Package | Home Cleaning Package
+                </p>
+              </div>
             </div>
 
-            {/* Construction & Remodeling */}
-            <div className="mb-3">
-              <h4 className="text-sm font-bold text-gray-800 mb-1.5">
-                Construction & Remodeling
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Home Renovation & Remodeling | Bathroom Renovation & Remodeling | Commercial Chimney Service | Painting Contractor | Plumbing Contractor | Electrical Contractor | False Ceiling Contractor | Water Proofing Contractor | Cockroaches, Ants & General Pest Control | Termites Control | Bed Bugs Control
-              </p>
-            </div>
+            {/* Divider Line */}
+            {/* <div className="border-t border-gray-200 my-5"></div> */}
+
+            {/* SECTION 3: Serving Cities */}
           </div>
-
-          {/* Divider Line */}
-          <div className="border-t border-gray-200 my-5"></div>
-
-          {/* SECTION 2: AMC Services */}
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-3">
-              AMC Services we offer in Raipur Chhattisgarh
-            </h3>
-            
-            {/* Annual Maintenance Contract (AMC) */}
-            <div className="mb-3">
-              <h4 className="text-sm font-bold text-gray-800 mb-1.5">
-                Annual Maintenance Contract (AMC)
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Air Conditioner (AC) AMC | Water Purifier (RO) AMC | Kitchen Chimney AMC
-              </p>
-            </div>
-
-            {/* Cleaning Packages */}
-            <div className="mb-3">
-              <h4 className="text-sm font-bold text-gray-800 mb-1.5">
-                Cleaning Packages
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Bathroom Cleaning Package | Water Tank Cleaning Package | Sofa Cleaning Package | Home Cleaning Package
-              </p>
-            </div>
-          </div>
-
-          {/* Divider Line */}
-          <div className="border-t border-gray-200 my-5"></div>
-
-          {/* SECTION 3: Serving Cities */}
-          <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-3">
-              Serving Cities
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Raipur | New Raipur | Durg | Bhilai | Korba | Raigarh | Kanker
-            </p>
-          </div>
-
+        </LayoutContainer>
+      </section>
+      <div className="bg-white">
+        <div className=" max-w-7xl mx-auto px-8 py-">
+          <h3 className="text-lg font-bold text-gray-900 mb-3">
+            Serving Cities
+          </h3>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Raipur | New Raipur | Durg | Bhilai | Korba | Raigarh | Kanker
+          </p>
         </div>
-      </LayoutContainer>
-    </section>
+      </div>
+    </>
   );
 };
 
