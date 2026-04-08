@@ -101,7 +101,7 @@ const ServicesSection = () => {
         </LayoutContainer>
       </section>
       <div className="bg-white">
-        <div className=" max-w-7xl mx-auto px-8">
+        <div className=" max-w-7xl mx-auto px-8 py-">
           <h3 className="text-lg font-bold text-gray-900 mb-3">
             Serving Cities
           </h3>

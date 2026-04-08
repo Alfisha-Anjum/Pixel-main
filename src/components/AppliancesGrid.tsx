@@ -77,7 +77,7 @@ const AppliancesGrid = () => {
    }
  };
   // Filter out "See All" for modal content
-  const modalAppliances = appliances.filter((item) => item.label !== "See All");
+  // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
   return (
     <section className="w-full bg-white py-15">
@@ -92,7 +92,7 @@ const AppliancesGrid = () => {
             {appliances.map((appliance, index) => (
               <div
                 key={index}
-               onClick={() => handleCardClick(appliance)}
+                onClick={() => handleCardClick(appliance)}
                 className="flex flex-col items-center text-center gap-3 group cursor-pointer"
               >
                 <div className="w-full h-28 bg-gray-100 rounded-2xl flex items-center justify-center hover:bg-gray-200 transition">
@@ -247,7 +247,7 @@ const AppliancesGrid = () => {
                 .map((item, i) => (
                   <a
                     key={i}
-                    href={`/service/${i + 1}`}
+                    href={`/service/${item.slug}`}
                     className="flex flex-col items-center gap-1"
                   >
                     {/* Circle Icon */}
