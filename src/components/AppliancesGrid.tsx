@@ -5,19 +5,46 @@ import Image from "next/image";
 import { ChevronsRight, X } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import LayoutContainer from "./LayoutContainer";
-
 const appliances = [
-  { image: "/ac.png", label: "AC Repair" },
-  { image: "/geyser.png", label: "Geyser Repair" },
-  { image: "/gas-stove.png", label: "Gas Stove Repair" },
-  { image: "/water-cooler.png", label: "Water Cooler Repair" },
-  { image: "/washing-machine.png", label: "Washing Machine Repair" },
-  { image: "/chimney.png", label: "Kitchen Chimney Repair" },
-  { image: "/refrigerator.png", label: "Refrigerator Repair" },
-  { image: "/microwave.png", label: "Microwave Repair" },
-  { image: "/water-purifier.png", label: "Water Purifier Repair" },
-  { image: "/tv.png", label: "TV Repair" },
-  { image: "/computer.png", label: "Computer Repair" },
+  { image: "/ac.png", label: "AC Repair", slug: "ac-repair" },
+  { image: "/geyser.png", label: "Geyser Repair", slug: "geyser-repair" },
+  {
+    image: "/gas-stove.png",
+    label: "Gas Stove Repair",
+    slug: "gas-stove-repair",
+  },
+  {
+    image: "/water-cooler.png",
+    label: "Water Cooler Repair",
+    slug: "water-cooler-repair",
+  },
+  {
+    image: "/washing-machine.png",
+    label: "Washing Machine Repair",
+    slug: "washing-machine-repair",
+  },
+  {
+    image: "/chimney.png",
+    label: "Kitchen Chimney Repair",
+    slug: "chimney-repair",
+  },
+  {
+    image: "/refrigerator.png",
+    label: "Refrigerator Repair",
+    slug: "refrigerator-repair",
+  },
+  {
+    image: "/microwave.png",
+    label: "Microwave Repair",
+    slug: "microwave-repair",
+  },
+  {
+    image: "/water-purifier.png",
+    label: "Water Purifier Repair",
+    slug: "water-purifier-repair",
+  },
+  { image: "/tv.png", label: "TV Repair", slug: "tv-repair" },
+  { image: "/computer.png", label: "Computer Repair", slug: "computer-repair" },
   { image: "/see-all.png", label: "See All" },
 ];
 
@@ -42,14 +69,13 @@ const AppliancesGrid = () => {
     };
   }, [isModalOpen]);
 
-  const handleCardClick = (label: string, index: number) => {
-    if (label === "See All") {
-      setIsModalOpen(true);
-    } else {
-      router.push(`/service/${index + 1}`);
-    }
-  };
-
+ const handleCardClick = (item) => {
+   if (item.label === "See All") {
+     setIsModalOpen(true);
+   } else {
+     router.push(`/service/${item.slug}`);
+   }
+ };
   // Filter out "See All" for modal content
   const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
@@ -66,7 +92,7 @@ const AppliancesGrid = () => {
             {appliances.map((appliance, index) => (
               <div
                 key={index}
-                onClick={() => handleCardClick(appliance.label, index)}
+               onClick={() => handleCardClick(appliance)}
                 className="flex flex-col items-center text-center gap-3 group cursor-pointer"
               >
                 <div className="w-full h-28 bg-gray-100 rounded-2xl flex items-center justify-center hover:bg-gray-200 transition">

@@ -382,11 +382,10 @@ export default function PaymentPage() {
       <Header />
 
       <main className="max-w-7xl mx-auto p-8">
-        <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
-
         <div className="grid lg:grid-cols-3 gap-8">
           {/* LEFT SIDE */}
           <div className="lg:col-span-2">
+            <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
             <div className="bg-white border rounded-xl p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-gray-700">Payment Option</h2>

@@ -249,7 +249,7 @@ const handleDateTimeContinue = (date, time, notes) => {
               </div>
             </div>
             <div>
-              <img src="/easy.png" alt="Payment Methods" className="w-full" />
+              <img src="/easy.png" alt="Payment Methods" className="w-full px-4" />
             </div>
           </div>
         </div>
