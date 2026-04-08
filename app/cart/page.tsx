@@ -249,7 +249,11 @@ const handleDateTimeContinue = (date, time, notes) => {
               </div>
             </div>
             <div>
-              <img src="/easy.png" alt="Payment Methods" className="w-full" />
+              <img
+                src="/easy.png"
+                alt="Payment Methods"
+                className="w-full px-4"
+              />
             </div>
           </div>
         </div>
@@ -281,11 +285,14 @@ const handleDateTimeContinue = (date, time, notes) => {
         onSave={(newAddress) => {
           console.log(newAddress);
 
-          setShowAddNewAddressModal(false);
-          setShowAddressModal(true); // 👈 go back to address list
+          // optional: save selected address
+          setSelectedAddress(newAddress);
 
-          // optional: auto-select new address
-          // setSelectedAddress(newAddress);
+          // close add address modal
+          setShowAddNewAddressModal(false);
+
+          // ✅ directly open Terms & Conditions
+          setShowTCModal(true);
         }}
       />
 

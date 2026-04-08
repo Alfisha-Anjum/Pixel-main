@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -25,6 +26,7 @@ import CancelBookingModal from "@/components/CancelBookingModal";
 import BookingCancelledModal from "@/components/BookingCancelledModal";
 import BookingSuccessModal from "@/components/BookingSuccessModal";
 import BookingCard from "@/components/BookingCard";
+import Header from "@/components/Header";
 
 const MyBookingPage = () => {
   const { user } = useAuth();
@@ -57,7 +59,7 @@ const MyBookingPage = () => {
       originalPrice: 320,
       status: "Running",
       nextSchedule: "Tue, 12-March-2024",
-      technicianImage: "/placeholder-user.jpg",
+      technicianImage: "/ac.png",
       equipment: [
         { sn: 1, make: "Samsung", serial: "SAM-001", model: "AR12", age: "2 Yrs", image: "/placeholder.jpg" },
         { sn: 2, make: "LG", serial: "LG-882", model: "LG-Split", age: "1 Yr", image: "/placeholder.jpg" }
@@ -84,7 +86,7 @@ const MyBookingPage = () => {
       originalPrice: 1500,
       status: "Running",
       nextSchedule: "Fri, 15-March-2024",
-      technicianImage: "/placeholder-user.jpg",
+      technicianImage: "/ac.png",
       equipment: [],
       billing: { items: ["Pipes", "Taps"], total: 1200, paid: 1200, balance: 0 },
       schedule: []
@@ -126,7 +128,7 @@ const MyBookingPage = () => {
         serviceImage: "/service-ac.jpg",
         date: "15 Feb 2024",
         time: "10:00 AM - 12:00 PM",
-        status: "Confirmed",
+        status: "Pending",
         amount: 1299,
         address: "123 Main Street, Raipur",
         technician: "Raj Kumar",
@@ -138,7 +140,7 @@ const MyBookingPage = () => {
         serviceImage: "/service-plumbing.jpg",
         date: "18 Feb 2024",
         time: "2:00 PM - 4:00 PM",
-        status: "Scheduled",
+        status: "Pending",
         amount: 899,
         address: "456 Park Avenue, Raipur",
         technician: "Amit Sharma",
@@ -188,9 +190,8 @@ const MyBookingPage = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Confirmed':
-      case 'Scheduled':
-      case 'Running':
+      case 'Pending':
+    
         return 'bg-blue-100 text-blue-800';
       case 'Completed':
         return 'bg-green-100 text-green-800';
@@ -215,9 +216,9 @@ const MyBookingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+    <div className="min-h-screen">
+      <Header />
+      {/* <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -246,37 +247,48 @@ const MyBookingPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
+          <span
+            className="hover:text-orange-500 cursor-pointer"
+            onClick={() => setStep("main")}
+          >
+            Home
+          </span>
+          |<span className="text-orange-500 font-medium">Profile</span>
+        </div>
+        <div className="flex flex-col md:flex-row gap-8 border-t border-gray-200 pt-8">
           {/* Sidebar */}
-          <div className={`${sidebarOpen ? 'block' : 'hidden'} md:block md:w-64`}>
+          <div
+            className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
+          >
             <div className="bg-white rounded-xl shadow-sm p-6">
               <nav className="space-y-2">
-                <a 
-                  href="/" 
+                <a
+                  href="/"
                   className="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <Home className="w-5 h-5" />
                   <span>Home</span>
                 </a>
-                <a 
-                  href="/schedule" 
+                <a
+                  href="/schedule"
                   className="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <Calendar className="w-5 h-5" />
                   <span>My Schedule</span>
                 </a>
-                <a 
-                  href="/my-booking" 
+                <a
+                  href="/my-booking"
                   className="flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-600 rounded-lg font-medium"
                 >
                   <Package className="w-5 h-5" />
                   <span>Bookings</span>
                 </a>
-                <a 
-                  href="/account" 
+                <a
+                  href="/account"
                   className="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <User className="w-5 h-5" />
@@ -289,25 +301,25 @@ const MyBookingPage = () => {
           {/* Main Content */}
           <div className="flex-1">
             {/* Top Level Tabs */}
-            <div className="bg-white rounded-xl shadow-sm mb-6">
-              <div className="border-b border-gray-200">
+            <div className=" mb-1">
+              <div className="">
                 <nav className="flex">
                   <button
-                    onClick={() => setBookingType('home')}
-                    className={`px-6 py-4 font-medium text-sm border-b-2 transition-colors ${
-                      bookingType === 'home'
-                        ? 'border-[#FF6A00] text-[#FF6A00]'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                    onClick={() => setBookingType("home")}
+                    className={`px-6  font-medium text-sm border-b-2 transition-colors ${
+                      bookingType === "home"
+                        ? "border-[#FF6A00] text-[#FF6A00]"
+                        : "border-transparent text-gray-500 hover:text-gray-700"
                     }`}
                   >
                     Home Services
                   </button>
                   <button
-                    onClick={() => setBookingType('amc')}
-                    className={`px-6 py-4 font-medium text-sm border-b-2 transition-colors ${
-                      bookingType === 'amc'
-                        ? 'border-[#FF6A00] text-[#FF6A00]'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                    onClick={() => setBookingType("amc")}
+                    className={`px-6  font-medium text-sm border-b-2 transition-colors ${
+                      bookingType === "amc"
+                        ? "border-[#FF6A00] text-[#FF6A00]"
+                        : "border-transparent text-gray-500 hover:text-gray-700"
                     }`}
                   >
                     AMC & Packages
@@ -316,203 +328,230 @@ const MyBookingPage = () => {
               </div>
             </div>
 
-            {bookingType === 'home' ? (
+            {bookingType === "home" ? (
               <>
-            {/* Status Tabs */}
-            <div className="bg-white rounded-xl shadow-sm mb-6">
-              <div className="border-b border-gray-200">
-                <nav className="flex">
-                  {[
-                    { id: 'pending', label: 'Pending', count: bookings.pending.length },
-                    { id: 'rejected', label: 'Rejected', count: bookings.rejected.length },
-                    { id: 'completed', label: 'Completed', count: bookings.completed.length }
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as any)}
-                      className={`px-6 py-4 font-medium text-sm border-b-2 transition-colors ${
-                        activeTab === tab.id
-                          ? 'border-orange-500 text-orange-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700'
-                      }`}
-                    >
-                      {tab.label} ({tab.count})
-                    </button>
-                  ))}
-                </nav>
-              </div>
-            </div>
-
-            {/* Booking Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {bookings[activeTab].length > 0 ? (
-                bookings[activeTab].map((booking) => (
-                  <BookingCard
-                    key={booking.id}
-                    service={booking.service}
-                    subtitle={`Booking ID: ${booking.id} | ₹${booking.amount}`}
-                    rating={activeTab === 'pending' && 'technician' in booking ? (booking as PendingBooking).technicianRating : 4.8}
-                    reviews={3287}
-                    date={booking.date}
-                    time={booking.time}
-                    status={booking.status as "Pending" | "Completed" | "Cancelled"}
-                    onChat={() => console.log("Chat clicked")}
-                    onCall={() => console.log("Call clicked")}
-                    onReschedule={() => {
-                      setSelectedBooking(booking);
-                      setShowRescheduleModal(true);
-                    }}
-                    onCancel={() => {
-                      setSelectedBooking(booking);
-                      setShowCancelModal(true);
-                    }}
-                    onViewDetails={() => {
-                      setSelectedBooking(booking);
-                      setShowDetailsModal(true);
-                    }}
-                  />
-                ))
-              ) : (
-                <div className="bg-white rounded-[20px] shadow-sm p-12 text-center md:col-span-2">
-                  <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No {activeTab} bookings</h3>
-                  <p className="text-gray-500 mb-6">
-                    {activeTab === 'pending' 
-                      ? "You don't have any pending bookings at the moment." 
-                      : activeTab === 'rejected'
-                      ? "You don't have any rejected bookings."
-                      : "You haven't completed any bookings yet."
-                    }
-                  </p>
-                  <a 
-                    href="/services" 
-                    className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-                  >
-                    Browse Services
-                  </a>
+                {/* Status Tabs */}
+                <div className=" ">
+                  <div className="">
+                    <div className="flex gap-3 p-4">
+                      {[
+                        { id: "pending", label: "Pending" },
+                        { id: "rejected", label: "Rejected" },
+                        { id: "completed", label: "Completed" },
+                      ].map((tab) => (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id as any)}
+                          className={`px-5 py-1 rounded-full text-sm transition-all ${
+                            activeTab === tab.id
+                              ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
+                              : "border border-orange-300 text-orange-500 hover:bg-orange-50"
+                          }`}
+                        >
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+
+                {/* Booking Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 w-[90%] gap-6">
+                  {bookings[activeTab].length > 0 ? (
+                    bookings[activeTab].map((booking) => (
+                      <BookingCard
+                        key={booking.id}
+                        service={booking.service}
+                        subtitle={`Booking ID: ${booking.id} | ₹${booking.amount}`}
+                        rating={
+                          activeTab === "pending" && "technician" in booking
+                            ? (booking as PendingBooking).technicianRating
+                            : 4.8
+                        }
+                        reviews={3287}
+                        date={booking.date}
+                        time={booking.time}
+                        status={
+                          booking.status as
+                            | "Pending"
+                            | "Completed"
+                            | "Cancelled"
+                        }
+                        onChat={() => console.log("Chat clicked")}
+                        onCall={() => console.log("Call clicked")}
+                        onReschedule={() => {
+                          setSelectedBooking(booking);
+                          setShowRescheduleModal(true);
+                        }}
+                        onCancel={() => {
+                          setSelectedBooking(booking);
+                          setShowCancelModal(true);
+                        }}
+                        onViewDetails={() => {
+                          setSelectedBooking(booking);
+                          setShowDetailsModal(true);
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <div className="bg-white rounded-[20px] shadow-sm p-12 text-center md:col-span-2">
+                      <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">
+                        No {activeTab} bookings
+                      </h3>
+                      <p className="text-gray-500 mb-6">
+                        {activeTab === "pending"
+                          ? "You don't have any pending bookings at the moment."
+                          : activeTab === "rejected"
+                            ? "You don't have any rejected bookings."
+                            : "You haven't completed any bookings yet."}
+                      </p>
+                      <a
+                        href="/services"
+                        className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                      >
+                        Browse Services
+                      </a>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <>
                 {/* Status Filters for AMC */}
-                <div className="bg-white rounded-xl shadow-sm mb-6">
-                  <div className="border-b border-gray-200">
-                    <nav className="flex">
-                      {['Pending', 'Rejected', 'Completed'].map((tab) => (
+                {/* Status Tabs for AMC (Same as Home UI) */}
+                <div className="">
+                  <div>
+                    <div className="flex gap-3 p-4">
+                      {[
+                        { id: "pending", label: "Pending" },
+                        { id: "rejected", label: "Rejected" },
+                        { id: "completed", label: "Completed" },
+                      ].map((tab) => (
                         <button
-                          key={tab}
-                          className={`px-6 py-4 font-medium text-sm border-b-2 transition-colors ${
-                            tab === 'Pending' // Hardcoded active for demo
-                              ? 'border-orange-500 text-orange-600'
-                              : 'border-transparent text-gray-500 hover:text-gray-700'
+                          key={tab.id}
+                          // (No functionality change — keep static or plug state later)
+                          className={`px-5 py-1 rounded-full text-sm transition-all ${
+                            tab.id === "pending" // keep default active like before
+                              ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
+                              : "border border-orange-300 text-orange-500 hover:bg-orange-50"
                           }`}
                         >
-                          {tab}
+                          {tab.label}
                         </button>
                       ))}
-                    </nav>
+                    </div>
                   </div>
                 </div>
 
                 {/* AMC Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {amcBookings.length > 0 ? (
-                  amcBookings.map((item) => (
-                    <div 
-                      key={item.id} 
-                      className="bg-white rounded-xl shadow-sm p-5 cursor-pointer hover:shadow-md transition-shadow"
-                      onClick={() => {
-                        setSelectedAMC(item);
-                        setShowAMCDetailsModal(true);
-                      }}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div className="flex gap-4">
-                          {/* Left: Profile Image */}
-                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                             <img src={item.technicianImage} alt="Technician" className="w-full h-full object-cover" 
-                               onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-user.jpg'; }}
-                             />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-[90%]">
+                  {amcBookings.length > 0 ? (
+                    amcBookings.map((item) => (
+                      <div
+                        key={item.id}
+                        className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-all cursor-pointer"
+                        onClick={() => {
+                          setSelectedAMC(item);
+                          setShowAMCDetailsModal(true);
+                        }}
+                      >
+                        {/* Top Section */}
+                        <div className="flex justify-between items-start">
+                          <div className="flex gap-4">
+                            {/* Profile Image */}
+                            <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200">
+                              <img
+                                src={item.technicianImage}
+                                alt="Technician"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+
+                            {/* Text Info */}
+                            <div>
+                              <h3 className="font-bold text-gray-900">
+                                {item.title}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {item.subtitle}
+                              </p>
+
+                              <p className="text-sm text-gray-500 mt-1">
+                                Type: {item.planType}
+                              </p>
+
+                              <p className="text-green-600 font-medium text-sm mt-1">
+                                {item.duration}
+                              </p>
+                            </div>
                           </div>
-                          
-                          {/* Center Content */}
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h3 className="font-bold text-gray-900">{item.title}</h3>
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedAMC(item);
-                                  setShowEquipmentModal(true);
-                                }}
-                                className="text-gray-400 hover:text-orange-500"
-                              >
-                                <Info className="w-4 h-4" />
-                              </button>
+
+                          {/* Status */}
+                          <div className="flex flex-col gap-6 items-center">
+                            <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-md font-medium">
+                              {item.status}
+                            </span>
+                            <div className="mt-2 font-semibold text-gray-900">
+                              ₹{item.price}
+                              <span className="text-gray-400 line-through ml-2 text-sm">
+                                ₹{item.originalPrice}
+                              </span>
                             </div>
-                            <p className="text-xs text-[#666]">{item.subtitle}</p>
-                            <div className="flex items-center gap-2 mt-1 text-sm text-[#666]">
-                              <span>{item.planType}</span>
-                              <span>•</span>
-                              <span className="text-green-600 font-medium">{item.duration}</span>
-                            </div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className="font-bold text-gray-900">₹{item.price}</span>
-                              <span className="text-xs text-gray-400 line-through">₹{item.originalPrice}</span>
-                            </div>
+                          </div>
+
+                          {/* Price */}
+                        </div>
+
+                        {/* Upcoming Schedule */}
+                        <div className="flex justify-between items-center gap-2 my-5">
+                          <p className="">Upcoming Schedule:</p>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-orange-500" />
+                            <span className="text-red-500 font-medium">
+                              {item.nextSchedule}
+                            </span>
                           </div>
                         </div>
 
-                        {/* Right: Status */}
-                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                          {item.status}
-                        </span>
-                      </div>
-
-                      {/* Bottom Row */}
-                      <div className="mt-4 pt-4 border-t border-[#F1F1F1] flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <div className="flex items-center gap-2 text-sm text-[#666]">
-                           <Calendar className="w-4 h-4 text-gray-400" />
-                           <span>{item.nextSchedule}</span>
-                        </div>
-                        <div className="flex gap-3">
-                          <button 
+                        {/* Buttons */}
+                        <div className="flex gap-3 mt-4">
+                          <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              // Map AMC item to booking structure for reschedule modal
                               setSelectedBooking({
                                 ...item,
                                 service: item.title,
                                 date: item.nextSchedule,
-                                time: "10:00 AM" // Default or from data
+                                time: "10:00 AM",
                               });
                               setShowRescheduleModal(true);
                             }}
-                            className="px-4 py-2 border border-orange-500 text-orange-500 rounded-lg text-sm font-medium hover:bg-orange-50 transition-colors"
+                            className="flex-1 border border-orange-500 text-orange-500 py-3 rounded-xl font-medium hover:bg-orange-50"
                           >
-                            Re-schedule
+                            Re-Schedule
                           </button>
-                          <button 
+
+                          <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setShowComplaintModal(true);
                             }}
-                            className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-colors"
+                            className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-2 rounded-xl font-medium"
                           >
                             Raise Complaint
                           </button>
                         </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full bg-white rounded-xl shadow-sm p-12 text-center">
+                      <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">
+                        No AMC Packages Found
+                      </h3>
                     </div>
-                  ))
-                ) : (
-                  <div className="col-span-full bg-white rounded-xl shadow-sm p-12 text-center">
-                    <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No AMC Packages Found</h3>
-                  </div>
-                )}
+                  )}
                 </div>
               </>
             )}
@@ -521,21 +560,23 @@ const MyBookingPage = () => {
       </div>
 
       {/* Modals */}
-      
+
       {/* MODAL 1: Equipment Details */}
       {showEquipmentModal && selectedAMC && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
-            <button 
+            <button
               onClick={() => setShowEquipmentModal(false)}
               className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
             >
               <X className="w-5 h-5 text-gray-500" />
             </button>
-            
+
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Split AC (1.5 Ton *2)</h2>
-              
+              <h2 className="text-xl font-bold text-gray-900 mb-6">
+                Split AC (1.5 Ton *2)
+              </h2>
+
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -549,9 +590,13 @@ const MyBookingPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedAMC.equipment && selectedAMC.equipment.length > 0 ? (
+                    {selectedAMC.equipment &&
+                    selectedAMC.equipment.length > 0 ? (
                       selectedAMC.equipment.map((eq: any, idx: number) => (
-                        <tr key={idx} className="bg-white border-b hover:bg-gray-50">
+                        <tr
+                          key={idx}
+                          className="bg-white border-b hover:bg-gray-50"
+                        >
                           <td className="px-6 py-4">{eq.sn}</td>
                           <td className="px-6 py-4">{eq.make}</td>
                           <td className="px-6 py-4">{eq.serial}</td>
@@ -567,7 +612,12 @@ const MyBookingPage = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={6} className="px-6 py-4 text-center text-gray-500">No equipment details available</td>
+                        <td
+                          colSpan={6}
+                          className="px-6 py-4 text-center text-gray-500"
+                        >
+                          No equipment details available
+                        </td>
                       </tr>
                     )}
                   </tbody>
@@ -582,15 +632,17 @@ const MyBookingPage = () => {
       {showComplaintModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-xl w-full max-w-sm p-6 relative shadow-xl">
-            <button 
+            <button
               onClick={() => setShowComplaintModal(false)}
               className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
             >
               <X className="w-5 h-5 text-gray-500" />
             </button>
-            
+
             <div className="text-center py-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Please Call the Below Number</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Please Call the Below Number
+              </h3>
               <p className="text-2xl font-bold text-orange-600 flex items-center justify-center gap-2">
                 <Phone className="w-6 h-6" />
                 +1 555 6337275
@@ -604,42 +656,56 @@ const MyBookingPage = () => {
       {showAMCDetailsModal && selectedAMC && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
-            <button 
+            <button
               onClick={() => setShowAMCDetailsModal(false)}
               className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
             >
               <X className="w-5 h-5 text-gray-500" />
             </button>
-            
+
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">AMC Details</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">
+                AMC Details
+              </h2>
+
               
-              {/* Billing Section (Left Card style) */}
               <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
-                <h3 className="font-bold text-gray-900 mb-4">AMC Billing Details</h3>
-                
+                <h3 className="font-bold text-gray-900 mb-4">
+                  AMC Billing Details
+                </h3>
+
                 <div className="space-y-2 mb-6">
-                  {selectedAMC.billing?.items.map((item: string, idx: number) => (
-                    <div key={idx} className="text-gray-600">{item}</div>
-                  ))}
+                  {selectedAMC.billing?.items.map(
+                    (item: string, idx: number) => (
+                      <div key={idx} className="text-gray-600">
+                        {item}
+                      </div>
+                    ),
+                  )}
                 </div>
-                
+
                 <div className="space-y-2 border-t border-gray-100 pt-4">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Total Amount</span>
-                    <span className="font-bold">₹{selectedAMC.billing?.total}</span>
+                    <span className="font-bold">
+                      ₹{selectedAMC.billing?.total}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Paid</span>
-                    <span className="font-bold text-green-600">₹{selectedAMC.billing?.paid}</span>
+                    <span className="font-bold text-green-600">
+                      ₹{selectedAMC.billing?.paid}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Balance Amount</span>
-                    <span className="font-bold text-red-600">₹{selectedAMC.billing?.balance}</span>
+                    <span className="font-bold text-red-600">
+                      ₹{selectedAMC.billing?.balance}
+                    </span>
                   </div>
                 </div>
               </div>
-              
+
               {/* Schedule Table */}
               <div>
                 <h3 className="font-bold text-gray-900 mb-4">AMC Schedule</h3>
@@ -653,23 +719,37 @@ const MyBookingPage = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {selectedAMC.schedule && selectedAMC.schedule.length > 0 ? (
+                      {selectedAMC.schedule &&
+                      selectedAMC.schedule.length > 0 ? (
                         selectedAMC.schedule.map((sch: any, idx: number) => (
                           <tr key={idx} className="bg-white">
-                            <td className={`px-4 py-3 font-medium ${
-                              sch.status === 'Completed' ? 'text-green-600' :
-                              sch.status === 'Upcoming' ? 'text-red-600' :
-                              'text-gray-500'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 font-medium ${
+                                sch.status === "Completed"
+                                  ? "text-green-600"
+                                  : sch.status === "Upcoming"
+                                    ? "text-red-600"
+                                    : "text-gray-500"
+                              }`}
+                            >
                               {sch.status}
                             </td>
-                            <td className="px-4 py-3 text-gray-900">{sch.date}</td>
-                            <td className="px-4 py-3 text-gray-600">{sch.details}</td>
+                            <td className="px-4 py-3 text-gray-900">
+                              {sch.date}
+                            </td>
+                            <td className="px-4 py-3 text-gray-600">
+                              {sch.details}
+                            </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={3} className="px-4 py-3 text-center text-gray-500">No schedule available</td>
+                          <td
+                            colSpan={3}
+                            className="px-4 py-3 text-center text-gray-500"
+                          >
+                            No schedule available
+                          </td>
                         </tr>
                       )}
                     </tbody>
@@ -683,7 +763,7 @@ const MyBookingPage = () => {
 
       {selectedBooking && (
         <>
-          <BookingDetailsModal 
+          <BookingDetailsModal
             isOpen={showDetailsModal}
             onClose={() => setShowDetailsModal(false)}
             booking={selectedBooking}
@@ -696,7 +776,15 @@ const MyBookingPage = () => {
               setSelectedBooking(null);
             }}
             onReschedule={async (date, time, notes) => {
-              console.log('Rescheduling booking:', selectedBooking.id, 'to', date, time, 'with notes:', notes);
+              console.log(
+                "Rescheduling booking:",
+                selectedBooking.id,
+                "to",
+                date,
+                time,
+                "with notes:",
+                notes,
+              );
               // Here you would typically make an API call to reschedule the booking
               setShowRescheduleModal(false);
               // Show a success message or update the booking status
@@ -710,7 +798,12 @@ const MyBookingPage = () => {
               setSelectedBooking(null);
             }}
             onCancel={async (reason) => {
-              console.log('Cancelling booking:', selectedBooking.id, 'reason:', reason);
+              console.log(
+                "Cancelling booking:",
+                selectedBooking.id,
+                "reason:",
+                reason,
+              );
               // Here you would typically make an API call to cancel the booking
               setShowCancelModal(false);
               setShowCancelledSuccess(true);
@@ -735,4 +828,4 @@ const MyBookingPage = () => {
   );
 };
 
-export default MyBookingPage;
+export default MyBookingPage; 
