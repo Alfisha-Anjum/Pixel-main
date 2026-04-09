@@ -10,28 +10,29 @@ export default function BookingConfirmation() {
   const router = useRouter();
   const { cartItems, selectedAddress } = useBooking();
 
-  if (cartItems.length === 0) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-7xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            No Active Booking
-          </h1>
-          <button
-            onClick={() => router.push("/services")}
-            style={{ backgroundColor: "#FF6B00" }}
-            className="text-white font-bold px-8 py-3 rounded-lg hover:opacity-90"
-          >
-            Browse Services
-          </button>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  // if (cartItems.length === 0) {
+  //   return (
+  //     <div className="min-h-screen bg-gray-50">
+  //       <Header />
+  //       <main className="max-w-7xl mx-auto px-4 py-16 text-center">
+  //         <h1 className="text-3xl font-bold text-gray-900 mb-4">
+  //           No Active Booking
+  //         </h1>
+  //         <button
+  //           onClick={() => router.push("/services")}
+  //           style={{ backgroundColor: "#FF6B00" }}
+  //           className="text-white font-bold px-8 py-3 rounded-lg hover:opacity-90"
+  //         >
+  //           Browse Services
+  //         </button>
+  //       </main>
+  //       <Footer />
+  //     </div>
+  //   );
+  // }
 
-  const bookingId = "TAS" + Math.random().toString(36).substring(2, 11).toUpperCase();
+  const bookingId =
+    "TAS" + Math.random().toString(36).substring(2, 11).toUpperCase();
   const bookingDate = new Date().toLocaleDateString("en-IN", {
     weekday: "long",
     year: "numeric",
@@ -78,7 +79,10 @@ export default function BookingConfirmation() {
 
             <div className="space-y-4">
               {cartItems.map((item) => (
-                <div key={item.id} className="flex justify-between pb-3 border-b border-gray-200">
+                <div
+                  key={item.id}
+                  className="flex justify-between pb-3 border-b border-gray-200"
+                >
                   <div>
                     <p className="font-semibold text-gray-900">
                       {item.subService}
@@ -143,9 +147,7 @@ export default function BookingConfirmation() {
                 <Phone className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" />
                 <div>
                   <p className="text-sm text-gray-600">Support</p>
-                  <p className="font-semibold text-gray-900">
-                    1800-123-4567
-                  </p>
+                  <p className="font-semibold text-gray-900">1800-123-4567</p>
                 </div>
               </div>
             </div>
@@ -182,9 +184,7 @@ export default function BookingConfirmation() {
                 2
               </div>
               <div>
-                <p className="font-semibold text-gray-900">
-                  Live Tracking
-                </p>
+                <p className="font-semibold text-gray-900">Live Tracking</p>
                 <p className="text-sm text-gray-600">
                   Track your technician in real-time on our app
                 </p>
