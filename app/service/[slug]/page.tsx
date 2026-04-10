@@ -319,7 +319,7 @@ const scrollRight = () => {
 
       {/* Hero Section */}
       <section className="bg-white">
-        <div className="w-full sm:max-w-[80%] mx-auto px-6 py-6">
+        <div className="w-full max-w-7xl mx-auto px-6 py-6">
           <div className="text-xl text-gray-600 mb-4">
             <a href="/" className="hover:text-[#FF6A00]">
               Home
@@ -342,7 +342,7 @@ const scrollRight = () => {
       </section>
 
       {/* Main Content */}
-      <div className="w-full sm:max-w-[80%] p-6 pb-11 mx-auto bg-white">
+      <div className="w-full max-w-7xl p-6 pb-11 mx-auto bg-white">
         <div className="w-full flex justify-center">
           <div className="">
             <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
@@ -361,8 +361,8 @@ const scrollRight = () => {
                 </div>
               </div>
               <div className="bg-white border border-[#c1c1c1] rounded-2xl p-4 my-6 relative">
-                {/* Top Badge */}
-                <div className="absolute -top-4 left-4 bg-white border border-gray-200 rounded-lg px-3 py-1 flex items-center gap-2 shadow-sm">
+                {/* Badge (attached to border) */}
+                <div className="absolute border -top-3 p-2 rounded-lg left-6 bg-white px-3 flex items-center gap-2">
                   <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
                     ✓
                   </div>
@@ -371,13 +371,13 @@ const scrollRight = () => {
                   </span>
                 </div>
 
-                {/* Items */}
+                {/* Inner Content */}
                 <div className="mt-4 space-y-3">
                   {/* Item 1 */}
-                  <div className="flex items-center justify-between  border rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-1">
+                  <div className="flex items-center justify-between border rounded-xl px-4 py-3 my-5">
+                    <div className="flex items-center gap-2">
                       <span className="text-lg">🏅</span>
-                      <span className="text-sm text-gray-300 hover:text-orange-600 ">
+                      <span className="text-sm text-gray-500 hover:text-orange-600">
                         30 days unconditional warranty
                       </span>
                     </div>
@@ -386,13 +386,14 @@ const scrollRight = () => {
 
                   {/* Item 2 */}
                   <div className="flex items-center justify-between border rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                       <span className="text-lg">💳</span>
-                      <p className="text-sm text-gray-300 hover:text-orange-600 ">
-                        <Link href="/rate-card">
-                          Standard rate card no hidden charges
-                        </Link>
-                      </p>
+                      <Link
+                        href="/rate-card"
+                        className="text-sm text-gray-500 hover:text-orange-600"
+                      >
+                        Standard rate card no hidden charges
+                      </Link>
                     </div>
                     <span className="text-gray-400 text-lg">›</span>
                   </div>
@@ -414,18 +415,18 @@ const scrollRight = () => {
           </div>
           {/* Service Cards - 2 rows, 3 cards per row */}
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-12">
           {/* Left Column - Categories */}
           <div className="">
             <div className="bg-white rounded-xl ">
               {/* <h3 className="text-lg font-bold text-gray-900 mb-4">
                 AC Service Categories
               </h3> */}
-              <div className="relative flex items-center">
+              <div className="relative  flex items-center">
                 {/* Left Chevron Button */}
                 <button
                   onClick={scrollLeft}
-                  className="absolute -left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0 z-10"
+                  className="absolute -left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0 z-10"
                 >
                   <ChevronLeft className="w-6 h-6 text-[#FF6A00]" />
                 </button>
@@ -433,7 +434,7 @@ const scrollRight = () => {
                 {/* Scrollable Cards Container */}
                 <div
                   ref={scrollContainerRef}
-                  className="flex  gap-4 overflow-hidden"
+                  className="flex  gap-10  overflow-hidden"
                   // style={{ scrollbarWidth: "thin" }} // optional: hides scrollbar visually
                 >
                   {tabs.map((tab) => (
@@ -481,7 +482,7 @@ const scrollRight = () => {
                 {/* Right Chevron Button */}
                 <button
                   onClick={scrollRight}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0"
                 >
                   <ChevronRight className="w-6 h-6 text-[#FF6A00]" />
                 </button>
@@ -490,7 +491,7 @@ const scrollRight = () => {
             <div className="lg:col-span-6 mt-12">
               <div className="space-y-6">
                 {currentServices.map((service) => (
-                  <div key={service.id} className="border-b pb-6">
+                  <div key={service.id} className="border-b pb-6 mt-5 max-w-lg">
                     {/* Category Title (Split AC etc) */}
                     <h3 className="text-2xl font-semibold text-gray-800 mb-3">
                       {service.category || "Split AC"}
@@ -607,7 +608,7 @@ const scrollRight = () => {
             </div>
           </div>
 
-          <div className="">
+          <div className="log-col-span-2">
             <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
               {cartItems.length === 0 ? (
                 <div className="text-center">
@@ -977,7 +978,7 @@ const scrollRight = () => {
                   ))}
                 </div>
 
-                <div className="my-8 relative flex items-start justify-start">
+                <div className="my-8 mb-10 relative flex items-start justify-start">
                   <p className="inline-flex items-center gap-1 text-[#FF6A00] font-medium">
                     View All Reviews
                     <svg

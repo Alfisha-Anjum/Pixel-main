@@ -37,6 +37,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 import { useEffect, useState } from "react";
+import ServicesSection from "@/components/ServicesSection";
 
 
 
@@ -103,15 +104,12 @@ export default function Home() {
   
 
   return (
-
     <div className="min-h-screen bg-background">
-
       <Header />
 
       <HomeStartupModal />
 
       <main>
-
         <ServiceSection />
 
         <FeatureSection />
@@ -134,14 +132,11 @@ export default function Home() {
 
         <DownloadApp />
 
-        <OnDemandServices />
-
+        <ServicesSection />
       </main>
 
       <Footer />
-
     </div>
-
   );
 
 }

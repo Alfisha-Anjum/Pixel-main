@@ -239,7 +239,7 @@ const AmcServicesPage = () => {
             {/* Right: Billing + Schedule */}
             <aside className="w-full lg:basis-[30%] lg:max-w-[30%] space-y-4">
               {/* Billing details */}
-              <div className="bg-[#f7f7f7] rounded-[12px] p-4 shadow-sm">
+              <div className=" rounded-[12px] p-4 shadow-sm">
                 <h2 className="text-sm font-semibold text-gray-900 mb-4">
                   AMC Billing Details
                 </h2>
