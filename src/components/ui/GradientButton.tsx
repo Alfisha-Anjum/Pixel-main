@@ -4,8 +4,6 @@ type GradientButtonProps = {
   height?: string;
   onClick?: () => void;
   className?: string;
-
-  // 🔥 new props
   textClassName?: string;
 };
 
@@ -20,11 +18,11 @@ export default function GradientButton({
   return (
     <button
       onClick={onClick}
-      className={`${width} ${height} p-[1px] rounded-lg bg-gradient-to-r from-[#FEC12D] to-[#FF552C] ${className}`}
+      className={`group ${width} ${height} p-[1px] rounded-lg bg-gradient-to-r from-[#FEC12D] to-[#FF552C] ${className}`}
     >
-      <span className="flex items-center justify-center w-full h-full bg-white rounded-lg">
+      <span className="flex items-center justify-center w-full h-full bg-white rounded-lg group-hover:bg-transparent transition-all duration-300">
         <span
-          className={`bg-gradient-to-r from-[#FEC12D] to-[#FF552C] bg-clip-text text-transparent ${textClassName}`}
+          className={`bg-gradient-to-r from-[#FEC12D] to-[#FF552C] bg-clip-text text-transparent group-hover:text-white group-hover:bg-none transition-all duration-300 ${textClassName}`}
         >
           {text}
         </span>

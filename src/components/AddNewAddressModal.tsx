@@ -22,7 +22,7 @@ interface AddNewAddressModalProps {
 const AddNewAddressModal = ({
   isOpen,
   onClose,
-  onSave
+  onSave,
 }: AddNewAddressModalProps) => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -33,19 +33,28 @@ const AddNewAddressModal = ({
     city: "",
     houseNo: "",
     location: "",
-    roadLandmark: ""
+    roadLandmark: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = () => {
-    if (!formData.fullName || !formData.contactNumber || !formData.postalCode || 
-        !formData.state || !formData.city || !formData.houseNo || !formData.location) {
+    if (
+      !formData.fullName ||
+      !formData.contactNumber ||
+      !formData.postalCode ||
+      !formData.state ||
+      !formData.city ||
+      !formData.houseNo ||
+      !formData.location
+    ) {
       alert("Please fill all required fields");
       return;
     }
@@ -60,23 +69,63 @@ const AddNewAddressModal = ({
       city: "",
       houseNo: "",
       location: "",
-      roadLandmark: ""
+      roadLandmark: "",
     });
   };
 
   if (!isOpen) return null;
 
   const states = [
-    "Alabama", "Alaska", "Arizona", "Arkansas", "California",
-    "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-    "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
-    "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-    "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
-    "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-    "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
   ];
 
   return (
@@ -152,82 +201,82 @@ const AddNewAddressModal = ({
             </div>
 
             {/* Postal Code */}
-          <div className="grid grid-cols-2 gap-3">
-  {/* Postal Code */}
-  <div>
-    <label className="block text-sm font-medium text-gray-800 mb-1">
-      Postal Code *
-    </label>
-    <input
-      type="text"
-      name="postalCode"
-      value={formData.postalCode}
-      onChange={handleChange}
-      placeholder="Postal Code"
-      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
-    />
-  </div>
+            <div className="grid grid-cols-2 gap-3">
+              {/* Postal Code */}
+              <div>
+                <label className="block text-sm font-medium text-gray-800 mb-1">
+                  Postal Code *
+                </label>
+                <input
+                  type="text"
+                  name="postalCode"
+                  value={formData.postalCode}
+                  onChange={handleChange}
+                  placeholder="Postal Code"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                />
+              </div>
 
-  {/* Location Input */}
-  <div>
-    <label className="block text-sm font-medium text-gray-800 mb-1">
-      Use my Location
-    </label>
+              {/* Location Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-800 mb-1">
+                  Use my Location
+                </label>
 
-    <div className="relative">
-      <input
-        type="text"
-        name="location"
-        value={formData.location}
-        onChange={handleChange}
-        placeholder="Location"
-        className="w-full px-4 py-3 pr-10 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
-      />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    placeholder="Location"
+                    className="w-full px-4 py-3 pr-10 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                  />
 
-      {/* Location Icon */}
-      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500 cursor-pointer">
-        📍
-      </span>
-    </div>
-  </div>
-</div>
+                  {/* Location Icon */}
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500 cursor-pointer">
+                    📍
+                  </span>
+                </div>
+              </div>
+            </div>
             {/* State */}
-           <div className="grid grid-cols-2 gap-3">
-  {/* State */}
-  <div>
-    <label className="block text-sm font-medium text-gray-800 mb-1">
-      State *
-    </label>
-    <select
-      name="state"
-      value={formData.state}
-      onChange={handleChange}
-      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl"
-    >
-      <option value="">State</option>
-      {states.map((state) => (
-        <option key={state} value={state}>
-          {state}
-        </option>
-      ))}
-    </select>
-  </div>
+            <div className="grid grid-cols-2 gap-3">
+              {/* State */}
+              <div>
+                <label className="block text-sm font-medium text-gray-800 mb-1">
+                  State *
+                </label>
+                <select
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl"
+                >
+                  <option value="">State</option>
+                  {states.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-  {/* City */}
-  <div>
-    <label className="block text-sm font-medium text-gray-800 mb-1">
-      City *
-    </label>
-    <input
-      type="text"
-      name="city"
-      value={formData.city}
-      onChange={handleChange}
-      placeholder="City"
-      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl"
-    />
-  </div>
-</div>
+              {/* City */}
+              <div>
+                <label className="block text-sm font-medium text-gray-800 mb-1">
+                  City *
+                </label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="City"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl"
+                />
+              </div>
+            </div>
 
             {/* House No */}
             <div>

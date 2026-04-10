@@ -125,13 +125,11 @@
 //   );
 // };
 
-
-
-
 "use client";
 
 import { X, MapPin, Plus } from "lucide-react";
 import { useState } from "react";
+import AddNewAddressModal from "../AddNewAddressModal";
 
 interface Address {
   id: string;
@@ -207,7 +205,6 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
               onClick={() => setSelectedId(address.id)}
               className="flex items-start gap-3 cursor-pointer"
             >
-             
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
                   selectedId === address.id
@@ -268,6 +265,3 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
     </div>
   );
 };
-
- 
-
