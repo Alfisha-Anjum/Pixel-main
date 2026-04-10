@@ -1,9 +1,12 @@
 import Image from "next/image";
 import GradientButton from "@/components/ui/GradientButton";
+import { useRouter } from "next/navigation";
 
 export default function ProfileCard() {
+  const router = useRouter();
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-10 items-center lg:items-start text-center lg:text-left">
       <Image
         src="/img/profileimg.png"
         alt="profile"
@@ -23,6 +26,7 @@ export default function ProfileCard() {
           width="w-[185px]"
           height="h-[35px]"
           textClassName="text-[16px]"
+          onClick={() => router.push("/my-booking")}
         />
 
         <GradientButton

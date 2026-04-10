@@ -1,13 +1,19 @@
 "use client";
 import Image from "next/image";
 import GradientButton2 from "../ui/GradientButton2";
-export default function ReferEarn(ActiveView: Props) {
-  // components/account/ReferEarn.tsx
-  "use client";
+import { useState } from "react";
+import RedeemModal from "./Modals/ReedemModal";
+import RedeemSuccessModal from "./Modals/ReedemSuccessModal";
+import ShareModal from "./Modals/ShareModal";
 
-  type Props = {
-    setActiveView: (view: string) => void;
-  };
+type Props = {
+  setActiveView: (view: string) => void;
+};
+
+export default function ReferEarn(ActiveView: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const terms = [
     "The cash bonus offer is available exclusively to Premium subscribers of TASPRO Company.",
     "Only active Premium subscribers are eligible for the cash bonus offer.",
@@ -27,34 +33,71 @@ export default function ReferEarn(ActiveView: Props) {
   ];
 
   return (
-    <div className="flex">
-      <div className="p-6 bg-white rounded-lg max-w-3xl mx-auto">
+    <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 ml-0 lg:ml-14 px-4 lg:px-0">
+      {/* Terms Section */}
+      <div className="bg-white rounded-lg max-w-3xl mx-auto w-full">
         <ol className="list-decimal list-inside space-y-2 text-[15px] text-[#414141]">
           {terms.map((term, index) => (
             <li key={index}>{term}</li>
           ))}
         </ol>
       </div>
-      <div>
-        <div className="bg-[#0B0B2A] text-white p-6 rounded-2xl w-[350px]">
-          <p className="text-orange-400 font-semibold">
+
+      {/* Right Section */}
+      <div className="flex flex-col items-center gap-6 w-full">
+        {/* Card */}
+        <div className="bg-[#0B0B2A] text-white p-6 rounded-2xl w-[430px] max-w-full flex flex-col items-center gap-6">
+          <p className="text-orange-400 text-center font-semibold">
             Refer a Friend & Earn Coins
           </p>
 
-          <h2 className="text-2xl mt-2">₹453</h2>
-          <p className="text-sm text-gray-300">Your Coins</p>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2">
+              <img src="/icons/fi1.png" alt="rupees" className="w-8 h-8" />
+              <span className="text-[24px] font-semibold">453</span>
+            </div>
+            <p className="text-sm text-gray-300">Your Coins</p>
+          </div>
 
-          <button className="mt-4 px-6 py-2 bg-orange-500 rounded-full">
-            Redeem
-          </button>
+          <div className="flex justify-center items-center w-full">
+            <GradientButton2
+              text="Redeem"
+              width="w-[150px]"
+              type="button"
+              onClick={() => setIsOpen(true)}
+            />
+          </div>
         </div>
-        <div>
-          <img src="/bro.png" alt="Bro" />
+
+        {/* Image */}
+        <div className="mt-4 flex justify-center">
+          <img src="/bro.png" alt="Bro" className="max-w-full h-auto" />
         </div>
-        <div>
-          <GradientButton2 text="Refer a Friend" width="w-full" type="button" />
+
+        {/* Button */}
+        <div className="mt-4 w-full flex justify-center">
+          <GradientButton2
+            text="Refer a Friend"
+            width="w-[390px]"
+            type="button"
+            onClick={() => setIsShareOpen(true)}
+          />
         </div>
       </div>
+
+      <RedeemModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onSuccess={() => {
+          setIsOpen(false);
+          setIsSuccessOpen(true);
+        }}
+      />
+      <RedeemSuccessModal
+        isSuccessOpen={isSuccessOpen}
+        onClose={() => setIsSuccessOpen(false)}
+      />
+      <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
     </div>
   );
 }

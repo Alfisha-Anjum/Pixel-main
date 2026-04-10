@@ -85,7 +85,7 @@ export default function AccountSidebar() {
   const menu: MenuItem[] = [
     { icon: "/icons/Home.png", label: "Home", href: "/" },
     { icon: "/icons/to-do.png", label: "My Schedule", href: "/schedule" },
-    { icon: "/icons/Calender.png", label: "Bookings", href: "/bookings" },
+    { icon: "/icons/Calender.png", label: "Bookings", href: "/my-booking" },
     { icon: "/icons/profile.png", label: "Account", href: "/account" },
   ];
 
@@ -106,10 +106,7 @@ export default function AccountSidebar() {
           <Link
             key={item.href}
             href={item.href}
-            className="
-              flex items-center gap-[10px] px-3 py-2 rounded-xl transition
-              md:justify-center lg:justify-start
-            "
+            className="flex items-center gap-[10px] px-3 py-2 rounded-xl transition md:justify-center lg:justify-start group"
           >
             {/* ICON */}
             <div className="relative w-[32px] h-[32px]">
@@ -117,21 +114,23 @@ export default function AccountSidebar() {
                 src={item.icon}
                 alt={item.label}
                 className={`w-[32px] h-[32px] object-contain ${
-                  isActive ? "opacity-0" : "brightness-0 invert-[75%]"
+                  isActive
+                    ? "opacity-0"
+                    : "brightness-0 invert-[75%] group-hover:opacity-0"
                 }`}
               />
 
-              {isActive && (
-                <div
-                  className="absolute inset-0 bg-gradient-to-r from-[#FEC12D] to-[#FF552C]"
-                  style={{
-                    WebkitMaskImage: `url(${item.icon})`,
-                    WebkitMaskRepeat: "no-repeat",
-                    WebkitMaskPosition: "center",
-                    WebkitMaskSize: "contain",
-                  }}
-                />
-              )}
+              <div
+                className={`absolute inset-0 bg-gradient-to-r from-[#FEC12D] to-[#FF552C] transition-all duration-300 ${
+                  isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}
+                style={{
+                  WebkitMaskImage: `url(${item.icon})`,
+                  WebkitMaskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  WebkitMaskSize: "contain",
+                }}
+              />
             </div>
 
             {/* TEXT */}
@@ -142,7 +141,7 @@ export default function AccountSidebar() {
                 ${
                   isActive
                     ? "bg-gradient-to-r from-[#FEC12D] to-[#FF552C] bg-clip-text text-transparent"
-                    : "text-[#C1C1C1]"
+                    : "text-[#C1C1C1] hover:bg-gradient-to-r hover:from-[#FEC12D] hover:to-[#FF552C] hover:bg-clip-text hover:text-transparent"
                 }
               `}
             >

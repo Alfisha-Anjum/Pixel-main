@@ -3,7 +3,7 @@ export default function Toggle({ icon, text, state, setState }) {
     <div className="flex items-center justify-between py-3">
       <div className="flex items-center gap-3">
         <img src={icon} alt={text} className="w-5 h-5" />
-        <span className="text-[15px] text-[#1B1B1B]">{text}</span>
+        <span className="text-[16px] font-medium text-[#1B1B1B]">{text}</span>
       </div>
 
       {/* Toggle Switch */}
