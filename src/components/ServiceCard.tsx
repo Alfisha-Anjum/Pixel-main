@@ -30,7 +30,7 @@ const ServiceCard = ({
       className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
       style={{
         width: "287px",
-        height: "232px",
+        height: "270px",
         borderRadius: "12px",
         background: "#fff",
       }}
@@ -39,7 +39,7 @@ const ServiceCard = ({
         className="relative w-full"
         style={{
           width: "287px",
-          height: "120px",
+          height: "150px",
           borderRadius: "12px 12px 0 0",
         }}
       >

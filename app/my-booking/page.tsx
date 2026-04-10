@@ -27,6 +27,8 @@ import BookingCancelledModal from "@/components/BookingCancelledModal";
 import BookingSuccessModal from "@/components/BookingSuccessModal";
 import BookingCard from "@/components/BookingCard";
 import Header from "@/components/Header";
+// import { Footer } from "react-day-picker";
+import Footer from "@/components/Footer";
 
 const MyBookingPage = () => {
   const { user } = useAuth();
@@ -34,6 +36,7 @@ const MyBookingPage = () => {
   const [bookingType, setBookingType] = useState<'home' | 'amc'>('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
+  const [showAMCDetailsPage, setShowAMCDetailsPage] = useState(false);
   // Modal states
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
@@ -202,6 +205,7 @@ const MyBookingPage = () => {
     }
   };
 
+  
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -218,37 +222,6 @@ const MyBookingPage = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      {/* <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <button 
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden mr-4 p-2 rounded-md text-gray-700 hover:bg-gray-100"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-              <h1 className="text-xl font-bold text-gray-900">My Bookings</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative hidden sm:block">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search bookings..."
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 w-64"
-                />
-              </div>
-              <button className="p-2 text-gray-700 hover:bg-gray-100 rounded-full">
-                <Filter className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <span
@@ -299,263 +272,523 @@ const MyBookingPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1">
-            {/* Top Level Tabs */}
-            <div className=" mb-1">
-              <div className="">
-                <nav className="flex">
-                  <button
-                    onClick={() => setBookingType("home")}
-                    className={`px-6  font-medium text-sm border-b-2 transition-colors ${
-                      bookingType === "home"
-                        ? "border-[#FF6A00] text-[#FF6A00]"
-                        : "border-transparent text-gray-500 hover:text-gray-700"
-                    }`}
-                  >
-                    Home Services
-                  </button>
-                  <button
-                    onClick={() => setBookingType("amc")}
-                    className={`px-6  font-medium text-sm border-b-2 transition-colors ${
-                      bookingType === "amc"
-                        ? "border-[#FF6A00] text-[#FF6A00]"
-                        : "border-transparent text-gray-500 hover:text-gray-700"
-                    }`}
-                  >
-                    AMC & Packages
-                  </button>
-                </nav>
-              </div>
-            </div>
+          {!showAMCDetailsPage && (
+            <div className="flex-1">
+              {/* Top Level Tabs */}
 
-            {bookingType === "home" ? (
-              <>
-                {/* Status Tabs */}
-                <div className=" ">
-                  <div className="">
-                    <div className="flex gap-3 p-4">
-                      {[
-                        { id: "pending", label: "Pending" },
-                        { id: "rejected", label: "Rejected" },
-                        { id: "completed", label: "Completed" },
-                      ].map((tab) => (
-                        <button
-                          key={tab.id}
-                          onClick={() => setActiveTab(tab.id as any)}
-                          className={`px-5 py-1 rounded-full text-sm transition-all ${
-                            activeTab === tab.id
-                              ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
-                              : "border border-orange-300 text-orange-500 hover:bg-orange-50"
-                          }`}
-                        >
-                          {tab.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Booking Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 w-[90%] gap-6">
-                  {bookings[activeTab].length > 0 ? (
-                    bookings[activeTab].map((booking) => (
-                      <BookingCard
-                        key={booking.id}
-                        service={booking.service}
-                        subtitle={`Booking ID: ${booking.id} | ₹${booking.amount}`}
-                        rating={
-                          activeTab === "pending" && "technician" in booking
-                            ? (booking as PendingBooking).technicianRating
-                            : 4.8
-                        }
-                        reviews={3287}
-                        date={booking.date}
-                        time={booking.time}
-                        status={
-                          booking.status as
-                            | "Pending"
-                            | "Completed"
-                            | "Cancelled"
-                        }
-                        onChat={() => console.log("Chat clicked")}
-                        onCall={() => console.log("Call clicked")}
-                        onReschedule={() => {
-                          setSelectedBooking(booking);
-                          setShowRescheduleModal(true);
-                        }}
-                        onCancel={() => {
-                          setSelectedBooking(booking);
-                          setShowCancelModal(true);
-                        }}
-                        onViewDetails={() => {
-                          setSelectedBooking(booking);
-                          setShowDetailsModal(true);
-                        }}
-                      />
-                    ))
-                  ) : (
-                    <div className="bg-white rounded-[20px] shadow-sm p-12 text-center md:col-span-2">
-                      <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        No {activeTab} bookings
-                      </h3>
-                      <p className="text-gray-500 mb-6">
-                        {activeTab === "pending"
-                          ? "You don't have any pending bookings at the moment."
-                          : activeTab === "rejected"
-                            ? "You don't have any rejected bookings."
-                            : "You haven't completed any bookings yet."}
-                      </p>
-                      <a
-                        href="/services"
-                        className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-                      >
-                        Browse Services
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                {/* Status Filters for AMC */}
-                {/* Status Tabs for AMC (Same as Home UI) */}
+              <div className=" mb-1">
                 <div className="">
-                  <div>
-                    <div className="flex gap-3 p-4">
-                      {[
-                        { id: "pending", label: "Pending" },
-                        { id: "rejected", label: "Rejected" },
-                        { id: "completed", label: "Completed" },
-                      ].map((tab) => (
-                        <button
-                          key={tab.id}
-                          // (No functionality change — keep static or plug state later)
-                          className={`px-5 py-1 rounded-full text-sm transition-all ${
-                            tab.id === "pending" // keep default active like before
-                              ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
-                              : "border border-orange-300 text-orange-500 hover:bg-orange-50"
-                          }`}
-                        >
-                          {tab.label}
-                        </button>
-                      ))}
+                  <nav className="flex">
+                    <button
+                      onClick={() => setBookingType("home")}
+                      className={`px-6  font-medium text-sm border-b-2 transition-colors ${
+                        bookingType === "home"
+                          ? "border-[#FF6A00] text-[#FF6A00]"
+                          : "border-transparent text-gray-500 hover:text-gray-700"
+                      }`}
+                    >
+                      Home Services
+                    </button>
+                    <button
+                      onClick={() => setBookingType("amc")}
+                      className={`px-6  font-medium text-sm border-b-2 transition-colors ${
+                        bookingType === "amc"
+                          ? "border-[#FF6A00] text-[#FF6A00]"
+                          : "border-transparent text-gray-500 hover:text-gray-700"
+                      }`}
+                    >
+                      AMC & Packages
+                    </button>
+                  </nav>
+                </div>
+              </div>
+
+              {bookingType === "home" && !showAMCDetailsPage ? (
+                <>
+                  {/* Status Tabs */}
+                  <div className=" ">
+                    <div className="">
+                      <div className="flex gap-3 p-4">
+                        {[
+                          { id: "pending", label: "Pending" },
+                          { id: "rejected", label: "Rejected" },
+                          { id: "completed", label: "Completed" },
+                        ].map((tab) => (
+                          <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id as any)}
+                            className={`px-5 py-1 rounded-full text-sm transition-all ${
+                              activeTab === tab.id
+                                ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
+                                : "border border-orange-300 text-orange-500 hover:bg-orange-50"
+                            }`}
+                          >
+                            {tab.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* AMC Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-[90%]">
-                  {amcBookings.length > 0 ? (
-                    amcBookings.map((item) => (
-                      <div
-                        key={item.id}
-                        className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-all cursor-pointer"
-                        onClick={() => {
-                          setSelectedAMC(item);
-                          setShowAMCDetailsModal(true);
-                        }}
-                      >
-                        {/* Top Section */}
-                        <div className="flex justify-between items-start">
-                          <div className="flex gap-4">
-                            {/* Profile Image */}
-                            <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200">
-                              <img
-                                src={item.technicianImage}
-                                alt="Technician"
-                                className="w-full h-full object-cover"
-                              />
+                  {/* Booking Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">
+                    {bookings[activeTab].length > 0 ? (
+                      bookings[activeTab].map((booking) => (
+                        <BookingCard
+                          isCompleted={activeTab === "completed"}
+                          key={booking.id}
+                          service={booking.service}
+                          subtitle={`Booking ID: ${booking.id} | ₹${booking.amount}`}
+                          rating={
+                            activeTab === "pending" && "technician" in booking
+                              ? (booking as PendingBooking).technicianRating
+                              : 4.8
+                          }
+                          reviews={3287}
+                          date={booking.date}
+                          time={booking.time}
+                          status={
+                            booking.status as
+                              | "Pending"
+                              | "Completed"
+                              | "Cancelled"
+                          }
+                          onChat={() => console.log("Chat clicked")}
+                          onCall={() => console.log("Call clicked")}
+                          onReschedule={() => {
+                            setSelectedBooking(booking);
+                            setShowRescheduleModal(true);
+                          }}
+                          onCancel={() => {
+                            setSelectedBooking(booking);
+                            setShowCancelModal(true);
+                          }}
+                          onViewDetails={() => {
+                            setSelectedBooking(booking);
+                            setShowDetailsModal(true);
+                          }}
+                        />
+                      ))
+                    ) : (
+                      <div className="bg-white rounded-[20px] shadow-sm p-12 text-center md:col-span-2">
+                        <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          No {activeTab} bookings
+                        </h3>
+                        <p className="text-gray-500 mb-6">
+                          {activeTab === "pending"
+                            ? "You don't have any pending bookings at the moment."
+                            : activeTab === "rejected"
+                              ? "You don't have any rejected bookings."
+                              : "You haven't completed any bookings yet."}
+                        </p>
+                        <a
+                          href="/services"
+                          className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                        >
+                          Browse Services
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Status Filters for AMC */}
+                  {/* Status Tabs for AMC (Same as Home UI) */}
+                  <div className="">
+                    <div>
+                      <div className="flex gap-3 p-4">
+                        {[
+                          { id: "pending", label: "Pending" },
+                          { id: "rejected", label: "Rejected" },
+                          { id: "completed", label: "Completed" },
+                        ].map((tab) => (
+                          <button
+                            key={tab.id}
+                            // (No functionality change — keep static or plug state later)
+                            className={`px-5 py-1 rounded-full text-sm transition-all ${
+                              tab.id === "pending" // keep default active like before
+                                ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
+                                : "border border-orange-300 text-orange-500 hover:bg-orange-50"
+                            }`}
+                          >
+                            {tab.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AMC Cards Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-[90%]">
+                    {amcBookings.length > 0 ? (
+                      amcBookings.map((item) => (
+                        <div
+                          key={item.id}
+                          className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-all cursor-pointer"
+                          onClick={() => {
+                            setSelectedAMC(item);
+                            setShowAMCDetailsPage(true);
+                          }}
+                        >
+                          {/* Top Section */}
+                          <div className="flex justify-between items-start">
+                            <div className="flex gap-4">
+                              {/* Profile Image */}
+                              <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200">
+                                <img
+                                  src={item.technicianImage}
+                                  alt="Technician"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+
+                              {/* Text Info */}
+                              <div>
+                                <h3 className="font-bold text-gray-900">
+                                  {item.title}
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                  {item.subtitle}
+                                </p>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                  Type: {item.planType}
+                                </p>
+
+                                <p className="text-green-600 font-medium text-sm mt-1">
+                                  {item.duration}
+                                </p>
+                              </div>
                             </div>
 
-                            {/* Text Info */}
-                            <div>
-                              <h3 className="font-bold text-gray-900">
-                                {item.title}
-                              </h3>
-                              <p className="text-sm text-gray-500">
-                                {item.subtitle}
-                              </p>
-
-                              <p className="text-sm text-gray-500 mt-1">
-                                Type: {item.planType}
-                              </p>
-
-                              <p className="text-green-600 font-medium text-sm mt-1">
-                                {item.duration}
-                              </p>
+                            {/* Status */}
+                            <div className="flex flex-col gap-6 items-center">
+                              <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-md font-medium">
+                                {item.status}
+                              </span>
+                              <div className="mt-2 font-semibold text-gray-900">
+                                ₹{item.price}
+                                <span className="text-gray-400 line-through ml-2 text-sm">
+                                  ₹{item.originalPrice}
+                                </span>
+                              </div>
                             </div>
+
+                            {/* Price */}
                           </div>
 
-                          {/* Status */}
-                          <div className="flex flex-col gap-6 items-center">
-                            <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-md font-medium">
-                              {item.status}
-                            </span>
-                            <div className="mt-2 font-semibold text-gray-900">
-                              ₹{item.price}
-                              <span className="text-gray-400 line-through ml-2 text-sm">
-                                ₹{item.originalPrice}
+                          {/* Upcoming Schedule */}
+                          <div className="flex justify-between items-center gap-2 my-5">
+                            <p className="">Upcoming Schedule:</p>
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4 text-orange-500" />
+                              <span className="text-red-500 font-medium">
+                                {item.nextSchedule}
                               </span>
                             </div>
                           </div>
 
-                          {/* Price */}
-                        </div>
+                          {/* Buttons */}
+                          <div className="flex gap-3 mt-4">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedBooking({
+                                  ...item,
+                                  service: item.title,
+                                  date: item.nextSchedule,
+                                  time: "10:00 AM",
+                                });
+                                setShowRescheduleModal(true);
+                              }}
+                              className="flex-1 border border-orange-500 text-orange-500 py-3 rounded-xl font-medium hover:bg-orange-50"
+                            >
+                              Re-Schedule
+                            </button>
 
-                        {/* Upcoming Schedule */}
-                        <div className="flex justify-between items-center gap-2 my-5">
-                          <p className="">Upcoming Schedule:</p>
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-orange-500" />
-                            <span className="text-red-500 font-medium">
-                              {item.nextSchedule}
-                            </span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowComplaintModal(true);
+                              }}
+                              className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-2 rounded-xl font-medium"
+                            >
+                              Raise Complaint
+                            </button>
                           </div>
                         </div>
+                      ))
+                    ) : (
+                      <div className="col-span-full bg-white rounded-xl shadow-sm p-12 text-center">
+                        <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          No AMC Packages Found
+                        </h3>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
 
-                        {/* Buttons */}
-                        <div className="flex gap-3 mt-4">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedBooking({
-                                ...item,
-                                service: item.title,
-                                date: item.nextSchedule,
-                                time: "10:00 AM",
-                              });
-                              setShowRescheduleModal(true);
-                            }}
-                            className="flex-1 border border-orange-500 text-orange-500 py-3 rounded-xl font-medium hover:bg-orange-50"
-                          >
-                            Re-Schedule
-                          </button>
+          {showAMCDetailsPage && selectedAMC && (
+            <div className="bg-[#f8f8f8] rounded-2xl ">
+              <div className="flex justify-between gap-10 items-start w-[70%] ">
+                {/* LEFT COLUMN */}
+                <div className="space-y-5  w-[60%] ">
+                  {/* AMC Billing Details */}
+                  <div className="flex-1">
+                    {/* Billing Card */}
+                    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                      {/* Header */}
+                      <div className="bg-gray-200 px-4 py-3 flex justify-between items-center">
+                        <h3 className="font-semibold text-gray-800">
+                          AMC Billing Details
+                        </h3>
+                        <span className="text-gray-600 text-sm">▼</span>
+                      </div>
 
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowComplaintModal(true);
-                            }}
-                            className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-2 rounded-xl font-medium"
-                          >
-                            Raise Complaint
-                          </button>
+                      {/* Items */}
+                      <div className="p-4 space-y-4">
+                        {selectedAMC.billing?.items.map(
+                          (item: string, idx: number) => (
+                            <div
+                              key={idx}
+                              className="flex justify-between items-start text-sm"
+                            >
+                              {/* Left */}
+                              <div className="flex gap-2">
+                                <span className="text-blue-600 font-medium cursor-pointer">
+                                  {item}
+                                </span>
+                                <span className="text-gray-500">
+                                  Preventive(1.5 Ton * 2)
+                                </span>
+                              </div>
+
+                              {/* Price */}
+                              <span className="font-medium text-gray-900">
+                                ₹200
+                              </span>
+                            </div>
+                          ),
+                        )}
+
+                        {/* Totals */}
+                        <div className="pt-4 border-t space-y-2 text-sm">
+                          <div className="flex justify-between font-semibold text-gray-900">
+                            <span>Total Amount</span>
+                            <span>₹{selectedAMC.billing?.total}</span>
+                          </div>
+
+                          <div className="flex justify-between text-gray-700">
+                            <span>Paid</span>
+                            <span>₹{selectedAMC.billing?.paid}</span>
+                          </div>
+
+                          <div className="flex justify-between text-gray-400">
+                            <span>Balance Amount</span>
+                            <span>{selectedAMC.billing?.balance}</span>
+                          </div>
                         </div>
                       </div>
-                    ))
-                  ) : (
-                    <div className="col-span-full bg-white rounded-xl shadow-sm p-12 text-center">
-                      <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        No AMC Packages Found
-                      </h3>
                     </div>
-                  )}
+                  </div>
+
+                  {/* AMC Schedule */}
+                  <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div className="bg-gray-200 px-4 py-3 flex justify-between items-center">
+                      <h3 className="font-semibold text-gray-800">
+                        AMC Schedule
+                      </h3>
+                      <span className="text-gray-600 text-sm">▼</span>
+                    </div>
+
+                    <div className="px-4 py-4">
+                      <div className="flex justify-between text-[13px] font-semibold text-[#333] mb-3">
+                        <span>Status</span>
+                        <span>Upcoming Date</span>
+                        <span>Details</span>
+                      </div>
+
+                      <div className="space-y-3">
+                        {selectedAMC.schedule.map((sch: any, idx: number) => (
+                          <div
+                            key={idx}
+                            className="flex justify-between px-3  text-[13px] items-start"
+                          >
+                            <span
+                              className={`${
+                                sch.status === "Completed"
+                                  ? "text-green-600"
+                                  : sch.status === "Upcoming"
+                                    ? "text-[#ff5a3c]"
+                                    : "text-[#9a9a9a]"
+                              }`}
+                            >
+                              {sch.status}
+                            </span>
+
+                            <span
+                              className={`${
+                                sch.status === "Upcoming"
+                                  ? "text-[#ff5a3c]"
+                                  : "text-[#8a8a8a]"
+                              }`}
+                            >
+                              {sch.date}
+                            </span>
+
+                            <span className="text-[#222] text-xs">
+                              {idx === 0 ? "◉" : idx === 1 ? "▦" : ""}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Billing Status */}
+                  <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div className="bg-gray-200 px-4 py-3 flex justify-between items-center">
+                      <h3 className="font-semibold text-[15px] text-[#222]">
+                        Billing Status
+                      </h3>
+                      <span className="text-black text-xs">▼</span>
+                    </div>
+
+                    <div className="px-4 py-4">
+                      <div className="flex justify-between text-[13px] font-semibold text-[#333] mb-4">
+                        <span>Period</span>
+                        <span>Billing Date.</span>
+                        <span>AMT</span>
+                        <span>Status</span>
+                      </div>
+
+                      <div className="space-y-4 text-[13px]">
+                        <div className="flex justify-between items-center">
+                          <span className="text-[#555]">Q1</span>
+                          <span className="text-[#777]">12/12/23</span>
+                          <span className="text-[#555]">₹990</span>
+                          <span className="text-green-600 flex items-center gap-1">
+                            Paid <span className="text-[10px]">🧾</span>
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
+                          <span className="text-[#555]">Q2</span>
+                          <span className="text-[#bbb]"></span>
+                          <span className="text-[#bbb]"></span>
+                          <span className="text-[#bbb]"></span>
+                        </div>
+
+                        <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
+                          <span className="text-[#555]">Q3</span>
+                          <span className="text-[#bbb]"></span>
+                          <span className="text-[#bbb]"></span>
+                          <span className="text-[#bbb]"></span>
+                        </div>
+
+                        <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
+                          <span className="text-[#555]">Q4</span>
+                          <span className="text-[#bbb]"></span>
+                          <span className="text-[#bbb]"></span>
+                          <span className="text-[#bbb]"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </>
-            )}
-          </div>
+
+                {/* RIGHT COLUMN */}
+                <div className=" w-[50%] bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-start justify-between mb-4">
+                    <p className="text-[12px] text-[#a0a0a0]">
+                      Ref: TAS/AMC2223/000222
+                    </p>
+                    <span className="bg-[#e6f3e6] text-green-700 text-xs px-3 py-1 rounded-md font-medium">
+                      Running
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 mb-5">
+                    <div className="flex justify-between items-center gap-3 text-sm">
+                      <span className="text-[#444] min-w-[82px]">
+                        Start Date:
+                      </span>
+                      <div>
+                      <span className="text-orange-500">📅</span>
+                      <span className="text-orange-700 text-[13px] font-medium">
+                        Tuesday, 12 March 2024
+                      </span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-3 text-sm">
+                      <span className="text-[#444] min-w-[82px]">
+                        End Date:
+                      </span>
+                      <div>
+                      <span className="text-orange-500">📅</span>
+                      <span className="text-orange-700 text-[13px] font-medium">
+                        Tuesday, 11 March 2025
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-8">
+                    <h3 className="font-semibold text-[#333] mb-3">
+                      Shipping Details
+                    </h3>
+
+                    <div className="space-y-2 text-[14px] text-[#555] leading-6">
+                      <p className="font-semibold text-[#222]">
+                        Mr. Tikesh Dewangan
+                      </p>
+                      <p>
+                        Office No. 201, atlantis corporate park, ring road
+                        <br />
+                        No.1 Telibandha, Raipur
+                      </p>
+                      <p>C.N.: +91 9644430161</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-5 max-w-[260px]">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedBooking({
+                          ...selectedAMC,
+                          service: selectedAMC.title,
+                          date: selectedAMC.nextSchedule,
+                          time: "10:00 AM",
+                        });
+                        setShowRescheduleModal(true);
+                      }}
+                      className="w-full h-[44px] rounded-full border border-orange-600 text-orange-600 bg-white font-medium text-sm hover:bg-orange-50 transition-colors"
+                    >
+                      Re-schedule
+                    </button>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowComplaintModal(true);
+                      }}
+                      className="w-full h-[44px] rounded-full bg-orange-500 from-[#ff5a36] to-[#f9ab2d] text-white font-medium text-sm "
+                    >
+                      Raise Complaint
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -653,113 +886,6 @@ const MyBookingPage = () => {
       )}
 
       {/* AMC Details Modal (Billing & Schedule) */}
-      {showAMCDetailsModal && selectedAMC && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={() => setShowAMCDetailsModal(false)}
-              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
-            >
-              <X className="w-5 h-5 text-gray-500" />
-            </button>
-
-            <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
-                AMC Details
-              </h2>
-
-              
-              <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
-                <h3 className="font-bold text-gray-900 mb-4">
-                  AMC Billing Details
-                </h3>
-
-                <div className="space-y-2 mb-6">
-                  {selectedAMC.billing?.items.map(
-                    (item: string, idx: number) => (
-                      <div key={idx} className="text-gray-600">
-                        {item}
-                      </div>
-                    ),
-                  )}
-                </div>
-
-                <div className="space-y-2 border-t border-gray-100 pt-4">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Total Amount</span>
-                    <span className="font-bold">
-                      ₹{selectedAMC.billing?.total}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Paid</span>
-                    <span className="font-bold text-green-600">
-                      ₹{selectedAMC.billing?.paid}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Balance Amount</span>
-                    <span className="font-bold text-red-600">
-                      ₹{selectedAMC.billing?.balance}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Schedule Table */}
-              <div>
-                <h3 className="font-bold text-gray-900 mb-4">AMC Schedule</h3>
-                <div className="overflow-hidden border border-gray-200 rounded-lg">
-                  <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-50 text-gray-700 font-medium">
-                      <tr>
-                        <th className="px-4 py-3">Status</th>
-                        <th className="px-4 py-3">Upcoming Date</th>
-                        <th className="px-4 py-3">Details</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {selectedAMC.schedule &&
-                      selectedAMC.schedule.length > 0 ? (
-                        selectedAMC.schedule.map((sch: any, idx: number) => (
-                          <tr key={idx} className="bg-white">
-                            <td
-                              className={`px-4 py-3 font-medium ${
-                                sch.status === "Completed"
-                                  ? "text-green-600"
-                                  : sch.status === "Upcoming"
-                                    ? "text-red-600"
-                                    : "text-gray-500"
-                              }`}
-                            >
-                              {sch.status}
-                            </td>
-                            <td className="px-4 py-3 text-gray-900">
-                              {sch.date}
-                            </td>
-                            <td className="px-4 py-3 text-gray-600">
-                              {sch.details}
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={3}
-                            className="px-4 py-3 text-center text-gray-500"
-                          >
-                            No schedule available
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {selectedBooking && (
         <>
@@ -824,6 +950,7 @@ const MyBookingPage = () => {
           />
         </>
       )}
+      <Footer />
     </div>
   );
 };

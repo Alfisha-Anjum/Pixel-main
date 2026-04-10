@@ -112,33 +112,16 @@ const DownloadApp = () => {
           </div>
 
           {/* Right Image */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            height: '100%',
-            paddingLeft: '35px'
-          }}>
-            <div style={{
-              width: '200px',
-              transform: 'rotate(-6deg)',
-              transition: 'transform 0.5s'
-            }}>
+          <div >
               <img
-                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1000&auto=format&fit=crop"
+                src="/mob.png"
                 alt="App Mockup"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  borderRadius: '24px',
-                  boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.25)',
-                  border: '3px solid #1F2937'
-                }}
+           className="w-full h-72 object-contain"
               />
             </div>
           </div>
         </div>
-      </div>
+      
     </section>
   );
 };

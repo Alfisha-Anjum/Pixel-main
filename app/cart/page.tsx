@@ -11,6 +11,7 @@ import { Trash2, Plus, ChevronDown } from "lucide-react";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
+import DeepCleaningServices from "@/components/DeepCleaningServices";
 
 interface Address {
   id: string;
@@ -257,6 +258,7 @@ const handleDateTimeContinue = (date, time, notes) => {
             </div>
           </div>
         </div>
+        <DeepCleaningServices title="Frequently Added Together" />
       </main>
 
       {/* Modals */}
