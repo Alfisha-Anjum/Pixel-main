@@ -114,10 +114,10 @@ const handleAddItem = (item: any) => {
             </div> */}
             <div
               key={service.id}
-              className="grid grid-cols-3 items-center gap-2 px-6 py-2"
+              className="flex justify-between items-center gap-2 px-6 py-2"
             >
               {/* Title */}
-              <div className="truncate">
+              <div className="">
                 <p className="text-lg font-bold ">{service.title}</p>
                 <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
                   <Star className="w-3 h-3 text-orange-500 fill-orange-500" />
@@ -126,6 +126,16 @@ const handleAddItem = (item: any) => {
               </div>
 
               {/* Quantity */}
+              <div className="text-right flex items-center gap-2 justify-center">
+                <p className="text-sm font-semibold text-gray-900">
+                  ₹{service.price * quantity}
+                </p>
+                <p className="text-xs text-gray-400 line-through">
+                  ₹{service.originalPrice}
+                </p>
+              </div>
+
+              {/* Price */}
               <div className="flex justify-end">
                 <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
                   <button
@@ -144,16 +154,6 @@ const handleAddItem = (item: any) => {
                     +
                   </button>
                 </div>
-              </div>
-
-              {/* Price */}
-              <div className="text-right ">
-                <p className="text-sm font-semibold text-gray-900">
-                  ₹{service.price * quantity}
-                </p>
-                <p className="text-xs text-gray-400 line-through">
-                  ₹{service.originalPrice}
-                </p>
               </div>
             </div>
 

@@ -53,7 +53,7 @@ const cleaningServices = [
   },
 ];
 
-const DeepCleaningServices = () => {
+const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,26 +62,29 @@ const DeepCleaningServices = () => {
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -307, behavior: "smooth" });
-      setCurrentIndex(prev => Math.max(0, prev - 1));
+      setCurrentIndex((prev) => Math.max(0, prev - 1));
     }
   };
 
   const scrollRight = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: 307, behavior: "smooth" });
-      setCurrentIndex(prev => Math.min(cleaningServices.length - 1, prev + 1));
+      setCurrentIndex((prev) =>
+        Math.min(cleaningServices.length - 1, prev + 1),
+      );
     }
   };
-  
+
   // Auto scroll functionality
   useEffect(() => {
     if (!isAutoScrolling) return;
 
     const interval = setInterval(() => {
       if (sliderRef.current) {
-        const maxScroll = sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
+        const maxScroll =
+          sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
         const currentScroll = sliderRef.current.scrollLeft;
-        
+
         if (currentScroll >= maxScroll) {
           // Reset to beginning when reaching the end
           sliderRef.current.scrollTo({ left: 0, behavior: "smooth" });
@@ -96,34 +99,34 @@ const DeepCleaningServices = () => {
   }, [isAutoScrolling]);
 
   const handleBookService = (serviceTitle: string) => {
-    router.push(`/service/${serviceTitle.toLowerCase().replace(/\s+/g, '-')}`);
+    router.push(`/service/${serviceTitle.toLowerCase().replace(/\s+/g, "-")}`);
   };
 
   return (
     <section className="py-12 bg-white">
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Updated Heading */}
-        <h2 
+        <h2
           className="text-gray-900 mb-5"
           style={{
-            fontSize: '24px',
-            fontWeight: '600',
-            textAlign: 'left',
-            marginBottom: '20px'
+            fontSize: "24px",
+            fontWeight: "600",
+            textAlign: "left",
+            marginBottom: "20px",
           }}
         >
-          Deep Cleaning Services
+          {title}
         </h2>
 
-        <div 
+        <div
           className="relative"
           onMouseEnter={() => setIsAutoScrolling(false)}
           onMouseLeave={() => setIsAutoScrolling(true)}
         >
-          <div 
+          <div
             ref={sliderRef}
             className="flex overflow-x-auto gap-5 pb-4 scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x"
-            style={{ gap: '20px' }}
+            style={{ gap: "20px" }}
           >
             {cleaningServices.map((service, index) => (
               <div key={index} className="flex-shrink-0 snap-center">
@@ -142,20 +145,20 @@ const DeepCleaningServices = () => {
           </div>
 
           {/* Navigation Buttons */}
-          <button 
+          <button
             onClick={scrollLeft}
             className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
             style={{
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
             }}
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <button 
+          <button
             onClick={scrollRight}
             className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
             style={{
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
             }}
           >
             <ChevronRight className="w-6 h-6" />
