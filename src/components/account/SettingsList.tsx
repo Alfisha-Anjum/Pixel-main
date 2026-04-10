@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Toggle from "./Toggle";
+import { SelectAddressModal } from "../booking-flow/SelectAddressModal";
+import AddNewAddressModal from "../AddNewAddressModal";
 
 type ItemProps = {
   icon: string;
@@ -17,9 +19,11 @@ type Props = {
 export default function SettingsList({ setActiveView }: Props) {
   const [dark, setDark] = useState(false);
   const [notify, setNotify] = useState(true);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
-    <div className="w-full max-w-[390px] ml-12">
+    <div className="w-full max-w-[390px] mx-auto lg:ml-12 px-4 lg:px-0">
       {/* ===== Account Settings ===== */}
       <h2 className="text-[20px] font-semibold text-[#1B1B1B] mb-4">
         Account Settings
@@ -35,20 +39,20 @@ export default function SettingsList({ setActiveView }: Props) {
         <Item
           icon="/icons/save.png"
           text="Saved Address"
-          onClick={() => setActiveView("editProfile")}
+          onClick={() => setIsAddressModalOpen(true)}
         />
         <div className="border-t border-[#E1E4E8] " />
         <Item
           icon="/icons/wallet.png"
           text="My Wallet"
-          onClick={() => setActiveView("editProfile")}
+          onClick={() => setActiveView("wallet")}
         />
         <div className="border-t border-[#E1E4E8] " />
 
         <Item
           icon="/icons/language.png"
           text="Change Language"
-          onClick={() => setActiveView("editProfile")}
+          onClick={() => setActiveView("language")}
         />
 
         {/* Divider */}
@@ -78,13 +82,13 @@ export default function SettingsList({ setActiveView }: Props) {
         <Item
           icon="/icons/rating.png"
           text="My Rating & Reviews"
-          onClick={() => setActiveView("editProfile")}
+          onClick={() => setActiveView("reviews")}
         />
         <div className="border-t border-[#E1E4E8] " />
         <Item
           icon="/icons/coupon.png"
           text="My Coupon"
-          onClick={() => setActiveView("editProfile")}
+          onClick={() => setActiveView("coupon")}
         />
         <div className="border-t border-[#E1E4E8] " />
         <Item
@@ -93,6 +97,20 @@ export default function SettingsList({ setActiveView }: Props) {
           onClick={() => setActiveView("refer")}
         />
       </div>
+      <SelectAddressModal
+        isOpen={isAddressModalOpen}
+        onClose={() => setIsAddressModalOpen(false)}
+        onAddNew={() => {
+          setIsAddressModalOpen(false);
+          setIsAddModalOpen(true);
+        }}
+        onContinue={() => {}}
+      />
+      <AddNewAddressModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSave={() => setIsAddModalOpen(false)}
+      />
     </div>
   );
 }

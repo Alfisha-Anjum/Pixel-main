@@ -222,6 +222,7 @@ import AmountSummary from "@/components/AmountSummary";
 import Header from "@/components/Header";
 import DeepCleaningServices from "@/components/DeepCleaningServices";
 import Footer from "@/components/Footer";
+import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function OrderConfirmation() {
   return (
@@ -267,9 +268,13 @@ export default function OrderConfirmation() {
             <AmountSummary />
             {/* Button */}
             <div className="flex justify-center mt-6 w-[387px] mx-auto">
-              <button className="w-full px-6 py-3 rounded-full bg-gradient-to-r from-[#FEC12D] to-[#FF552C] text-white font-semibold">
-                Back To Home
-              </button>
+              <Link href="/">
+                <GradientButton2
+                  text="Back to Home"
+                  width="w-[390px]"
+                  className="text-[20px] font-medium"
+                />
+              </Link>
             </div>
           </div>
         </div>
