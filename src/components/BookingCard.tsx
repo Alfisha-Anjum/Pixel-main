@@ -12,6 +12,8 @@ interface BookingCardProps {
   status: "Pending" | "Completed" | "Cancelled";
   serviceImage?: string;
   onViewDetails?: () => void;
+  onChat?: () => void;
+  isCompleted?: boolean;
 }
 
 const BookingCard: React.FC<BookingCardProps> = ({
@@ -24,27 +26,14 @@ const BookingCard: React.FC<BookingCardProps> = ({
   status,
   serviceImage = "/ac.png",
   onViewDetails,
-  isCompleted
+  onChat,
+  isCompleted = false,
 }) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Pending":
-        return "bg-orange-100 text-orange-600";
-      case "Completed":
-        return "bg-green-100 text-green-600";
-      case "Cancelled":
-        return "bg-red-100 text-red-600";
-      default:
-        return "bg-gray-100 text-gray-600";
-    }
-  };
-
   return (
     <div
       onClick={onViewDetails}
       className="bg-white py-5 rounded-xl border border-gray-100 shadow-sm p-4 flex gap-4 hover:shadow-md transition cursor-pointer"
     >
-      {/* Image */}
       <div className="flex flex-col w-full justify-between">
         <div className="flex justify-between w-full">
           <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
@@ -63,6 +52,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
               {service}
             </h3>
             <p className="text-xs text-gray-500 mt-1">{subtitle}</p>
+
             <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
               <Star className="w-3 h-3 fill-orange-400 text-orange-400" />
               <span>{rating}</span>
@@ -71,36 +61,36 @@ const BookingCard: React.FC<BookingCardProps> = ({
           </div>
 
           <div className="flex flex-col items-end gap-6">
-            {/* Status */}
             <span className="bg-orange-100 text-orange-600 text-xs px-3 py-1 rounded-md font-medium">
               {status}
             </span>
 
-            {/* Chat & Call Icons */}
             <div className="flex gap-3 items-center justify-center">
               <img
                 src="/chat.png"
                 alt="chat"
                 className="w-5 h-5 cursor-pointer"
-                // onClick={onChat}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onChat?.();
+                }}
               />
+
               <img
                 src="/call.png"
                 alt="call"
                 className="w-5 h-5 cursor-pointer"
-                // onClick={onCall}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
               />
             </div>
           </div>
         </div>
 
-        {/* Rating */}
-
-        {/* Divider */}
         <div className="py-2">
           <div className="border-t border-gray-100 my-4"></div>
 
-          {/* Date Time */}
           <div className="flex justify-between text-xs text-gray-600">
             <span className="text-gray-400">Date & Time</span>
             <span className="font-medium text-gray-800">
@@ -108,12 +98,9 @@ const BookingCard: React.FC<BookingCardProps> = ({
             </span>
           </div>
         </div>
-        {/* Divider */}
-     
-        {/* ✅ Show only for Completed */}
+
         {isCompleted && (
           <>
-            {/* Warranty */}
             <div className="flex justify-between items-center text-sm my-2">
               <span className="text-gray-400">Warranty</span>
               <span className="bg-orange-100 text-orange-600 px-3 py-2 rounded-md text-xs font-medium">
@@ -121,7 +108,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
               </span>
             </div>
 
-            {/* Create Rework Button */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
