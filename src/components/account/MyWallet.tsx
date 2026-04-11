@@ -14,7 +14,7 @@ export default function MyWallet({ setActiveView }: Props) {
   });
 
   return (
-    <div className="flex gap-20 px-8 w-full">
+    <div className="flex flex-col-reverse lg:flex-row gap-20 px-2 lg:px-8 w-full">
       {/* Transactions */}
       <div className="flex-1 w-full max-w-[392px]">
         <h2 className="text-[18px] font-semibold text-black mb-4">
@@ -49,7 +49,7 @@ export default function MyWallet({ setActiveView }: Props) {
       </div>
 
       {/* Wallet Card */}
-      <div className="w-[390px] h-[200px]">
+      <div className="w-full max-w-[390px] h-[200px] mx-auto">
         <div className="relative h-[200px] bg-gradient-to-r from-[#FF512F] to-[#F09819] text-white rounded-2xl p-4">
           {/* 🔹 Content (Left) */}
           <div className="z-10 relative">
