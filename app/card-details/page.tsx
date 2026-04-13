@@ -147,8 +147,8 @@ const CardDetailsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <div className="min-h-screen">
+      {/* <Header /> */}
 
       <main className="py-10  min-h-screen">
         <div className="max-w-6xl mx-auto py-8">
@@ -279,7 +279,7 @@ const CardDetailsPage = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

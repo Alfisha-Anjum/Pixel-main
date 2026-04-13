@@ -378,8 +378,8 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
+    <div className="min-h-screen ">
+      {/* <Header /> */}
 
       <main className="max-w-7xl mx-auto p-8">
         <div className="grid lg:grid-cols-3 gap-8">
@@ -503,7 +503,7 @@ export default function PaymentPage() {
         onConfirm={handleOTPVerify}
       />
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

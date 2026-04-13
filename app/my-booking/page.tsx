@@ -35,6 +35,7 @@ import SplitACModal from "@/components/SplitACModal";
 import ChatBotPanel from "@/components/ChatBotPanel";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
+import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 
@@ -113,6 +114,21 @@ const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
 
 const successBookingCancel = () => {
   setShowCancelledSuccess(true);
+};
+
+const handleRescheduleContinue = (
+  date: string,
+  time: string,
+  notes: string,
+) => {
+  setSelectedBooking((prev: any) => ({
+    ...prev,
+    date,
+    time,
+    notes,
+  }));
+
+  setShowRescheduleModal(false); // close modal after continue
 };
 
   const handleOpenChat = (booking: any) => {
@@ -246,7 +262,7 @@ const successBookingCancel = () => {
 
   return (
     <div className="min-h-screen ">
-      <Header />
+      {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <span
@@ -262,7 +278,7 @@ const successBookingCancel = () => {
           <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
           >
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl shadow-xl p-6">
               <nav className="space-y-2">
                 <a
                   href="/"
@@ -397,6 +413,10 @@ const successBookingCancel = () => {
                               onViewDetails={() => {
                                 setSelectedBooking(booking);
                                 setShowBookingDetailsPage(true);
+                              }}
+                              onReschedule={() => {
+                                setSelectedBooking(booking);
+                                setShowRescheduleModal(true);
                               }}
                             />
                           ))
@@ -620,10 +640,12 @@ const successBookingCancel = () => {
 
                       {/* COUPONS */}
                       <div className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center">
-                        <span className="text-orange-600 font-medium cursor-pointer">
+                        <span className="text-gray-600 font-medium cursor-pointer">
                           Coupons & Offers
                         </span>
-                        <span className="text-sm text-gray-500">3 Offers</span>
+                        <span className="text-sm text-orange-500">
+                          3 Offers {">"}
+                        </span>
                       </div>
 
                       {/* CUSTOMER DETAILS */}
@@ -665,48 +687,78 @@ const successBookingCancel = () => {
                       {/* SERVICE PROVIDER */}
 
                       {/* ADVANCE SUMMARY */}
-                      <div className="bg-white rounded-xl p-5 shadow-sm border">
-                        <h3 className="font-semibold mb-3">
-                          Advance Payment Summary
-                        </h3>
+                      <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-gray-800">
+                            Advance Payment Summary
+                          </h3>
+                          <span className="text-orange-500 text-lg">🧾</span>
+                        </div>
 
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
+                        {/* Card */}
+                        <div className="bg-[#fafafa] rounded-xl p-4 space-y-4">
+                          <div className="flex justify-between text-sm text-gray-600">
                             <span>Item Total</span>
-                            <span>₹{selectedBooking.amount}</span>
+                            <span className="font-medium text-gray-800">
+                              ₹{selectedBooking.amount}.00
+                            </span>
                           </div>
 
-                          <div className="flex justify-between">
+                          <div className="flex justify-between text-sm text-gray-600">
                             <span>Item Discount</span>
-                            <span>-₹0</span>
+                            <span className="font-medium text-gray-800">
+                              -₹100.00
+                            </span>
                           </div>
 
-                          <div className="flex justify-between">
+                          <div className="border-t border-gray-200"></div>
+
+                          <div className="flex justify-between text-sm text-gray-600">
                             <span>Taxes and Fees</span>
-                            <span>
-                              ₹{Math.round(selectedBooking.amount * 0.05)}
+                            <span className="font-medium text-gray-800">
+                              ₹49.00
                             </span>
                           </div>
 
-                          <div className="flex justify-between font-bold border-t pt-2">
+                          <div className="border-t border-gray-200"></div>
+
+                          <div className="flex justify-between font-semibold text-gray-900">
                             <span>Total</span>
-                            <span>
-                              ₹
-                              {selectedBooking.amount +
-                                Math.round(selectedBooking.amount * 0.05)}
-                            </span>
+                            <span>₹548.00</span>
                           </div>
 
-                          <div className="flex justify-between text-green-600">
+                          <div className="flex justify-between text-sm text-gray-600">
                             <span>Advance Payment</span>
-                            <span>₹148</span>
+                            <span className="font-medium text-gray-800">
+                              ₹148.00
+                            </span>
                           </div>
                         </div>
                       </div>
 
                       {/* SUPPORT */}
-                      <div className="bg-white rounded-xl p-4 shadow-sm border flex justify-between items-center">
-                        <span>Help Center</span>→
+                      <div className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex flex-col  cursor-pointer hover:shadow-md transition-all">
+                        <p>Contact Support</p>
+                        <div className="flex justify-between items-center gap-3">
+                          {/* Icon */}
+                          <div className="flex items-center gap-2 py-2">
+                            <div className="w-9 h-9 bg-orange-50 rounded-full flex items-center justify-center">
+                              <span className="text-orange-500 text-sm">
+                                🏠
+                              </span>
+                            </div>
+
+                            {/* Text */}
+                            <span className="text-gray-800 font-medium">
+                              Help Center
+                            </span>
+                          </div>
+
+                          <span className="text-orange-500 text-lg">›</span>
+                        </div>
+
+                        {/* Arrow */}
                       </div>
 
                       {/* WORK STATUS */}
@@ -748,7 +800,10 @@ const successBookingCancel = () => {
                       </div>
 
                       {/* BUTTONS */}
-                      <button className="w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full">
+                      <button
+                        onClick={() => setShowRescheduleModal(true)}
+                        className="w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
+                      >
                         Reschedule
                       </button>
 
@@ -1028,6 +1083,13 @@ const successBookingCancel = () => {
           )}
         </div>
       </div>
+      <SelectDateTimeModal
+        isOpen={showRescheduleModal}
+        onClose={() => setShowRescheduleModal(false)}
+        onContinue={handleRescheduleContinue}
+        showLocation={true}
+        location={selectedBooking?.address}
+      />
 
       {showSelectAddressModal && (
         <SelectAddressModal
@@ -1182,7 +1244,7 @@ const successBookingCancel = () => {
         </div>
       )}
 
-      <Footer />
+      {/* <Footer / */}
     </div>
   );
 };

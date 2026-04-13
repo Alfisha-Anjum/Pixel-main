@@ -66,8 +66,8 @@ const handleDateTimeContinue = (date, time, notes) => {
   setShowAddressModal(true); // ✅ OPEN ADDRESS MODAL
 };
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
+    <div className="min-h-screen ">
+      {/* <Header /> */}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Cart Summary</h1>
@@ -306,7 +306,7 @@ const handleDateTimeContinue = (date, time, notes) => {
         }}
       />
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
