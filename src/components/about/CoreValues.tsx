@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import GradientButton2 from "../ui/GradientButton2";
 
 const values = [
   { title: "Transparency", icon: "/icons/transparency.png" },
@@ -26,9 +27,9 @@ const Item = ({ item, index }: any) => {
       )}
 
       {/* CIRCLE */}
-      <div className="w-24 h-24 rounded-full border-2 border-dashed border-orange-400 flex items-center justify-center">
-        <div className="w-16 h-16 rounded-full border-4 border-orange-500 bg-white flex items-center justify-center">
-          <Image src={item.icon} alt={item.title} width={30} height={30} />
+      <div className="w-28 h-28 rounded-full border-2 border-dashed border-orange-400 flex items-center justify-center">
+        <div className="w-24 h-24 rounded-full border-[8px] border-orange-500 bg-white flex items-center justify-center">
+          <Image src={item.icon} alt={item.title} width={40} height={40} />
         </div>
       </div>
 
@@ -47,15 +48,14 @@ const Item = ({ item, index }: any) => {
 
 export default function CoreValues() {
   return (
-    <section className="bg-[#f5f5f5] py-20">
-      <div className="max-w-6xl mx-auto px-6 text-center">
+    <section className="bg-white py-20">
+      <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-3xl font-semibold mb-2">Our Core Values</h2>
         <p className="text-gray-500 mb-20">
           There are many variations of passages of Lorem Ipsum
         </p>
 
         <div className="relative max-w-6xl mx-auto">
-          {/* GRID */}
           <div className="flex justify-between align-items-stretch gap-y-28 relative z-10 justify-items-center">
             {/* TOP ROW */}
             <Item item={values[0]} index={0} />
@@ -73,55 +73,30 @@ export default function CoreValues() {
             <div className="col-start-3">
               <Item item={values[4]} index={4} />
             </div>
-            <svg
-              className="absolute top-0 left-0 w-full h-full pointer-events-none"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-            >
-              {/* 1 → 3 */}
-              <line
-                x1="12"
-                y1="30"
-                x2="32"
-                y2="70"
-                stroke="#fb923c"
-                strokeWidth="0.6"
-                strokeDasharray="2,2"
-              />
+          </div>
+        </div>
 
-              {/* 3 → 2 */}
-              <line
-                x1="32"
-                y1="70"
-                x2="48"
-                y2="30"
-                stroke="#fb923c"
-                strokeWidth="0.6"
-                strokeDasharray="2,2"
-              />
+        <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt-20">
+          <div className="bg-white rounded-xl flex justify-between px-12 py-12">
+            {/* Text */}
+            <div className="gap-6">
+              <p className="text-3xl font-semibold text-start text-black whitespace-nowrap">
+                Join us on your journey
+              </p>
+              <p className="text-2xl text-gray-400 whitespace-nowrap mt-6">
+                Are you interested in being a part of it?
+              </p>
+            </div>
 
-              {/* 2 → 4 */}
-              <line
-                x1="48"
-                y1="30"
-                x2="72"
-                y2="70"
-                stroke="#fb923c"
-                strokeWidth="0.6"
-                strokeDasharray="2,2"
+            {/* Button */}
+            <div className="flex justify-end items-center w-full">
+              <GradientButton2
+                text="Apply Now"
+                width="w-[180px]"
+                type="button"
+                className="rounded-md"
               />
-
-              {/* 4 → 5 */}
-              <line
-                x1="72"
-                y1="70"
-                x2="88"
-                y2="30"
-                stroke="#fb923c"
-                strokeWidth="0.6"
-                strokeDasharray="2,2"
-              />
-            </svg>
+            </div>
           </div>
         </div>
       </div>

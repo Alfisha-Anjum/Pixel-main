@@ -219,15 +219,14 @@ import SuccessCard from "@/components/SuccessCard";
 import CustomerDetails from "@/components/CustomerDetails";
 import CouponCard from "@/components/CouponCard";
 import AmountSummary from "@/components/AmountSummary";
-import Header from "@/components/Header";
+
 import DeepCleaningServices from "@/components/DeepCleaningServices";
-import Footer from "@/components/Footer";
+
 import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function OrderConfirmation() {
   return (
     <div className="min-h-screen bg-white">
-      <Header />
       <main className="mx-20">
         <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-[60px] md:gap-18 lg:gap-20">
           <div className="md:w-[62%] lg:w-[62%]">
@@ -278,9 +277,8 @@ export default function OrderConfirmation() {
             </div>
           </div>
         </div>
-        <DeepCleaningServices />
+        <DeepCleaningServices title="You might be also interested in" />
       </main>
-      <Footer />
     </div>
   );
 }
