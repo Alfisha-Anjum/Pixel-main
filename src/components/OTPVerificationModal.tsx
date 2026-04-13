@@ -230,7 +230,7 @@ const handleVerify = (otp: string) => {
               value={digit}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-14 h-12 text-center text-2xl font-bold border bg-[#fafafa] border-gray-200 rounded-full focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all shadow-sm"
+              className="w-9 h-8 text-center text-sm font-bold border bg-[#fafafa] border-gray-200 rounded-full focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all shadow-sm"
             />
           ))}
         </div>

@@ -14,7 +14,7 @@ const Header = () => {
     setIsClient(true);
   }, []);
   return (
-    <header className="bg-white border-b border-gray-200">
+    <header className="bg-[#fafafa] border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex items-center justify-between h-20 gap-6">
           {/* Logo */}

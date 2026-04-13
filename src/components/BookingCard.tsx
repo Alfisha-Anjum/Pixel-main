@@ -32,7 +32,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
   return (
     <div
       onClick={onViewDetails}
-      className="bg-white py-5 rounded-xl border border-gray-100 shadow-sm p-4 flex gap-4 hover:shadow-md transition cursor-pointer"
+      className="bg-white py-5 rounded-xl border border-gray-100 shadow-lg p-4 flex gap-4 hover:shadow-md transition cursor-pointer"
     >
       <div className="flex flex-col w-full justify-between">
         <div className="flex justify-between w-full">
