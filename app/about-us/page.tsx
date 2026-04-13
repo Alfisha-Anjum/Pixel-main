@@ -162,13 +162,17 @@
 import AboutSection from "@/components/about/AboutSection";
 import CoreValues from "@/components/about/CoreValues";
 import MissionSection from "@/components/about/MissionSection";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function AboutPage() {
   return (
-    <div className="bg-[#f5f5f5]">
+    <div className="bg-white">
+      <Header />
       <AboutSection />
       <MissionSection />
       <CoreValues />
+      <Footer />
     </div>
   );
 }

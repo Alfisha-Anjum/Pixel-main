@@ -1,7 +1,5 @@
 import AccountSidebar from "@/components/account/AccountSidebar";
 import Breadcrumb from "@/components/account/Breadcrumb";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 
 export default function AccountLayout({
   children,
@@ -10,7 +8,6 @@ export default function AccountLayout({
 }) {
   return (
     <div className="w-full bg-white">
-      <Header />
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-0 py-6 md:py-10 lg:py-[100px]">
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "Profile" }]}
@@ -29,7 +26,6 @@ export default function AccountLayout({
           <div className="flex-1 min-w-0">{children}</div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
