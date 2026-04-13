@@ -315,7 +315,7 @@ const scrollRight = () => {
   
   return (
     <>
-      <Header />
+      {/* <Header /> */}
 
       {/* Hero Section */}
       <section className="bg-white">
@@ -1227,7 +1227,7 @@ const scrollRight = () => {
           setShowModal(false);
         }}
       />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
@@ -1254,11 +1254,11 @@ export default function ServiceDetailPage() {
   if (!service) {
     return (
       <div className="min-h-screen ">
-        <Header />
+        {/* <Header /> */}
         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
           <h1 className="text-2xl font-bold text-gray-900">Service Not Found</h1>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
@@ -1300,7 +1300,7 @@ export default function ServiceDetailPage() {
 
   return (
     <div className="min-h-screen ">
-      <Header />
+      {/* <Header /> */}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
@@ -1397,7 +1397,7 @@ export default function ServiceDetailPage() {
       </main>
 
      
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
