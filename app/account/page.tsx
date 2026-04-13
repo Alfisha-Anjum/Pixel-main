@@ -39,7 +39,7 @@ export default function AccountPage() {
   };
 
   return (
-    <div className="w-full bg-[#f9f9f9]">
+    <div className="w-full bg-white">
       {/* Content */}
       <div className="flex flex-col-reverse lg:flex-row">
         {/* Content */}

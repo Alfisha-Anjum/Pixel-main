@@ -15,9 +15,8 @@ export default function AccountLayout({
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "Profile" }]}
         />
-
+        {/* Divider */}
         {/* <div className="w-full h-[1px] bg-[#E1E1E1] mt-[50px]" /> */}
-
 
         {/* Layout */}
         <div className="mt-10 flex flex-col lg:flex-row gap-8">
