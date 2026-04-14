@@ -363,10 +363,6 @@ export default function BlogPage() {
           ))}
         </aside>
       </div>
-
-      <div className="max-w-7xl mx-auto md:px-10 mt-10">
-        <BlogSlider />
-      </div>
     </div>
   );
 }

@@ -62,7 +62,7 @@ export default function BlogCard({
               </span>
             </div>
 
-            <span className="text-orange-500 text-sm font-medium flont-underline group-hover:no-underline">
+            <span className="text-sm font-medium underline bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:no-underline">
               Read More
             </span>
           </div>
