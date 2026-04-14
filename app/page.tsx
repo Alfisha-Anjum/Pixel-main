@@ -105,7 +105,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      {/* <Header /> */}
 
       <HomeStartupModal />
 
@@ -135,7 +135,7 @@ export default function Home() {
         <ServicesSection />
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 
