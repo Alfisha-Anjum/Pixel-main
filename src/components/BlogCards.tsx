@@ -45,24 +45,24 @@ export default function BlogCard({
               {title}
             </h4>
 
-            <p className="text-gray-600 text-sm line-clamp-3">{description}</p>
+            <p className="text-gray-600 text-lg">{description}</p>
           </div>
 
           {/* BOTTOM */}
           <div className="mt-4">
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
               <span className="flex items-center gap-1">
-                <ThumbsUp size={16} /> 335 Like
+                <ThumbsUp size={16} text-orange-500 /> 335 Like
               </span>
               <span className="flex items-center gap-1">
-                <ThumbsDown size={16} /> 30 Dislike
+                <ThumbsDown size={16} text-orange-500 /> 30 Dislike
               </span>
               <span className="flex items-center gap-1">
-                <MessageCircle size={16} /> 10 Comment
+                <MessageCircle size={16} text-orange-500 /> 10 Comment
               </span>
             </div>
 
-            <span className="text-orange-500 text-sm font-medium">
+            <span className="text-orange-500 text-sm font-medium flont-underline group-hover:no-underline">
               Read More
             </span>
           </div>

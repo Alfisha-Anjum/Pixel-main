@@ -202,6 +202,7 @@ import SidebarCard from "@/components/ui/SidebarCard";
 import Image from "next/image";
 import BlogSlider from "@/components/ui/BlogSlider";
 import { useState } from "react";
+import BlogCard from "@/components/BlogCards";
 
 type SidebarCardProps = {
   title: string;
@@ -224,7 +225,8 @@ type Blog = {
 
 export default function BlogPage() {
   const [view, setView] = useState("blogs");
-  
+  const [currentPage, setCurrentPage] = useState(2);
+
   const sidebarData: SidebarCardProps[] = [
     {
       title: "Looking Job for Technician",
@@ -248,6 +250,30 @@ export default function BlogPage() {
       category: "Education",
       title: "What is Salary Range?",
       description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+      date: "27, Oct, 2024",
+      image: "/img/officeview.png",
+    },
+    {
+      category: "Education",
+      title: "What is Salary Range?",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+      date: "27, Oct, 2024",
+      image: "/img/officeview.png",
+    },
+    {
+      category: "Education",
+      title: "What is Salary Range?",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+      date: "27, Oct, 2024",
+      image: "/img/officeview.png",
+    },
+    {
+      category: "Education",
+      title: "What is Salary Range?",
+      description:
         "There are many variations of passages of Lorem Ipsum available...",
       date: "27, Oct, 2024",
       image: "/img/officeview.png",
@@ -256,52 +282,90 @@ export default function BlogPage() {
       category: "Education",
       title: "Another Blog Post",
       description:
-        "There are many variations of passages of Lorem Ipsum available...",
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
       date: "27, Oct, 2024",
       image: "/img/officeview.png",
     },
   ];
 
   return (
-    <div>
-      <div>
-      <div className="bg-white min-h-screen pt-20 pb-20">
-          {/* Sidebar stays same */}
-          {/* SIDEBAR */}
-          <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start">
-            {/* Categories */}
-            <div className="bg-white p-6 rounded-md">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 pb-2">
-                Categories
-              </h3>
+    <div className="bg-white min-h-screen pt-20 pb-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 py-10 flex flex-col lg:flex-row gap-8">
+        {/* LEFT - BLOGS */}
+        <div className="w-full lg:w-[65%] flex flex-col gap-6 justify-start">
+          {/* HEADING */}
+          <div className="mb-6">
+            <h3 className="text-4xl font-semibold">Our Blog</h3>
+            <p className="text-gray-600 text-2xl mt-2">
+              There are many variations of passages of Lorem Ipsum
+            </p>
+          </div>
 
-              <ul className="space-y-2 text-sm text-gray-600">
-                {[
-                  "Education",
-                  "Information",
-                  "Interview",
-                  "Learn",
-                  "Skill",
-                  "Speaking",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="hover:text-orange-500 cursor-pointer font-medium py-1"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {/* Sidebar Cards */}
-            {sidebarData.map((card, i) => (
-              <SidebarCard key={i} {...card} />
+          {/* BLOG LIST */}
+          {blogData.map((card, i) => (
+            <BlogCard key={i} {...card} />
+          ))}
+
+          {/* 🔥 PAGINATION YAHI AAYEGA */}
+          <div className="flex items-center justify-start gap-4 mt-10">
+            <button className="w-10 h-10 flex items-center justify-center rounded-full border border-orange-400 text-orange-500">
+              {"<"}
+            </button>
+
+            {[1, 2, 3].map((num) => (
+              <button
+                key={num}
+                onClick={() => setCurrentPage(num)}
+                className={`text-lg font-medium ${
+                  currentPage === num ? "text-orange-500" : "text-gray-800"
+                }`}
+              >
+                {num}
+              </button>
             ))}
-          </aside>
+
+            <button className="w-10 h-10 flex items-center justify-center rounded-full border border-orange-400 text-orange-500">
+              {">"}
+            </button>
+          </div>
         </div>
-        <div className="max-w-7xl mx-auto md:px-10 mt-10">
-          <BlogSlider />
-        </div>
+
+        {/* RIGHT - SIDEBAR */}
+        <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start">
+          {/* Categories */}
+          <div className="bg-white p-6 rounded-md">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 pb-2">
+              Categories
+            </h3>
+
+            <ul className="space-y-2 text-sm text-gray-600">
+              {[
+                "Education",
+                "Information",
+                "Interview",
+                "Learn",
+                "Skill",
+                "Speaking",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="hover:text-orange-500 cursor-pointer font-medium py-1"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Sidebar Cards */}
+          {sidebarData.map((card, i) => (
+            <SidebarCard key={i} {...card} />
+          ))}
+        </aside>
+      </div>
+
+      <div className="max-w-7xl mx-auto md:px-10 mt-10">
+        <BlogSlider />
       </div>
     </div>
   );
