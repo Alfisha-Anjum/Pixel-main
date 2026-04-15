@@ -160,7 +160,7 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
   const [selectedTime, setSelectedTime] = useState("");
   const [notes, setNotes] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
-  const [dateObj, setDateObj] = useState(null);
+const [dateObj, setDateObj] = useState<Date | null>(null);
   if (!isOpen) return null;
 
   const handleContinue = () => {
@@ -210,9 +210,11 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
           <div className="absolute z-50">
             <DatePicker
               selected={dateObj}
-              onChange={(date) => {
-                setDateObj(date);
-                setSelectedDate(date.toLocaleDateString());
+              onChange={(date: Date | null) => {
+                if (date) {
+                  setDateObj(date);
+                  setSelectedDate(date.toLocaleDateString());
+                }
                 setShowCalendar(false);
               }}
               inline
