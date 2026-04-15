@@ -12,7 +12,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="bg-white max-w-[1240px] mx-auto py-16 px-16">
+    <section className="bg-white max-w-[1240px] mx-auto pt-8 px-16">
       <h2 className="text-3xl font-semibold mb-6">About Us</h2>
 
       <p className="text-gray-600 mb-6">
@@ -36,7 +36,10 @@ export default function AboutSection() {
       <h3 className="text-xl font-semibold mt-6 mb-4">
         What makes TASPro Company the best?
       </h3>
-
+      <p className="mb-6 text-[#414141]">
+        We understand that finding the right professional can be time-consuming
+        and daunting.
+      </p>
       <div className="space-y-4">
         {points.map((item, i) => (
           <div key={i} className="flex items-start gap-3">
