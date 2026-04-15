@@ -63,7 +63,7 @@ export default function SidebarCard({
       {/* 🔥 Dynamic Image (right side) */}
       {image && (
         <div
-          className={`absolute bottom-0 right-0 ${imageClassName || "w-[50%] h-[80%]"}`}
+          className={`absolute bottom-0 right-0 ${imageClassName || "w-[100%] h-[100%]"}`}
         >
           <Image
             src={image}

@@ -50,8 +50,16 @@ export default function BlogSlider() {
   ];
 
   return (
-    <div className="relative w-[1220px] mx-10 md:mx-20 mb-10">
+    <div className="relative w-[1240px] mx-10 md:mx-20 mb-10">
       {/* SLIDER */}
+      <div>
+        <h1 className="text-[28px] font-semibold text-black py-6">
+          Related Blogs
+        </h1>
+        <p className="text-[16px] text-gray-600 pb-4">
+          There are many variations of passages of Lorem Ipsum
+        </p>
+      </div>
       <div
         ref={sliderRef}
         className="flex overflow-x-auto gap-6 scroll-smooth [&::-webkit-scrollbar]:hidden"
