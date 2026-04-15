@@ -7,14 +7,14 @@ import ServiceCard from '@/components/ServiceCard';
 import CartPanel from '@/components/CartPanel';
 
 interface ServiceItem {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  rating: string;
-  reviews: string;
+  rating: number;
+  reviews: number;
   duration: string;
-  price: string;
-  originalPrice: string;
+  price: number;
+  originalPrice: number;
   discount: string;
   image: string;
 }
@@ -34,90 +34,90 @@ const ACRepairServicePage = () => {
   const servicesData: Record<ServiceType, ServiceItem[]> = {
     split: [
       {
-        id: 1,
+        id: '1',
         title: 'Split AC Service',
         description: 'Complete service including cleaning and maintenance',
-        rating: '4.9',
-        reviews: '856',
+        rating: 4.9,
+        reviews: 856,
         duration: '45 mins',
-        price: '2999',
-        originalPrice: '3999',
+        price: 2999,
+        originalPrice: 3999,
         discount: '25% OFF',
         image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop'
       },
       {
-        id: 2,
+        id: '2',
         title: 'Split AC Repair',
         description: 'Repair for compressor, gas refill, electrical issues',
-        rating: '4.7',
-        reviews: '654',
+        rating: 4.7,
+        reviews: 654,
         duration: '1-2 hours',
-        price: '3499',
-        originalPrice: '4999',
+        price: 3499,
+        originalPrice: 4999,
         discount: '30% OFF',
         image: 'https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop'
       },
       {
-        id: 3,
+        id: '3',
         title: 'Split AC Installation',
         description: 'Professional installation of new AC units',
-        rating: '4.8',
-        reviews: '432',
+        rating: 4.8,
+        reviews: 432,
         duration: '2-3 hours',
-        price: '1999',
-        originalPrice: '2999',
+        price: 1999,
+        originalPrice: 2999,
         discount: '33% OFF',
         image: 'https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop'
       }
     ],
     window: [
       {
-        id: 4,
+        id: '4',
         title: 'Window AC Service',
         description: 'Complete cleaning and maintenance service',
-        rating: '4.8',
-        reviews: '623',
+        rating: 4.8,
+        reviews: 623,
         duration: '40 mins',
-        price: '2499',
-        originalPrice: '3499',
+        price: 2499,
+        originalPrice: 3499,
         discount: '29% OFF',
         image: 'https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop'
       },
       {
-        id: 5,
+        id: '5',
         title: 'Window AC Repair',
         description: 'Comprehensive repair for all window AC issues',
-        rating: '4.6',
-        reviews: '412',
+        rating: 4.6,
+        reviews: 412,
         duration: '1-2 hours',
-        price: '2999',
-        originalPrice: '4499',
+        price: 2999,
+        originalPrice: 4499,
         discount: '33% OFF',
         image: 'https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop'
       }
     ],
     cassette: [
       {
-        id: 6,
+        id: '6',
         title: 'Cassette AC Service',
         description: 'Professional service for cassette AC units',
-        rating: '4.9',
-        reviews: '287',
+        rating: 4.9,
+        reviews: 287,
         duration: '60 mins',
-        price: '3999',
-        originalPrice: '5499',
+        price: 3999,
+        originalPrice: 5499,
         discount: '27% OFF',
         image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop'
       },
       {
-        id: 7,
+        id: '7',
         title: 'Cassette AC Installation',
         description: 'Expert installation for commercial spaces',
-        rating: '4.8',
-        reviews: '156',
+        rating: 4.8,
+        reviews: 156,
         duration: '3-4 hours',
-        price: '4999',
-        originalPrice: '6999',
+        price: 4999,
+        originalPrice: 6999,
         discount: '29% OFF',
         image: 'https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop'
       }
@@ -161,7 +161,7 @@ const ACRepairServicePage = () => {
           {/* Left side - Service cards */}
           <div className="lg:col-span-2 space-y-8">
             {/* Service Type Tabs */}
-            <ServiceTabs 
+            <ServiceTabs
               activeServiceType={activeServiceType}
               onServiceTypeChange={handleServiceTypeChange}
             />
@@ -173,7 +173,7 @@ const ACRepairServicePage = () => {
                   {activeServiceType} AC
                 </h2>
                 <button className="text-[#FF6B00] font-semibold flex items-center gap-1 hover:underline transition-colors">
-                  View All 
+                  View All
                 </button>
               </div>
 
@@ -199,9 +199,11 @@ const ACRepairServicePage = () => {
 
           {/* Right side - Cart Panel */}
           <div className="lg:col-span-1">
-            <CartPanel 
+            <CartPanel
               cartItems={cartItems}
-              onRemoveItem={handleRemoveFromCart}
+              onRemoveItem={(id) =>
+                setCartItems((prev) => prev.filter((item) => item.id !== id))
+              }
               onCheckout={handleCheckout}
             />
           </div>

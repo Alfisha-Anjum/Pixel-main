@@ -10,8 +10,8 @@ function OTPVerificationPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
-  const phone = searchParams.get("phone") || "";
-  const isSignUp = searchParams.get("signup") === "true";
+  const phone = searchParams?.get("phone") || "";
+  const isSignUp = searchParams?.get("signup") === "true";
 
   const [isLoading, setIsLoading] = useState(false);
 

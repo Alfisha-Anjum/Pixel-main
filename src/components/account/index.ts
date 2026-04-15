@@ -1,6 +1,7 @@
 // Account Components Index
 export { AccountPage } from "./AccountPage";
-export { AccountSidebar } from "./AccountSidebar";
+export { default as AccountSidebar } from "./AccountSidebar";
+
 export { AccountCard } from "./AccountCard";
 export { AccountMenuItem } from "./AccountMenuItem";
 export { ToggleSwitch } from "./ToggleSwitch";

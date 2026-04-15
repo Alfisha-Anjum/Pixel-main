@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Camera, User } from "lucide-react";
-import { AccountSidebar } from "@/components/account/AccountSidebar";
+// import { AccountSidebar } from "@/components/account/AccountSidebar";
+import AccountSidebar from "@/components/account/AccountSidebar";
 
 const EditProfilePage = () => {
   const router = useRouter();

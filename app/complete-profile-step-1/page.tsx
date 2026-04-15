@@ -17,7 +17,7 @@ function CompleteProfileStep1Content() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
-  const phone = searchParams.get("phone") || "";
+  const phone = searchParams?.get("phone") || "";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

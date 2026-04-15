@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AccountSidebar } from "./AccountSidebar";
+// import { AccountSidebar } from "./AccountSidebar";
+import AccountSidebar from "./AccountSidebar";
 import { 
   User, 
   MapPin, 

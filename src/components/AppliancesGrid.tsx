@@ -48,6 +48,11 @@ const appliances = [
   { image: "/see-all.png", label: "See All" },
 ];
 
+interface ApplianceItem {
+  image: string;
+  label: string;
+  slug?: string;
+}
 const AppliancesGrid = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,13 +74,13 @@ const AppliancesGrid = () => {
     };
   }, [isModalOpen]);
 
- const handleCardClick = (item) => {
-   if (item.label === "See All") {
-     setIsModalOpen(true);
-   } else {
-     router.push(`/service/${item.slug}`);
-   }
- };
+const handleCardClick = (item: ApplianceItem) => {
+  if (item.label === "See All") {
+    setIsModalOpen(true);
+  } else if (item.slug) {
+    router.push(`/service/${item.slug}`);
+  }
+};
   // Filter out "See All" for modal content
   // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
@@ -124,7 +129,7 @@ const AppliancesGrid = () => {
                 <div
                   key={index}
                   className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full max-w-[180px]"
-                  onClick={() => handleCardClick(item.label, index)}
+                  onClick={() => handleCardClick(item)}
                 >
                   <div
                     className="flex items-center justify-center w-full"
@@ -175,7 +180,7 @@ const AppliancesGrid = () => {
                 <div
                   key={index}
                   className="text-center cursor-pointer transition-all duration-300 hover:scale-105 w-full"
-                  onClick={() => handleCardClick(item.label, index)}
+                  onClick={() => handleCardClick(item)}
                 >
                   <div
                     className="flex items-center justify-center w-full"

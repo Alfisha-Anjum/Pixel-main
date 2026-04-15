@@ -61,6 +61,7 @@ export default function ACRepairPage() {
       image: '/api/placeholder/287/120',
       rating: 4.9,
       reviewCount: 3421,
+      originalPrice: 799,
       price: 599,
       duration: '30 min'
     },
@@ -90,6 +91,7 @@ export default function ACRepairPage() {
       image: '/api/placeholder/287/120',
       rating: 4.7,
       reviewCount: 1234,
+      originalPrice: 499,
       price: 499,
       duration: '30 min'
     }
@@ -137,9 +139,15 @@ export default function ACRepairPage() {
           {/* Services Section */}
           <div className="lg:col-span-2 space-y-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Available Services for {selectedACType === 'split' ? 'Split' : selectedACType === 'window' ? 'Window' : 'Cassette'} AC
+              Available Services for{" "}
+              {selectedACType === "split"
+                ? "Split"
+                : selectedACType === "window"
+                  ? "Window"
+                  : "Cassette"}{" "}
+              AC
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {services.map((service) => (
                 <ServiceCard
@@ -175,11 +183,13 @@ export default function ACRepairPage() {
 
           {/* Cart Section */}
           <div className="lg:col-span-1">
-            <CartPanel
-              items={cartItems}
-              onRemove={handleRemoveFromCart}
-              onCheckout={handleCheckout}
-            />
+             <CartPanel
+                          cartItems={cartItems}
+                          onRemoveItem={(id) =>
+                            setCartItems((prev) => prev.filter((item) => item.id !== id))
+                          }
+                          onCheckout={handleCheckout}
+                        />
           </div>
         </div>
       </div>
@@ -190,5 +200,5 @@ export default function ACRepairPage() {
         onClose={() => setIsRateCardModalOpen(false)}
       />
     </div>
-  )
+  );
 }

@@ -1,4 +1,11 @@
-export default function Toggle({ icon, text, state, setState }) {
+interface ToggleProps {
+  icon: string;
+  text: string;
+  state: boolean;
+  setState: (value: boolean) => void;
+}
+
+export default function Toggle({ icon, text, state, setState }: ToggleProps) {
   return (
     <div className="flex items-center justify-between py-3">
       <div className="flex items-center gap-3">

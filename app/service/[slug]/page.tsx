@@ -49,15 +49,15 @@ const ACRepairLayout = () => {
 // const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
-   const [openIndex, setOpenIndex] = useState(null);
+const [openIndex, setOpenIndex] = useState<number | null>(null);
 const [selectedService, setSelectedService] = useState(null);
 const [showModal, setShowModal] = useState(false);
 const [showAMCModal, setShowAMCModal] = useState(false);
 const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
 
-   const toggleFAQ = (index) => {
-     setOpenIndex(openIndex === index ? null : index);
-   };
+const toggleFAQ = (index: number) => {
+  setOpenIndex(openIndex === index ? null : index);
+};
 
   // Check scroll position to show/hide arrows
   const checkScrollPosition = () => {
@@ -299,7 +299,7 @@ const brands = [
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
-const scrollContainerRef = useRef(null);
+const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
 const scrollLeft = () => {
   if (scrollContainerRef.current) {
@@ -494,7 +494,7 @@ const scrollRight = () => {
                   <div key={service.id} className="border-b pb-6 mt-5 max-w-lg">
                     {/* Category Title (Split AC etc) */}
                     <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-                      {service.category || "Split AC"}
+                      {"Split AC"}
                     </h3>
 
                     <div className="flex gap-4">
@@ -512,7 +512,7 @@ const scrollRight = () => {
                         <button
                           // onClick={() => addToCart(service)}
                           onClick={() => {
-                            setSelectedService(service);
+                            // setSelectedService(service);
                             setShowCapacityModal(true);
                           }}
                           className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
@@ -594,7 +594,7 @@ const scrollRight = () => {
                       {/* More Details */}
                       <p
                         onClick={() => {
-                          setSelectedService(service);
+                          // setSelectedService(service);
                           setShowModal(true);
                         }}
                         className="text-blue-600 text-xs mt-2 cursor-pointer"
@@ -1205,11 +1205,11 @@ const scrollRight = () => {
           console.log("AMC:", duration);
 
           if (selectedService && selectedCapacity) {
-            addToCart({
-              ...selectedService,
-              capacity: selectedCapacity,
-              amcDuration: duration,
-            });
+            // addToCart({
+            //   ...selectedService,
+            //   capacity: selectedCapacity,
+            //   amcDuration: duration,
+            // });
           }
 
           // reset flow
@@ -1223,7 +1223,7 @@ const scrollRight = () => {
         onClose={() => setShowModal(false)}
         service={selectedService}
         onAdd={() => {
-          addToCart(selectedService);
+          // addToCart(selectedService);
           setShowModal(false);
         }}
       />
@@ -1234,7 +1234,7 @@ const scrollRight = () => {
 
 export default function ServiceDetailPage() {
   const params = useParams();
-  const slug = params.slug as string;
+  const slug = params?.slug as string;
   const { addToCart } = useBooking();
 
   // If it's the AC repair service, use the new layout
