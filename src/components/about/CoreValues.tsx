@@ -27,7 +27,7 @@ const Item = ({ item, index }: any) => {
       )}
 
       {/* CIRCLE */}
-      <div className="w-28 h-28 rounded-full border-2 border-dashed border-orange-400 flex items-center justify-center">
+      <div className="relative w-28 h-28 rounded-full border-2 border-dashed border-orange-400 flex items-center justify-center">
         <div className="w-24 h-24 rounded-full border-[8px] border-orange-500 bg-white flex items-center justify-center">
           <Image src={item.icon} alt={item.title} width={40} height={40} />
         </div>
@@ -48,7 +48,7 @@ const Item = ({ item, index }: any) => {
 
 export default function CoreValues() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white">
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-3xl font-semibold mb-2">Our Core Values</h2>
         <p className="text-gray-500 mb-20">
@@ -59,6 +59,7 @@ export default function CoreValues() {
           <div className="flex justify-between align-items-stretch gap-y-28 relative z-10 justify-items-center">
             {/* TOP ROW */}
             <Item item={values[0]} index={0} />
+
             <Item item={values[1]} index={1} />
             <Item item={values[3]} index={2} />
 

@@ -47,15 +47,15 @@ export default function WhatSetsUsApart() {
               {/* Number Circle */}
               <div
                 className="min-w-[60px] h-[60px] flex items-center justify-center rounded-full text-white text-[30px]
-                bg-gradient-to-br from-orange-400 to-orange-600"
+                bg-gradient-to-r from-[#FF512F] to-[#F09819]"
               >
                 {item.id}
               </div>
 
               {/* Text */}
               <div>
-                <h3 className="font-medium text-[22px]">{item.title}</h3>
-                <p className="text-gray-600 text-[16px]">{item.desc}</p>
+                <h3 className="text-[22px]">{item.title}</h3>
+                <p className="text-[16px]">{item.desc}</p>
               </div>
             </div>
           ))}
