@@ -178,12 +178,56 @@
 
 "use client";
 
+import MissionSection from "@/components/about/MissionSection";
 import CareerHeroSection from "@/components/CareerHeroSection";
+import OpenPositions from "@/components/OpenPositions";
+import WhatSetsUsApart from "@/components/WhatSetsUsApart";
+import CoreValues from "@/components/about/CoreValues";
+import BlogSlider from "@/components/ui/BlogSlider";
+import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function CareersPage() {
   return (
-    <div>
+    <div className="flex flex-col justify-center align-content-center">
       <CareerHeroSection />
+      <OpenPositions />
+      <div className="relative w-[1240px]">
+        <img
+          src="/help.png
+        "
+          alt=""
+        />
+        <div className="absolute right-0 top-0">
+          <img src="careers.png" alt="" className="w-[752px]" />
+        </div>
+      </div>
+      <MissionSection />
+      <WhatSetsUsApart />
+      <CoreValues />
+      <BlogSlider />
+      <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt-20">
+        <div className="bg-white rounded-xl flex justify-between px-12 py-12">
+          {/* Text */}
+          <div className="gap-6">
+            <p className="text-3xl font-semibold text-start text-black whitespace-nowrap">
+              Join us on your journey
+            </p>
+            <p className="text-2xl text-gray-400 whitespace-nowrap mt-6">
+              Are you interested in being a part of it?
+            </p>
+          </div>
+
+          {/* Button */}
+          <div className="flex justify-end items-center w-full">
+            <GradientButton2
+              text="Apply Now"
+              width="w-[180px]"
+              type="button"
+              className="rounded-md"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
