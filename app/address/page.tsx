@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MapPin, Home, Building2, Plus, Edit3, Trash2, Check, X, ArrowLeft } from "lucide-react";
-import { AccountSidebar } from "@/components/account/AccountSidebar";
+// import { AccountSidebar } from "@/components/account/AccountSidebar";
+import AccountSidebar from "@/components/account/AccountSidebar";
 
 interface Address {
   id: string;

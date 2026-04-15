@@ -45,7 +45,12 @@ const appliances = [
   { image: "/computer.png", label: "Computer Repair", slug: "computer-repair" },
   { image: "/see-all.png", label: "See All" },
 ];
-const ApplianceModal = ({ isOpen, onClose }) => {
+interface ApplianceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ApplianceModal = ({ isOpen, onClose }: ApplianceModalProps) => {
   const router = useRouter();
 
   useEffect(() => {

@@ -17,10 +17,10 @@ function CompleteProfileStep2Content() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { updateUserProfile } = useAuth();
-  const phone = searchParams.get("phone") || "";
-  const firstName = searchParams.get("firstName") || "";
-  const lastName = searchParams.get("lastName") || "";
-  const email = searchParams.get("email") || "";
+  const phone = searchParams?.get("phone") || "";
+  const firstName = searchParams?.get("firstName") || "";
+  const lastName = searchParams?.get("lastName") || "";
+  const email = searchParams?.get("email") || "";
 
   const [gender, setGender] = useState("");
   const [location, setLocation] = useState("");

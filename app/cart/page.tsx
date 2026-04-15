@@ -59,7 +59,7 @@ const handleContinue = () => {
     setShowDateTimeModal(true); // 👈 open date modal instead
   
 };
-const handleDateTimeContinue = (date, time, notes) => {
+const handleDateTimeContinue = (date: string, time: string, notes: string) => {
   console.log(date, time, notes);
 
   setShowDateTimeModal(false); // close date modal
@@ -125,7 +125,7 @@ const handleDateTimeContinue = (date, time, notes) => {
                     <div className="flex justify-center">
                       <div className="flex items-center border border-orange-400 rounded-md px-2 gap-2 h-7">
                         <button>-</button>
-                        <span>{item.quantity || 1}</span>
+                        {/* <span>{item?.quantity || 1}</span> */}
                         <button>+</button>
                       </div>
                     </div>

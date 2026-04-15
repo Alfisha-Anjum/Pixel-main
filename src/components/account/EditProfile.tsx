@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import GradientButton2 from "@/components/ui/GradientButton2";
 
-export default function EditProfile({ setActiveView }) {
+export default function EditProfile({ setActiveView }: { setActiveView: (view: string) => void }) {
   const [gender, setGender] = useState("male");
   const [preview, setPreview] = useState("/img/profileimg.png");
 

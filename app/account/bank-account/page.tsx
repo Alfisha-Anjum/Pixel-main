@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Building, Plus, Trash2, ArrowLeft } from "lucide-react";
-import { AccountSidebar } from "@/components/account/AccountSidebar";
+// import { AccountSidebar } from "@/components/account/AccountSidebar";
+import AccountSidebar from "@/components/account/AccountSidebar";
 import { Modal } from "@/components/account/Modals/Modal";
 import { FormInput } from "@/components/account/Forms/FormInput";
 

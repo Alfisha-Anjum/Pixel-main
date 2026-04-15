@@ -304,7 +304,7 @@ const AddNewAddressModal = ({
                 onChange={handleChange}
                 placeholder="Enter full location details"
                 className="w-full px-4 py-3 border border-[#DDD] rounded-[10px] focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B2C33] outline-none transition-colors text-[#333] text-sm resize-none bg-gray-50"
-                rows={2}
+                // rows={2}
               />
             </div>
           </div>

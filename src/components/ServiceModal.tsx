@@ -4,15 +4,13 @@ import { X, Star, Shield, Check, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import { ReactNode } from "react";
+
 interface ServiceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  service: {
-    title: string;
-    rating: number;
-    reviewCount: number;
-    warranty: string;
-  };
+  title: string;
+  children?: ReactNode;
 }
 
 const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {

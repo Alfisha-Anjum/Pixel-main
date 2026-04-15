@@ -408,6 +408,7 @@ import ChatBotPanel from "@/components/ChatBotPanel";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
+import Link from "next/link";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 
@@ -433,13 +434,6 @@ const MySchedulePage = () => {
 const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
   
 
-
-
-  const [selectedAMC, setSelectedAMC] = useState<any>(null);
-
-  
-// const [showCancelledSuccess, setShowCancelledSuccess] = useState(false);
-
 const successBookingCancel = () => {
   setShowCancelledSuccess(true);
 };
@@ -463,7 +457,7 @@ const handleRescheduleContinue = (
     setSelectedChatBooking(booking);
     setShowChatBot(true);
     setShowBookingDetailsPage(false);
-    setShowAMCDetailsPage(false);
+    // setShowAMCDetailsPage(false);
   };
   // Define TypeScript interfaces
 interface Schedule {
@@ -482,19 +476,6 @@ interface Schedule {
   discount?: number;
   taxes?: number;
 }
-  interface PendingBooking extends BaseBooking {
-    technician: string;
-    technicianRating: number;
-  }
-
-  interface RejectedBooking extends BaseBooking {
-    reason: string;
-  }
-
-  interface CompletedBooking extends BaseBooking {
-    rating?: number;
-    review?: string;
-  }
 
   // Mock booking data
 const schedules = [
@@ -597,12 +578,12 @@ const schedules = [
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
-          <span
-            className="hover:text-orange-500 cursor-pointer"
-            onClick={() => setStep("main")}
-          >
+          <Link href="/" className="hover:text-orange-500 cursor-pointer">
             Home
-          </span>
+          </Link>
+          <ChevronRight className="w-4 h-4" />
+      
+        
           |<span className="text-orange-500 font-medium">Profile</span>
         </div>
         <div className="flex flex-col md:flex-row gap-10 border-t border-gray-200 pt-8 w-full mx-auto">
@@ -659,15 +640,15 @@ const schedules = [
                     status={
                       schedule.status as "Pending" | "Completed" | "Cancelled"
                     }
-                    onChat={() => handleOpenChat(schedule)}
+                    // onChat={() => handleOpenChat(schedule)}
                     onViewDetails={() => {
                       setSelectedBooking(schedule);
                       setShowBookingDetailsPage(true);
                     }}
-                    onReschedule={() => {
-                      setSelectedBooking(schedule);
-                      setShowRescheduleModal(true);
-                    }}
+                    // onReschedule={() => {
+                    //   setSelectedBooking(schedule);
+                    //   setShowRescheduleModal(true);
+                    // }}
                   />
                 ))}
               </div>
@@ -919,7 +900,7 @@ const schedules = [
 
       {showCancelledSuccess && (
         <BookingCancelledModal
-          booking={selectedBooking}
+          // booking={selectedBooking}
           onClose={() => {
             setShowCancelledSuccess(false);
             setShowBookingDetailsPage(false);

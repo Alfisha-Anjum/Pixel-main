@@ -10,9 +10,9 @@ interface CartItem {
 }
 
 interface CartPanelProps {
-  cartItems: CartItem[]
-  onRemoveItem: (id: string) => void
-  onCheckout: () => void
+  cartItems: CartItem[];
+  onRemoveItem: (id: string) => void;
+  onCheckout: () => void;
 }
 
 export default function CartPanel({ cartItems, onRemoveItem, onCheckout }: CartPanelProps) {
