@@ -6,15 +6,17 @@ import Image from "next/image";
 
 interface ServiceCardProps {
   title: string;
-  image: string;
+  description?: string;
   rating: number;
-  reviewCount: number;
+  reviews?: number;
+  reviewCount?: number;
+  duration: string;
   price: number;
   originalPrice?: number;
-  duration: string;
+  discount?: string | number;
+  image: string;
   onAdd: () => void;
 }
-
 const ServiceCard = ({
   title,
   image,

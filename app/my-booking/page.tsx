@@ -36,6 +36,7 @@ import ChatBotPanel from "@/components/ChatBotPanel";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
+import Link from "next/link";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 
@@ -265,12 +266,12 @@ const handleRescheduleContinue = (
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
-          <span
+          <Link
             className="hover:text-orange-500 cursor-pointer"
-            onClick={() => setStep("main")}
+           href="/"
           >
             Home
-          </span>
+          </Link>
           |<span className="text-orange-500 font-medium">Profile</span>
         </div>
         <div className="flex flex-col md:flex-row gap-8 border-t border-gray-200 pt-8 w-full mx-auto">
@@ -414,10 +415,10 @@ const handleRescheduleContinue = (
                                 setSelectedBooking(booking);
                                 setShowBookingDetailsPage(true);
                               }}
-                              onReschedule={() => {
-                                setSelectedBooking(booking);
-                                setShowRescheduleModal(true);
-                              }}
+                              // onReschedule={() => {
+                              //   setSelectedBooking(booking);
+                              //   setShowRescheduleModal(true);
+                              // }}
                             />
                           ))
                         ) : (
@@ -1139,7 +1140,7 @@ const handleRescheduleContinue = (
 
       {showCancelledSuccess && (
         <BookingCancelledModal
-          booking={selectedBooking}
+          // booking={selectedBooking}
           onClose={() => {
             setShowCancelledSuccess(false);
             setShowBookingDetailsPage(false);

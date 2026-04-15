@@ -2,7 +2,16 @@
 
 import { Check } from "lucide-react";
 
-const RedeemSuccessModal = ({ isSuccessOpen, onClose }) => {
+
+interface RedeemSuccessModalProps {
+  isSuccessOpen: boolean;
+  onClose: () => void;
+}
+
+const RedeemSuccessModal = ({
+  isSuccessOpen,
+  onClose,
+}: RedeemSuccessModalProps) => {
   if (!isSuccessOpen) return null;
 
   return (

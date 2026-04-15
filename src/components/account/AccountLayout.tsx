@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { AccountSidebar } from "./AccountSidebar";
+// import { AccountSidebar } from "./AccountSidebar";
+
 import Footer from "../Footer";
 import Modal from "./Modal";
 import Input from "./Input";
@@ -12,6 +13,7 @@ import { Check, Plus, Trash2, ChevronRight, Camera, Coins, X, Copy, Facebook, Tw
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import Header from "../Header";
+import AccountSidebar from "./AccountSidebar";
 
 type Address = {
   id: string;

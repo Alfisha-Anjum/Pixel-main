@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Wallet, ArrowUpRight, ArrowDownLeft, History } from "lucide-react";
-import { AccountSidebar } from "@/components/account/AccountSidebar";
+// import { AccountSidebar } from "@/components/account/AccountSidebar";
+import AccountSidebar from "@/components/account/AccountSidebar";
 
 const WalletPage = () => {
   const router = useRouter();

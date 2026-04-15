@@ -7,7 +7,7 @@ import { Camera, User, Mail, Phone, ArrowRight } from "lucide-react";
 function CompleteProfilePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const phone = searchParams.get("phone") || "";
+  const phone = searchParams?.get("phone") || "";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
