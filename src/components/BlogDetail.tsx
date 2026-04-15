@@ -15,7 +15,19 @@ type SidebarCardProps = {
   imageClassName?: string;
 };
 
-export default function BlogDetail({ blog, onBack }) {
+type Blog = {
+  date: string;
+  title?: string;
+  description?: string;
+  image?: string;
+};
+
+type BlogDetailProps = {
+  blog: Blog | null;
+  onBack: () => void;
+};
+
+export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
   if (!blog) return null;
   const sidebarData: SidebarCardProps[] = [
     {

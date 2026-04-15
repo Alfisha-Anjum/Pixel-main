@@ -1,6 +1,7 @@
 "use client";
 
-import { Wrench, Home, Zap, Shield, Star, Tool } from "lucide-react";
+// import { Wrench, Home, Zap, Shield, Star, Tool } from "lucide-react";
+import { Wrench, Home, Zap, Shield, Star, Settings } from "lucide-react";
 
 const ServiceCategories = () => {
   const serviceCards = [
@@ -35,7 +36,7 @@ const ServiceCategories = () => {
       iconColor: "#9333EA"
     },
     {
-      icon: Tool,
+      icon: Settings,
       title: "Expert",
       color: "#FCE4EC",
       iconColor: "#EC4899"

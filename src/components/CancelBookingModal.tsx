@@ -13,7 +13,7 @@ const CancelBookingModal = ({
   booking,
   onClose,
   onConfirm,
-  successBookingCancel,
+  // successBookingCancel,
 }: Props) => {
   const [reason, setReason] = useState("Cancellation Reason");
   const [description, setDescription] = useState("");

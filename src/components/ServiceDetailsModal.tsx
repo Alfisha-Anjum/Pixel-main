@@ -148,7 +148,7 @@ const handleAddItem = (item: any) => {
                   <span className="text-sm">{quantity}</span>
 
                   <button
-                    onClick={() => updateQuantity(service.id, quantity + 1)}
+                    onClick={() => updateQuantity(quantity + 1)}
                     className="text-orange-500"
                   >
                     +

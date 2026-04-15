@@ -178,14 +178,13 @@ const router = useRouter();
       inputRefs.current[index - 1]?.focus();
     }
   };
-const handleVerify = (otp: string) => {
-  console.log("OTP Entered:", otp);
+const handleVerify = () => {
+  const otpString = otp.join("");
 
-  // setShowOTPModal(false); // close modal first
+  console.log("OTP Entered:", otpString);
 
-  router.push("/order-confirmation"); // redirect here
+  router.push("/order-confirmation");
 };
-
   const handleResend = () => {
     setSecondsLeft(60);
   };

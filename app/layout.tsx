@@ -30,7 +30,7 @@ export default function RootLayout({
           <Header />
 
           {/* GLOBAL CONTAINER */}
-          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-0 py-6 md:py-10 lg:py-[100px]">
+          <div className=" mx-auto px-4 md:px-8 lg:px-0 py-6 md:py-10 lg:py-[100px]">
             {children}
           </div>
 

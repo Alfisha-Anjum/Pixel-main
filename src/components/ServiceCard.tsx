@@ -28,7 +28,7 @@ const ServiceCard = ({
   onAdd,
 }: ServiceCardProps) => {
   return (
-    <div 
+    <div
       className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
       style={{
         width: "287px",
@@ -37,7 +37,7 @@ const ServiceCard = ({
         background: "#fff",
       }}
     >
-      <div 
+      <div
         className="relative w-full"
         style={{
           width: "287px",
@@ -80,24 +80,36 @@ const ServiceCard = ({
             {title}
           </h3>
 
-          <div className="flex items-center gap-1" style={{ marginBottom: "4px" }}>
+          <div
+            className="flex items-center gap-1"
+            style={{ marginBottom: "4px" }}
+          >
             <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
-            <span className="text-gray-700" style={{ fontSize: "12px", fontWeight: 600 }}>
+            <span
+              className="text-gray-700"
+              style={{ fontSize: "12px", fontWeight: 600 }}
+            >
               {Number(rating || 0).toFixed(1)}
             </span>
             <span className="text-gray-500" style={{ fontSize: "12px" }}>
-              ({Math.round(reviewCount / 1000)}m Review)
+              ({Math.round((reviewCount ?? 0) / 1000)}m Review)
             </span>
           </div>
         </div>
 
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2" style={{ minWidth: 0 }}>
-            <span className="text-gray-900" style={{ fontSize: "12px", fontWeight: 700 }}>
+            <span
+              className="text-gray-900"
+              style={{ fontSize: "12px", fontWeight: 700 }}
+            >
               ₹{price}
             </span>
             {typeof originalPrice === "number" && originalPrice > price ? (
-              <span className="text-gray-400 line-through" style={{ fontSize: "11px", fontWeight: 600 }}>
+              <span
+                className="text-gray-400 line-through"
+                style={{ fontSize: "11px", fontWeight: 600 }}
+              >
                 ₹{originalPrice}
               </span>
             ) : null}

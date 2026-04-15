@@ -22,7 +22,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+      {/* <Header /> */}
       
       <main className="flex-1 flex items-center justify-center py-8">
         <div className="max-w-4xl w-full flex rounded-2xl overflow-hidden shadow-xl">
@@ -89,7 +89,7 @@ const LoginPage = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
