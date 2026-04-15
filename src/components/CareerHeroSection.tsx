@@ -46,7 +46,9 @@ export default function CareerHeroSection() {
           />
         </div>
 
-        <GradientButton2 text="Apply Now" />
+        <div className="mt-6 items-center flex justify-center">
+          <GradientButton2 text="Send Otp" width="w-[260px]" className="" />
+        </div>
       </div>
     </section>
   );

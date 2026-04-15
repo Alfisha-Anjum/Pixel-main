@@ -75,30 +75,6 @@ export default function CoreValues() {
             </div>
           </div>
         </div>
-
-        <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt-20">
-          <div className="bg-white rounded-xl flex justify-between px-12 py-12">
-            {/* Text */}
-            <div className="gap-6">
-              <p className="text-3xl font-semibold text-start text-black whitespace-nowrap">
-                Join us on your journey
-              </p>
-              <p className="text-2xl text-gray-400 whitespace-nowrap mt-6">
-                Are you interested in being a part of it?
-              </p>
-            </div>
-
-            {/* Button */}
-            <div className="flex justify-end items-center w-full">
-              <GradientButton2
-                text="Apply Now"
-                width="w-[180px]"
-                type="button"
-                className="rounded-md"
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
