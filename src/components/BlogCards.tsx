@@ -9,6 +9,7 @@ type BlogCardProps = {
   description: string;
   image?: string; // optional
   href?: string;
+  onReadMore?: () => void;
 };
 
 export default function BlogCard({
@@ -18,12 +19,13 @@ export default function BlogCard({
   description,
   image,
   href = "#",
+  onReadMore,
 }: BlogCardProps) {
   return (
     <Link href={href}>
-      <div className="group flex bg-white overflow-hidden cursor-pointer">
+      <div className="group flex bg-#F9F9F9 overflow-hidden cursor-pointer m-4">
         {/* LEFT IMAGE */}
-        <div className="relative w-[220px] h-[220px] flex-shrink-0">
+        <div className="relative w-[242px] h-[237px] flex-shrink-0">
           <Image
             src={image || "/img/officeview.png"}
             alt={title}
@@ -33,38 +35,65 @@ export default function BlogCard({
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className="flex flex-col justify-between bg-white p-5 flex-1">
+        <div className="flex flex-col justify-between bg-[#F9F9F9] p-5 flex-1">
           {/* TOP */}
           <div>
             <div className="flex items-center gap-3 mb-2 text-sm">
-              <span className="text-orange-500 font-medium">{category}</span>
+              <span className="font-medium bg-gradient-to-r from-[#FF512F] to-[#F09819] bg-clip-text text-transparent">
+                {category}
+              </span>
               <span className="text-gray-400">{date}</span>
             </div>
 
-            <h4 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-600">
+            <h4 className="text-[14px] font-semibold text-gray-900 mb-2 group-hover:text-orange-600">
               {title}
             </h4>
 
-            <p className="text-gray-600 text-lg">{description}</p>
+            <p className="text-gray-600 text-[16px]">{description}</p>
           </div>
 
           {/* BOTTOM */}
           <div className="mt-4">
-            <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
-              <span className="flex items-center gap-1">
-                <ThumbsUp size={16} text-orange-500 /> 335 Like
+            <div className="flex items-center gap-6 text-sm text-gray-500 mb-2">
+              {/* LIKE */}
+              <span className="flex items-center gap-2 group cursor-pointer">
+                <img
+                  src="/like.png"
+                  alt="like"
+                  className="w-4 h-4 bg-white p-[2px]"
+                />
+                <span className="">335 Like</span>
               </span>
-              <span className="flex items-center gap-1">
-                <ThumbsDown size={16} text-orange-500 /> 30 Dislike
+
+              {/* DISLIKE */}
+              <span className="flex items-center gap-2 group cursor-pointer">
+                <img
+                  src="/unlike.png"
+                  alt="dislike"
+                  className="w-4 h-4 bg-white p-[2px]"
+                />
+
+                <span className="">30 Dislike</span>
               </span>
-              <span className="flex items-center gap-1">
-                <MessageCircle size={16} text-orange-500 /> 10 Comment
+
+              {/* COMMENT */}
+              <span className="flex items-center gap-2 group cursor-pointer">
+                <img
+                  src="/comment.png"
+                  alt="comment"
+                  className="w-4 h-4 bg-white p-[2px]"
+                />
+
+                <span className="">10 Comment</span>
               </span>
             </div>
 
-            <span className="text-sm font-medium underline bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:no-underline">
+            <button
+              onClick={onReadMore}
+              className="text-sm font-medium underline bg-gradient-to-r from-[#FF512F] to-[#F09819] bg-clip-text text-transparent group-hover:no-underline"
+            >
               Read More
-            </span>
+            </button>
           </div>
         </div>
       </div>
