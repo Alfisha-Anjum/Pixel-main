@@ -539,39 +539,26 @@ const handleRemoveItem = (id: string) => {
         {/* --- NEW SECTIONS END --- */}
       </div>
 
-      <ServiceModal
-        isOpen={isServiceModalOpen}
-        onClose={() => setIsServiceModalOpen(false)}
-        title={selectedService?.name || "Service Details"}
-      >
-        {selectedService && (
-          <div className="space-y-4">
-            <div className="w-full h-[180px] relative rounded-xl overflow-hidden bg-gray-100 mb-4">
-              <Image
-                src={selectedService.image}
-                alt={selectedService.name}
-                fill
-                className="object-cover"
-                onError={(e) => {
-                  if (e.currentTarget.parentElement) {
-                    e.currentTarget.parentElement.innerHTML = "";
-                  }
-                }}
-              />
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-              <span className="font-semibold text-gray-800">4.8</span>
-              <span>(2,847 reviews)</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-700 p-2 bg-gray-50 rounded-lg border">
-              <Award className="w-4 h-4 text-orange-500" />
-              <span>30-Day Service Warranty</span>
-            </div>
-            <ServiceDetailsContent />
-          </div>
-        )}
-      </ServiceModal>
+   <ServiceModal
+  isOpen={isServiceModalOpen}
+  onClose={() => setIsServiceModalOpen(false)}
+  service={
+    selectedService
+      ? {
+          title: selectedService.name,
+          rating: 4.8,
+          reviewCount: 2847,
+          warranty: "30-Day Service Warranty",
+        }
+      : {
+          title: "Service Details",
+          rating: 0,
+          reviewCount: 0,
+          warranty: "",
+        }
+  }
+/>
+     
 
       <DateTimeModal
         isOpen={isDateTimeModalOpen}

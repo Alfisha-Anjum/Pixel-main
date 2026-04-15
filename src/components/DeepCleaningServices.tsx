@@ -138,7 +138,7 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
                   price={service.price}
                   originalPrice={service.originalPrice}
                   duration={service.duration}
-                  onBook={() => handleBookService(service.title)}
+                  onAdd={() => handleBookService(service.title)}
                 />
               </div>
             ))}

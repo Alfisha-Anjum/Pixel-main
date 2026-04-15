@@ -46,7 +46,7 @@ export default function CareerHeroSection() {
           />
         </div>
 
-        <GradientButton2 />
+        <GradientButton2 text="Apply Now" />
       </div>
     </section>
   );
