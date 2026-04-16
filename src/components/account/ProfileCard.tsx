@@ -20,7 +20,7 @@ export default function ProfileCard() {
       </h4>
       <p className="text-[#808080] text-[14px]">danialaustin007@gmail.com</p>
 
-      <div className="flex gap-3 mt-5">
+      <div className="flex gap-2 md:gap-3 mt-5">
         <GradientButton
           text="My Bookings"
           width="w-[185px]"
@@ -34,6 +34,7 @@ export default function ProfileCard() {
           width="w-[185px]"
           height="h-[35px]"
           textClassName="text-[16px]"
+          onClick={() => router.push("/contact-us")}
         />
       </div>
     </div>

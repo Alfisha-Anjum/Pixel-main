@@ -211,7 +211,6 @@
 // export default OrderConfirmationPage;
 
 "use client";
-import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
@@ -228,7 +227,7 @@ export default function OrderConfirmation() {
   return (
     <div className="min-h-screen bg-white">
       <main className="mx-20">
-        <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-[60px] md:gap-18 lg:gap-20">
+        <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-[20px] md:gap-18 lg:gap-20">
           <div className="md:w-[62%] lg:w-[62%]">
             <div className="md:w-[650px] my-10">
               <h1 className="text-[24px] text-2xl font-semibold mb-3 text-[#1B1B1B]">
@@ -244,18 +243,21 @@ export default function OrderConfirmation() {
             {/* Success Box */}
             <SuccessCard />
             <CustomerDetails />
-            <div className="w-[710px] flex items-start gap-6 bg-white border border-[#E1E1E1] rounded-xl my-[30px] p-4">
+            <div className="w-full max-w-[710px] mx-auto flex items-start gap-4 sm:gap-6 bg-white border border-[#E1E1E1] rounded-xl my-5 sm:my-[30px] p-3 sm:p-4">
               {/* ICON */}
-              <div className="relative w-10 h-10 flex items-center justify-center">
-                <img src="/fi.png" className="absolute w-[32px] h-[32px]" />
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shrink-0">
+                <img
+                  src="/fi.png"
+                  className="absolute w-[24px] h-[24px] sm:w-[32px] sm:h-[32px]"
+                />
               </div>
 
               {/* TEXT */}
-              <div className="w-[710px] flex flex-col gap-2">
-                <p className="text-[#666666] text-[18px] font-semibold">
+              <div className="w-full flex flex-col gap-1 sm:gap-2">
+                <p className="text-[#666666] text-[14px] sm:text-[16px] md:text-[18px] font-semibold">
                   Service providers require OTPs for avail Service
                 </p>
-                <p className="text-[#898989] text-[16px]">
+                <p className="text-[#898989] text-[13px] sm:text-[14px] md:text-[16px]">
                   Neque porro quisquam est, qui dolorem ipsum quia dolor sit
                   amet, consectetur, adipisci velit, sed qu
                 </p>

@@ -16,7 +16,7 @@ export default function AccountLayout({
         {/* <div className="w-full h-[1px] bg-[#E1E1E1] mt-[50px]" /> */}
 
         {/* Layout */}
-        <div className="mt-10 flex flex-col lg:flex-row gap-8">
+        <div className="md:mt-10 flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <div className="hidden lg:block w-[220px] flex-shrink-0">
             <AccountSidebar />

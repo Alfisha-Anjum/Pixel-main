@@ -46,7 +46,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import GradientButton2 from "../ui/GradientButton2";
 
@@ -71,17 +71,20 @@ const LanguageSelectorPage: React.FC<Props> = ({ setActiveView }) => {
 
   return (
     <div className="min-h-screen bg-white px-4 py-6">
-      {/* Back */}
-      <button
-        onClick={() => setActiveView("settings")}
-        className="mb-4 text-sm text-orange-500"
-      >
-        ← Back
-      </button>
+      <div className="w-full flex justify-between items-center mb-6 md:hidden">
+        {/* Back */}
+        <button
+          onClick={() => setActiveView("default")}
+          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+        >
+          <ArrowLeft size={20} />
+          Change Language
+        </button>
+      </div>
 
-      <h1 className="text-xl font-semibold text-[#1B1B1B] mb-4">
+      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] md:font-semibold md:mb-6">
         Change Language
-      </h1>
+      </h2>
 
       {/* Dropdown */}
       <div className="relative md:w-[390px] max-w-md">

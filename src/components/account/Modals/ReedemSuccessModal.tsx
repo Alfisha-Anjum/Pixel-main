@@ -2,7 +2,6 @@
 
 import { Check } from "lucide-react";
 
-
 interface RedeemSuccessModalProps {
   isSuccessOpen: boolean;
   onClose: () => void;
@@ -22,7 +21,7 @@ const RedeemSuccessModal = ({
       <div className="bg-white rounded-[52px] w-[400px] h-[450px] flex flex-col justify-center items-center relative">
         {/* CONTENT */}
         <div className="flex flex-col items-center gap-4 text-center">
-          <div className="hidden md:block relative w-32 h-32 md:w-[186px] md:h-[180px] overflow-hidden">
+          <div className="block relative w-32 h-32 md:w-[186px] md:h-[180px] overflow-hidden">
             {/* Center circle */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-[140px] md:h-[140px] bg-gradient-to-r from-[#FEC12D] to-[#FF552C] rounded-full flex items-center justify-center">
               <div className="w-12 h-12 md:w-[72px] md:h-[72px] flex items-center justify-center">

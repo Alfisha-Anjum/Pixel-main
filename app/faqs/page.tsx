@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 // import Header from "@/components/Header";
 // import Footer from "@/components/Footer";
 
@@ -62,10 +62,16 @@ const FaqPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* <Header /> */}
-
+      <div className="w-full flex justify-between items-center mb-6 md:hidden">
+        {/* Back */}
+        <button className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition">
+          <ArrowLeft size={20} />
+          FAQ
+        </button>
+      </div>
       <main className="flex-grow">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="mb-6">
+          <div className="hidden md:block mb-6">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
               Frequently Asked Questions
             </h1>
