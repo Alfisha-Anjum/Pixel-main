@@ -1,10 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import GradientButton2 from "@/components/ui/GradientButton2";
 
-export default function EditProfile({ setActiveView }: { setActiveView: (view: string) => void }) {
+export default function EditProfile({
+  setActiveView,
+}: {
+  setActiveView: (view: string) => void;
+}) {
   const [gender, setGender] = useState("male");
   const [preview, setPreview] = useState("/img/profileimg.png");
 
@@ -20,49 +25,65 @@ export default function EditProfile({ setActiveView }: { setActiveView: (view: s
   };
 
   return (
-    <div className="w-full max-w-[390px] ml-12">
-      {/* <button
-        onClick={() => setActiveView("default")}
-        className="mb-6 text-orange-500 font-medium"
-      >
-        ← Back
-      </button> */}
-
-      {/* ===== Profile Image Section ===== */}
-      <div className="flex justify-left mb-10">
-        <div className="relative">
-          <Image
-            src={preview}
-            alt="profile"
-            width={150}
-            height={150}
-            className="rounded-full object-cover"
-          />
-
-          <label htmlFor="profileUpload">
-            <div className="absolute bottom-1 right-1 bg-white w-7 h-7 flex items-center justify-center rounded-full cursor-pointer shadow">
-              <Image src="/icons/edit.png" alt="edit" width={16} height={16} />
-            </div>
-          </label>
-
-          <input
-            type="file"
-            name="profileImage"
-            id="profileUpload"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                setPreview(URL.createObjectURL(file));
-              }
-            }}
-          />
-        </div>
-      </div>
-
+    <div className="w-full max-w-[390px] md:ml-12 mx-auto md:mx-0 flex flex-col items-center md:items-start">
       {/* ===== Form Section ===== */}
       <form onSubmit={handleSubmit} className="w-full space-y-6">
+        <div className="w-full flex justify-between items-center mb-6 md:hidden">
+          {/* Back */}
+          <button
+            onClick={() => setActiveView("default")}
+            className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+          >
+            <ArrowLeft size={20} />
+            Edit Profile
+          </button>
+
+          {/* Save (text only) */}
+          <button
+            onClick={() => setActiveView("default")}
+            className="font-semibold bg-gradient-to-r from-[#FEC12D] to-[#FF552C] bg-clip-text text-transparent"
+          >
+            Save
+          </button>
+        </div>
+
+        {/* ===== Profile Image Section ===== */}
+        <div className="flex justify-center md:justify-start mb-10">
+          <div className="relative">
+            <Image
+              src={preview}
+              alt="profile"
+              width={150}
+              height={150}
+              className="rounded-full object-cover"
+            />
+
+            <label htmlFor="profileUpload">
+              <div className="absolute bottom-1 right-1 bg-white w-7 h-7 flex items-center justify-center rounded-full cursor-pointer shadow">
+                <Image
+                  src="/icons/edit.png"
+                  alt="edit"
+                  width={16}
+                  height={16}
+                />
+              </div>
+            </label>
+
+            <input
+              type="file"
+              name="profileImage"
+              id="profileUpload"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setPreview(URL.createObjectURL(file));
+                }
+              }}
+            />
+          </div>
+        </div>
         <div>
           <label className="text-[16px] font-semibold text-black">
             First Name
@@ -148,7 +169,9 @@ export default function EditProfile({ setActiveView }: { setActiveView: (view: s
         </div>
 
         {/* Save Button */}
-        <GradientButton2 text="Save" width="w-full" type="submit" />
+        <div className="hidden md:block">
+          <GradientButton2 text="Save" width="w-full" type="submit" />
+        </div>
       </form>
     </div>
   );

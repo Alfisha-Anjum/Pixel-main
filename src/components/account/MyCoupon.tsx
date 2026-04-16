@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 type Props = {
   setActiveView: (view: string) => void;
@@ -13,12 +14,23 @@ export default function MyCoupon({ setActiveView }: Props) {
   });
 
   return (
-    <div className="w-full px-6 lg:px-12 py-6">
-      <h2 className="text-[18px] text-[#1B1B1B] font-semibold mb-6">
-        My Coupon
+    <div className="w-full md:px-6 lg:px-12 md:py-6">
+      <div className="w-full flex justify-between items-center mb-6 md:hidden">
+        {/* Back */}
+        <button
+          onClick={() => setActiveView("default")}
+          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+        >
+          <ArrowLeft size={20} />
+          My Coupons
+        </button>
+      </div>
+
+      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] md:font-semibold md:mb-6">
+        My Coupons
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
         {coupons.map((item, i) => (
           <div
             key={i}
