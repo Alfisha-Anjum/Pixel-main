@@ -37,7 +37,7 @@ const MajorServices = () => {
   };
   
   return (
-    <section className="py-6 bg-background">
+    <section className="py-6 ">
       <LayoutContainer>
         <h2 className="text-2xl font-semibold text-gray-900 mb-5">
           Major Services
@@ -48,7 +48,7 @@ const MajorServices = () => {
             <div
               key={index}
               style={{
-                background: '#FFFFFF',
+             
                 borderRadius: '16px',
                 boxShadow: '0px 2px 10px rgba(0,0,0,0.1)',
                 overflow: 'hidden',

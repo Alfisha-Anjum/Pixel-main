@@ -72,7 +72,7 @@ export default function ServiceSection() {
 const [showApplianceModal, setShowApplianceModal] = useState(false);
   return (
     <section className="w-full bg-white p-5">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-10">
+      <div className="max-w-7xl mx-auto xl:px-0 px-6">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[35%] flex flex-col">
@@ -82,7 +82,7 @@ const [showApplianceModal, setShowApplianceModal] = useState(false);
               today?
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14 xl:pb-0 pb-10">
               {services.map((service, index) => {
                 const { card, icon } = getColorClasses(service.color);
                 const Icon = service.icon;
@@ -100,9 +100,9 @@ const [showApplianceModal, setShowApplianceModal] = useState(false);
                     }}
                   >
                     <div
-                      className={`${card} w-32 h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}
+                      className={`${card} w-60 h-52 md:w-52 md:h-36 lg:w-32 lg:h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}
                     >
-                      <Icon className={`w-10 h-10 ${icon}`} />
+                      <Icon className={`w-20 h-20 md:w-16 md:h-16 lg:w-10 lg:h-10 ${icon}`} />
                     </div>
                     <p className="mt-4 text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-orange-600 transition-colors">
                       {service.title}

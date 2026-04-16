@@ -6,19 +6,19 @@ import LayoutContainer from "./LayoutContainer";
 const features = [
   {
     id: 1,
-    icon: "/assets/service-icon.svg",
+    icon: "/service.png",
     title: "Same Day Service",
     alt: "Service icon"
   },
   {
     id: 2,
-    icon: "/assets/verified-serviceman-icon.svg", 
+    icon: "group.png", 
     title: "Verified Serviceman",
     alt: "Verified serviceman icon"
   },
   {
     id: 3,
-    icon: "/assets/satisfaction-badge-icon.svg",
+    icon: "/frame.png",
     title: "Satisfaction Guaranteed", 
     alt: "Satisfaction badge icon"
   }
@@ -29,7 +29,7 @@ export default function FeatureSection() {
     <section className="py-1 bg-white">
       <LayoutContainer>
         {/* Feature Container */}
-        <div className="w-full max-w-[1240px] mx-auto h-auto lg:h-[122px] flex flex-col lg:flex-row justify-between items-center gap-[20px] opacity-100 transform-none">
+        <div className="w-full max-w-[1240px] mx-auto h-auto lg:h-[122px] flex flex-col sm:flex-row justify-between items-center gap-[20px] opacity-100 transform-none">
           
           {features.map((feature) => (
             <div

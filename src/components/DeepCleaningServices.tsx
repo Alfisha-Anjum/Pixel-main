@@ -49,7 +49,7 @@ const cleaningServices = [
     price: 350,
     originalPrice: 450,
     duration: "30 min",
-    image: "https://images.unsplash.com/photo-1584622050111-993a426fbf0a?w=400&h=250&fit=crop&q=80",
+    image: "/bathroom.png",
   },
 ];
 
