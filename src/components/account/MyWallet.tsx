@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 type Props = {
   setActiveView: (view: string) => void;
@@ -14,7 +15,7 @@ export default function MyWallet({ setActiveView }: Props) {
   });
 
   return (
-    <div className="flex flex-col-reverse lg:flex-row gap-20 px-2 lg:px-8 w-full">
+    <div className="flex flex-col-reverse lg:flex-row gap-2 md:gap-20 px-2 lg:px-8 w-full">
       {/* Transactions */}
       <div className="flex-1 w-full max-w-[392px]">
         <h2 className="text-[18px] font-semibold text-black mb-4">
@@ -53,10 +54,12 @@ export default function MyWallet({ setActiveView }: Props) {
         <div className="relative h-[200px] bg-gradient-to-r from-[#FF512F] to-[#F09819] text-white rounded-2xl p-4">
           {/* 🔹 Content (Left) */}
           <div className="z-10 relative">
-            <p className="text-[20px]">My Wallet</p>
-            <p className="text-[20px] mt-3">Balance</p>
+            <p className="text-[16px] md:text-[20px]">My Wallet</p>
+            <p className="text-[16px] md:text-[20px] md:mt-3">Balance</p>
 
-            <h2 className="text-[32px] font-semibold">₹ 12,500.35</h2>
+            <h2 className="text-[28px] md:text-[32px] font-semibold">
+              ₹ 12,500.35
+            </h2>
 
             <button
               onClick={() => setActiveView("settings")}
@@ -67,11 +70,11 @@ export default function MyWallet({ setActiveView }: Props) {
           </div>
 
           {/* 🔹 Right Image */}
-          <div className="absolute right-2 bottom-10">
+          <div className="absolute right-0 md:right-2 bottom-8 md:bottom-10">
             <img
               src="/walletimg.png" // apna image path
               alt="wallet"
-              className="w-[205px] h-[123px] object-contain"
+              className="w-[150px] h-[100px] md:w-[205px] md:h-[123px] object-contain"
             />
           </div>
 
@@ -79,6 +82,16 @@ export default function MyWallet({ setActiveView }: Props) {
             <img src="/Bankicon.png" alt="icon" className="w-6 h-4" />
           </div>
         </div>
+      </div>
+      <div className="w-full flex justify-between items-center mb-6 md:hidden">
+        {/* Back */}
+        <button
+          onClick={() => setActiveView("default")}
+          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+        >
+          <ArrowLeft size={20} />
+          My Wallet
+        </button>
       </div>
     </div>
   );

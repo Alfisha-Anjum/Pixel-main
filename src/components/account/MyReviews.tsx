@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { MoreVertical, Star } from "lucide-react";
+import { MoreVertical, Star, ArrowLeft } from "lucide-react";
 
 type Props = {
   setActiveView: (view: string) => void;
@@ -43,9 +43,19 @@ export default function MyReviews({ setActiveView }: Props) {
   ];
 
   return (
-    <div className="px-6 py-6 w-full">
-      {/* Header */}
-      <h2 className="text-[18px] text-[#1B1B1B] font-semibold mb-6">
+    <div className="md:px-6 md:py-6 w-full">
+      <div className="w-full flex justify-between items-center mb-6 md:hidden">
+        {/* Back */}
+        <button
+          onClick={() => setActiveView("default")}
+          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+        >
+          <ArrowLeft size={20} />
+          My Rating and Reviews
+        </button>
+      </div>
+
+      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] md:font-semibold md:mb-6">
         My Rating and Reviews
       </h2>
       {loading && (
@@ -133,7 +143,7 @@ export default function MyReviews({ setActiveView }: Props) {
       {/* Back button */}
       <button
         onClick={() => setActiveView("settings")}
-        className="mt-6 text-sm text-orange-500"
+        className="hidden md:block md:mt-6 md:text-sm md:text-orange-500"
       >
         ← Back
       </button>

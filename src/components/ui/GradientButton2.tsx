@@ -11,20 +11,24 @@ export default function GradientButton2({
   text,
   onClick,
   width = "w-full",
-  height = "h-[48px]",
+  height = "h-[44px] sm:h-[48px]",
   type = "button",
   className = "",
 }: Props) {
   return (
     <button
+      type={type}
       onClick={onClick}
       className={`
         ${width} ${height}
+        px-4 sm:px-6
+        text-sm sm:text-base
         rounded-full
         bg-gradient-to-r from-[#FF512F] to-[#F09819]
         text-white font-medium
         shadow-lg
         flex items-center justify-center
+        whitespace-nowrap
         transition hover:scale-[1.02] active:scale-[0.98]
         ${className}
       `}

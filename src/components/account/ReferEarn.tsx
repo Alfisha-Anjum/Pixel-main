@@ -14,6 +14,8 @@ export default function ReferEarn(ActiveView: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+
   const terms = [
     "The cash bonus offer is available exclusively to Premium subscribers of TASPRO Company.",
     "Only active Premium subscribers are eligible for the cash bonus offer.",
@@ -33,20 +35,31 @@ export default function ReferEarn(ActiveView: Props) {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 ml-0 lg:ml-14 px-4 lg:px-0">
+    <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 lg:ml-14 px-4 lg:px-0">
       {/* Terms Section */}
-      <div className="bg-white rounded-lg max-w-3xl mx-auto w-full">
-        <ol className="list-decimal list-inside space-y-2 text-[15px] text-[#414141]">
+      <div className="bg-white rounded-lg max-w-3xl mx-auto w-full order-3 lg:order-1">
+        <h3 className="font-semibold text-[18px]">Rules For Refer a friend</h3>
+        <ol
+          className={`list-decimal list-inside space-y-2 text-[14px] text-[#414141] transition-all duration-300 ${
+            showAll ? "" : "line-clamp-2"
+          } lg:line-clamp-none`}
+        >
           {terms.map((term, index) => (
             <li key={index}>{term}</li>
           ))}
         </ol>
+        <p
+          className="text-blue-500 text-center mt-2 cursor-pointer"
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? "View less" : "View more"}
+        </p>
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col items-center gap-6 w-full">
+      <div className="flex flex-col items-center gap-6 w-full order-1 lg:order-2">
         {/* Card */}
-        <div className="bg-[#0B0B2A] text-white p-6 rounded-2xl w-[430px] max-w-full flex flex-col items-center gap-6">
+        <div className="bg-[#0B0B2A] text-white p-6 rounded-b-2xl md:rounded-2xl w-full md:max-w-[430px] flex flex-col items-center gap-6">
           <p className="text-orange-400 text-center font-semibold">
             Refer a Friend & Earn Coins
           </p>
@@ -70,15 +83,19 @@ export default function ReferEarn(ActiveView: Props) {
         </div>
 
         {/* Image */}
-        <div className="mt-4 flex justify-center">
-          <img src="/bro.png" alt="Bro" className="max-w-full h-auto" />
+        <div className="mt-2 flex justify-center">
+          <img
+            src="/bro.png"
+            alt="Bro"
+            className="w-[260px] sm:w-[300px] h-auto"
+          />
         </div>
 
         {/* Button */}
         <div className="mt-4 w-full flex justify-center">
           <GradientButton2
             text="Refer a Friend"
-            width="w-[390px]"
+            width="w-full max-w-[390px]"
             type="button"
             onClick={() => setIsShareOpen(true)}
           />

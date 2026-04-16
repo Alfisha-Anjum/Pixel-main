@@ -55,7 +55,7 @@ export default function AccountPage() {
 
       {/* Logout Button */}
       {activeView === "default" && (
-        <div className="mt-10 flex justify-start lg:ml-12">
+        <div className="md:mt-10 flex justify-start lg:ml-12">
           <GradientButton
             text="Logout"
             width="w-full max-w-[390px]"
