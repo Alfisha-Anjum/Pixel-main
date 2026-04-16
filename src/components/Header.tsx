@@ -15,7 +15,7 @@ const Header = () => {
   }, []);
   return (
     <header className="bg-[#fafafa] border-b border-gray-200">
-      <div className="w-[90%] mx-auto px-8">
+      <div className="w-full xl:w-[90%] mx-auto px-8">
         <div className="flex items-center justify-between h-20 gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2 w-40">
@@ -25,30 +25,36 @@ const Header = () => {
           </div>
 
           {/* Location */}
-          <div className="flex items-center border rounded-full overflow-hidden bg-gray-50 max-w-xl w-full">
-            {/* Location */}
-            <div className="flex items-center gap-2 px-4 py-2 border-r text-sm">
+          <div className="flex justify-between items-center lg:px-0 px-3 border rounded-full overflow-hidden bg-gray-50 w-full md:max-w-sm lg:max-w-xl">
+            {/* LOCATION - hide on small screens */}
+            <div className="flex items-center gap-2 px-4 py-2 md:border-r text-sm">
               <MapPin className="w-4 h-4 text-orange-500" />
               <span className="text-gray-700">Raipur</span>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
 
-            {/* Search */}
-            <div className="flex items-center flex-1 px-4">
-              <Search className="w-4 h-4 text-gray-400 mr-2" />
+            {/* SEARCH */}
+            <div className="hidden lg:flex items-center flex-1 px-4">
+              {/* Left search icon (only on large screens) */}
+              <Search className="hidden lg:block w-4 h-4 text-gray-400 mr-2" />
 
               <input
                 type="text"
                 placeholder='Search for "AC Repair"...'
-                className="flex-1 bg-transparent outline-none text-sm"
+                className="flex-1 bg-transparent outline-none text-sm px-2 
+                 placeholder:hidden lg:placeholder:block"
               />
 
-              <Mic className="w-4 h-4 text-gray-600 cursor-pointer" />
+              {/* Right search icon (only on small screens) */}
+
+              {/* Mic icon (only on large screens) */}
+              <Mic className="hidden lg:block w-4 h-4 text-gray-600 cursor-pointer" />
             </div>
+            <Search className="flex items-center justify-center lg:hidden w-4 h-4 text-gray-600 mr-2 cursor-pointer  " />
           </div>
 
           {/* Phone */}
-          <div className="flex items-center gap-2">
+          <div className="xl:flex items-center gap-2 hidden">
             <Phone className="w-4 h-4 text-orange-500" />
             <span className="text-gray-700 font-medium">7447-0000-45</span>
           </div>
@@ -57,18 +63,15 @@ const Header = () => {
           {!isClient ? null : user ? (
             <div className="relative group flex items-center gap-2 cursor-pointer">
               {/* Avatar */}
-             <Avatar className="w-8 h-8 sm:w-9 sm:h-9">
-  <AvatarImage
-    src={user?.profileImage || "/profile.png"}
-  />
-
-</Avatar>
+              <Avatar className="w-8 h-8 sm:w-9 sm:h-9">
+                <AvatarImage src={user?.profileImage || "/profile.png"} />
+              </Avatar>
 
               {/* Name (desktop only) */}
               <span className="hidden sm:inline text-gray-700 font-medium">
                 {user.firstName || "Login"}
               </span>
-<ChevronDown className="w-4 h-4 text-gray-500" />
+              <ChevronDown className="w-4 h-4 text-gray-500" />
               {/* Dropdown */}
               <div className="absolute right-0 top-10 w-48 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                 <div className="px-4 py-3 border-b">

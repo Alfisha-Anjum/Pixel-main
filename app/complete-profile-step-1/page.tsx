@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Camera, User, Mail, Check, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
 
 const CompleteProfileStep1 = () => {
   return (
@@ -70,27 +71,79 @@ function CompleteProfileStep1Content() {
     }
   };
 
-  const handleContinue = () => {
-    if (validateFields()) {
-      // Create user object with partial profile completion
+
+
+const handleContinue = async () => {
+  if (!validateFields()) return;
+
+  try {
+    const token = localStorage.getItem("token"); // store token after login
+    const customerId = localStorage.getItem("customer_id");
+
+    const formData = new FormData();
+
+    formData.append("first_name", firstName);
+    formData.append("last_name", lastName);
+    formData.append("email", email);
+    formData.append("mobile", phone);
+    formData.append("customer_id", customerId || "9"); // fallback if needed
+    formData.append("gender", "Male"); // static or dynamic
+    formData.append("latitude", "21.2514");
+    formData.append("longitude", "81.6296");
+    formData.append("address", "Raipur, Chhattisgarh");
+
+    
+console.log("TOKEN:", token);
+console.log("CUSTOMER ID:", customerId);
+
+    // image file handling
+    if (profileImage && profileImage.startsWith("data:")) {
+      const res = await fetch(profileImage);
+      const blob = await res.blob();
+      formData.append("profile", blob, "profile.jpg");
+    }
+
+    if (!token) {
+      alert("User not authenticated. Please login again.");
+      router.push("/login");
+      return;
+    }
+
+    const response = await axios.post(
+      "https://taskpro.itmingo.com/api/customers/update-profile",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        
+        },
+      }
+    );
+
+    if (response.data?.status) {
+      // Save user locally (same as your existing logic)
       const userData = {
         phone,
         firstName,
         lastName,
         email,
         profileImage,
-        emailVerified: false, // Mark email as not verified yet
-        profileCompleted: false // Mark as not completed yet
+        profileCompleted: true,
       };
-      
-      // Save user data to context and localStorage
-      login(userData);
-      
-      // Navigate to email verification
-      router.push(`/email-verification?phone=${phone}&firstName=${firstName}&lastName=${lastName}&email=${email}`);
-    }
-  };
 
+      login(userData);
+
+      // Navigate आगे (same flow)
+      router.push(`/email-verification?phone=${phone}&email=${email}`);
+    } else {
+      alert(response.data?.message || "Profile update failed");
+    }
+
+  } catch (error: any) {
+    console.error(error);
+    alert("Something went wrong while updating profile");
+  }
+};
   // Focus first name field on load
   useEffect(() => {
     if (firstNameRef.current) {

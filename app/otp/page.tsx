@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Clock, Shield } from "lucide-react";
 import OTPVerification from "@/components/OTPVerification";
 import { useAuth } from "@/context/AuthContext";
-
+import axios from "axios";
 function OTPVerificationPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -15,32 +15,51 @@ function OTPVerificationPageContent() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleVerify = async (otp: string) => {
-    setIsLoading(true);
-    
-    // Simulate API call to verify OTP
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Create user object
+const handleVerify = async (otp: string) => {
+  setIsLoading(true);
+
+  try {
+    const res = await axios.post(
+      "https://taskpro.itmingo.com/api/customers/verify-otp",
+      {
+        country_id: 1, // or dynamic if needed
+        mobile: phone,
+        otp: Number(otp),
+      },
+    );
+
+    if (res.data.status) {
+      const token = res.data.token;
+      const customer = res.data.data;
+
+      // ✅ STORE TOKEN + CUSTOMER ID
+      localStorage.setItem("token", token);
+      localStorage.setItem("customer_id", customer.id);
+
+      console.log("TOKEN SAVED:", token);
+      console.log("CUSTOMER ID SAVED:", customer.id);
+
+      // ✅ Create user object
       const userData = {
         phone,
-        profileCompleted: false // Always start with profile not completed
+        profileCompleted: false,
       };
-      
-      // Log the user in
+
+      // ✅ Save in context
       login(userData);
-      
-      // After OTP verification, always redirect to profile completion step 1
-      // This ensures the strict 6-step flow: Login → OTP → Profile Basic → Email Verification → Profile Full → Home
+
+      // ✅ Redirect to profile step
       router.push(`/complete-profile-step-1?phone=${phone}`);
-    } catch (error) {
-      console.error('OTP verification failed:', error);
-      alert('Invalid OTP. Please try again.');
-    } finally {
-      setIsLoading(false);
+    } else {
+      alert(res.data.message || "OTP verification failed");
     }
-  };
+  } catch (error) {
+    console.error("OTP verification failed:", error);
+    alert("Invalid OTP. Please try again.");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleResend = async () => {
     // Simulate resending OTP

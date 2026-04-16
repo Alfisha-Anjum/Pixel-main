@@ -103,7 +103,7 @@ const statusClasses: Record<
 
 const AmcServicesPage = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen ">
       <Header />
 
       <main className="py-8">
