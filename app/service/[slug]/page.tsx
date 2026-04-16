@@ -512,7 +512,7 @@ const scrollRight = () => {
                         <button
                           // onClick={() => addToCart(service)}
                           onClick={() => {
-                            // setSelectedService(service);
+                            setSelectedService(service);
                             setShowCapacityModal(true);
                           }}
                           className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
@@ -594,7 +594,7 @@ const scrollRight = () => {
                       {/* More Details */}
                       <p
                         onClick={() => {
-                          // setSelectedService(service);
+                          setSelectedService(service);
                           setShowModal(true);
                         }}
                         className="text-blue-600 text-xs mt-2 cursor-pointer"
@@ -1205,11 +1205,11 @@ const scrollRight = () => {
           console.log("AMC:", duration);
 
           if (selectedService && selectedCapacity) {
-            // addToCart({
-            //   ...selectedService,
-            //   capacity: selectedCapacity,
-            //   amcDuration: duration,
-            // });
+            addToCart({
+              ...selectedService,
+              capacity: selectedCapacity,
+              amcDuration: duration,
+            });
           }
 
           // reset flow
@@ -1223,7 +1223,7 @@ const scrollRight = () => {
         onClose={() => setShowModal(false)}
         service={selectedService}
         onAdd={() => {
-          // addToCart(selectedService);
+          addToCart(selectedService);
           setShowModal(false);
         }}
       />

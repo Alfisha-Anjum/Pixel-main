@@ -7,7 +7,7 @@ const features = [
   },
   {
     title: "Verified Serviceman",
-    icon: "/verified.png",
+    icon: "/group.png",
   },
   {
     title: "Satisfaction Guaranteed",
