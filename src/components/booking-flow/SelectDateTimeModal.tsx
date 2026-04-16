@@ -143,10 +143,15 @@ interface SelectDateTimeModalProps {
 }
 
 const timeSlots = [
-  "9:00 AM - 12:00 PM",
-  "12:00 PM - 3:00 PM",
-  "3:00 PM - 6:00 PM",
-  "6:00 PM - 9:00 PM",
+  "9:00 AM",
+  "10:00 AM",
+  "11:00 AM",
+  "12:00 PM",
+  "1:00 PM",
+  "2:00 PM",
+  "3:00 PM",
+  "4:00 PM",
+  "5:00 PM",
 ];
 
 export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
@@ -222,23 +227,27 @@ const [dateObj, setDateObj] = useState<Date | null>(null);
             />
           </div>
         )}
-        <div className="relative mb-6">
-          <select
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            className="w-full text-xs bg-gray-100 px-4 py-4 rounded-xl outline-none appearance-none"
-          >
-            <option value="">Time</option>
-            {timeSlots.map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
+        <div className="mb-6">
+          <div className="grid grid-cols-3 gap-3">
+            {timeSlots.map((slot) => {
+              const isActive = selectedTime === slot;
 
-          <span className="absolute  right-4 top-1/2 -translate-y-1/2 text-orange-500">
-            <Clock className="w-4" />
-          </span>
+              return (
+                <button
+                  key={slot}
+                  type="button"
+                  onClick={() => setSelectedTime(slot)}
+                  className={`py-3 rounded-full border text-[10px] font-medium transition-all ${
+                    isActive
+                      ? "border-orange-500 bg-orange-50 text-orange-600"
+                      : "border-gray-200 bg-white text-[#2B2B2B]"
+                  }`}
+                >
+                  {slot}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {showLocation && (
