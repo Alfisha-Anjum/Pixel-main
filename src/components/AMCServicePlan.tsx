@@ -147,7 +147,7 @@ const AMCServicePlan = () => {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                
+
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
 
@@ -161,8 +161,13 @@ const AMCServicePlan = () => {
                       {plan.subtitle}
                     </p>
                   )}
-                  
-                  <button className="mt-2 px-5 py-2.5 border border-orange-500 text-orange-500 rounded-[8px] font-medium bg-transparent hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center gap-2">
+
+                  <button
+                    onClick={() =>
+                      window.dispatchEvent(new Event("openApplianceModal"))
+                    }
+                    className="mt-2 px-5 py-2.5 border border-orange-500 text-orange-500 rounded-[8px] font-medium bg-transparent hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center gap-2"
+                  >
                     Book Now <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -180,7 +185,8 @@ const AMCServicePlan = () => {
                 const slidesToShowCount = getSlidesToShow();
                 setCurrentSlide(index);
                 sliderRef.current?.scrollTo({
-                  left: (index * sliderRef.current.offsetWidth) / slidesToShowCount,
+                  left:
+                    (index * sliderRef.current.offsetWidth) / slidesToShowCount,
                   behavior: "smooth",
                 });
               }}

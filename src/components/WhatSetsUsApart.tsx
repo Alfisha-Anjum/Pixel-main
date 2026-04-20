@@ -66,7 +66,7 @@ export default function WhatSetsUsApart() {
       {/* RIGHT SIDE IMAGE */}
       <div className="w-full lg:w-1/3 h-[220px] md:h-[300px] lg:h-auto overflow-hidden">
         <img
-          src="/img/officeview.png"
+          src="/img/officeview2.png"
           alt="office"
           className="w-full h-full object-cover object-right"
         />

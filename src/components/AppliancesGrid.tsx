@@ -55,7 +55,18 @@ interface ApplianceItem {
 }
 const AppliancesGrid = () => {
   const router = useRouter();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const openModal = () => setIsModalOpen(true);
+
+    window.addEventListener("openApplianceModal", openModal);
+
+    return () => {
+      window.removeEventListener("openApplianceModal", openModal);
+    };
+  }, []);
 
   // Close modal on ESC key
   useEffect(() => {
@@ -73,6 +84,7 @@ const AppliancesGrid = () => {
       document.body.style.overflow = "unset";
     };
   }, [isModalOpen]);
+
 
 const handleCardClick = (item: ApplianceItem) => {
   if (item.label === "See All") {
@@ -250,11 +262,11 @@ const handleCardClick = (item: ApplianceItem) => {
               {appliances
                 .filter((item) => item.label !== "See All")
                 .map((item, i) => (
-                  <a
-                    key={i}
-                    href={`/service/${item.slug}`}
-                    className="flex flex-col items-center gap-1"
-                  >
+                  <div
+  key={i}
+  onClick={() => router.push(`/service/${item.slug}?source=grid`)}
+  className="flex flex-col items-center gap-1 cursor-pointer"
+>
                     {/* Circle Icon */}
                     <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
                       <img
@@ -268,7 +280,7 @@ const handleCardClick = (item: ApplianceItem) => {
                     <span className="text-[10px] text-center text-gray-600 leading-tight">
                       {item.label}
                     </span>
-                  </a>
+                  </div>
                 ))}
             </div>
           </div>
