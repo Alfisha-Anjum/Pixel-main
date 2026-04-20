@@ -187,22 +187,22 @@ import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function CareersPage() {
   return (
-    <div className="flex flex-col w-full overflow-x-hidden bg-white">
+    <div className="flex flex-col w-full overflow-x-hidden bg-white px-4">
       <CareerHeroSection />
 
-      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0">
+      <div className="w-full max-w-[1240px] mx-auto">
         <OpenPositions />
       </div>
 
       {/* Image Section */}
-      <div className="hidden md:block w-full max-w-[1240px] mx-auto relative">
+      <div className="hidden lg:block w-full max-w-[1240px] mx-auto relative">
         <img src="/help.png" alt="" className="w-full" />
         <div className="absolute right-0 top-0">
           <img src="/careers.png" alt="" className="w-full" />
         </div>
       </div>
 
-      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0">
+      <div className="w-full max-w-[1240px] mx-auto px-4">
         <MissionSection />
         <WhatSetsUsApart />
         <CoreValues />
@@ -216,15 +216,15 @@ export default function CareersPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="w-full max-w-[1200px] mx-auto px-4 md:px-6">
-        <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt:4 md:mt-16 md:mt-20">
-          <div className="bg-white rounded-xl flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8 md:py-12 gap-6">
+      <div className="w-full max-w-[1200px] mx-auto px-4 lg:px-6">
+        <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt:4 md:mt-16 lg:mt-20">
+          <div className="bg-white rounded-xl flex flex-col md:flex-row items-center justify-between px-6 lg:px-12 py-8 md:py-12 gap-6">
             {/* Text */}
             <div className="gap-4 text-center md:text-left">
               <p className="text-2xl md:text-3xl font-semibold text-black">
                 Join us on your journey
               </p>
-              <p className="text-lg md:text-2xl text-gray-400 mt-2 md:mt-6">
+              <p className="text-lg md:text-2xl text-gray-400 mt-2 lg:mt-6">
                 Are you interested in being a part of it?
               </p>
             </div>

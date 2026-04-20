@@ -57,7 +57,7 @@ export default function BlogSlider({
   ];
 
   return (
-    <div className="relative w-full max-w-[1240px] mx-auto px-4 md:px-0 mb-10">
+    <div className="relative w-full max-w-7xl mx-auto px-4 mb-10 mx-4">
       {/* SLIDER */}
       <h1 className="text-[28px] font-semibold text-black py-6">{title}</h1>
       <p className="text-[16px] text-gray-600 pb-4">{subtitle}</p>
