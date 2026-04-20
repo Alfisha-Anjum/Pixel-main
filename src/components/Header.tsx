@@ -108,7 +108,7 @@ const { user, logout } = useAuth();
               </span>
               <ChevronDown className="w-4 h-4 text-gray-500" />
               {/* Dropdown */}
-              <div className="absolute right-0 top-10 w-48 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
+              <div className="absolute right-0 top-10 w-52 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                 <div className="px-4 py-3 border-b">
                   <p className="font-medium text-gray-900">
                     {user.firstName && user.lastName
