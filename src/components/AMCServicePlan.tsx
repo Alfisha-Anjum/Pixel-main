@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import LayoutContainer from "./LayoutContainer";
+import { useRouter } from "next/navigation";
 
 const amcPlans = [
   {
@@ -24,6 +25,7 @@ const amcPlans = [
 ];
 
 const AMCServicePlan = () => {
+  const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -164,7 +166,11 @@ const AMCServicePlan = () => {
 
                   <button
                     onClick={() =>
-                      window.dispatchEvent(new Event("openApplianceModal"))
+                      window.dispatchEvent(
+                        new CustomEvent("openApplianceModal", {
+                          detail: { source: "amc" },
+                        }),
+                      )
                     }
                     className="mt-2 px-5 py-2.5 border border-orange-500 text-orange-500 rounded-[8px] font-medium bg-transparent hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center gap-2"
                   >

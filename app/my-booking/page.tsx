@@ -274,7 +274,7 @@ const handleRescheduleContinue = (
           </Link>
           |<span className="text-orange-500 font-medium">Profile</span>
         </div>
-        <div className="flex flex-col md:flex-row gap-8 border-t border-gray-200 pt-8 w-full mx-auto">
+        <div className="flex flex-col md:flex-row gap-10 border-t border-gray-200 pt-8 w-full mx-auto">
           {/* Sidebar */}
           <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
@@ -596,7 +596,7 @@ const handleRescheduleContinue = (
                 ← Back
               </button> */}
 
-                  <div className="flex w-[90%] mx-auto gap-10 ">
+                  <div className="flex justify-between w-[70%] gap-10 ">
                     {/* LEFT SECTION */}
                     <div className="lg:col-span-2 space-y-6 max-auto max-w-sm w-full">
                       {/* SERVICE CARD */}
@@ -775,7 +775,7 @@ const handleRescheduleContinue = (
                     </div>
 
                     {/* RIGHT SECTION */}
-                    <div className=" shadow-sm h-fit sticky top-24 w-[80%]">
+                    <div className=" shadow-sm h-fit sticky top-24 w-full">
                       <h3 className="font-semibold mb-4">Payment Summary</h3>
 
                       <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">

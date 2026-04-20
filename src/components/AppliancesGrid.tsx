@@ -55,18 +55,25 @@ interface ApplianceItem {
 }
 const AppliancesGrid = () => {
   const router = useRouter();
-  
+  const [modalSource, setModalSource] = useState<"default" | "amc">("default");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    const openModal = () => setIsModalOpen(true);
+ useEffect(() => {
+   const openModal = (event: Event) => {
+     const customEvent = event as CustomEvent<{ source?: "default" | "amc" }>;
+     setModalSource(customEvent.detail?.source || "default");
+     setIsModalOpen(true);
+   };
 
-    window.addEventListener("openApplianceModal", openModal);
+   window.addEventListener("openApplianceModal", openModal as EventListener);
 
-    return () => {
-      window.removeEventListener("openApplianceModal", openModal);
-    };
-  }, []);
+   return () => {
+     window.removeEventListener(
+       "openApplianceModal",
+       openModal as EventListener,
+     );
+   };
+ }, []);
 
   // Close modal on ESC key
   useEffect(() => {
@@ -263,10 +270,17 @@ const handleCardClick = (item: ApplianceItem) => {
                 .filter((item) => item.label !== "See All")
                 .map((item, i) => (
                   <div
-  key={i}
-  onClick={() => router.push(`/service/${item.slug}?source=grid`)}
-  className="flex flex-col items-center gap-1 cursor-pointer"
->
+                    key={i}
+                    onClick={() => {
+                      if (item.slug === "ac-repair" && modalSource === "amc") {
+                        router.push(`/service/${item.slug}?source=amc`);
+                      } else {
+                        router.push(`/service/${item.slug}`);
+                      }
+                      setIsModalOpen(false);
+                    }}
+                    className="flex flex-col items-center gap-1 cursor-pointer"
+                  >
                     {/* Circle Icon */}
                     <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
                       <img

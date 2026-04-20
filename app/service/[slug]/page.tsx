@@ -71,10 +71,7 @@ const ACRepairLayout = () => {
   const searchParams = useSearchParams();
   const source = searchParams?.get("source") || "";
 
-  // If it's the AC repair service, use the new layout
-  if (slug === "ac-repair") {
-    return <ACRepairLayout />;
-  }
+
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -544,13 +541,11 @@ const ACRepairLayout = () => {
                         <button
                           // onClick={() => addToCart(service)}
                           onClick={() => {
-                            if (source === "grid") {
-                              // ✅ Direct add to cart
-                              addToCart(service);
-                            } else {
-                              // ✅ Open modal (AMC flow)
+                            if (source === "amc") {
                               setSelectedService(service);
                               setShowCapacityModal(true);
+                            } else {
+                              addToCart(service);
                             }
                           }}
                           className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
@@ -1243,11 +1238,7 @@ const ACRepairLayout = () => {
           console.log("AMC:", duration);
 
           if (selectedService && selectedCapacity) {
-            addToCart({
-              ...selectedService,
-              capacity: selectedCapacity,
-              amcDuration: duration,
-            });
+            addToCart(selectedService);
           }
 
           // reset flow
@@ -1261,7 +1252,9 @@ const ACRepairLayout = () => {
         onClose={() => setShowModal(false)}
         service={selectedService}
         onAdd={() => {
-          addToCart(selectedService);
+          if (selectedService) {
+            addToCart(selectedService);
+          }
           setShowModal(false);
         }}
       />
