@@ -3,7 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { ChevronRight, Star, Plus, Minus, Trash2, Check, ChevronLeft, ChevronDown } from "lucide-react";
+import {
+  ChevronRight,
+  Star,
+  Plus,
+  Minus,
+  Trash2,
+  Check,
+  ChevronLeft,
+  ChevronDown,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ServiceSummaryCard } from "@/components/ServiceSummaryCard";
@@ -22,6 +31,7 @@ import ServiceDetailsModal from "@/components/ServiceDetailsModal";
 import { SelectCapacityModal } from "@/components/booking-flow/SelectCapacityModal";
 import ServiceSection from "@/components/ServiceSection";
 import ServicesSection from "@/components/ServicesSection";
+import { useSearchParams } from "next/navigation";
 
 interface Service {
   id: number;
@@ -44,20 +54,28 @@ const ACRepairLayout = () => {
   const [showCoupons, setShowCoupons] = useState(false);
   const [showCapacityModal, setShowCapacityModal] = useState(false);
   // const [selectedService, setSelectedService] = useState(null);
-  const [activeTab, setActiveTab] = useState('split');
+  const [activeTab, setActiveTab] = useState("split");
   const [cartItems, setCartItems] = useState<CartItemService[]>([]);
-// const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
-const [openIndex, setOpenIndex] = useState<number | null>(null);
-const [selectedService, setSelectedService] = useState(null);
-const [showModal, setShowModal] = useState(false);
-const [showAMCModal, setShowAMCModal] = useState(false);
-const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+ const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showAMCModal, setShowAMCModal] = useState(false);
+  const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
 
-const toggleFAQ = (index: number) => {
-  setOpenIndex(openIndex === index ? null : index);
-};
+  const params = useParams();
+  const slug = params?.slug as string;
+
+  const searchParams = useSearchParams();
+  const source = searchParams?.get("source") || "";
+
+
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   // Check scroll position to show/hide arrows
   const checkScrollPosition = () => {
@@ -71,74 +89,77 @@ const toggleFAQ = (index: number) => {
 
   // Scroll left function
 
-const faqData = [
-  {
-    question: "There are many variation of passages of lorem ipsum available?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-  },
-  {
-    question: "There are many variation of passages of lorem ipsum available?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-  },
-  {
-    question: "There are many variation of passages of lorem ipsum available?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-  },
-  {
-    question: "There are many variation of passages of lorem ipsum available?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-  },
-];
+  const faqData = [
+    {
+      question:
+        "There are many variation of passages of lorem ipsum available?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+    },
+    {
+      question:
+        "There are many variation of passages of lorem ipsum available?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+    },
+    {
+      question:
+        "There are many variation of passages of lorem ipsum available?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+    },
+    {
+      question:
+        "There are many variation of passages of lorem ipsum available?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
+    },
+  ];
   // Scroll right function
-const brands = [
-  {
-    name: "VOLTAS",
-    logo: "/volt.png", // Replace with your actual image path
-    service: "Voltas AC Repair & Service",
-    width: 132,
-    height: 27,
-  },
-  {
-    name: "DAIKIN",
-    logo: "/daikin.png",
-    service: "Daikin AC Repair & Service",
-    width: 132,
-    height: 27,
-  },
-  {
-    name: "Samsung",
-    logo: "/sam.png",
-    service: "Samsung AC Repair & Service",
-    width: 132,
-    height: 27,
-  },
-  {
-    name: "Blue Star",
-    logo: "/blueStar.png",
-    service: "Blue Star AC Repair & Service",
-    width: 132,
-    height: 27,
-  },
-  {
-    name: "HITACHI",
-    logo: "/hit.png",
-    service: "Hitachi AC Repair & Service",
-    width: 132,
-    height: 27,
-  },
-  {
-    name: "MITSUBISHI",
-    logo: "/mits.png",
-    service: "Mitsubishi AC Repair & Service",
-    width: 132,
-    height: 27,
-  },
- 
-];
+  const brands = [
+    {
+      name: "VOLTAS",
+      logo: "/volt.png", // Replace with your actual image path
+      service: "Voltas AC Repair & Service",
+      width: 132,
+      height: 27,
+    },
+    {
+      name: "DAIKIN",
+      logo: "/daikin.png",
+      service: "Daikin AC Repair & Service",
+      width: 132,
+      height: 27,
+    },
+    {
+      name: "Samsung",
+      logo: "/sam.png",
+      service: "Samsung AC Repair & Service",
+      width: 132,
+      height: 27,
+    },
+    {
+      name: "Blue Star",
+      logo: "/blueStar.png",
+      service: "Blue Star AC Repair & Service",
+      width: 132,
+      height: 27,
+    },
+    {
+      name: "HITACHI",
+      logo: "/hit.png",
+      service: "Hitachi AC Repair & Service",
+      width: 132,
+      height: 27,
+    },
+    {
+      name: "MITSUBISHI",
+      logo: "/mits.png",
+      service: "Mitsubishi AC Repair & Service",
+      width: 132,
+      height: 27,
+    },
+  ];
 
   // Add scroll event listener
   useEffect(() => {
@@ -153,127 +174,134 @@ const brands = [
       window.removeEventListener("resize", checkScrollPosition);
     };
   }, []);
- // Initial check
+  // Initial check
 
-   const reviews = [
-     {
-       id: 1,
-       name: "Tikesh Dewangan",
-       stars: 5,
-       timeAgo: "1m ago",
-       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
-     },
-     {
-       id: 2,
-       name: "Tikesh Dewangan",
-       stars: 5,
-       timeAgo: "1m ago",
-       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
-     },
-   ];
-   
+  const reviews = [
+    {
+      id: 1,
+      name: "Tikesh Dewangan",
+      stars: 5,
+      timeAgo: "1m ago",
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
+    },
+    {
+      id: 2,
+      name: "Tikesh Dewangan",
+      stars: 5,
+      timeAgo: "1m ago",
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
+    },
+  ];
+
   const servicesData: Record<string, Service[]> = {
     split: [
       {
         id: 1,
-        title: 'Split AC Service',
-        description: 'Complete service including cleaning and maintenance',
+        title: "Split AC Service",
+        description: "Complete service including cleaning and maintenance",
         rating: 4.9,
         reviewCount: 856,
-        duration: '45 mins',
+        duration: "45 mins",
         price: 2999,
         originalPrice: 3999,
-        image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop'
+        image:
+          "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop",
       },
       {
         id: 2,
-        title: 'Split AC Repair',
-        description: 'Repair for compressor, gas refill, electrical issues',
+        title: "Split AC Repair",
+        description: "Repair for compressor, gas refill, electrical issues",
         rating: 4.7,
         reviewCount: 654,
-        duration: '1-2 hours',
+        duration: "1-2 hours",
         price: 3499,
         originalPrice: 4999,
-        image: 'https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop'
+        image:
+          "https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop",
       },
       {
         id: 3,
-        title: 'Split AC Installation',
-        description: 'Professional installation of new AC units',
+        title: "Split AC Installation",
+        description: "Professional installation of new AC units",
         rating: 4.8,
         reviewCount: 432,
-        duration: '2-3 hours',
+        duration: "2-3 hours",
         price: 1999,
         originalPrice: 2999,
-        image: 'https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop'
-      }
+        image:
+          "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop",
+      },
     ],
     window: [
       {
         id: 4,
-        title: 'Window AC Service',
-        description: 'Complete cleaning and maintenance service',
+        title: "Window AC Service",
+        description: "Complete cleaning and maintenance service",
         rating: 4.8,
         reviewCount: 623,
-        duration: '40 mins',
+        duration: "40 mins",
         price: 2499,
         originalPrice: 3499,
-        image: 'https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop'
+        image:
+          "https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop",
       },
       {
         id: 5,
-        title: 'Window AC Repair',
-        description: 'Comprehensive repair for all window AC issues',
+        title: "Window AC Repair",
+        description: "Comprehensive repair for all window AC issues",
         rating: 4.6,
         reviewCount: 412,
-        duration: '1-2 hours',
+        duration: "1-2 hours",
         price: 2999,
         originalPrice: 4499,
-        image: 'https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop'
-      }
+        image:
+          "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
+      },
     ],
     cassette: [
       {
         id: 6,
-        title: 'Cassette AC Service',
-        description: 'Professional service for cassette AC units',
+        title: "Cassette AC Service",
+        description: "Professional service for cassette AC units",
         rating: 4.9,
         reviewCount: 287,
-        duration: '60 mins',
+        duration: "60 mins",
         price: 3999,
         originalPrice: 5499,
-        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop'
+        image:
+          "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop",
       },
       {
         id: 7,
-        title: 'Cassette AC Installation',
-        description: 'Expert installation for commercial spaces',
+        title: "Cassette AC Installation",
+        description: "Expert installation for commercial spaces",
         rating: 4.8,
         reviewCount: 156,
-        duration: '3-4 hours',
+        duration: "3-4 hours",
         price: 4999,
         originalPrice: 6999,
-        image: 'https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop'
-      }
-    ]
+        image:
+          "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
+      },
+    ],
   };
 
   const tabs = [
-    { id: 'split', label: 'Split AC' },
-    { id: 'window', label: 'Window AC' },
-    { id: 'cassette', label: 'Cassette AC' }
+    { id: "split", label: "Split AC" },
+    { id: "window", label: "Window AC" },
+    { id: "cassette", label: "Cassette AC" },
   ];
 
   const currentServices = servicesData[activeTab] || [];
 
-  const addToCart = (service: Service) => {
-    setCartItems(prev => {
-      const existing = prev.find(item => item.id === service.id);
+  const addToCart = (service: Service | CartItemService) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === service.id);
       if (existing) {
-        return prev.map(item =>
+        return prev.map((item) =>
           item.id === service.id
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
       }
       return [...prev, { ...service, quantity: 1 }];
@@ -284,35 +312,36 @@ const brands = [
     if (quantity === 0) {
       removeFromCart(id);
     } else {
-      setCartItems(prev =>
-        prev.map(item =>
-          item.id === id ? { ...item, quantity } : item
-        )
+      setCartItems((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
       );
     }
   };
 
   const removeFromCart = (id: number) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0,
+    );
   };
-const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-const scrollLeft = () => {
-  if (scrollContainerRef.current) {
-    scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
-  }
-};
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    }
+  };
 
-const scrollRight = () => {
-  if (scrollContainerRef.current) {
-    scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
-  }
-};
-  
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       {/* <Header /> */}
@@ -512,8 +541,12 @@ const scrollRight = () => {
                         <button
                           // onClick={() => addToCart(service)}
                           onClick={() => {
-                            setSelectedService(service);
-                            setShowCapacityModal(true);
+                            if (source === "amc") {
+                              setSelectedService(service);
+                              setShowCapacityModal(true);
+                            } else {
+                              addToCart(service);
+                            }
                           }}
                           className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
                         >
@@ -1205,11 +1238,7 @@ const scrollRight = () => {
           console.log("AMC:", duration);
 
           if (selectedService && selectedCapacity) {
-            addToCart({
-              ...selectedService,
-              capacity: selectedCapacity,
-              amcDuration: duration,
-            });
+            addToCart(selectedService);
           }
 
           // reset flow
@@ -1223,7 +1252,9 @@ const scrollRight = () => {
         onClose={() => setShowModal(false)}
         service={selectedService}
         onAdd={() => {
-          addToCart(selectedService);
+          if (selectedService) {
+            addToCart(selectedService);
+          }
           setShowModal(false);
         }}
       />
@@ -1233,18 +1264,20 @@ const scrollRight = () => {
 };
 
 export default function ServiceDetailPage() {
-  const params = useParams();
+
+   const params = useParams();
   const slug = params?.slug as string;
-  const { addToCart } = useBooking();
+
+  const searchParams = useSearchParams();
+  const source = searchParams?.get("source") || "";
 
   // If it's the AC repair service, use the new layout
   if (slug === "ac-repair") {
     return <ACRepairLayout />;
   }
-
   const service = SERVICES_DATA.find((s) => s.slug === slug);
   const [activeTab, setActiveTab] = useState(
-    service?.types[0].id || "split-ac"
+    service?.types[0].id || "split-ac",
   );
   const [showCapacityModal, setShowCapacityModal] = useState(false);
   const [showAMCModal, setShowAMCModal] = useState(false);
@@ -1256,7 +1289,9 @@ export default function ServiceDetailPage() {
       <div className="min-h-screen ">
         {/* <Header /> */}
         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Service Not Found</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Service Not Found
+          </h1>
         </div>
         {/* <Footer /> */}
       </div>
@@ -1396,7 +1431,6 @@ export default function ServiceDetailPage() {
         </div>
       </main>
 
-     
       {/* <Footer /> */}
     </div>
   );

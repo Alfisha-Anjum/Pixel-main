@@ -5,14 +5,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Search, MapPin, User, ChevronDown, Phone, Mic, CircleUserRound } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import axios from "axios";
+
 
 const Header = () => {
-  const { user } = useAuth();
+const { user, logout } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+  const handleLogout = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      await axios.get(
+        "https://taskpro.itmingo.com/api/customers/logout",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+    }
+  } catch (error) {
+    console.error("Logout API failed:", error);
+  } finally {
+    // ✅ Clear everything no matter what
+    localStorage.removeItem("token");
+    localStorage.removeItem("customer_id");
+
+    // If you stored user object
+    localStorage.removeItem("user");
+
+    // ✅ Clear context (VERY IMPORTANT)
+    // login(null); // or logout() if you have it
+
+    // ✅ Redirect
+    window.location.href = "/login";
+  }
+};
+
   return (
     <header className="bg-[#fafafa] border-b border-gray-200">
       <div className="w-full xl:w-[90%] mx-auto px-8">
@@ -73,7 +108,7 @@ const Header = () => {
               </span>
               <ChevronDown className="w-4 h-4 text-gray-500" />
               {/* Dropdown */}
-              <div className="absolute right-0 top-10 w-48 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
+              <div className="absolute right-0 top-10 w-52 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                 <div className="px-4 py-3 border-b">
                   <p className="font-medium text-gray-900">
                     {user.firstName && user.lastName
@@ -106,12 +141,12 @@ const Header = () => {
 
                 <hr className="my-2" />
 
-                <Link
-                  href="/login"
-                  className="block px-4 py-2 text-sm hover:bg-orange-50"
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-sm hover:bg-orange-50"
                 >
                   Logout
-                </Link>
+                </button>
               </div>
             </div>
           ) : (
