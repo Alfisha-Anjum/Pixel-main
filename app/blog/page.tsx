@@ -583,7 +583,7 @@ export default function BlogPage() {
   }, [currentPage]);
 
   return (
-    <div className="bg-white min-h-screen py-10">
+    <div className="bg-white min-h-screen py-10 px-4">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
         {/* LEFT - BLOGS */}
         <div className="w-full">
@@ -598,7 +598,7 @@ export default function BlogPage() {
             </div>
           )}
 
-          <div className="w-full flex flex-col md:flex-row gap-8">
+          <div className="w-full flex flex-col md:flex-row lg:gap-8">
             {/* LEFT */}
             <div className="w-full md:w-[65%]">
               {selectedBlog ? (
@@ -640,8 +640,7 @@ export default function BlogPage() {
                       }
                       className="w-10 h-10 flex items-center justify-center rounded-full border border-orange-400 text-orange-500"
                     >
-                      {" "}
-                      {"<"}{" "}
+                      {"<"}
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                       (num) => (
@@ -671,7 +670,7 @@ export default function BlogPage() {
               )}
             </div>
 
-            <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start md:mt-20 sticky md:top-20">
+            <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start lg:mt-20 sticky lg:top-20">
               {/* Categories */}
               <div className="bg-white p-6 rounded-md">
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 pb-2">

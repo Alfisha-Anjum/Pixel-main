@@ -35,22 +35,22 @@ const Item = ({ item, index }: any) => {
   const isTop = index % 2 !== 0;
 
   return (
-    <div className="flex items-center md:flex-col justify-between md:text-center gap-4 md:gap-6 w-full md:max-w-[180px]">
+    <div className="flex items-center justify-between lg:text-center gap-4 lg:gap-6 w-full lg:max-w-[180px]">
       {/* MOBILE: IMAGE LEFT */}
-      <div className="relative w-16 h-16 flex-shrink-0 md:hidden rounded-full border-2 border-dashed border-orange-400 flex items-center justify-center">
+      <div className="relative w-16 h-16 lg:hidden rounded-full border-2 border-dashed border-orange-400 flex items-center justify-center">
         <div className="w-12 h-12 rounded-full border-[5px] border-orange-500 bg-white flex items-center justify-center">
           <Image src={item.icon} alt={item.title} width={24} height={24} />
         </div>
       </div>
 
       {/* TEXT */}
-      <div className="md:hidden flex flex-col">
+      <div className="lg:hidden flex flex-col">
         <h4 className="font-medium">{item.title}</h4>
         <p className="text-sm text-gray-500">{item.desc}</p>
       </div>
 
       {/* DESKTOP ZIGZAG */}
-      <div className="hidden md:flex flex-col items-center">
+      <div className="hidden lg:flex flex-col items-center">
         {/* TOP TEXT */}
         {isTop && (
           <div className="mb-4 text-center">
@@ -83,10 +83,10 @@ export default function CoreValues() {
       <div className="max-w-full mx-auto">
         <div className="relative max-w-7xl mx-auto">
           <h2 className="text-3xl font-semibold mb-2">Our Core Values</h2>
-          <p className="text-gray-500 mb-4 md:mb-20">
+          <p className="text-gray-500 mb-4 lg:mb-20">
             There are many variations of passages of Lorem Ipsum
           </p>
-          <div className="flex flex-col md:flex-row justify-center md:flex-wrap gap-8 md:gap-y-28 relative z-10">
+          <div className="flex flex-col lg:flex-row justify-center gap-8 lg:gap-y-28 relative z-10">
             {/* TOP ROW */}
             <Item item={values[0]} index={0} />
 

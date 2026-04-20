@@ -30,14 +30,14 @@ const features = [
 
 export default function WhatSetsUsApart() {
   return (
-    <section className="w-full max-w-[1240px] md:mx-0 flex flex-col lg:flex-row py-4 md:py-20">
+    <section className="w-full max-w-[1240px] mx-auto px-4 py-10 md:py-16 flex flex-col lg:flex-row gap-10">
       {/* LEFT SIDE */}
-      <div className="w-full lg:w-1/2 bg-white md:px-0 py-12 flex flex-col justify-center md:pr-6px">
-        <h2 className="text-3xl md:text-3xl font-semibold mb-4">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-3">
           What sets us apart?
         </h2>
 
-        <p className="text-gray-500 mb-4 md:mb-10">
+        <p className="text-gray-500 mb-6 md:mb-10 max-w-[500px]">
           There are many variations of passages of Lorem Ipsum
         </p>
 
@@ -45,17 +45,18 @@ export default function WhatSetsUsApart() {
           {features.map((item) => (
             <div key={item.id} className="flex items-start gap-4">
               {/* Number Circle */}
-              <div
-                className="min-w-[40px] h-[40px] md:min-w-[60px] md:h-[60px] flex items-center justify-center rounded-full text-white text-[20px] md:text-[30px]
-                bg-gradient-to-r from-[#FF512F] to-[#F09819]"
-              >
+              <div className="min-w-[40px] h-[40px] md:min-w-[55px] md:h-[55px] flex items-center justify-center rounded-full text-white text-lg md:text-2xl font-semibold bg-gradient-to-r from-[#FF512F] to-[#F09819]">
                 {item.id}
               </div>
 
               {/* Text */}
               <div>
-                <h3 className="text-[18] md:text-[22px]">{item.title}</h3>
-                <p className="text-[13] md:text-[16px]">{item.desc}</p>
+                <h3 className="text-base md:text-lg font-medium">
+                  {item.title}
+                </h3>
+                <p className="text-sm md:text-base text-gray-500">
+                  {item.desc}
+                </p>
               </div>
             </div>
           ))}
@@ -63,14 +64,11 @@ export default function WhatSetsUsApart() {
       </div>
 
       {/* RIGHT SIDE IMAGE */}
-      <div
-        className="hidden md:block 
-      w-1/2 lg:w-1/2 h-[250px] lg:h-auto"
-      >
+      <div className="w-full lg:w-1/3 h-[220px] md:h-[300px] lg:h-auto overflow-hidden">
         <img
           src="/img/officeview2.png"
           alt="office"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-right"
         />
       </div>
     </section>

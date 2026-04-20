@@ -23,9 +23,9 @@ export default function BlogCard({
 }: BlogCardProps) {
   return (
     <Link href={href}>
-      <div className="group flex flex-col md:flex-row bg-[#F9F9F9] overflow-hidden cursor-pointer my-5">
+      <div className="group flex flex-col lg:flex-row bg-[#F9F9F9] overflow-hidden cursor-pointer my-5">
         {/* LEFT IMAGE */}
-        <div className="relative w-full md:w-[242px] h-[200px] md:h-[237px] flex-shrink-0">
+        <div className="relative w-full lg:w-[242px] md:w-full h-[200px]">
           <Image
             src={image || "/img/officeview.png"}
             alt={title}
@@ -35,7 +35,7 @@ export default function BlogCard({
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className="flex flex-col justify-between bg-[#F9F9F9] p-4 md:p-5 flex-1">
+        <div className="flex flex-col justify-between bg-[#F9F9F9] p-4 flex-1">
           {/* TOP */}
           <div>
             <div className="flex items-center gap-3 mb-2 text-xs md:text-sm">
@@ -56,7 +56,7 @@ export default function BlogCard({
 
           {/* BOTTOM */}
           <div className="mt-4">
-            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-xs md:text-sm text-gray-500 mb-2">
+            <div className="flex items-center gap-4 text-xs md:text-sm text-gray-500 mb-2">
               <span className="flex items-center gap-2 cursor-pointer">
                 <img
                   src="/like.png"

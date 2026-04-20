@@ -29,7 +29,7 @@ export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
   };
 
   return (
-    <div className="mx-auto p-4 md:p-0">
+    <div className="mx-auto px-4">
       <p className="text-orange-500 text-sm font-semibold uppercase">Learn</p>
 
       <h1 className="text-[32px] font-semibold mt-2">
@@ -58,8 +58,8 @@ export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
         <Image
           src="/img/girlworking.png"
           alt="Woman working on a laptop"
-          width={780}
-          height={450}
+          width={700}
+          height={400}
           className="w-full h-auto rounded-md"
         />
 
