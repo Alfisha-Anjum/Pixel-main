@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function MissionSection() {
   return (
-    <section className="bg-white py-4 px-6">
-      <div className="max-w-[900px] mx-auto grid md:grid-cols-2 gap-10 items-center">
+    <section className="bg-white py-4 md:py-4 md:px-6">
+      <div className="max-w-[900px] mx-auto grid md:grid-cols-2 md:gap-10 items-center">
         {/* LEFT */}
         <div>
           <h2 className="text-3xl font-semibold mb-4">Our Mission</h2>

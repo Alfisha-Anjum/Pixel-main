@@ -5,20 +5,29 @@ import GradientButton2 from "./ui/GradientButton2";
 
 export default function CareerHeroSection() {
   return (
-    <section className="relative w-[1440px] h-[720px] overflow-visible">
+    <section className="relative w-full min-h-[720px] md:h-[720px] pb-32 md:pb-0 overflow-visible px-4 md:px-0">
       {/* 🔶 Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#ffac96] via-[#ffc296] to-[#ffd496]" />
 
       {/* 🟠 Circle */}
-      <div className="absolute left-[51%] top-24 w-[567px] h-[567px] bg-orange-400/40 rounded-full" />
+      <div className="hidden md:block absolute left-[51%] top-24 w-[567px] h-[567px] bg-orange-400/40 rounded-full" />
 
       {/* 👩 Image */}
-      <div className="absolute right-14 bottom-0">
+      <div className="hidden md:block absolute right-[14%] bottom-0">
         <Image src="/girl.png" alt="girl" width={700} height={600} />
       </div>
 
       {/* 📄 Form (OVERFLOW MAGIC) */}
-      <div className="absolute left-16 -bottom-20 w-[600px] h-[780px] bg-white rounded-3xl shadow-xl p-10 z-20">
+      <div
+        className="
+  relative md:absolute 
+  md:left-[8%] md:-bottom-20 
+  w-full max-w-[600px] mx-auto 
+  mt-10 md:mt-0 
+  h-auto md:h-[780px] 
+  bg-white rounded-3xl shadow-xl p-6 md:p-10 z-20
+"
+      >
         <h2 className="text-[32px] font-semibold text-center mb-4">
           Apply for a job
         </h2>

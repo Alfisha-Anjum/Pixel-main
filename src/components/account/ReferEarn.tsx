@@ -59,7 +59,7 @@ export default function ReferEarn(ActiveView: Props) {
       {/* Right Section */}
       <div className="flex flex-col items-center gap-6 w-full order-1 lg:order-2">
         {/* Card */}
-        <div className="bg-[#0B0B2A] text-white p-6 rounded-b-2xl md:rounded-2xl w-full md:max-w-[430px] flex flex-col items-center gap-6">
+        <div className="bg-[#0B0B2A] text-white p-6 rounded-2xl md:rounded-2xl w-full md:max-w-[430px] flex flex-col items-center gap-6">
           <p className="text-orange-400 text-center font-semibold">
             Refer a Friend & Earn Coins
           </p>
