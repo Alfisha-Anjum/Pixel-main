@@ -9,7 +9,7 @@ const jobs = Array(9).fill({
 
 export default function OpenPositions() {
   return (
-    <section className="bg-white py-20 px-6">
+    <section className="bg-white md:py-20">
       <div className="max-w-[1240] mx-auto text-center">
         {/* Heading */}
         <h2 className="text-3xl font-semibold pt-10 mb-4">Open Positions</h2>

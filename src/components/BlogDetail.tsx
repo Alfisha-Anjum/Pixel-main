@@ -1,19 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import BlogSlider from "./ui/BlogSlider";
-import SidebarCard from "./ui/SidebarCard";
-
-type SidebarCardProps = {
-  title: string;
-  description?: string;
-  buttonText?: string;
-  onClick?: () => void;
-  variant?: "orange" | "gray";
-  image?: string;
-  buttonClassName?: string;
-  imageClassName?: string;
-};
+import { useState } from "react";
 
 type Blog = {
   date: string;
@@ -29,45 +17,37 @@ type BlogDetailProps = {
 
 export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
   if (!blog) return null;
-  const sidebarData: SidebarCardProps[] = [
-    {
-      title: "Looking Job for Technician",
-      buttonText: "Apply Now",
-      variant: "orange",
-      image: "/electrician.png",
-      buttonClassName: "bg-orange-500 hover:bg-orange-600 text-white",
-      imageClassName: "w-[100%] h-[75%] rounded-t-md",
-    },
-    {
-      title: "Looking for any service?",
-      buttonText: "Visit Site",
-      variant: "gray",
-      image: "/img/advgirl.png",
-      imageClassName: "w-[280px] h-[600px] rounded-t-md",
-      buttonClassName: "bg-black hover:bg-gray-800 text-white",
-    },
-  ];
+  const [likes, setLikes] = useState(335);
+  const [dislikes, setDislikes] = useState(30);
+
+  const handleLike = () => {
+    setLikes((prev) => prev + 1);
+  };
+
+  const handleDislike = () => {
+    setDislikes((prev) => prev + 1);
+  };
 
   return (
-    <div className="w-full p-4 md:p-6">
+    <div className="mx-auto p-4 md:p-0">
       <p className="text-orange-500 text-sm font-semibold uppercase">Learn</p>
 
       <h1 className="text-[32px] font-semibold mt-2">
-        Remote Collaboration: best Practices,Challenges, and tools
+        Remote Collaboration: Best Practices, Challenges, and Tools
       </h1>
 
       <div className="flex gap-10 mt-4">
-        <span className="flex gap-2 whitespace-nowrap">
-          <img src="/pen.png" />
+        <span className="flex gap-2 items-center whitespace-nowrap">
+          <Image src="/pen.png" alt="Author" width={16} height={16} />
           By Admin
         </span>
-        <span className="flex gap-2 whitespace-nowrap">
-          <img src="/Calendar.png" /> {blog.date}
+        <span className="flex gap-2 items-center whitespace-nowrap">
+          <Image src="/Calendar.png" alt="Date" width={16} height={16} />
+          {blog.date}
         </span>
       </div>
 
-      {/* CONTENT */}
-      <div className="mt-6 max-w-[780px] space-y-4 text-[16px]">
+      <div className="mt-6 space-y-4 text-[16px]">
         <p>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form variations of
@@ -77,10 +57,10 @@ export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
 
         <Image
           src="/img/girlworking.png"
-          alt=""
+          alt="Woman working on a laptop"
           width={780}
           height={450}
-          className=""
+          className="w-full h-auto rounded-md"
         />
 
         <p>
@@ -89,6 +69,7 @@ export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
           passages of Lorem Ipsum available There are many variations of
           passages of Lorem Ipsum available...
         </p>
+
         <p>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form variations of
@@ -99,12 +80,14 @@ export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
           available There are many variations of passages of Lorem Ipsum
           available...
         </p>
+
         <p>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form variations of
           passages of Lorem Ipsum available There are many variations of
           passages of Lorem Ipsum available...
         </p>
+
         <p>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form variations of
@@ -117,29 +100,29 @@ export default function BlogDetail({ blog, onBack }: BlogDetailProps) {
         </p>
       </div>
 
-      {/* REACTIONS */}
-      <div className="flex items-center gap-6 bg-white p-4">
-        <div className="flex items-center gap-2 text-lg font-medium text-gray-700">
-          <span>
-            <img src="/like.png" alt="" />
-          </span>
-          <span>335 Likes</span>
+      <div className="flex items-center gap-6 bg-white p-4 mt-6">
+        <div
+          onClick={handleLike}
+          className="flex items-center gap-2 text-lg font-medium text-gray-700 cursor-pointer"
+        >
+          <Image src="/like.png" alt="Like" width={20} height={20} />
+          <span>{likes} Likes</span>
         </div>
-        <div className="flex items-center gap-2 text-lg font-medium text-gray-700">
-          <span>
-            <img src="/unlike.png" alt="" />
-          </span>
-          <span>30 Dislikes</span>
+
+        <div
+          onClick={handleDislike}
+          className="flex items-center gap-2 text-lg font-medium text-gray-700 cursor-pointer"
+        >
+          <Image src="/unlike.png" alt="Dislike" width={20} height={20} />
+          <span>{dislikes} Dislikes</span>
         </div>
+
         <div className="flex items-center gap-2 text-lg font-medium text-gray-700">
-          <span>
-            <img src="/comment.png" alt="" />
-          </span>
+          <Image src="/comment.png" alt="Comments" width={20} height={20} />
           <span>10 Comments</span>
         </div>
       </div>
 
-      {/* BACK */}
       <button onClick={onBack} className="mt-8 text-orange-500 underline">
         ← Back to Blogs
       </button>

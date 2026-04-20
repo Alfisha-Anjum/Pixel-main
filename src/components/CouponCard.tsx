@@ -1,29 +1,75 @@
+"use client";
+
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function CouponCard() {
-  return (
-    <div className="w-full max-w-[458px] mx-auto p-[1px] rounded-xl bg-gradient-to-r from-[#FEC12D] to-[#FF552C] my-2 md:my-6">
-      <div className="bg-white p-3 sm:p-[10px] rounded-xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 ml-2">
-            <div className="relative w-10 h-10 shrink-0">
-              <img
-                src="/coupon.png"
-                className="absolute w-[22.24px] h-[18.48px] top-[2.62px] left-[2.95px]"
-              />
-            </div>
+  const [open, setOpen] = useState(false);
 
-            <p className="text-[16px] md:text-[18px] font-semibold text-[#1B1B1B]">
-              Hey! you have new coupons
+  const coupons = [
+    {
+      title: "Assured Cashback on Paytm",
+      subtitle: "Flat ₹30 Cashback",
+    },
+    {
+      title: "Assured Cashback on CRED",
+      subtitle: "Get cashback of ₹10",
+    },
+    {
+      title: "15% off on Kotak Debit Cards",
+      subtitle: "15% off up to ₹250",
+    },
+  ];
+
+  return (
+    <div className="w-full md:w-[460px] md:mb-5 rounded-xl border border-orange-300 bg-white shadow-sm">
+      {/* HEADER */}
+      <div
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between px-3 py-2 md:px-5 md:py-4 cursor-pointer"
+      >
+        <div className="flex items-start gap-2">
+          <img src="/coupon.png" className="w-5 h-5 md:w-7 md:h-7 mt-[2px]" />
+
+          <div className="leading-tight">
+            <p className="text-[14px] md:text-[18px] font-medium text-gray-900">
+              Hey! you have a new coupons
+            </p>
+            <p className="text-[12px] md:text-[16px] text-gray-500">
+              Tap to see what you have won
             </p>
           </div>
-
-          <ChevronDown className="w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] text-black cursor-pointer" />
         </div>
 
-        <p className="text-[14px] md:text-[16px] text-[#666666] ml-[35px] mt-[4px] md:mt-[6px]">
-          Tap to see what you have won
-        </p>
+        <ChevronDown
+          className={`w-4 h-4 md:w-[32px] md:h-[20px] text-gray-600 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </div>
+
+      {/* DROPDOWN */}
+      <div
+        className={`transition-all duration-200 overflow-hidden ${
+          open ? "max-h-[220px] border-t" : "max-h-0"
+        }`}
+      >
+        <div className="px-3 py-2 space-y-3">
+          {coupons.map((item, index) => (
+            <div key={index} className="flex gap-2">
+              <div className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">
+                %
+              </div>
+
+              <div>
+                <p className="text-[12px] font-medium text-gray-800">
+                  {item.title}
+                </p>
+                <p className="text-[11px] text-gray-500">{item.subtitle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

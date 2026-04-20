@@ -200,7 +200,7 @@ export default function ContactPage() {
     <div className="bg-white py-10 px-6 md:px-16">
       {/* HEADER */}
       <div className="max-w-5xl mx-auto mb-12">
-        <h1 className="text-2xl mb-4">Contact Us</h1>
+        <h1 className="text-2xl font-semibold mb-4">Contact Us</h1>
         <p className="text-gray-600 text-[14px]">
           We're here to assist you! If you have any questions, concerns, or need
           further assistance, please don't hesitate to reach out to us. Our

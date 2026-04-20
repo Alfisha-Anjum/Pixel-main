@@ -24,7 +24,7 @@ export default function SidebarCard({
   imageClassName,
 }: SidebarCardProps) {
   const baseStyles =
-    "relative w-[381px] h-[421px] p-5 overflow-hidden flex flex-col justify-between";
+    "relative w-full max-w-[381px] h-[360px] md:h-[400px] mx-auto p-5 overflow-hidden flex flex-col justify-between";
 
   const variants = {
     orange: "bg-orange-200",
@@ -33,21 +33,15 @@ export default function SidebarCard({
 
   return (
     <div className={`${baseStyles} ${variants[variant]}`}>
-      {/* 🔥 Static Logo */}
-      <div className="absolute top-0 left-4">
-        <Image
-          src="/tas.logo.png" // static logo
-          alt="logo"
-          width={122}
-          height={50}
-        />
+      {/* Logo */}
+      <div className="absolute top-0 left-4 z-20">
+        <Image src="/tas.logo.png" alt="logo" width={122} height={50} />
       </div>
 
-      {/* 🔥 Content */}
-      <div className="z-10 mt-10 py-20">
-        <h4 className="font-semibold text-[25px] text-lg max-w-[180px]">
-          {title}
-        </h4>
+      {/* Content */}
+      <div className="z-20 mt-10 py-20">
+        <h4 className="font-semibold text-[25px] max-w-[180px]">{title}</h4>
+
         {buttonText && (
           <button
             onClick={onClick}
@@ -60,17 +54,18 @@ export default function SidebarCard({
         )}
       </div>
 
-      {/* 🔥 Dynamic Image (right side) */}
+      {/* 🔥 Image FIX (important) */}
       {image && (
         <div
-          className={`absolute bottom-0 right-0 ${imageClassName || "w-[100%] h-[100%]"}`}
+          className={`absolute bottom-0 right-0 w-[65%] h-[80%] ${
+            imageClassName || ""
+          }`}
         >
           <Image
             src={image}
             alt="card-img"
-            width={250}
-            height={420}
-            className="object-bottom"
+            fill
+            className="object-cover object-bottom"
           />
         </div>
       )}
