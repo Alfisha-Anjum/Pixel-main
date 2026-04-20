@@ -32,9 +32,9 @@ const ShareModal = ({ isOpen, onClose }: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white w-[90%] max-w-[520px] rounded-[52px] p-8 relative shadow-xl">
+      <div className="bg-white w-[92%] max-w-[520px] rounded-[40px] sm:rounded-[52px] p-5 sm:p-8 relative shadow-xl">
         {/* Close */}
-        <div className="absolute -top-3 -right-3 flex justify-end items-center w-full">
+        <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 flex justify-end items-center w-full">
           <button
             onClick={onClose}
             className="relative w-[50px] h-[50px] overflow-hidden cursor-pointer"
@@ -57,10 +57,10 @@ const ShareModal = ({ isOpen, onClose }: Props) => {
 
         {/* Link Box */}
         <div className="flex items-center justify-between border rounded-xl px-3 py-2 mb-5">
-          <span className="text-black text-sm w-[80%] break-words line-clamp-2">
+          <span className="text-black text-xs sm:text-sm w-[70%] sm:w-[80%] break-words line-clamp-2">
             {shareLink}
           </span>
-          <div>
+          <div className="flex flex-col items-center justify-center min-w-[50px]">
             <Copy
               size={30}
               onClick={copyToClipboard}
@@ -71,15 +71,15 @@ const ShareModal = ({ isOpen, onClose }: Props) => {
         </div>
 
         {/* People (Perfect 4 per row, tight spacing) */}
-        <div className="flex flex-wrap mb-5 gap-6 justify-center">
+        <div className="flex flex-wrap mb-5 gap-4 sm:gap-6 justify-center">
           {people.map((p, i) => (
             <div key={i} className=" flex flex-col items-center mb-4">
               <img
                 src={p.img}
-                className="w-16 h-16 rounded-full object-cover"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover"
                 alt={p.name}
               />
-              <p className="mt-1 text-[15px] text-black text-center leading-tight px-1">
+              <p className="mt-1 text-[13px] sm:text-[15px] text-black text-center leading-tight px-1">
                 {p.name}
               </p>
             </div>
@@ -89,9 +89,12 @@ const ShareModal = ({ isOpen, onClose }: Props) => {
         <div className="w-full h-[1px] bg-[#E1E1E1] my-[25px] shadow-sm" />
 
         {/* Social Icons */}
-        <div className="flex justify-between px-2">
+        <div className="flex justify-between px-1 sm:px-2 gap-2">
           {socials.map((s, i) => (
-            <div key={i} className="flex flex-col items-center w-[60px]">
+            <div
+              key={i}
+              className="flex flex-col items-center w-[55px] sm:w-[60px]"
+            >
               <img src={s.icon} className="w-11 h-11" alt={s.name} />
               <p className="mt-1 text-xs text-black">{s.name}</p>
             </div>

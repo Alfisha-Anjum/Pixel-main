@@ -21,8 +21,8 @@ export default function GradientButton2({
       onClick={onClick}
       className={`
         ${width} ${height}
-        px-4 sm:px-6
-        text-sm sm:text-base
+        px-4 md:px-6
+        text-sm md:text-base
         rounded-full
         bg-gradient-to-r from-[#FF512F] to-[#F09819]
         text-white font-medium

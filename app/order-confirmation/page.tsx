@@ -272,7 +272,7 @@ export default function OrderConfirmation() {
               <Link href="/">
                 <GradientButton2
                   text="Back to Home"
-                  width="w-[390px]"
+                  width="w-[600px]"
                   className="text-[20px] font-medium"
                 />
               </Link>

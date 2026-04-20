@@ -403,6 +403,7 @@ import BlogSlider from "@/components/ui/BlogSlider";
 import { useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCards";
 import BlogDetail from "@/components/BlogDetail";
+import { useRouter } from "next/navigation";
 
 type SidebarCardProps = {
   title: string;
@@ -426,6 +427,9 @@ type Blog = {
 export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(2);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const router = useRouter();
 
   const sidebarData: SidebarCardProps[] = [
     {
@@ -434,17 +438,20 @@ export default function BlogPage() {
       variant: "orange",
       image: "/electrician.png",
       buttonClassName: "bg-orange-500 hover:bg-orange-600 text-white",
-      imageClassName: "w-[100%] h-[75%] rounded-t-md",
+      imageClassName: "w-[45%] h-full",
+      onClick: () => router.push("/careers"),
     },
     {
       title: "Looking for any service?",
       buttonText: "Visit Site",
       variant: "gray",
       image: "/img/advgirl.png",
-      imageClassName: "w-[280px] h-[600px] rounded-t-md",
+      imageClassName: "w-[45%] h-full scale-125",
       buttonClassName: "bg-black hover:bg-gray-800 text-white",
+      onClick: () => router.push("/"),
     },
   ];
+
   const blogData: Blog[] = [
     {
       category: "Education",
@@ -455,7 +462,7 @@ export default function BlogPage() {
       image: "/img/officeview.png",
     },
     {
-      category: "Education",
+      category: "Learn",
       title: "What is Salary Range?",
       description:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
@@ -463,7 +470,7 @@ export default function BlogPage() {
       image: "/img/officeview.png",
     },
     {
-      category: "Education",
+      category: "Learn",
       title: "What is Salary Range?",
       description:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
@@ -471,7 +478,7 @@ export default function BlogPage() {
       image: "/img/officeview.png",
     },
     {
-      category: "Education",
+      category: "Interview",
       title: "What is Salary Range?",
       description:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
@@ -479,7 +486,7 @@ export default function BlogPage() {
       image: "/img/officeview.png",
     },
     {
-      category: "Education",
+      category: "Speaking",
       title: "What is Salary Range?",
       description:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
@@ -487,7 +494,7 @@ export default function BlogPage() {
       image: "/img/officeview.png",
     },
     {
-      category: "Education",
+      category: "Speaking",
       title: "What is Salary Range?",
       description:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
@@ -495,7 +502,7 @@ export default function BlogPage() {
       image: "/img/officeview.png",
     },
     {
-      category: "Education",
+      category: "Learn",
       title: "What is Salary Range?",
       description:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
@@ -553,12 +560,23 @@ export default function BlogPage() {
     },
   ];
 
+  const categories = ["All", ...new Set(blogData.map((blog) => blog.category))];
+
   const blogsPerPage = 5;
 
-  const totalPages = Math.ceil(blogData.length / blogsPerPage);
+  const filteredBlogs =
+    selectedCategory === "All"
+      ? blogData
+      : blogData.filter((blog) => blog.category === selectedCategory);
+
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
 
   const startIndex = (currentPage - 1) * blogsPerPage;
-  const selectedBlogs = blogData.slice(startIndex, startIndex + blogsPerPage);
+
+  const selectedBlogs = filteredBlogs.slice(
+    startIndex,
+    startIndex + blogsPerPage,
+  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -580,9 +598,9 @@ export default function BlogPage() {
             </div>
           )}
 
-          <div className="w-full flex flex-col lg:flex-row gap-8">
+          <div className="w-full flex flex-col md:flex-row gap-8">
             {/* LEFT */}
-            <div className="w-full lg:w-[65%]">
+            <div className="w-full md:w-[65%]">
               {selectedBlog ? (
                 <>
                   <BlogDetail
@@ -590,14 +608,17 @@ export default function BlogPage() {
                     onBack={() => setSelectedBlog(null)}
                   />
 
-                  <div className="mt-10">
-                    <BlogSlider />
+                  <div className="md:mt-10">
+                    <BlogSlider
+                      title="Related Blogs"
+                      subtitle="There are many variations of passages of Lorem Ipsum"
+                    />
                   </div>
                 </>
               ) : (
                 <>
                   <div className="m-6">
-                    <h3 className="text-[28px] font-semibold">Our Blog</h3>
+                    <h3 className="text-[28px] font-semibold">Our Blogs</h3>
                     <p className="text-gray-600 text-[18px] mt-2">
                       There are many variations of passages of Lorem Ipsum
                     </p>
@@ -650,7 +671,7 @@ export default function BlogPage() {
               )}
             </div>
 
-            <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start mt-20 sticky top-20">
+            <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start md:mt-20 sticky md:top-20">
               {/* Categories */}
               <div className="bg-white p-6 rounded-md">
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 pb-2">
@@ -658,17 +679,18 @@ export default function BlogPage() {
                 </h3>
 
                 <ul className="space-y-2 text-sm text-gray-600">
-                  {[
-                    "Education",
-                    "Information",
-                    "Interview",
-                    "Learn",
-                    "Skill",
-                    "Speaking",
-                  ].map((item) => (
+                  {categories.map((item) => (
                     <li
                       key={item}
-                      className="hover:text-orange-500 cursor-pointer font-medium py-1"
+                      onClick={() => {
+                        setSelectedCategory(item);
+                        setCurrentPage(1);
+                      }}
+                      className={`cursor-pointer font-medium py-1 transition ${
+                        selectedCategory === item
+                          ? "text-orange-500 font-semibold"
+                          : "hover:text-orange-500"
+                      }`}
                     >
                       {item}
                     </li>

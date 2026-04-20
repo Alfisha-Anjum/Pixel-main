@@ -12,7 +12,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="bg-white max-w-[1240px] mx-auto pt-8 px-16">
+    <section className="bg-white max-w-[1240px] mx-auto pt-8 px-16 md:px-0">
       <h2 className="text-3xl font-semibold mb-6">About Us</h2>
 
       <p className="text-gray-600 mb-6">

@@ -170,26 +170,28 @@ export default function AboutPage() {
       <AboutSection />
       <MissionSection />
       <CoreValues />
-      <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt-20">
-        <div className="bg-white rounded-xl flex justify-between px-12 py-12">
-          {/* Text */}
-          <div className="gap-6 px-10">
-            <p className="text-3xl font-semibold text-start text-black whitespace-nowrap">
-              Join us on your journey
-            </p>
-            <p className="text-2xl text-gray-400 whitespace-nowrap mt-6">
-              Are you interested in being a part of it?
-            </p>
-          </div>
+      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0">
+        <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt-16 md:mt-20">
+          <div className="bg-white rounded-xl flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8 md:py-12 gap-6">
+            {/* Text */}
+            <div className="gap-4 text-center md:text-left">
+              <p className="text-2xl md:text-3xl font-semibold text-black">
+                Join us on your journey
+              </p>
+              <p className="text-lg md:text-2xl text-gray-400 mt-2 md:mt-6">
+                Are you interested in being a part of it?
+              </p>
+            </div>
 
-          {/* Button */}
-          <div className="flex justify-end items-center w-full px-10">
-            <GradientButton2
-              text="Apply Now"
-              width="w-[180px]"
-              type="button"
-              className="rounded-md"
-            />
+            {/* Button */}
+            <div className="flex justify-center md:justify-end items-center w-full md:w-auto">
+              <GradientButton2
+                text="Apply Now"
+                width="w-full md:w-[180px]"
+                type="button"
+                className="rounded-md"
+              />
+            </div>
           </div>
         </div>
       </div>

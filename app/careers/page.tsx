@@ -175,7 +175,6 @@
 // };
 
 // export default CareersPage;
-
 "use client";
 
 import MissionSection from "@/components/about/MissionSection";
@@ -188,43 +187,57 @@ import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function CareersPage() {
   return (
-    <div className="flex flex-col justify-center align-content-center">
+    <div className="flex flex-col w-full overflow-x-hidden bg-white">
       <CareerHeroSection />
-      <OpenPositions />
-      <div className="relative w-[1240px]">
-        <img
-          src="/help.png
-        "
-          alt=""
-        />
+
+      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0">
+        <OpenPositions />
+      </div>
+
+      {/* Image Section */}
+      <div className="hidden md:block w-full max-w-[1240px] mx-auto relative">
+        <img src="/help.png" alt="" className="w-full" />
         <div className="absolute right-0 top-0">
-          <img src="careers.png" alt="" className="w-[752px]" />
+          <img src="/careers.png" alt="" className="w-full" />
         </div>
       </div>
-      <MissionSection />
-      <WhatSetsUsApart />
-      <CoreValues />
-      <BlogSlider />
-      <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt-20">
-        <div className="bg-white rounded-xl flex justify-between px-12 py-12">
-          {/* Text */}
-          <div className="gap-6 px-10">
-            <p className="text-3xl font-semibold text-start text-black whitespace-nowrap">
-              Join us on your journey
-            </p>
-            <p className="text-2xl text-gray-400 whitespace-nowrap mt-6">
-              Are you interested in being a part of it?
-            </p>
-          </div>
 
-          {/* Button */}
-          <div className="flex justify-end items-center w-full px-10">
-            <GradientButton2
-              text="Apply Now"
-              width="w-[180px]"
-              type="button"
-              className="rounded-md"
-            />
+      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0">
+        <MissionSection />
+        <WhatSetsUsApart />
+        <CoreValues />
+      </div>
+
+      <div className="w-full">
+        <BlogSlider
+          title="Our Blogs"
+          subtitle="There are many variations of passages of Lorem Ipsum"
+        />
+      </div>
+
+      {/* CTA Section */}
+      <div className="w-full max-w-[1200px] mx-auto px-4 md:px-6">
+        <div className="p-[2px] rounded-xl bg-gradient-to-r from-[#FF512F] to-[#F09819] mt:4 md:mt-16 md:mt-20">
+          <div className="bg-white rounded-xl flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8 md:py-12 gap-6">
+            {/* Text */}
+            <div className="gap-4 text-center md:text-left">
+              <p className="text-2xl md:text-3xl font-semibold text-black">
+                Join us on your journey
+              </p>
+              <p className="text-lg md:text-2xl text-gray-400 mt-2 md:mt-6">
+                Are you interested in being a part of it?
+              </p>
+            </div>
+
+            {/* Button */}
+            <div className="flex justify-center md:justify-end items-center w-full md:w-auto">
+              <GradientButton2
+                text="Apply Now"
+                width="w-full md:w-[180px]"
+                type="button"
+                className="rounded-md"
+              />
+            </div>
           </div>
         </div>
       </div>
