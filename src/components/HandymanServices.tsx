@@ -31,7 +31,7 @@ const handymanServices = [
 const HandymanServices = () => {
   return (
     <section className="section-padding bg-card">
-      <div className="container-custom">
+      <div className="px-9">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
           Handyman Services
         </h2>
