@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 
 export default function SuccessCard() {
   return (
-    <div className="w-full max-w-[520px] mx-auto flex flex-col sm:flex-row items-center sm:items-center mt-10 sm:mt-15 gap-4 sm:gap-6">
+    <div className="w-full flex flex-col sm:flex-row items-center sm:items-center mt-10 sm:mt-15 gap-4 sm:gap-6">
       <div className="block relative w-28 h-28 sm:w-32 sm:h-32 md:w-[186px] md:h-[180px] overflow-hidden shrink-0">
         {/* Center circle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 md:w-[140px] md:h-[140px] bg-gradient-to-r from-[#FEC12D] to-[#FF552C] rounded-full flex items-center justify-center">

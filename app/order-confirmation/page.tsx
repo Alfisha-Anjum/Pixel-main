@@ -209,76 +209,76 @@
 // };
 
 // export default OrderConfirmationPage;
-
 "use client";
-import { Check, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 import SuccessCard from "@/components/SuccessCard";
 import CustomerDetails from "@/components/CustomerDetails";
 import CouponCard from "@/components/CouponCard";
 import AmountSummary from "@/components/AmountSummary";
-
 import DeepCleaningServices from "@/components/DeepCleaningServices";
-
 import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function OrderConfirmation() {
   return (
     <div className="min-h-screen bg-white">
-      <main className="mx-20">
-        <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-[20px] md:gap-18 lg:gap-20">
-          <div className="md:w-[62%] lg:w-[62%]">
-            <div className="md:w-[650px] my-10">
-              <h1 className="text-[24px] text-2xl font-semibold mb-3 text-[#1B1B1B]">
+      <main className="w-full">
+        <div className="w-full xl:w-[90%] max-w-[1240px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col md:flex-row gap-6 lg:gap-10">
+          {/* LEFT */}
+          <div className="basis-2/3 min-w-0 flex flex-col">
+            {/* HEADER */}
+            <div className="max-w-full my-6 md:my-8 lg:my-10">
+              <h1 className="text-xl md:text-2xl font-semibold mb-3 text-[#1B1B1B]">
                 Thanks for giving us opportunity to serve you better
               </h1>
-              <p className="text-[18px] text-gray-500 mb-3 text-[#848484]">
+              <p className="text-base lg:text-lg text-[#848484] mb-3">
                 Service Delivery by Fri, 26-jan-2024
               </p>
-              <a className="text-[18px] text-blue-600 font-semibold cursor-pointer">
+              <a className="text-base lg:text-lg text-blue-600 font-semibold cursor-pointer">
                 Track & Manage Order
               </a>
             </div>
-            {/* Success Box */}
+
             <SuccessCard />
             <CustomerDetails />
-            <div className="w-full max-w-[710px] mx-auto flex items-start gap-4 sm:gap-6 bg-white border border-[#E1E1E1] rounded-xl my-5 sm:my-[30px] p-3 sm:p-4">
+
+            {/* INFO BOX */}
+            <div className="w-full flex items-start gap-4 bg-white border border-[#E1E1E1] rounded-xl my-5 lg:my-8 p-4">
               {/* ICON */}
-              <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shrink-0">
-                <img
-                  src="/fi.png"
-                  className="absolute w-[24px] h-[24px] sm:w-[32px] sm:h-[32px]"
-                />
+              <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                <img src="/fi.png" className="w-6 h-6 lg:w-8 lg:h-8" />
               </div>
 
               {/* TEXT */}
-              <div className="w-full flex flex-col gap-1 sm:gap-2">
-                <p className="text-[#666666] text-[14px] sm:text-[16px] md:text-[18px] font-semibold">
+              <div className="flex flex-col gap-1">
+                <p className="text-sm lg:text-lg font-semibold text-[#666666]">
                   Service providers require OTPs for avail Service
                 </p>
-                <p className="text-[#898989] text-[13px] sm:text-[14px] md:text-[16px]">
+                <p className="text-xs lg:text-base text-[#898989]">
                   Neque porro quisquam est, qui dolorem ipsum quia dolor sit
-                  amet, consectetur, adipisci velit, sed qu
+                  amet...
                 </p>
               </div>
             </div>
           </div>
-          <div className="md:w-[38%] lg:w-[38%]">
+          {/* RIGHT */}
+          <div className="basis-1/3 min-w-0 flex flex-col gap-5 p-4">
             <CouponCard />
             <AmountSummary />
-            {/* Button */}
-            <div className="flex justify-center mt-6 w-[387px] mx-auto">
-              <Link href="/">
+
+            {/* BUTTON */}
+            <div className="flex justify-center mt-6">
+              <Link href="/" className="w-full">
                 <GradientButton2
                   text="Back to Home"
-                  width="w-[600px]"
-                  className="text-[20px] font-medium"
+                  width="w-full"
+                  className="text-base lg:text-lg font-medium"
                 />
               </Link>
             </div>
           </div>
         </div>
+
         <DeepCleaningServices title="You might be also interested in" />
       </main>
     </div>
