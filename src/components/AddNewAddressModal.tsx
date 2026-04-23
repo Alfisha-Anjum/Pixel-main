@@ -222,7 +222,6 @@ const AddNewAddressModal = ({
                 <label className="block text-sm font-medium text-gray-800 mb-1">
                   Use my Location
                 </label>
-
                 <div className="relative">
                   <input
                     type="text"
@@ -230,13 +229,15 @@ const AddNewAddressModal = ({
                     value={formData.location}
                     onChange={handleChange}
                     placeholder="Location"
-                    className="w-full px-4 py-3 pr-10 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                    className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
                   />
 
                   {/* Location Icon */}
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500 cursor-pointer">
-                    📍
-                  </span>
+                  <img
+                    src="/loc.png"
+                    alt="location"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none"
+                  />
                 </div>
               </div>
             </div>

@@ -75,14 +75,14 @@ const [showApplianceModal, setShowApplianceModal] = useState(false);
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
-          <div className="w-full lg:w-[35%] flex flex-col">
+          <div className="w-full lg:w-[40%] xl:w-[35%] flex flex-col">
             <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 mb-5 leading-[1.2] text-left max-w-[580px]">
               How can we serve you
               <br />
               today?
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14 xl:pb-0 pb-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-14 xl:pb-0 pb-10">
               {services.map((service, index) => {
                 const { card, icon } = getColorClasses(service.color);
                 const Icon = service.icon;
@@ -100,9 +100,9 @@ const [showApplianceModal, setShowApplianceModal] = useState(false);
                     }}
                   >
                     <div
-                      className={`${card} w-60 h-52 md:w-52 md:h-36 lg:w-32 lg:h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}
+                      className={`${card} w-32 h-24 sm:w-32 sm:h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}
                     >
-                      <Icon className={`w-20 h-20 md:w-16 md:h-16 lg:w-10 lg:h-10 ${icon}`} />
+                      <Icon className={`w-12 h-12 ${icon}`} />
                     </div>
                     <p className="mt-4 text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-orange-600 transition-colors">
                       {service.title}
