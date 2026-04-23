@@ -22,7 +22,7 @@ export default function CouponCard() {
   ];
 
   return (
-    <div className="w-full md:w-[460px] md:mb-5 rounded-xl border border-orange-300 bg-white shadow-sm">
+    <div className="w-full rounded-xl border border-orange-200 bg-white shadow-sm overflow-hidden">
       {/* HEADER */}
       <div
         onClick={() => setOpen(!open)}
@@ -50,8 +50,8 @@ export default function CouponCard() {
 
       {/* DROPDOWN */}
       <div
-        className={`transition-all duration-200 overflow-hidden ${
-          open ? "max-h-[220px] border-t" : "max-h-0"
+        className={`transition-all duration-300 overflow-hidden ${
+          open ? "max-h-[250px] border-t" : "max-h-0"
         }`}
       >
         <div className="px-3 py-2 space-y-3">

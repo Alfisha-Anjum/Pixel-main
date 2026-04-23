@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function CustomerDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <div className="w-full max-w-[710px] mx-auto bg-white my-6 sm:my-10 p-4 sm:p-6 rounded-xl shadow-sm border border-[#E1E1E1]">
+    <div className="w-full bg-white my-6 p-5 rounded-xl border border-gray-200">
       <h3 className="text-[20px] font-semibold mb-4 text-[#666666]">
         Customer Details
       </h3>
