@@ -71,8 +71,8 @@ export default function ServiceSection() {
   const router = useRouter();
 const [showApplianceModal, setShowApplianceModal] = useState(false);
   return (
-    <section className="w-full bg-white p-5">
-      <div className="max-w-7xl mx-auto xl:px-0 px-6">
+    <section className="w-full bg-white pb-10 px-5">
+      <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[35%] flex flex-col">

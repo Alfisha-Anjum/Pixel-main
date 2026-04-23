@@ -151,9 +151,9 @@ const CardDetailsPage = () => {
       {/* <Header /> */}
 
       <main className="py-10  min-h-screen">
-        <div className="max-w-6xl mx-auto py-8">
-          <div className="grid lg:grid-cols-3 gap-10">
-            <div className="lg:col-span-2">
+        <div className="max-w-7xl mx-auto py-8">
+          <div className="grid grid-cols-2 gap-8">
+            <div className="w-full">
               <h1 className="text-3xl font-bold mb-2">Add Card Details</h1>
               <p className="text-gray-500 mb-6">
                 Enter your card details securely to complete the payment
@@ -218,63 +218,64 @@ const CardDetailsPage = () => {
                 </form>
               </div>
             </div>
-            <div>
-              <div className="bg-white p-6 rounded-2xl shadow h-fit w-[70%] sticky top-24">
-                <h2 className="text-lg font-semibold mb-4">Amount Summary</h2>
 
-                <div className="space-y-2 text-gray-600">
-                  <div className="flex justify-between">
-                    <span>Total Item (3)</span>
-                    <span>₹1600</span>
+            <div className="col-span-1 w-full">
+              
+                <div className="bg-white p-6 rounded-2xl shadow h-fit max-w-md sticky top-24">
+                  <h2 className="text-lg font-semibold mb-4">Amount Summary</h2>
+
+                  <div className="space-y-2 text-gray-600">
+                    <div className="flex justify-between">
+                      <span>Total Item (3)</span>
+                      <span>₹1600</span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span>Total Discount</span>
+                      <span className="text-gray-400">₹300</span>
+                    </div>
+
+                    <div className="flex justify-between text-green-600">
+                      <span>Coupon Discount</span>
+                      <span>₹50</span>
+                    </div>
+
+                    <hr />
+
+                    <div className="flex justify-between font-semibold text-black">
+                      <span>Total Amount</span>
+                      <span>₹1200</span>
+                    </div>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span>Total Discount</span>
-                    <span className="text-gray-400">₹300</span>
-                  </div>
+                  <button className="w-full mt-5 py-3 rounded-full text-white font-semibold bg-orange-500">
+                    Pay ₹1200
+                  </button>
 
-                  <div className="flex justify-between text-green-600">
-                    <span>Coupon Discount</span>
-                    <span>₹50</span>
-                  </div>
-
-                  <hr />
-
-                  <div className="flex justify-between font-semibold text-black">
-                    <span>Total Amount</span>
-                    <span>₹1200</span>
+                  <div className="flex items-center gap-3">
+                    <p className="text-xs text-gray-500 text-center mt-3">
+                      🔒 Safe & secure checkout
+                    </p>
+                    <img
+                      src="/grp.png"
+                      alt="Payment Methods"
+                      className="w-40 mt-4"
+                    />
                   </div>
                 </div>
-
-                <button className="w-full mt-5 py-3 rounded-full text-white font-semibold bg-orange-500">
-                  Pay ₹1200
-                </button>
-
-                <div className="flex items-center gap-3">
-                  <p className="text-xs text-gray-500 text-center mt-3">
-                    🔒 Safe & secure checkout
-                  </p>
+                <div className="flex px-9 py-3 mx-auto gap-3 w-full ">
                   <img
-                    src="/grp.png"
+                    src="/tick.png"
                     alt="Payment Methods"
-                    className="w-40 mt-4"
+                    className="w-8 h-6"
                   />
+                  <p className="text-sm font-bold text-[#666666] w-1/2">
+                    Easy Cancellation/Returns, Background Verified Service
+                    Provide.
+                  </p>
                 </div>
-              </div>
-              <div>
-                <img
-                  src="/easy.png"
-                  alt="Payment Methods"
-                  className="w-full px-4 mt-5"
-                />
-              </div>
+              
             </div>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Left Card Form */}
-
-            {/* Right Summary Card */}
           </div>
         </div>
       </main>

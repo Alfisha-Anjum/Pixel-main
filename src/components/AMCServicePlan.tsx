@@ -183,7 +183,7 @@ const AMCServicePlan = () => {
         </div>
 
         {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-8">
+        {/* <div className="flex justify-center gap-2 mt-8">
           {amcPlans.map((_, index) => (
             <button
               key={index}
@@ -202,7 +202,7 @@ const AMCServicePlan = () => {
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
-        </div>
+        </div> */}
       </LayoutContainer>
     </section>
   );

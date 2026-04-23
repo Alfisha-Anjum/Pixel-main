@@ -249,12 +249,11 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
                 />
               </div>
             </div>
-            <div>
-              <img
-                src="/easy.png"
-                alt="Payment Methods"
-                className="w-full px-4"
-              />
+            <div className="flex justify-center items-center mx-auto gap-3 w-[100%]">
+              <img src="/tick.png" alt="Payment Methods" className="w-8 h-6" />
+              <p className="text-sm font-bold text-[#666666] w-3/4">
+                Easy Cancellation/Returns, Background Verified Service Provide.
+              </p>
             </div>
           </div>
         </div>
