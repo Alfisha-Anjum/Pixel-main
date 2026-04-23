@@ -8,7 +8,7 @@ export default function ServicePromoSection() {
   const router = useRouter();
 
   return (
-    <section className="py-6 bg-background">
+    <section className="pt-5 ">
       <LayoutContainer>
         <div 
           className="relative overflow-hidden shadow-xl"

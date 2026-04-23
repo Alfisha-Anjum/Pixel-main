@@ -4,8 +4,8 @@ import LayoutContainer from "./LayoutContainer";
 
 const DownloadApp = () => {
   return (
-    <section className="bg-background">
-      <div className="max-w-[1240px] mx-auto px-5">
+    <section className="pb-10">
+      <div className="max-w-7xl mx-auto">
         <div 
           className="w-full"
           style={{

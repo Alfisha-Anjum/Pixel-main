@@ -348,8 +348,8 @@ const ACRepairLayout = () => {
 
       {/* Hero Section */}
       <section className="bg-white">
-        <div className="w-full max-w-7xl mx-auto px-6 py-6">
-          <div className="text-xl text-gray-600 mb-4">
+        <div className="w-full max-w-7xl mx-auto px-5">
+          <div className="text-xl text-gray-600">
             <a href="/" className="hover:text-[#FF6A00]">
               Home
             </a>
@@ -371,7 +371,7 @@ const ACRepairLayout = () => {
       </section>
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl p-6 pb-11 mx-auto bg-white">
+      <div className="w-full max-w-7xl p-5 pb-11 mx-auto bg-white">
         <div className="w-full flex justify-center">
           <div className="">
             <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
@@ -380,7 +380,7 @@ const ACRepairLayout = () => {
                 Repair Service in Raipur
               </h1>
               <div className="flex flex-col items-end">
-                <div className="flex items-center gap-1 mb-6">
+                <div className="flex items-center gap-1">
                   <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
                   <span className="text-gray-900 font-semibold">4.5</span>
                   <span className="text-gray-600">(480 review)</span>
@@ -389,7 +389,7 @@ const ACRepairLayout = () => {
                   <span className="text-gray-600">(Bookings in Raipur)</span>
                 </div>
               </div>
-              <div className="bg-white border border-[#c1c1c1] rounded-2xl p-4 my-6 relative">
+              <div className="bg-white border border-[#c1c1c1] rounded-2xl p-4 mt-6 relative">
                 {/* Badge (attached to border) */}
                 <div className="absolute border -top-3 p-2 rounded-lg left-6 bg-white px-3 flex items-center gap-2">
                   <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
@@ -444,7 +444,7 @@ const ACRepairLayout = () => {
           </div>
           {/* Service Cards - 2 rows, 3 cards per row */}
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-5">
           {/* Left Column - Categories */}
           <div className="">
             <div className="bg-white rounded-xl ">
@@ -518,9 +518,9 @@ const ACRepairLayout = () => {
               </div>
             </div>
             <div className="lg:col-span-6 mt-12">
-              <div className="space-y-6">
+              <div className="">
                 {currentServices.map((service) => (
-                  <div key={service.id} className="border-b pb-6 mt-5 max-w-lg">
+                  <div key={service.id} className="border-b py-2 max-w-lg">
                     {/* Category Title (Split AC etc) */}
                     <h3 className="text-2xl font-semibold text-gray-800 mb-3">
                       {"Split AC"}
@@ -641,7 +641,8 @@ const ACRepairLayout = () => {
             </div>
           </div>
 
-          <div className="log-col-span-2">
+          <div className="lg:col-span-1">
+  <div className="sticky top-24 space-y-6">
             <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
               {cartItems.length === 0 ? (
                 <div className="text-center">
@@ -899,6 +900,7 @@ const ACRepairLayout = () => {
                 </button>
               </div>
             )} */}
+          </div>
           </div>
           {/* Middle Column - Service Cards */}
 

@@ -5,7 +5,7 @@ import LayoutContainer from "./LayoutContainer";
 const ServicesSection = () => {
   return (
     <>
-      <section className=" pt-8">
+      <section className="bg-background py-5">
         <LayoutContainer>
           <div className=" ">
             {/* Main Title
@@ -14,7 +14,7 @@ const ServicesSection = () => {
           </h2> */}
 
             {/* SECTION 1: On-demand Services */}
-            <div className="mb-6">
+            <div className="">
               <h3 className="text-lg font-bold text-gray-900 mb-3">
                 On-demand Services we offer in Raipur Chhattisgarh
               </h3>
@@ -62,10 +62,9 @@ const ServicesSection = () => {
             </div>
 
             {/* Divider Line */}
-            <div className="border-t border-gray-200 my-5"></div>
 
             {/* SECTION 2: AMC Services */}
-            <div className="mb-6">
+            <div className="">
               <h3 className="text-lg font-bold text-gray-900 mb-3">
                 AMC Services we offer in Raipur Chhattisgarh
               </h3>
@@ -82,7 +81,7 @@ const ServicesSection = () => {
               </div>
 
               {/* Cleaning Packages */}
-              <div className="mb-3">
+              <div className="">
                 <h4 className="text-sm font-bold text-gray-800 mb-1.5">
                   Cleaning Packages
                 </h4>
@@ -100,16 +99,17 @@ const ServicesSection = () => {
           </div>
         </LayoutContainer>
       </section>
-      <div className="bg-white">
-        <div className=" max-w-7xl mx-auto px-8 py-">
-          <h3 className="text-lg font-bold text-gray-900 mb-3">
-            Serving Cities
-          </h3>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Raipur | New Raipur | Durg | Bhilai | Korba | Raigarh | Kanker
-          </p>
+      <LayoutContainer>
+        <div className="bg-white pt-5">
+          <div className=" flex items-center gap-1 mx-auto">
+            {/* <h3 className="text-lg  text-gray-900 mb-2"></h3> */}
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Serving Cities : Raipur | New Raipur | Durg | Bhilai | Korba |
+              Raigarh | Kanker
+            </p>
+          </div>
         </div>
-      </div>
+      </LayoutContainer>
     </>
   );
 };
