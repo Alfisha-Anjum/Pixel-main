@@ -29,12 +29,12 @@ export default function FeatureSection() {
     <section className="py-1 bg-white">
       <LayoutContainer>
         {/* Feature Container */}
-        <div className="w-full max-w-[1240px] mx-auto h-auto lg:h-[122px] flex flex-col sm:flex-row justify-between items-center gap-[20px] opacity-100 transform-none">
+        <div className="w-full mx-auto h-auto lg:h-[122px] flex flex-col sm:flex-row justify-between items-center gap-[20px] opacity-100 transform-none">
           
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="w-full lg:w-[400px] h-[122px] gap-[16px] opacity-100 flex flex-col items-center justify-center text-center bg-transparent transform-none"
+              className="w-full lg:w-[600px] h-[122px] gap-[16px] opacity-100 flex flex-col items-center justify-center text-center bg-transparent transform-none"
             >
               {/* Feature Icon */}
               <div className="w-[64px] h-[64px] relative flex-shrink-0">

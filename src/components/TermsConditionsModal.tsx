@@ -213,16 +213,46 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-3 mb-6 pb-4 ">
-            <input
-              type="checkbox"
-              id="accept"
-              checked={accepted}
-              onChange={(e) => setAccepted(e.target.checked)}
-              className="w-5 h-5 rounded cursor-pointer"
-            />
-            <label htmlFor="accept" className="font-semibold text-gray-900">
-              I Accept Terms & Conditions
+          <div className="flex  gap-3 mb-6 pb-4">
+            <label className="flex gap-3 cursor-pointer">
+              {/* Hidden Native Checkbox */}
+              <input
+                type="checkbox"
+                checked={accepted}
+                onChange={(e) => setAccepted(e.target.checked)}
+                className="hidden"
+              />
+
+              {/* Custom Checkbox */}
+              <div
+                className={`w-5 h-5 flex items-center justify-center rounded-md transition-all mt-1
+        ${
+          accepted
+            ? "bg-gradient-to-r from-orange-500 to-orange-400"
+            : "border border-gray-300 bg-white"
+        }`}
+              >
+                {accepted && (
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+
+              {/* Text */}
+              <span className="text-sm ">
+                I accept Company{" "}
+                <span className="text-orange-500 font-medium">
+                  Terms and Condition
+                </span>{" "}
+                to proceed further.
+              </span>
             </label>
           </div>
 
