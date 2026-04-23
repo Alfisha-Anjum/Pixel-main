@@ -118,13 +118,13 @@ const AMCServicePlan = () => {
         {/* Navigation Arrows */}
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full items-center justify-center transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full items-center justify-center transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
@@ -139,9 +139,9 @@ const AMCServicePlan = () => {
           {[...amcPlans, ...amcPlans].map((plan, index) => (
             <div
               key={index}
-              className="min-w-[100%] sm:min-w-[50%] lg:min-w-[33.333%] flex-shrink-0 snap-center"
+              className="min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] flex-shrink-0 snap-center"
             >
-              <div className="relative w-[382px] h-[228px] rounded-[12px] overflow-hidden shadow-2xl group">
+              <div className="relative w-[382px] h-[228px] rounded-[12px] overflow-hidden  group">
                 {/* Background Image */}
                 <Image
                   src={plan.image}
@@ -183,7 +183,7 @@ const AMCServicePlan = () => {
         </div>
 
         {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-8">
+        {/* <div className="flex justify-center gap-2 mt-8">
           {amcPlans.map((_, index) => (
             <button
               key={index}
@@ -202,7 +202,7 @@ const AMCServicePlan = () => {
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
-        </div>
+        </div> */}
       </LayoutContainer>
     </section>
   );

@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import ServiceCard from "./ServiceCard";
+import LayoutContainer from "./LayoutContainer";
 
 const cleaningServices = [
   {
@@ -103,69 +104,71 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
   };
 
   return (
-    <section className="py-12 bg-white">
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Updated Heading */}
-        <h2
-          className="text-gray-900 mb-5"
-          style={{
-            fontSize: "24px",
-            fontWeight: "600",
-            textAlign: "left",
-            marginBottom: "20px",
-          }}
-        >
-          {title}
-        </h2>
+    <section className="pt-5 bg-white">
+        <LayoutContainer>
+        <div className=" mx-auto">
+          {/* Updated Heading */}
+          <h2
+            className="text-gray-900 font-semibold mb-5"
+            style={{
+              fontSize: "24px",
+              fontWeight: "600",
+              textAlign: "left",
+              marginBottom: "20px",
+            }}
+          >
+            {title}
+          </h2>
 
-        <div
-          className="relative"
-          onMouseEnter={() => setIsAutoScrolling(false)}
-          onMouseLeave={() => setIsAutoScrolling(true)}
-        >
           <div
-            ref={sliderRef}
-            className="flex overflow-x-auto gap-5 pb-4 scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x"
-            style={{ gap: "20px" }}
+            className="relative"
+            onMouseEnter={() => setIsAutoScrolling(false)}
+            onMouseLeave={() => setIsAutoScrolling(true)}
           >
-            {cleaningServices.map((service, index) => (
-              <div key={index} className="flex-shrink-0 snap-center">
-                <ServiceCard
-                  title={service.title}
-                  image={service.image}
-                  rating={service.rating}
-                  reviewCount={service.reviews}
-                  price={service.price}
-                  originalPrice={service.originalPrice}
-                  duration={service.duration}
-                  onAdd={() => handleBookService(service.title)}
-                />
-              </div>
-            ))}
-          </div>
+            <div
+              ref={sliderRef}
+              className="flex overflow-x-auto gap-5 pb-5 scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x"
+              style={{ gap: "20px" }}
+            >
+              {cleaningServices.map((service, index) => (
+                <div key={index} className="flex-shrink-0 snap-center">
+                  <ServiceCard
+                    title={service.title}
+                    image={service.image}
+                    rating={service.rating}
+                    reviewCount={service.reviews}
+                    price={service.price}
+                    originalPrice={service.originalPrice}
+                    duration={service.duration}
+                    onAdd={() => handleBookService(service.title)}
+                  />
+                </div>
+              ))}
+            </div>
 
-          {/* Navigation Buttons */}
-          <button
-            onClick={scrollLeft}
-            className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
-            style={{
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={scrollRight}
-            className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
-            style={{
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+            {/* Navigation Buttons */}
+            <button
+              onClick={scrollLeft}
+              className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
+              style={{
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={scrollRight}
+              className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
+              style={{
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+    </LayoutContainer>
+      </section>
   );
 };
 

@@ -37,7 +37,7 @@ const MajorServices = () => {
   };
   
   return (
-    <section className="py-6 ">
+    <section className="">
       <LayoutContainer>
         <h2 className="text-2xl font-semibold text-gray-900 mb-5">
           Major Services

@@ -48,7 +48,7 @@ const CleaningPackage = () => {
   return (
     <LayoutContainer>
       <div className="bg-white flex justify-between items-center mb-5">
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-semibold text-gray-800">
           Cleaning Package
         </h2>
       </div>
@@ -56,7 +56,7 @@ const CleaningPackage = () => {
       <div className="relative group">
         <div 
           ref={sliderRef}
-          className="flex overflow-x-auto pb-4 scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
+          className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
           style={{ gap: '20px' }}
         >
           {packages.map((pkg, index) => (
