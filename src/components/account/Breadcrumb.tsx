@@ -12,7 +12,7 @@ type Props = {
 
 export default function Breadcrumb({ items }: Props) {
   return (
-    <div className="hidden md:border-b md:border-[#E1E1E1] md:pb-3 md:mb-10">
+    <div className="hidden md:block md:border-b md:border-[#E1E1E1] md:pb-3 md:mb-10">
       <div className="flex items-center gap-2 text-sm text-gray-400 pb-8">
         <Home size={16} className="text-[#C1C1C1]" />
 

@@ -12,6 +12,7 @@ export default function AccountLayout({
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "Profile" }]}
         />
+
         {/* Divider */}
         {/* <div className="w-full h-[1px] bg-[#E1E1E1] mt-[50px]" /> */}
 
