@@ -1,15 +1,14 @@
-
 "use client";
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { 
-  Home, 
-  Calendar, 
-  Package, 
-  User, 
-  ChevronRight, 
-  Phone, 
+import {
+  Home,
+  Calendar,
+  Package,
+  User,
+  ChevronRight,
+  Phone,
   MessageCircle,
   Clock,
   MapPin,
@@ -18,7 +17,7 @@ import {
   Filter,
   Search,
   Info,
-  X
+  X,
 } from "lucide-react";
 import { Pencil } from "lucide-react";
 // import SelectAddressModal from "@/components/SelectAddressModal";
@@ -39,11 +38,12 @@ import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeMod
 import Link from "next/link";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
-
 const MyBookingPage = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<'pending' | 'rejected' | 'completed'>('pending');
-  const [bookingType, setBookingType] = useState<'home' | 'amc'>('home');
+  const [activeTab, setActiveTab] = useState<
+    "pending" | "rejected" | "completed"
+  >("pending");
+  const [bookingType, setBookingType] = useState<"home" | "amc">("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSplitModal, setShowSplitModal] = useState(false);
   const [showAMCDetailsPage, setShowAMCDetailsPage] = useState(false);
@@ -59,13 +59,14 @@ const MyBookingPage = () => {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [showBookingDetailsPage, setShowBookingDetailsPage] = useState(false);
   const [showSelectAddressModal, setShowSelectAddressModal] = useState(false);
-const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
-  
+  const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
+
   // AMC Specific States
   const [showEquipmentModal, setShowEquipmentModal] = useState(false);
   const [showComplaintModal, setShowComplaintModal] = useState(false);
   const [showAMCDetailsModal, setShowAMCDetailsModal] = useState(false);
   const [selectedAMC, setSelectedAMC] = useState<any>(null);
+  const [open, setOpen] = useState(true);
 
   const [amcBookings, setAmcBookings] = useState([
     {
@@ -80,20 +81,34 @@ const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
       nextSchedule: "Tue, 12-March-2024",
       technicianImage: "/ac.png",
       equipment: [
-        { sn: 1, make: "Samsung", serial: "SAM-001", model: "AR12", age: "2 Yrs", image: "/placeholder.jpg" },
-        { sn: 2, make: "LG", serial: "LG-882", model: "LG-Split", age: "1 Yr", image: "/placeholder.jpg" }
+        {
+          sn: 1,
+          make: "Samsung",
+          serial: "SAM-001",
+          model: "AR12",
+          age: "2 Yrs",
+          image: "/placeholder.jpg",
+        },
+        {
+          sn: 2,
+          make: "LG",
+          serial: "LG-882",
+          model: "LG-Split",
+          age: "1 Yr",
+          image: "/placeholder.jpg",
+        },
       ],
       billing: {
         items: ["Split AC", "Window AC", "Cassette AC"],
         total: 520,
         paid: 200,
-        balance: 320
+        balance: 320,
       },
       schedule: [
         { status: "Completed", date: "12-Feb-2024", details: "Service 1" },
         { status: "Upcoming", date: "12-Mar-2024", details: "Service 2" },
-        { status: "Pending", date: "12-Apr-2024", details: "Service 3" }
-      ]
+        { status: "Pending", date: "12-Apr-2024", details: "Service 3" },
+      ],
     },
     {
       id: "AMC-002",
@@ -107,30 +122,35 @@ const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
       nextSchedule: "Fri, 15-March-2024",
       technicianImage: "/ac.png",
       equipment: [],
-      billing: { items: ["Pipes", "Taps"], total: 1200, paid: 1200, balance: 0 },
-      schedule: []
-    }
+      billing: {
+        items: ["Pipes", "Taps"],
+        total: 1200,
+        paid: 1200,
+        balance: 0,
+      },
+      schedule: [],
+    },
   ]);
-// const [showCancelledSuccess, setShowCancelledSuccess] = useState(false);
+  // const [showCancelledSuccess, setShowCancelledSuccess] = useState(false);
 
-const successBookingCancel = () => {
-  setShowCancelledSuccess(true);
-};
+  const successBookingCancel = () => {
+    setShowCancelledSuccess(true);
+  };
 
-const handleRescheduleContinue = (
-  date: string,
-  time: string,
-  notes: string,
-) => {
-  setSelectedBooking((prev: any) => ({
-    ...prev,
-    date,
-    time,
-    notes,
-  }));
+  const handleRescheduleContinue = (
+    date: string,
+    time: string,
+    notes: string,
+  ) => {
+    setSelectedBooking((prev: any) => ({
+      ...prev,
+      date,
+      time,
+      notes,
+    }));
 
-  setShowRescheduleModal(false); // close modal after continue
-};
+    setShowRescheduleModal(false); // close modal after continue
+  };
 
   const handleOpenChat = (booking: any) => {
     setSelectedChatBooking(booking);
@@ -177,7 +197,7 @@ const handleRescheduleContinue = (
         amount: 1299,
         address: "123 Main Street, Raipur",
         technician: "Raj Kumar",
-        technicianRating: 4.8
+        technicianRating: 4.8,
       } as PendingBooking,
       {
         id: "BK-002",
@@ -189,8 +209,8 @@ const handleRescheduleContinue = (
         amount: 899,
         address: "456 Park Avenue, Raipur",
         technician: "Amit Sharma",
-        technicianRating: 4.9
-      } as PendingBooking
+        technicianRating: 4.9,
+      } as PendingBooking,
     ],
     rejected: [
       {
@@ -202,8 +222,8 @@ const handleRescheduleContinue = (
         status: "Rejected",
         amount: 1599,
         address: "789 Oak Street, Raipur",
-        reason: "Technician unavailable for selected slot"
-      } as RejectedBooking
+        reason: "Technician unavailable for selected slot",
+      } as RejectedBooking,
     ],
     completed: [
       {
@@ -216,7 +236,7 @@ const handleRescheduleContinue = (
         amount: 2499,
         address: "321 Elm Road, Raipur",
         rating: 5,
-        review: "Excellent service! Technician was professional and thorough."
+        review: "Excellent service! Technician was professional and thorough.",
       } as CompletedBooking,
       {
         id: "BK-005",
@@ -228,32 +248,35 @@ const handleRescheduleContinue = (
         amount: 1899,
         address: "654 Pine Street, Raipur",
         rating: 4,
-        review: "Good service, completed on time."
-      } as CompletedBooking
-    ]
+        review: "Good service, completed on time.",
+      } as CompletedBooking,
+    ],
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Pending':
-    
-        return 'bg-blue-100 text-blue-800';
-      case 'Completed':
-        return 'bg-green-100 text-green-800';
-      case 'Rejected':
-        return 'bg-red-100 text-red-800';
+      case "Pending":
+        return "bg-blue-100 text-blue-800";
+      case "Completed":
+        return "bg-green-100 text-green-800";
+      case "Rejected":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
-  
   if (!user) {
     return (
       <div className="min-h-screen  flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Please Login to View Bookings</h2>
-          <a href="/login" className="text-orange-600 font-medium hover:underline">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Please Login to View Bookings
+          </h2>
+          <a
+            href="/login"
+            className="text-orange-600 font-medium hover:underline"
+          >
             Go to Login
           </a>
         </div>
@@ -266,10 +289,7 @@ const handleRescheduleContinue = (
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
-          <Link
-            className="hover:text-orange-500 cursor-pointer"
-           href="/"
-          >
+          <Link className="hover:text-orange-500 cursor-pointer" href="/">
             Home
           </Link>
           |<span className="text-orange-500 font-medium">Profile</span>
@@ -364,7 +384,7 @@ const handleRescheduleContinue = (
                       {/* Status Tabs */}
                       <div className=" ">
                         <div className="">
-                          <div className="flex gap-3 p-4">
+                          <div className="flex gap-3 p-4 flex-wrap sm:flex-nowrap overflow-x-auto">
                             {[
                               { id: "pending", label: "Pending" },
                               { id: "rejected", label: "Rejected" },
@@ -373,7 +393,7 @@ const handleRescheduleContinue = (
                               <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as any)}
-                                className={`px-5 py-1 rounded-full text-sm transition-all ${
+                                className={`px-5 py-1 rounded-full text-sm whitespace-nowrap transition-all ${
                                   activeTab === tab.id
                                     ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
                                     : "border border-orange-300 text-orange-500 hover:bg-orange-50"
@@ -387,7 +407,7 @@ const handleRescheduleContinue = (
                       </div>
 
                       {/* Booking Cards */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full max-w-3xl gap-6">
                         {bookings[activeTab].length > 0 ? (
                           bookings[activeTab].map((booking) => (
                             <BookingCard
@@ -422,7 +442,7 @@ const handleRescheduleContinue = (
                             />
                           ))
                         ) : (
-                          <div className="bg-white rounded-[20px] shadow-sm p-12 text-center md:col-span-2">
+                          <div className="bg-white rounded-[20px] shadow-sm p-6 sm:p-12 text-center md:col-span-2">
                             <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                             <h3 className="text-lg font-medium text-gray-900 mb-2">
                               No {activeTab} bookings
@@ -450,7 +470,7 @@ const handleRescheduleContinue = (
                       {/* Status Tabs for AMC (Same as Home UI) */}
                       <div className="">
                         <div>
-                          <div className="flex gap-3 p-4">
+                          <div className="flex gap-3 p-4 flex-wrap sm:flex-nowrap overflow-x-auto">
                             {[
                               { id: "pending", label: "Pending" },
                               { id: "rejected", label: "Rejected" },
@@ -459,7 +479,7 @@ const handleRescheduleContinue = (
                               <button
                                 key={tab.id}
                                 // (No functionality change — keep static or plug state later)
-                                className={`px-5 py-1 rounded-full text-sm transition-all ${
+                                className={`px-5 py-1 rounded-full text-sm whitespace-nowrap transition-all ${
                                   tab.id === "pending" // keep default active like before
                                     ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
                                     : "border border-orange-300 text-orange-500 hover:bg-orange-50"
@@ -473,7 +493,7 @@ const handleRescheduleContinue = (
                       </div>
 
                       {/* AMC Cards Grid */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-[90%]">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-[90%]">
                         {amcBookings.length > 0 ? (
                           amcBookings.map((item) => (
                             <div
@@ -485,8 +505,8 @@ const handleRescheduleContinue = (
                               }}
                             >
                               {/* Top Section */}
-                              <div className="flex justify-between items-start">
-                                <div className="flex gap-4">
+                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-start gap-4">
+                                <div className="flex gap-4 flex-1 min-w-0">
                                   {/* Profile Image */}
                                   <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200">
                                     <img
@@ -516,7 +536,7 @@ const handleRescheduleContinue = (
                                 </div>
 
                                 {/* Status */}
-                                <div className="flex flex-col gap-6 items-center">
+                                <div className="flex flex-row sm:flex-col justify-between sm:justify-start gap-4 sm:gap-6 items-start sm:items-center w-full sm:w-auto">
                                   <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-md font-medium">
                                     {item.status}
                                   </span>
@@ -532,7 +552,7 @@ const handleRescheduleContinue = (
                               </div>
 
                               {/* Upcoming Schedule */}
-                              <div className="flex justify-between items-center gap-2 my-5">
+                              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 my-5">
                                 <p className="">Upcoming Schedule:</p>
                                 <div className="flex items-center gap-2">
                                   <Calendar className="w-4 h-4 text-orange-500" />
@@ -543,7 +563,7 @@ const handleRescheduleContinue = (
                               </div>
 
                               {/* Buttons */}
-                              <div className="flex gap-3 mt-4">
+                              <div className="flex flex-col sm:flex-row gap-3 mt-4">
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -573,7 +593,7 @@ const handleRescheduleContinue = (
                             </div>
                           ))
                         ) : (
-                          <div className="col-span-full bg-white rounded-xl shadow-sm p-12 text-center">
+                          <div className="col-span-full bg-white rounded-xl shadow-sm p-6 sm:p-12 text-center">
                             <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                             <h3 className="text-lg font-medium text-gray-900 mb-2">
                               No AMC Packages Found
@@ -587,7 +607,7 @@ const handleRescheduleContinue = (
               )}
 
               {showBookingDetailsPage && selectedBooking && (
-                <div className="bg-[#f6f7f9] min-h-screen mx-auto w-[90%] rounded-2xl">
+                <div className="bg-[#f6f7f9] min-h-screen w-full max-w-full overflow-x-hidden rounded-2xl px-3 sm:px-6 lg:px-8">
                   {/* Back */}
                   {/* <button
                 onClick={() => setShowBookingDetailsPage(false)}
@@ -596,17 +616,16 @@ const handleRescheduleContinue = (
                 ← Back
               </button> */}
 
-                  <div className="flex justify-between w-[70%] gap-10 ">
-                    {/* LEFT SECTION */}
-                    <div className="lg:col-span-2 space-y-6 max-auto max-w-sm w-full">
+                  <div className="flex flex-col lg:flex-row w-full max-w-[1100px] gap-6 lg:gap-10 mx-auto py-4 sm:py-6">
+                    <div className="space-y-6 w-full lg:max-w-sm min-w-0">
                       {/* SERVICE CARD */}
-                      <div className="bg-white rounded-xl p-5 shadow-sm border flex gap-4 ">
+                      <div className="bg-white rounded-xl p-5 shadow-sm border flex flex-col sm:flex-row gap-4">
                         <img
                           src={"/ac.png"}
                           className="w-20 h-20 rounded-lg object-cover"
                         />
 
-                        <div className="flex w-full justify-between">
+                        <div className="flex flex-col sm:flex-row w-full justify-between gap-3 min-w-0">
                           <div>
                             <h2 className="font-bold text-lg">
                               {selectedBooking.service}
@@ -622,7 +641,7 @@ const handleRescheduleContinue = (
                               ₹{selectedBooking.amount}
                             </p>
                           </div>
-                          <div className="flex gap-3 justify-center p-2">
+                          <div className="flex gap-3 sm:justify-center p-2">
                             <img
                               src="/chat.png"
                               alt="chat"
@@ -678,9 +697,9 @@ const handleRescheduleContinue = (
                         <div className="mt-4 flex gap-3">
                           <input
                             placeholder="Apply Coupon"
-                            className="border rounded-lg px-3 py-2 w-full"
+                            className="border rounded-lg px-3 py-2 flex-1 min-w-0"
                           />
-                          <button className="bg-orange-500 text-white px-4 rounded-lg">
+                          <button className="bg-orange-500 text-white px-4 py-2 rounded-xl whitespace-nowrap">
                             Apply
                           </button>
                         </div>
@@ -775,9 +794,7 @@ const handleRescheduleContinue = (
                     </div>
 
                     {/* RIGHT SECTION */}
-                    <div className=" shadow-sm h-fit sticky top-24 w-full">
-                      <h3 className="font-semibold mb-4">Payment Summary</h3>
-
+                    <div className="shadow-sm h-fit w-full lg:flex-1 min-w-0 lg:sticky lg:top-24 sm:px-0">
                       <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
                         <div className="flex justify-between border-b pb-3">
                           <span>Item Total</span>
@@ -822,7 +839,7 @@ const handleRescheduleContinue = (
               )}
               {showAMCDetailsPage && selectedAMC && (
                 <div className="bg-[#f8f8f8] rounded-2xl ">
-                  <div className="flex justify-between gap-10 items-start w-[70%] ">
+                  <div className="flex flex-col md:flex-row  justify-between gap-10 items-start w-[70%] ">
                     {/* LEFT COLUMN */}
                     <div className="space-y-5  w-[60%] ">
                       {/* AMC Billing Details */}
@@ -888,56 +905,79 @@ const handleRescheduleContinue = (
                       </div>
 
                       {/* AMC Schedule */}
-                      <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-                        <div className="bg-gray-200 px-4 py-3 flex justify-between items-center">
-                          <h3 className="font-semibold text-gray-800">
+
+                      <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm w-full">
+                        {/* Header */}
+                        <div
+                          onClick={() => setOpen(!open)}
+                          className="bg-gray-200 px-4 py-3 flex justify-between items-center cursor-pointer"
+                        >
+                          <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
                             AMC Schedule
                           </h3>
-                          <span className="text-gray-600 text-sm">▼</span>
+
+                          <span
+                            className={`text-gray-600 text-sm transition-transform duration-300 ${
+                              open ? "rotate-180" : ""
+                            }`}
+                          >
+                            ▼
+                          </span>
                         </div>
 
-                        <div className="px-4 py-4">
-                          <div className="flex justify-between text-[13px] font-semibold text-[#333] mb-3">
-                            <span>Status</span>
-                            <span>Upcoming Date</span>
-                            <span>Details</span>
-                          </div>
+                        {/* Body */}
+                        <div
+                          className={`transition-all duration-300 ease-in-out ${
+                            open
+                              ? "max-h-[500px] opacity-100"
+                              : "max-h-0 opacity-0"
+                          } overflow-hidden`}
+                        >
+                          <div className="px-3 sm:px-4 py-4">
+                            {/* Heading */}
+                            <div className="flex justify-between text-[12px] sm:text-[13px] font-semibold text-[#333] mb-3">
+                              <span>Status</span>
+                              <span>Upcoming Date</span>
+                              <span>Details</span>
+                            </div>
 
-                          <div className="space-y-3">
-                            {selectedAMC.schedule.map(
-                              (sch: any, idx: number) => (
-                                <div
-                                  key={idx}
-                                  className="flex justify-between px-3  text-[13px] items-start"
-                                >
-                                  <span
-                                    className={`${
-                                      sch.status === "Completed"
-                                        ? "text-green-600"
-                                        : sch.status === "Upcoming"
+                            {/* Data */}
+                            <div className="space-y-3">
+                              {selectedAMC.schedule.map(
+                                (sch: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex justify-between px-2 sm:px-3 text-[12px] sm:text-[13px] items-start"
+                                  >
+                                    <span
+                                      className={`${
+                                        sch.status === "Completed"
+                                          ? "text-green-600"
+                                          : sch.status === "Upcoming"
+                                            ? "text-[#ff5a3c]"
+                                            : "text-[#9a9a9a]"
+                                      }`}
+                                    >
+                                      {sch.status}
+                                    </span>
+
+                                    <span
+                                      className={`${
+                                        sch.status === "Upcoming"
                                           ? "text-[#ff5a3c]"
-                                          : "text-[#9a9a9a]"
-                                    }`}
-                                  >
-                                    {sch.status}
-                                  </span>
+                                          : "text-[#8a8a8a]"
+                                      }`}
+                                    >
+                                      {sch.date}
+                                    </span>
 
-                                  <span
-                                    className={`${
-                                      sch.status === "Upcoming"
-                                        ? "text-[#ff5a3c]"
-                                        : "text-[#8a8a8a]"
-                                    }`}
-                                  >
-                                    {sch.date}
-                                  </span>
-
-                                  <span className="text-[#222] text-xs">
-                                    {idx === 0 ? "◉" : idx === 1 ? "▦" : ""}
-                                  </span>
-                                </div>
-                              ),
-                            )}
+                                    <span className="text-[#222] text-xs">
+                                      {idx === 0 ? "◉" : idx === 1 ? "▦" : ""}
+                                    </span>
+                                  </div>
+                                ),
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1250,4 +1290,4 @@ const handleRescheduleContinue = (
   );
 };
 
-export default MyBookingPage; 
+export default MyBookingPage;
