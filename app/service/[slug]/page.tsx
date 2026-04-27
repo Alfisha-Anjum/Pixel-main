@@ -32,6 +32,7 @@ import { SelectCapacityModal } from "@/components/booking-flow/SelectCapacityMod
 import ServiceSection from "@/components/ServiceSection";
 import ServicesSection from "@/components/ServicesSection";
 import { useSearchParams } from "next/navigation";
+// import { useBooking, CartItem } from "@/context/BookingContext";
 
 interface Service {
   id: number;
@@ -293,6 +294,7 @@ const ACRepairLayout = () => {
   ];
 
   const currentServices = servicesData[activeTab] || [];
+// const { addToCart } = useBooking();
 
   const addToCart = (service: Service | CartItemService) => {
     setCartItems((prev) => {
@@ -371,8 +373,8 @@ const ACRepairLayout = () => {
       </section>
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl p-5 pb-11 mx-auto bg-white">
-        <div className="w-full flex justify-center">
+      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto bg-white">
+        <div className="w-full flex  justify-center">
           <div className="">
             <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">
@@ -906,9 +908,9 @@ const ACRepairLayout = () => {
 
           {/* Right Column - Cart */}
         </div>
-        <div className=" w-full mx-auto mb-10 ">
+        <div className=" w-full mx-auto mb-2">
           {/* Testimonial Card - Background filter isolated */}
-          <div className="relative max-w-[1240px] text-center mx-auto rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 overflow-visible">
+          <div className="relative max-w-7xl text-center  rounded-2xl p-6 md:p-8 overflow-visible">
             {/* Background image layer with brightness filter only */}
             <div
               className="absolute inset-0 z-0 h-full"
@@ -948,7 +950,7 @@ const ACRepairLayout = () => {
               <div className="flex flex-col max-w-4xl mx-auto">
                 <div
                   ref={scrollContainerRef}
-                  className=" flex w-full mx-auto bg-transparent rounded-2xl gap-8"
+                  className=" flex w-full mx-auto bg-transparent rounded-2xl gap-8 pb-5"
                 >
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
@@ -1079,13 +1081,13 @@ const ACRepairLayout = () => {
           {/* Scrollable container with hidden scrollbar */}
           <div
             ref={scrollContainerRef}
-            className="flex px-10 overflow-x-auto hide-scrollbar scroll-smooth gap-4 pb-4"
+            className="flex px-10 overflow-x-auto hide-scrollbar scroll-smooth gap-4 "
           >
             {brands.map((brand, index) => (
               <div className="flex flex-col">
                 <div
                   key={index}
-                  className="flex-shrink-0  bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border border-gray-100 w-36 mx-auto"
+                  className="flex-shrink-0  bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-36 mx-auto"
                 >
                   {/* Logo */}
                   <div className="relative mb-2 h-[60px] w-full flex items-center justify-center">
@@ -1137,7 +1139,7 @@ const ACRepairLayout = () => {
             }
           `}</style>
         </div>
-        <div className="flex flex-col gap-4 mt-6">
+        <div className="flex flex-col gap-4 my-5">
           <h2 className="text-2xl font-semibold">
             AC Repair service in Raipur
           </h2>
@@ -1160,7 +1162,7 @@ const ACRepairLayout = () => {
             English versions from the 1914 translation by H. Rackham
           </p>
         </div>
-        <div className="flex flex-col gap-4 mt-6">
+        <div className="flex flex-col gap-4 ">
           <h2 className="text-2xl font-semibold">
             Hiring guide for AC Repair service in Raipur
           </h2>
@@ -1183,14 +1185,14 @@ const ACRepairLayout = () => {
             English versions from the 1914 translation by H. Rackham
           </p>
         </div>
-        <div className=" mx-auto mt-6">
-          <h2 className="text-3xl font-semibold my-8">
+        <div className=" mx-auto mt-5">
+          <h2 className="text-3xl font-semibold ">
             Frequently Asked Questions (FAQ)?
           </h2>
 
-          <div className="space-y-4">
+          <div className="pt-2">
             {faqData.map((faq, index) => (
-              <div key={index} className="border-b pb-4">
+              <div key={index} className="border-b pb-2">
                 <button
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex justify-between items-center text-left"
@@ -1214,8 +1216,8 @@ const ACRepairLayout = () => {
             ))}
           </div>
         </div>
-        <DeepCleaningServices />
       </div>
+        <DeepCleaningServices />
       <ServicesSection />
 
       <SelectCapacityModal
@@ -1266,7 +1268,7 @@ const ACRepairLayout = () => {
 };
 
 export default function ServiceDetailPage() {
-
+  const { addToCart } = useBooking();
    const params = useParams();
   const slug = params?.slug as string;
 
