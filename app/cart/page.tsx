@@ -70,7 +70,7 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
       <div className="min-h-screen ">
         {/* <Header /> */}
 
-        <main className="max-w-7xl mx-auto">
+        <main className="max-w-7xl mx-auto px-5">
           <h1 className="text-3xl font-bold text-gray-900 mb-5">
             Cart Summary
           </h1>

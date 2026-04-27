@@ -32,6 +32,7 @@ import { SelectCapacityModal } from "@/components/booking-flow/SelectCapacityMod
 import ServiceSection from "@/components/ServiceSection";
 import ServicesSection from "@/components/ServicesSection";
 import { useSearchParams } from "next/navigation";
+// import { useBooking, CartItem } from "@/context/BookingContext";
 
 interface Service {
   id: number;
@@ -293,6 +294,7 @@ const ACRepairLayout = () => {
   ];
 
   const currentServices = servicesData[activeTab] || [];
+// const { addToCart } = useBooking();
 
   const addToCart = (service: Service | CartItemService) => {
     setCartItems((prev) => {
@@ -371,8 +373,8 @@ const ACRepairLayout = () => {
       </section>
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl pt-5 mx-auto bg-white">
-        <div className="w-full flex justify-center">
+      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto bg-white">
+        <div className="w-full flex  justify-center">
           <div className="">
             <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">
@@ -1266,7 +1268,7 @@ const ACRepairLayout = () => {
 };
 
 export default function ServiceDetailPage() {
-
+  const { addToCart } = useBooking();
    const params = useParams();
   const slug = params?.slug as string;
 
