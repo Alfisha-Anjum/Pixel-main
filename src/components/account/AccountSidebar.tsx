@@ -92,12 +92,12 @@ export default function AccountSidebar() {
   return (
     <div
       className="
-        hidden md:flex flex-col gap-4
-        bg-white rounded-2xl border border-gray-200
+    hidden md:flex flex-col gap-4
+    bg-white rounded-2xl border border-gray-200
 
-        md:w-[80px] md:px-[50px] md:py-[30px]
-        lg:w-[250px] lg:px-6 lg:py-10
-      "
+    md:w-[250px] md:px-6 md:py-10
+    h-fit
+  "
     >
       {menu.map((item) => {
         const isActive = pathname === item.href;

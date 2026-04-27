@@ -2,10 +2,10 @@
 
 // import { useState } from "react";
 // import { useAuth } from "@/context/AuthContext";
-// import { 
-//   Home, 
-//   Calendar, 
-//   Package, 
+// import {
+//   Home,
+//   Calendar,
+//   Package,
 //   User,
 //   Search,
 //   Filter
@@ -368,20 +368,17 @@
 
 // export default MySchedulePage;
 
-
-
-
 "use client";
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { 
-  Home, 
-  Calendar, 
-  Package, 
-  User, 
-  ChevronRight, 
-  Phone, 
+import {
+  Home,
+  Calendar,
+  Package,
+  User,
+  ChevronRight,
+  Phone,
   MessageCircle,
   Clock,
   MapPin,
@@ -390,7 +387,7 @@ import {
   Filter,
   Search,
   Info,
-  X
+  X,
 } from "lucide-react";
 import { Pencil } from "lucide-react";
 // import SelectAddressModal from "@/components/SelectAddressModal";
@@ -408,17 +405,20 @@ import ChatBotPanel from "@/components/ChatBotPanel";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
+import Breadcrumb from "@/components/account/Breadcrumb";
+import { AccountSidebar } from "@/components/account";
 import Link from "next/link";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
-
 const MySchedulePage = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<'pending' | 'rejected' | 'completed'>('pending');
+  const [activeTab, setActiveTab] = useState<
+    "pending" | "rejected" | "completed"
+  >("pending");
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSplitModal, setShowSplitModal] = useState(false);
- 
+
   const [showChatBot, setShowChatBot] = useState(false);
   const [selectedChatBooking, setSelectedChatBooking] = useState<any>(null);
   // const [showCancelledSuccess, setShowCancelledSuccess] = useState(false);
@@ -431,27 +431,26 @@ const MySchedulePage = () => {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [showBookingDetailsPage, setShowBookingDetailsPage] = useState(false);
   const [showSelectAddressModal, setShowSelectAddressModal] = useState(false);
-const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
-  
+  const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
 
-const successBookingCancel = () => {
-  setShowCancelledSuccess(true);
-};
+  const successBookingCancel = () => {
+    setShowCancelledSuccess(true);
+  };
 
-const handleRescheduleContinue = (
-  date: string,
-  time: string,
-  notes: string,
-) => {
-  setSelectedBooking((prev: any) => ({
-    ...prev,
-    date,
-    time,
-    notes,
-  }));
+  const handleRescheduleContinue = (
+    date: string,
+    time: string,
+    notes: string,
+  ) => {
+    setSelectedBooking((prev: any) => ({
+      ...prev,
+      date,
+      time,
+      notes,
+    }));
 
-  setShowRescheduleModal(false); // close modal after continue
-};
+    setShowRescheduleModal(false); // close modal after continue
+  };
 
   const handleOpenChat = (booking: any) => {
     setSelectedChatBooking(booking);
@@ -460,112 +459,115 @@ const handleRescheduleContinue = (
     // setShowAMCDetailsPage(false);
   };
   // Define TypeScript interfaces
-interface Schedule {
-  id: string;
-  service: string;
-  type: string;
-  status: "Pending" | "Completed" | "Running" | "Rejected";
-  date: string;
-  time: string;
-  rating: number;
-  reviews?: number;
-  serviceImage?: string;
-  address?: string;
-  technician?: string;
-  itemTotal?: number;
-  discount?: number;
-  taxes?: number;
-}
+  interface Schedule {
+    id: string;
+    service: string;
+    type: string;
+    status: "Pending" | "Completed" | "Running" | "Rejected";
+    date: string;
+    time: string;
+    rating: number;
+    reviews?: number;
+    serviceImage?: string;
+    address?: string;
+    technician?: string;
+    itemTotal?: number;
+    discount?: number;
+    taxes?: number;
+  }
 
   // Mock booking data
-const schedules = [
-  {
-    id: "BK-001",
-    service: "AC Repair Service",
-    type: "Less / No Cooling",
-    status: "Pending",
-    date: "15 Feb 2024",
-    time: "10:00 AM - 12:00 PM",
-    rating: 4.8,
-    reviews: 3287,
-    serviceImage: "/ac.png",
-    address: "123 Main Street, Raipur",
-    technician: "Raj Kumar",
-    itemTotal: 1299,
-    discount: 100,
-    taxes: 49,
-  },
-  {
-    id: "BK-002",
-    service: "Plumbing Service",
-    type: "Pipe Leakage Repair",
-    status: "Pending",
-    date: "18 Feb 2024",
-    time: "2:00 PM - 4:00 PM",
-    rating: 4.9,
-    reviews: 3287,
-    serviceImage: "/service-plumbing.jpg",
-    address: "456 Park Avenue, Raipur",
-    technician: "Amit Sharma",
-    itemTotal: 899,
-    discount: 100,
-    taxes: 49,
-  },
-  {
-    id: "BK-003",
-    service: "Electrician Service",
-    type: "Wiring & Switch Repair",
-    status: "Pending",
-    date: "10 Feb 2024",
-    time: "11:00 AM - 1:00 PM",
-    rating: 4.8,
-    reviews: 3287,
-    serviceImage: "/service-electrician.jpg",
-    address: "789 Oak Street, Raipur",
-    technician: "Technician unavailable",
-    itemTotal: 1599,
-    discount: 100,
-    taxes: 49,
-  },
-  {
-    id: "BK-004",
-    service: "Home Cleaning",
-    type: "Full Home Deep Cleaning",
-    status: "Completed",
-    date: "01 Feb 2024",
-    time: "9:00 AM - 11:00 AM",
-    rating: 5,
-    reviews: 3287,
-    serviceImage: "/service-cleaning.jpg",
-    address: "321 Elm Road, Raipur",
-    technician: "Cleaning Expert",
-    itemTotal: 2499,
-    discount: 100,
-    taxes: 49,
-  },
-];
+  const schedules = [
+    {
+      id: "BK-001",
+      service: "AC Repair Service",
+      type: "Less / No Cooling",
+      status: "Pending",
+      date: "15 Feb 2024",
+      time: "10:00 AM - 12:00 PM",
+      rating: 4.8,
+      reviews: 3287,
+      serviceImage: "/ac.png",
+      address: "123 Main Street, Raipur",
+      technician: "Raj Kumar",
+      itemTotal: 1299,
+      discount: 100,
+      taxes: 49,
+    },
+    {
+      id: "BK-002",
+      service: "Plumbing Service",
+      type: "Pipe Leakage Repair",
+      status: "Pending",
+      date: "18 Feb 2024",
+      time: "2:00 PM - 4:00 PM",
+      rating: 4.9,
+      reviews: 3287,
+      serviceImage: "/service-plumbing.jpg",
+      address: "456 Park Avenue, Raipur",
+      technician: "Amit Sharma",
+      itemTotal: 899,
+      discount: 100,
+      taxes: 49,
+    },
+    {
+      id: "BK-003",
+      service: "Electrician Service",
+      type: "Wiring & Switch Repair",
+      status: "Pending",
+      date: "10 Feb 2024",
+      time: "11:00 AM - 1:00 PM",
+      rating: 4.8,
+      reviews: 3287,
+      serviceImage: "/service-electrician.jpg",
+      address: "789 Oak Street, Raipur",
+      technician: "Technician unavailable",
+      itemTotal: 1599,
+      discount: 100,
+      taxes: 49,
+    },
+    {
+      id: "BK-004",
+      service: "Home Cleaning",
+      type: "Full Home Deep Cleaning",
+      status: "Completed",
+      date: "01 Feb 2024",
+      time: "9:00 AM - 11:00 AM",
+      rating: 5,
+      reviews: 3287,
+      serviceImage: "/service-cleaning.jpg",
+      address: "321 Elm Road, Raipur",
+      technician: "Cleaning Expert",
+      itemTotal: 2499,
+      discount: 100,
+      taxes: 49,
+    },
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Pending':
-    
-        return 'bg-blue-100 text-blue-800';
-      case 'Completed':
-        return 'bg-green-100 text-green-800';
-      case 'Rejected':
-        return 'bg-red-100 text-red-800';
+      case "Pending":
+        return "bg-blue-100 text-blue-800";
+      case "Completed":
+        return "bg-green-100 text-green-800";
+      case "Rejected":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
-  
   if (!user) {
     return (
       <div className="min-h-screen  flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Please Login to View Bookings</h2>
-          <a href="/login" className="text-orange-600 font-medium hover:underline">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Please Login to View Bookings
+          </h2>
+          <a
+            href="/login"
+            className="text-orange-600 font-medium hover:underline"
+          >
             Go to Login
           </a>
         </div>
@@ -577,7 +579,7 @@ const schedules = [
     <div className="min-h-screen ">
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
-        <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
+        {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-orange-500 cursor-pointer">
             Home
           </Link>
@@ -585,10 +587,13 @@ const schedules = [
       
         
           |<span className="text-orange-500 font-medium">Profile</span>
-        </div>
-        <div className="flex flex-col md:flex-row gap-10 border-t border-gray-200 pt-8 w-full mx-auto">
+        </div> */}
+        <Breadcrumb
+          items={[{ label: "Home", href: "/" }, { label: "My Schedule" }]}
+        />
+        <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
           {/* Sidebar */}
-          <div
+          {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
           >
             <div className="bg-white rounded-xl shadow-xl p-6">
@@ -623,37 +628,37 @@ const schedules = [
                 </a>
               </nav>
             </div>
-          </div>
+          </div> */}
+          <AccountSidebar />
 
-      
-            {!showBookingDetailsPage && (
-              <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">
-                {schedules.map((schedule) => (
-                  <BookingCard
-                    key={schedule.id}
-                    service={schedule.service}
-                    subtitle={`Booking ID: ${schedule.id} | ₹${schedule.itemTotal}`}
-                    rating={schedule.rating}
-                    reviews={schedule.reviews || 0}
-                    date={schedule.date}
-                    time={schedule.time}
-                    status={
-                      schedule.status as "Pending" | "Completed" | "Cancelled"
-                    }
-                    // onChat={() => handleOpenChat(schedule)}
-                    onViewDetails={() => {
-                      setSelectedBooking(schedule);
-                      setShowBookingDetailsPage(true);
-                    }}
-                    // onReschedule={() => {
-                    //   setSelectedBooking(schedule);
-                    //   setShowRescheduleModal(true);
-                    // }}
-                  />
-                ))}
-              </div>
-            )}
-         
+          {!showBookingDetailsPage && (
+            <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">
+              {schedules.map((schedule) => (
+                <BookingCard
+                  key={schedule.id}
+                  service={schedule.service}
+                  subtitle={`Booking ID: ${schedule.id} | ₹${schedule.itemTotal}`}
+                  rating={schedule.rating}
+                  reviews={schedule.reviews || 0}
+                  date={schedule.date}
+                  time={schedule.time}
+                  status={
+                    schedule.status as "Pending" | "Completed" | "Cancelled"
+                  }
+                  // onChat={() => handleOpenChat(schedule)}
+                  onViewDetails={() => {
+                    setSelectedBooking(schedule);
+                    setShowBookingDetailsPage(true);
+                  }}
+                  // onReschedule={() => {
+                  //   setSelectedBooking(schedule);
+                  //   setShowRescheduleModal(true);
+                  // }}
+                />
+              ))}
+            </div>
+          )}
+
           {/* Main Content */}
 
           {showBookingDetailsPage && selectedBooking && (
@@ -666,9 +671,9 @@ const schedules = [
                 ← Back
               </button> */}
 
-              <div className="flex w-[90%] mx-auto gap-10 ">
+              <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-6 lg:gap-10">
                 {/* LEFT SECTION */}
-                <div className="lg:col-span-2 space-y-6 max-auto max-w-sm w-full">
+                <div className="w-full lg:w-[75%] space-y-6">
                   {/* SERVICE CARD */}
                   <div className="flex flex-col w-full justify-between border shadow-sm rounded-xl p-5">
                     <div className="flex justify-between w-full">
@@ -812,7 +817,7 @@ const schedules = [
                 </div>
 
                 {/* RIGHT SECTION */}
-                <div className=" shadow-sm h-fit sticky top-24 w-[80%]">
+                <div className="shadow-sm h-fit w-full lg:w-[25%] lg:sticky lg:top-24 order-2 lg:order-none">
                   <h3 className="font-semibold mb-4">Payment Summary</h3>
 
                   <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
@@ -923,4 +928,4 @@ const schedules = [
   );
 };
 
-export default MySchedulePage; 
+export default MySchedulePage;
