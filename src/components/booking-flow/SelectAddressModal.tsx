@@ -79,9 +79,9 @@
 //               className="p-4 border-2 rounded-xl cursor-pointer transition-all"
 //               style={{
 //                 borderColor:
-//                   selectedId === address.id ? "#FF6B00" : "#E5E7EB",
+//                   selectedId === String(address.id) ? "#FF6B00" : "#E5E7EB",
 //                 backgroundColor:
-//                   selectedId === address.id ? "#FFF4E6" : "transparent",
+//                   selectedId === String(address.id) ? "#FFF4E6" : "transparent",
 //               }}
 //               onClick={() => setSelectedId(address.id)}
 //             >
@@ -146,6 +146,7 @@ interface SelectAddressModalProps {
   onClose: () => void;
   onContinue: (address: Address) => void;
   onAddNew: () => void;
+  addresses: any[];
 }
 
 const savedAddresses: Address[] = [
@@ -174,16 +175,15 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
   onClose,
   onContinue,
   onAddNew,
+  addresses,
 }) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
   const handleContinue = () => {
-    if (selectedId) {
-      const selected = savedAddresses.find((a) => a.id === selectedId);
-      if (selected) onContinue(selected);
-    }
+    const selected = addresses.find((a) => String(a.id) === selectedId);
+    if (selected) onContinue(selected);
   };
 
   return (
@@ -199,20 +199,20 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
 
         {/* Address List */}
         <div className="space-y-5 mb-5">
-          {savedAddresses.map((address) => (
+          {addresses.map((address) => (
             <div
               key={address.id}
-              onClick={() => setSelectedId(address.id)}
+              onClick={() => setSelectedId(String(address.id))}
               className="flex items-start gap-3 cursor-pointer"
             >
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
-                  selectedId === address.id
+                 selectedId === String(address.id) 
                     ? "border-orange-500"
                     : "border-gray-300"
                 }`}
               >
-                {selectedId === address.id && (
+                {selectedId === String(address.id) && (
                   <div className="w-2.5 h-2.5 bg-orange-500 rounded-full" />
                 )}
               </div>
@@ -221,19 +221,22 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <p className="font-semibold text-gray-900">
-                    Mr. Tikesh Dewangan
+                    {address.full_name}
                   </p>
+
                   <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">
-                    {address.name}
+                    {address.type}
                   </span>
                 </div>
 
                 <p className="text-sm text-gray-500 mt-1 leading-snug">
-                  {address.address}, {address.city}, {address.state},{" "}
-                  {address.pincode}
+                  {address.house_number}, {address.street}, {address.city?.name}
+                  , {address.state?.name}, {address.postal_code}
                 </p>
 
-                <p className="text-sm text-gray-500 mt-1">{address.phone}</p>
+                <p className="text-sm text-gray-500 mt-1">
+                  {address.contact_number}
+                </p>
               </div>
             </div>
           ))}

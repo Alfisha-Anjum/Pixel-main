@@ -28,23 +28,20 @@ export const AddNewAddressModal: React.FC<AddNewAddressModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSave = () => {
-    if (formData.name && formData.phone && formData.houseNo && formData.street && formData.city && formData.pincode) {
-      onSave(formData);
-      setFormData({
-        name: "",
-        phone: "",
-        altPhone: "",
-        houseNo: "",
-        street: "",
-        landmark: "",
-        city: "Raipur",
-        state: "Chhattisgarh",
-        pincode: "",
-      });
-    }
-  };
-
+ const handleSave = () => {
+   console.log("FORM DATA BEFORE SAVE:", formData);
+if (
+  formData.name &&
+  formData.phone &&
+  formData.houseNo &&
+  formData.city &&
+  formData.pincode
+) {
+  onSave(formData);
+} else {
+  alert("Please fill all required fields");
+}
+ };
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative max-h-96 overflow-y-auto">
@@ -190,3 +187,5 @@ export const AddNewAddressModal: React.FC<AddNewAddressModalProps> = ({
     </div>
   );
 };
+
+export default AddNewAddressModal;
