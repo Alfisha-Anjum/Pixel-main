@@ -765,7 +765,7 @@ const MySchedulePage = () => {
                     <div className="mt-4 flex gap-3">
                       <input
                         placeholder="Apply Coupon"
-                        className="border rounded-lg px-3 py-2 w-full"
+                        className="bg-white border rounded-lg px-3 py-2 w-full"
                       />
                       <button className="bg-orange-500 text-white px-4 rounded-lg">
                         Apply

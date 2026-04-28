@@ -35,35 +35,35 @@ const LoginPage = () => {
     fetchCountries();
   }, []);
 
- const handleSendOTP = async () => {
-  if (phone.length !== 10) {
-    alert("Please enter a valid 10-digit phone number");
-    return;
-  }
-
-  try {
-    setLoading(true);
-
-    const res = await axios.post(
-      "https://taskpro.itmingo.com/api/customers/send-otp",
-      {
-        country_id: selectedCountry.id,
-        mobile: phone,
-      }
-    );
-
-    if (res.data.status) {
-      router.push(`/otp?phone=${phone}`);
-    } else {
-      alert(res.data.message);
+  const handleSendOTP = async () => {
+    if (phone.length !== 10) {
+      alert("Please enter a valid 10-digit phone number");
+      return;
     }
-  } catch (error) {
-    console.error(error);
-    alert("Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post(
+        "https://taskpro.itmingo.com/api/customers/send-otp",
+        {
+          country_id: selectedCountry.id,
+          mobile: phone,
+        },
+      );
+
+      if (res.data.status) {
+        router.push(`/otp?phone=${phone}`);
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -72,7 +72,7 @@ const LoginPage = () => {
       <main className="flex-1 flex items-center justify-center py-8">
         <div className="max-w-4xl w-full flex rounded-2xl overflow-hidden shadow-xl">
           {/* Left Side - White */}
-          <div className="w-1/2 bg-white p-12 flex flex-col justify-center">
+          <div className="w-full md:w-1/2 bg-white p-6 md:p-12 flex flex-col justify-center">
             <div className="mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
                 Hello &amp; Welcome!
@@ -116,7 +116,7 @@ const LoginPage = () => {
                       setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
                     }
                     placeholder="Enter your phone number"
-                    className="w-full px-3 py-3 outline-none"
+                    className="bg-white w-full px-3 py-3 outline-none"
                   />
                 </div>
               </div>
@@ -145,7 +145,7 @@ const LoginPage = () => {
           </div>
 
           {/* Right Side - Orange BG with Image */}
-          <div className="w-1/2 bg-gradient-to-br from-orange-500 to-orange-600 flex flex-col items-center justify-center p-12 relative overflow-hidden">
+          <div className="w-1/2 hidden md:flex bg-gradient-to-br from-orange-500 to-orange-600 flex-col items-center justify-center p-12 relative overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10 text-center text-white">
               <h2 className="text-3xl font-bold mb-4">
