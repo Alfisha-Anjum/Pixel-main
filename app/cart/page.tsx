@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { useBooking } from "@/context/BookingContext";
-import AddressSelectionModal from "@/components/AddressSelectionModal";
 import { TermsConditionsModal } from "@/components/TermsConditionsModal";
 import { Trash2, Plus, ChevronDown } from "lucide-react";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
 import DeepCleaningServices from "@/components/DeepCleaningServices";
+import axios from "axios";
 
 interface Address {
   id: string;
@@ -32,6 +30,101 @@ const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
   const totalMRP = cartItems.reduce((sum, item) => sum + item.price * 1.2, 0);
   const totalDiscount = totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const [addresses, setAddresses] = useState<any[]>([]);
+  // const [token, setToken] = useState<string | null>(null);
+
+ const token = localStorage.getItem("token");
+
+ const getCustomerAddresses = async (token: string) => {
+   const res = await axios.get(
+     "https://taskpro.itmingo.com/api/customers/customer-addresses",
+     {
+       headers: {
+         Authorization: `Bearer ${token}`,
+         Accept: "application/json",
+       },
+     },
+   );
+
+   return res.data;
+ };
+
+const addCustomerAddress = async (token: string, formData: any) => {
+
+const cleanPhone = (value: string) => {
+  const digits = value.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
+  return `+91 ${digits}`;
+};
+
+const altRaw = formData.alternateNumber || formData.altPhone || "";
+const altDigits = altRaw
+  .replace(/\D/g, "")
+  .replace(/^91/, "")
+  .replace(/^0/, "");
+
+const payload: any = {
+  full_name: formData.fullName || formData.name || "",
+  contact_number: cleanPhone(formData.contactNumber || formData.phone || ""),
+  postal_code: formData.postalCode || formData.pincode || "",
+  latitude: 21.2514,
+  longitude: 81.6296,
+  country_id: 1,
+  state_id: 1,
+  city_id: 1,
+  house_number: formData.houseNo || "",
+  street:
+    formData.street ||
+    formData.location ||
+    formData.roadLandmark ||
+    formData.address ||
+    "",
+  type: "Home",
+  is_active: 1,
+};
+
+payload.alt_contact_number =
+  altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
+
+
+ 
+  console.log("POST PAYLOAD:", payload);
+
+  const res = await axios.post(
+    "https://taskpro.itmingo.com/api/customers/customer-addresses",
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  return res.data;
+};
+
+ const fetchAddresses = async () => {
+  if (!token) return;
+
+  const res = await getCustomerAddresses(token);
+  setAddresses(res.data || []);
+};
+
+useEffect(() => {
+  fetchAddresses();
+}, [token]);
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      if (!token) return;
+
+      const res = await getCustomerAddresses(token);
+      setAddresses(res.data);
+    };
+
+    fetchAddresses();
+  }, [token]);
 
   const frequentlyAdded = [
     {
@@ -273,22 +366,24 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
             </div>
           </div>
         </main>
-          <DeepCleaningServices title="Frequently Added Together" />
+        <DeepCleaningServices title="Frequently Added Together" />
 
         {/* Modals */}
         <SelectAddressModal
           isOpen={showAddressModal}
           onClose={() => setShowAddressModal(false)}
+          addresses={addresses}
           onContinue={(address) => {
             setSelectedAddress(address);
             setShowAddressModal(false);
             setShowTCModal(true);
           }}
           onAddNew={() => {
-            setShowAddressModal(false); // close current
-            setShowAddNewAddressModal(true); // open new one
+            setShowAddressModal(false);
+            setShowAddNewAddressModal(true);
           }}
         />
+
         <SelectDateTimeModal
           isOpen={showDateTimeModal}
           onClose={() => setShowDateTimeModal(false)}
@@ -298,17 +393,21 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
         <AddNewAddressModal
           isOpen={showAddNewAddressModal}
           onClose={() => setShowAddNewAddressModal(false)}
-          onSave={(newAddress) => {
-            console.log(newAddress);
+          onSave={async (newAddress) => {
+            console.log("NEW ADDRESS FROM MODAL:", newAddress);
 
-            // optional: save selected address
-            setSelectedAddress(newAddress);
+            if (!token) return;
 
-            // close add address modal
-            setShowAddNewAddressModal(false);
+            try {
+              const res = await addCustomerAddress(token, newAddress);
+              await fetchAddresses();
 
-            // ✅ directly open Terms & Conditions
-            setShowTCModal(true);
+              setSelectedAddress(res.data);
+              setShowAddNewAddressModal(false);
+              setShowAddressModal(true);
+            } catch (error: any) {
+              console.log("VALIDATION ERROR:", error.response?.data);
+            }
           }}
         />
 

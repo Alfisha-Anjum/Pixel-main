@@ -350,8 +350,9 @@ const ACRepairLayout = () => {
 
       {/* Hero Section */}
       <section className="bg-white">
-        <div className="w-full max-w-7xl mx-auto px-5">
-          <div className="text-xl text-gray-600">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-5">
+          {/* Breadcrumb */}
+          <div className="text-sm sm:text-base md:text-lg text-gray-600 py-4">
             <a href="/" className="hover:text-[#FF6A00]">
               Home
             </a>
@@ -366,34 +367,29 @@ const ACRepairLayout = () => {
             <span className="text-gray-900 font-semibold">AC Repair</span>
           </div>
 
-          {/* Title & Rating Section */}
-
-          {/* TASPro Cover */}
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto bg-white">
-        <div className="w-full flex  justify-center">
-          <div className="">
-            <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">
+          {/* Responsive Hero Layout */}
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* LEFT CONTENT */}
+            <div className="w-full lg:w-1/2 order-2 lg:order-1">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 leading-snug">
                 Best Air Condition (AC) <br />
                 Repair Service in Raipur
               </h1>
-              <div className="flex flex-col items-end">
-                <div className="flex items-center gap-1">
-                  <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
-                  <span className="text-gray-900 font-semibold">4.5</span>
-                  <span className="text-gray-600">(480 review)</span>
-                  <span className="text-gray-600 mx-1">|</span>
-                  <span className="text-gray-900 font-semibold">5785</span>
-                  <span className="text-gray-600">(Bookings in Raipur)</span>
-                </div>
+
+              {/* Rating */}
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm sm:text-base">
+                <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
+                <span className="font-semibold text-gray-900">4.5</span>
+                <span className="text-gray-600">(480 review)</span>
+                <span className="text-gray-400">|</span>
+                <span className="font-semibold text-gray-900">5785</span>
+                <span className="text-gray-600">(Bookings in Raipur)</span>
               </div>
-              <div className="bg-white border border-[#c1c1c1] rounded-2xl p-4 mt-6 relative">
-                {/* Badge (attached to border) */}
-                <div className="absolute border -top-3 p-2 rounded-lg left-6 bg-white px-3 flex items-center gap-2">
+
+              {/* Cover Card */}
+              <div className="bg-white border border-gray-300 rounded-2xl p-4 mt-6 relative max-w-lg">
+                {/* Badge */}
+                <div className="absolute -top-3 left-5 bg-white px-3 py-1 border rounded-lg flex items-center gap-2">
                   <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
                     ✓
                   </div>
@@ -402,23 +398,21 @@ const ACRepairLayout = () => {
                   </span>
                 </div>
 
-                {/* Inner Content */}
-                <div className="mt-4 space-y-3">
-                  {/* Item 1 */}
-                  <div className="flex items-center justify-between border rounded-xl px-4 py-3 my-5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">🏅</span>
-                      <span className="text-sm text-gray-500 hover:text-orange-600">
+                {/* Items */}
+                <div className="mt-5 space-y-3">
+                  <div className="flex justify-between items-center border rounded-xl px-4 py-3">
+                    <div className="flex gap-2 items-center">
+                      <span>🏅</span>
+                      <span className="text-sm text-gray-500">
                         30 days unconditional warranty
                       </span>
                     </div>
-                    <span className="text-gray-400 text-lg">›</span>
+                    <span>›</span>
                   </div>
 
-                  {/* Item 2 */}
-                  <div className="flex items-center justify-between border rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">💳</span>
+                  <div className="flex justify-between items-center border rounded-xl px-4 py-3">
+                    <div className="flex gap-2 items-center">
+                      <span>💳</span>
                       <Link
                         href="/rate-card"
                         className="text-sm text-gray-500 hover:text-orange-600"
@@ -426,26 +420,30 @@ const ACRepairLayout = () => {
                         Standard rate card no hidden charges
                       </Link>
                     </div>
-                    <span className="text-gray-400 text-lg">›</span>
+                    <span>›</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-full flex ">
-            <div className=" w-full h-full rounded-[24px] overflow-hidden relative">
-              <Image
-                src="/heroimage.jpg"
-                alt="Hero"
-                className="object-cover"
-                fill
 
-                // sizes="(max-width: 1024px) 100vw, 500px"
-              />
+            {/* RIGHT IMAGE */}
+            <div className="w-full lg:w-1/2 order-1 lg:order-2">
+              <div className="relative w-full h-[300px] sm:h-[320px] md:h-[420px] lg:h-[500px] rounded-2xl overflow-hidden">
+                <Image
+                  src="/heroimage.jpg"
+                  alt="Hero"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
-          {/* Service Cards - 2 rows, 3 cards per row */}
         </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-5">
           {/* Left Column - Categories */}
           <div className="">
@@ -644,253 +642,255 @@ const ACRepairLayout = () => {
           </div>
 
           <div className="lg:col-span-1">
-  <div className="sticky top-24 space-y-6">
-            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
-              {cartItems.length === 0 ? (
-                <div className="text-center">
-                  <Image
-                    src="/pana.png"
-                    alt="Empty Cart"
-                    width={200}
-                    height={200}
-                    className="mx-auto mb-4"
-                  />
-                  <p className="text-gray-600 font-medium mb-2">
-                    Your Cart is empty
-                  </p>
-                  <p className="text-sm text-gray-500 mb-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {/* Cart Header */}
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Cart
-                  </h3>
+            <div className="sticky top-24 space-y-6">
+              <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
+                {cartItems.length === 0 ? (
+                  <div className="text-center">
+                    <Image
+                      src="/pana.png"
+                      alt="Empty Cart"
+                      width={200}
+                      height={200}
+                      className="mx-auto mb-4"
+                    />
+                    <p className="text-gray-600 font-medium mb-2">
+                      Your Cart is empty
+                    </p>
+                    <p className="text-sm text-gray-500 mb-6">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    {/* Cart Header */}
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      Cart
+                    </h3>
 
-                  {/* Cart Items */}
-                  <div className="space-y-4 mb-4">
-                    {cartItems.map((item) => (
-                      <div
-                        key={item.id}
-                        className="grid grid-cols-3 items-center gap-2"
-                      >
-                        {/* Title */}
-                        <div className="truncate">
-                          <p className="text-sm text-gray-400 truncate">
-                            {item.title}
-                          </p>
-                        </div>
+                    {/* Cart Items */}
+                    <div className="space-y-4 mb-4">
+                      {cartItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="grid grid-cols-3 items-center gap-2"
+                        >
+                          {/* Title */}
+                          <div className="truncate">
+                            <p className="text-sm text-gray-400 truncate">
+                              {item.title}
+                            </p>
+                          </div>
 
-                        {/* Quantity */}
-                        <div className="flex justify-end">
-                          <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
-                            <button
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity - 1)
-                              }
-                              className="text-orange-500"
-                            >
-                              -
-                            </button>
+                          {/* Quantity */}
+                          <div className="flex justify-end">
+                            <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity - 1)
+                                }
+                                className="text-orange-500"
+                              >
+                                -
+                              </button>
 
-                            <span className="text-sm">{item.quantity}</span>
+                              <span className="text-sm">{item.quantity}</span>
 
-                            <button
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity + 1)
-                              }
-                              className="text-orange-500"
-                            >
-                              +
-                            </button>
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity + 1)
+                                }
+                                className="text-orange-500"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Price */}
+                          <div className="text-right">
+                            <p className="text-sm font-semibold text-gray-900">
+                              ₹{item.price * item.quantity}
+                            </p>
+                            <p className="text-xs text-gray-400 line-through">
+                              ₹{item.price + 50}
+                            </p>
                           </div>
                         </div>
-
-                        {/* Price */}
-                        <div className="text-right">
-                          <p className="text-sm font-semibold text-gray-900">
-                            ₹{item.price * item.quantity}
-                          </p>
-                          <p className="text-xs text-gray-400 line-through">
-                            ₹{item.price + 50}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Footer */}
-                  <div className=" pt-4 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">
-                        ₹
-                        {cartItems.reduce(
-                          (acc, item) => acc + item.price * item.quantity,
-                          0,
-                        )}
-                      </p>
-                      <p className="text-green-600 text-xs font-semibold">
-                        You save ₹102 on this order
-                      </p>
+                      ))}
                     </div>
 
-                    <button className="bg-orange-500 text-white px-5 py-3 rounded-lg text-sm font-medium">
-                      <Link href="/cart">View Cart</Link>
-                    </button>
+                    {/* Footer */}
+                    <div className=" pt-4 flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">
+                          ₹
+                          {cartItems.reduce(
+                            (acc, item) => acc + item.price * item.quantity,
+                            0,
+                          )}
+                        </p>
+                        <p className="text-green-600 text-xs font-semibold">
+                          You save ₹102 on this order
+                        </p>
+                      </div>
+
+                      <button className="bg-orange-500 text-white px-5 py-3 rounded-lg text-sm font-medium">
+                        <Link href="/cart">View Cart</Link>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="border rounded-xl p-5 mb-6">
+                <h4 className="font-semibold text-sm text-gray-900 mb-3">
+                  Why TASPro Company
+                </h4>
+
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="/y1.png" // 👈 your image path
+                      alt="check"
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs text-gray-600">
+                      Trained & skilled technician serviceman
+                    </span>
                   </div>
-                </>
-              )}
-            </div>
 
-            <div className="border rounded-xl p-5 mb-6">
-              <h4 className="font-semibold text-sm text-gray-900 mb-3">
-                Why TASPro Company
-              </h4>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="/y2.png"
+                      alt="check"
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs text-gray-600">
+                      100% satisfaction guaranteed
+                    </span>
+                  </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/y1.png" // 👈 your image path
-                    alt="check"
-                    className="w-4 h-4 object-contain"
-                  />
-                  <span className="text-xs text-gray-600">
-                    Trained & skilled technician serviceman
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/y2.png"
-                    alt="check"
-                    className="w-4 h-4 object-contain"
-                  />
-                  <span className="text-xs text-gray-600">
-                    100% satisfaction guaranteed
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/y3.png"
-                    alt="check"
-                    className="w-4 h-4 object-contain"
-                  />
-                  <span className="text-xs text-gray-600">
-                    On time service delivery
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/y4.png"
-                    alt="check"
-                    className="w-4 h-4 object-contain"
-                  />
-                  <span className="text-xs text-gray-600">
-                    Quality assured service
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/y5.png"
-                    alt="check"
-                    className="w-4 h-4 object-contain"
-                  />
-                  <span className="text-xs text-gray-600">
-                    Best price guaranteed
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/y6.png"
-                    alt="check"
-                    className="w-4 h-4 object-contain"
-                  />
-                  <span className="text-xs text-gray-600">
-                    Hassle free work
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="/y3.png"
+                      alt="check"
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs text-gray-600">
+                      On time service delivery
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="/y4.png"
+                      alt="check"
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs text-gray-600">
+                      Quality assured service
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="/y5.png"
+                      alt="check"
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs text-gray-600">
+                      Best price guaranteed
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="/y6.png"
+                      alt="check"
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs text-gray-600">
+                      Hassle free work
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mb-6 border border-orange-500 rounded-xl px-4 py-3">
-              {/* Header */}
-              <button
-                onClick={() => setShowCoupons(!showCoupons)}
-                className="w-full flex items-center justify-between "
-              >
-                <div className="flex gap-4">
-                  <div className=" ">
-                    <img src="/coupon.png" />
-                  </div>
-                  <div className="flex flex-col gap-2 items-start ">
-                    {" "}
-                    <p className="text-sm font-semibold text-gray-900">
-                      Coupons & Offer
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Save upto 15% on every booking
-                    </p>
-                  </div>
-                </div>
-
-                <ChevronDown
-                  className={`w-5 h-5 text-gray-500 transition-transform ${
-                    showCoupons ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {/* Expand Section */}
-              {showCoupons && (
-                <div className="mt-8 space-y-4">
-                  {/* Item 1 */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
-                      %
+              <div className="mb-6 border border-orange-500 rounded-xl px-4 py-3">
+                {/* Header */}
+                <button
+                  onClick={() => setShowCoupons(!showCoupons)}
+                  className="w-full flex items-center justify-between "
+                >
+                  <div className="flex gap-4">
+                    <div className=" ">
+                      <img src="/coupon.png" />
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <p className="text-sm font-medium text-gray-800">
-                        Assured Cashback on Paytm
-                      </p>
-                      <p className="text-xs text-gray-500">Flat ₹30 Cashback</p>
-                    </div>
-                  </div>
-
-                  {/* Item 2 */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
-                      %
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-800">
-                        Assured Cashback on CRED
+                    <div className="flex flex-col gap-2 items-start ">
+                      {" "}
+                      <p className="text-sm font-semibold text-gray-900">
+                        Coupons & Offer
                       </p>
                       <p className="text-xs text-gray-500">
-                        Get cashback of ₹10
+                        Save upto 15% on every booking
                       </p>
                     </div>
                   </div>
 
-                  {/* Item 3 */}
-                  <div className="flex items-start gap-3 pb-6">
-                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
-                      %
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-500 transition-transform ${
+                      showCoupons ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Expand Section */}
+                {showCoupons && (
+                  <div className="mt-8 space-y-4">
+                    {/* Item 1 */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                        %
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <p className="text-sm font-medium text-gray-800">
+                          Assured Cashback on Paytm
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Flat ₹30 Cashback
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-800">
-                        15% off on Kotak Debit Cards
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        15% off up to ₹250
-                      </p>
+
+                    {/* Item 2 */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                        %
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          Assured Cashback on CRED
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Get cashback of ₹10
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Item 3 */}
+                    <div className="flex items-start gap-3 pb-6">
+                      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                        %
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          15% off on Kotak Debit Cards
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          15% off up to ₹250
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-            {/* {cartItems.length > 0 && (
+                )}
+              </div>
+              {/* {cartItems.length > 0 && (
               <div className="border-t mt-6 pt-4">
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-lg font-bold text-gray-900">
@@ -902,7 +902,7 @@ const ACRepairLayout = () => {
                 </button>
               </div>
             )} */}
-          </div>
+            </div>
           </div>
           {/* Middle Column - Service Cards */}
 
@@ -1217,7 +1217,7 @@ const ACRepairLayout = () => {
           </div>
         </div>
       </div>
-        <DeepCleaningServices />
+      <DeepCleaningServices />
       <ServicesSection />
 
       <SelectCapacityModal

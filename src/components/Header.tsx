@@ -98,15 +98,21 @@ const { user, logout } = useAuth();
           {!isClient ? null : user ? (
             <div className="relative group flex items-center gap-2 cursor-pointer">
               {/* Avatar */}
-              <Avatar className="w-8 h-8 sm:w-9 sm:h-9">
-                <AvatarImage src={user?.profileImage || "/profile.png"} />
+              <Avatar className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0">
+                <AvatarImage
+                  src={user?.profileImage || "/profile.png"}
+                  alt="Profile"
+                  className="w-full h-full object-cover rounded-full"
+                />
               </Avatar>
 
               {/* Name (desktop only) */}
               <span className="hidden sm:inline text-gray-700 font-medium">
                 {user.firstName || "Login"}
               </span>
+
               <ChevronDown className="w-4 h-4 text-gray-500" />
+
               {/* Dropdown */}
               <div className="absolute right-0 top-10 w-52 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                 <div className="px-4 py-3 border-b">
@@ -115,6 +121,7 @@ const { user, logout } = useAuth();
                       ? `${user.firstName} ${user.lastName}`
                       : user.firstName || "User"}
                   </p>
+
                   <p className="text-sm text-gray-500">
                     {user.email || user.phone}
                   </p>
@@ -126,12 +133,14 @@ const { user, logout } = useAuth();
                 >
                   My Booking
                 </Link>
+
                 <Link
                   href="/schedule"
                   className="block px-4 py-2 text-sm hover:bg-orange-50"
                 >
                   My Schedule
                 </Link>
+
                 <Link
                   href="/account"
                   className="block px-4 py-2 text-sm hover:bg-orange-50"
