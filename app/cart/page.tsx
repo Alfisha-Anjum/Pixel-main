@@ -25,12 +25,14 @@ export default function CartPage() {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
+  const [editingAddress, setEditingAddress] = useState<any | null>(null);
 const [showDateTimeModal, setShowDateTimeModal] = useState(false);
 const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
   const totalMRP = cartItems.reduce((sum, item) => sum + item.price * 1.2, 0);
   const totalDiscount = totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const [addresses, setAddresses] = useState<any[]>([]);
+  const displayAddress = selectedAddress || addresses[0];
   // const [token, setToken] = useState<string | null>(null);
 
  const token = localStorage.getItem("token");
@@ -104,6 +106,54 @@ payload.alt_contact_number =
   return res.data;
 };
 
+const updateCustomerAddress = async (token: string, id: number, formData: any) => {
+  const cleanPhone = (value: string) => {
+    const digits = value.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
+    return `+91 ${digits}`;
+  };
+
+  const altRaw = formData.alternateNumber || formData.altPhone || "";
+  const altDigits = altRaw.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
+
+  const payload: any = {
+    full_name: formData.fullName || formData.name || "",
+    contact_number: cleanPhone(formData.contactNumber || formData.phone || ""),
+    postal_code: formData.postalCode || formData.pincode || "",
+    latitude: 21.2514,
+    longitude: 81.6296,
+    state_id: 1,
+    city_id: 1,
+    house_number: formData.houseNo || "",
+    street:
+      formData.street ||
+      formData.landmark ||
+      formData.roadLandmark ||
+      formData.location ||
+      formData.address ||
+      formData.houseNo ||
+      "",
+    type: "Home",
+    is_active: 1,
+  };
+
+  payload.alt_contact_number =
+    altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
+
+  const res = await axios.put(
+    `https://taskpro.itmingo.com/api/customers/customer-addresses/${id}`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return res.data;
+};
+
  const fetchAddresses = async () => {
   if (!token) return;
 
@@ -114,6 +164,7 @@ payload.alt_contact_number =
 useEffect(() => {
   fetchAddresses();
 }, [token]);
+
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -176,25 +227,40 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Customer Details
                 </h2>
-
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-medium text-gray-800">
-                      Mr Tikesh Dewangan
-                      <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded">
-                        Home
-                      </span>
-                    </p>
+                    {displayAddress ? (
+                      <>
+                        <p className="font-medium text-gray-800">
+                          {displayAddress.full_name || "Customer Name"}
+                          <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded">
+                            {displayAddress.type || "Home"}
+                          </span>
+                        </p>
 
-                    <p className="text-sm text-gray-500 mt-1 max-w-md">
-                      Office No 201, atlantis Corporate Park, Ring Road No.1,
-                      Telibandha, Raipur 492001
-                    </p>
+                        <p className="text-sm text-gray-500 mt-1 max-w-md">
+                          {displayAddress.house_number}, {displayAddress.street}
+                          , {displayAddress.city?.name || "Raipur"}{" "}
+                          {displayAddress.postal_code}
+                        </p>
 
-                    <p className="text-sm text-gray-500 mt-1">+91 7247999000</p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {displayAddress.contact_number}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-sm text-gray-500">
+                        No address selected
+                      </p>
+                    )}
                   </div>
 
-                  <button className="border border-orange-500 text-orange-500 px-4 py-1.5 rounded-lg text-sm">
+                  <button
+                    onClick={() => {
+                      setShowAddressModal(true);
+                    }}
+                    className="border border-orange-500 text-orange-500 px-4 py-1.5 rounded-lg text-sm"
+                  >
                     Change Address
                   </button>
                 </div>
@@ -376,9 +442,9 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
           onContinue={(address) => {
             setSelectedAddress(address);
             setShowAddressModal(false);
-            setShowTCModal(true);
           }}
           onAddNew={() => {
+            setEditingAddress(null);
             setShowAddressModal(false);
             setShowAddNewAddressModal(true);
           }}
@@ -389,21 +455,22 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
           onClose={() => setShowDateTimeModal(false)}
           onContinue={handleDateTimeContinue}
         />
-
         <AddNewAddressModal
           isOpen={showAddNewAddressModal}
-          onClose={() => setShowAddNewAddressModal(false)}
+          onClose={() => {
+            setShowAddNewAddressModal(false);
+            setEditingAddress(null);
+          }}
           onSave={async (newAddress) => {
-            console.log("NEW ADDRESS FROM MODAL:", newAddress);
-
             if (!token) return;
 
             try {
-              const res = await addCustomerAddress(token, newAddress);
+              await addCustomerAddress(token, newAddress);
+
               await fetchAddresses();
 
-              setSelectedAddress(res.data);
               setShowAddNewAddressModal(false);
+              setEditingAddress(null);
               setShowAddressModal(true);
             } catch (error: any) {
               console.log("VALIDATION ERROR:", error.response?.data);
