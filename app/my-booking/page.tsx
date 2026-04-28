@@ -301,7 +301,7 @@ const MyBookingPage = () => {
   return (
     <div className="min-h-screen ">
       {/* <Header /> */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
+      <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 md:py-8">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link className="hover:text-orange-500 cursor-pointer" href="/">
             Home
@@ -311,7 +311,7 @@ const MyBookingPage = () => {
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "My Booking" }]}
         />
-        <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
+        <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 w-full mx-auto">
           {/* Sidebar */}
           {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
@@ -373,7 +373,7 @@ const MyBookingPage = () => {
                       <nav className="flex">
                         <button
                           onClick={() => setBookingType("home")}
-                          className={`px-6  font-medium text-lg border-b-2 transition-colors ${
+                          className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
                             bookingType === "home"
                               ? "border-[#FF6A00] text-[#FF6A00]"
                               : "border-transparent text-gray-500 hover:text-gray-700"
@@ -383,7 +383,7 @@ const MyBookingPage = () => {
                         </button>
                         <button
                           onClick={() => setBookingType("amc")}
-                          className={`px-6  font-medium text-lg border-b-2 transition-colors ${
+                          className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
                             bookingType === "amc"
                               ? "border-[#FF6A00] text-[#FF6A00]"
                               : "border-transparent text-gray-500 hover:text-gray-700"
@@ -402,7 +402,7 @@ const MyBookingPage = () => {
                       {/* Status Tabs */}
                       <div className=" ">
                         <div className="">
-                          <div className="flex gap-3 p-4 flex-wrap sm:flex-nowrap overflow-x-auto">
+                          <div className="flex gap-2 sm:gap-3 px-2 sm:px-4 py-3 flex-wrap sm:flex-nowrap overflow-x-auto">
                             {[
                               { id: "pending", label: "Pending" },
                               { id: "rejected", label: "Rejected" },
@@ -411,7 +411,7 @@ const MyBookingPage = () => {
                               <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as any)}
-                                className={`px-5 py-1 rounded-full text-lg whitespace-nowrap transition-all ${
+                                className={`px-4 sm:px-5 py-1 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all ${
                                   activeTab === tab.id
                                     ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
                                     : "border border-orange-300 text-orange-500 hover:bg-orange-50"
@@ -425,7 +425,7 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* Booking Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-4 sm:gap-5 md:gap-6 lg:gap-7">
                         {bookings[activeTab].length > 0 ? (
                           bookings[activeTab].map((booking) => (
                             <BookingCard
@@ -488,7 +488,7 @@ const MyBookingPage = () => {
                       {/* Status Tabs for AMC (Same as Home UI) */}
                       <div className="">
                         <div>
-                          <div className="flex gap-3 p-4 flex-wrap sm:flex-nowrap overflow-x-auto">
+                          <div className="flex gap-2 sm:gap-3 px-2 sm:px-4 py-3 flex-wrap sm:flex-nowrap overflow-x-auto">
                             {[
                               { id: "pending", label: "Pending" },
                               { id: "rejected", label: "Rejected" },
@@ -511,22 +511,22 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* AMC Cards Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full gap-4 sm:gap-5 md:gap-6 lg:gap-7">
                         {amcBookings.length > 0 ? (
                           amcBookings.map((item) => (
                             <div
                               key={item.id}
-                              className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-all cursor-pointer"
+                              className="bg-white rounded-2xl shadow-md p-4 sm:p-5 md:p-6 hover:shadow-lg transition-all cursor-pointer"
                               onClick={() => {
                                 setSelectedAMC(item);
                                 setShowAMCDetailsPage(true);
                               }}
                             >
                               {/* Top Section */}
-                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-start gap-4">
-                                <div className="flex gap-4 flex-1 min-w-0">
+                              <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">
+                                <div className="flex gap-3 sm:gap-4 flex-1 min-w-0">
                                   {/* Profile Image */}
-                                  <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200">
+                                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                                     <img
                                       src={item.technicianImage}
                                       alt="Technician"
@@ -536,31 +536,31 @@ const MyBookingPage = () => {
 
                                   {/* Text Info */}
                                   <div>
-                                    <h3 className="font-bold text-gray-900">
+                                    <h3 className="font-semibold text-gray-900 text-[clamp(14px,1.4vw,18px)] leading-tight">
                                       {item.title}
                                     </h3>
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-gray-500 text-[clamp(12px,1.2vw,14px)]">
                                       {item.subtitle}
                                     </p>
 
-                                    <p className="text-sm text-gray-500 mt-1">
+                                    <p className="text-gray-500 mt-1 text-[clamp(12px,1.2vw,14px)]">
                                       Type: {item.planType}
                                     </p>
 
-                                    <p className="text-green-600 font-medium text-sm mt-1">
+                                    <p className="text-green-600 font-medium mt-1 text-[clamp(12px,1.2vw,14px)]">
                                       {item.duration}
                                     </p>
                                   </div>
                                 </div>
 
                                 {/* Status */}
-                                <div className="flex flex-row sm:flex-col justify-between sm:justify-start gap-4 sm:gap-6 items-start sm:items-center w-full sm:w-auto">
-                                  <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-md font-medium">
+                                <div className="flex flex-row sm:flex-col justify-between sm:justify-start gap-3 sm:gap-5 items-start sm:items-center w-full sm:w-auto">
+                                  <span className="bg-green-100 text-green-700 text-[clamp(11px,1vw,13px)] px-2 sm:px-3 py-1 rounded-md font-medium">
                                     {item.status}
                                   </span>
-                                  <div className="mt-2 font-semibold text-gray-900">
+                                  <div className="mt-2 font-semibold text-gray-900 text-[clamp(13px,1.3vw,16px)]">
                                     ₹{item.price}
-                                    <span className="text-gray-400 line-through ml-2 text-sm">
+                                    <span className="text-gray-400 line-through ml-2 text-[clamp(11px,1vw,13px)]">
                                       ₹{item.originalPrice}
                                     </span>
                                   </div>
@@ -570,18 +570,20 @@ const MyBookingPage = () => {
                               </div>
 
                               {/* Upcoming Schedule */}
-                              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 my-5">
-                                <p className="">Upcoming Schedule:</p>
+                              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 my-4 sm:my-5">
+                                <p className="text-[clamp(12px,1.2vw,14px)] text-gray-600">
+                                  Upcoming Schedule:
+                                </p>
                                 <div className="flex items-center gap-2">
-                                  <Calendar className="w-4 h-4 text-orange-500" />
-                                  <span className="text-red-500 font-medium">
+                                  <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
+                                  <span className="text-red-500 font-medium text-[clamp(12px,1.2vw,14px)]">
                                     {item.nextSchedule}
                                   </span>
                                 </div>
                               </div>
 
                               {/* Buttons */}
-                              <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                              <div className="flex flex-col sm:flex-row gap-3 mt-3 sm:mt-4">
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -593,7 +595,7 @@ const MyBookingPage = () => {
                                     });
                                     setShowRescheduleModal(true);
                                   }}
-                                  className="flex-1 border border-orange-500 text-orange-500 py-3 rounded-xl font-medium hover:bg-orange-50"
+                                  className="flex-1 border border-orange-500 text-orange-500 py-2 sm:py-3 rounded-xl font-medium text-[clamp(12px,1.2vw,14px)] hover:bg-orange-50"
                                 >
                                   Re-Schedule
                                 </button>
@@ -603,7 +605,7 @@ const MyBookingPage = () => {
                                     e.stopPropagation();
                                     setShowComplaintModal(true);
                                   }}
-                                  className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-2 rounded-xl font-medium"
+                                  className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-2 sm:py-3 rounded-xl font-medium text-[clamp(12px,1.2vw,14px)]"
                                 >
                                   Raise Complaint
                                 </button>
@@ -634,23 +636,23 @@ const MyBookingPage = () => {
                 ← Back
               </button> */}
 
-                  <div className="flex flex-col lg:flex-row w-full max-w-[1100px] gap-6 lg:gap-10 mx-auto py-4 sm:py-6">
+                  <div className="flex flex-col lg:flex-row w-full max-w-[1100px] gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 mx-auto">
                     <div className="space-y-6 w-full lg:max-w-sm min-w-0">
                       {/* SERVICE CARD */}
-                      <div className="bg-white rounded-xl p-5 shadow-sm border flex flex-col sm:flex-row gap-4">
+                      <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border flex flex-row gap-3 sm:gap-4 items-start">
                         <img
                           src={"/ac.png"}
                           className="w-20 h-20 rounded-lg object-cover"
                         />
 
-                        <div className="flex flex-col sm:flex-row w-full justify-between gap-3 min-w-0">
-                          <div>
-                            <h2 className="font-bold text-lg">
+                        <div className="flex flex-col sm:flex-row w-full justify-between gap-2 sm:gap-3 min-w-0">
+                          <div className="min-w-0 flex-1">
+                            <h2 className="font-bold text-[clamp(14px,1.5vw,18px)] leading-tight truncate">
                               {selectedBooking.service}
                             </h2>
                             {/* <p className="text-sm text-gray-500">
-                        Booking ID: {selectedBooking.id}
-                      </p> */}
+                                 Booking ID: {selectedBooking.id}
+                                </p> */}
 
                             <p className="text-sm text-gray-500">
                               Less / No Cooling
@@ -659,7 +661,7 @@ const MyBookingPage = () => {
                               ₹{selectedBooking.amount}
                             </p>
                           </div>
-                          <div className="flex gap-3 sm:justify-center p-2">
+                          <div className="flex gap-2 sm:gap-3 sm:justify-center p-1 sm:p-2 flex-shrink-0">
                             <img
                               src="/chat.png"
                               alt="chat"
@@ -857,9 +859,9 @@ const MyBookingPage = () => {
               )}
               {showAMCDetailsPage && selectedAMC && (
                 <div className="bg-[#f8f8f8] rounded-2xl ">
-                  <div className="flex flex-col md:flex-row justify-between gap-10 items-start w-full">
+                  <div className="flex flex-col md:flex-row justify-between gap-4 sm:gap-6 md:gap-10 items-start w-full">
                     {/* LEFT COLUMN */}
-                    <div className="space-y-5 w-full md:w-[60%]">
+                    <div className="space-y-5 w-full md:w-[65%]">
                       {/* AMC Billing Details */}
                       <div className="flex-1">
                         {/* Billing Card */}
@@ -896,7 +898,7 @@ const MyBookingPage = () => {
                                 (item: string, idx: number) => (
                                   <div
                                     key={idx}
-                                    className="flex justify-between items-start text-sm"
+                                    className="flex justify-between items-start text-xs sm:text-sm md:text-base"
                                   >
                                     {/* Left */}
                                     <div className="flex gap-2">
@@ -974,7 +976,7 @@ const MyBookingPage = () => {
                         >
                           <div className="px-3 sm:px-4 py-4">
                             {/* Heading */}
-                            <div className="flex justify-between text-[12px] sm:text-[13px] font-semibold text-[#333] mb-3">
+                            <div className="flex justify-between text-xs sm:text-sm md:text-base font-semibold text-[#333] mb-3">
                               <span>Status</span>
                               <span>Upcoming Date</span>
                               <span>Details</span>
@@ -986,7 +988,7 @@ const MyBookingPage = () => {
                                 (sch: any, idx: number) => (
                                   <div
                                     key={idx}
-                                    className="flex justify-between px-2 sm:px-3 text-[12px] sm:text-[13px] items-start"
+                                    className="flex justify-between px-2 sm:px-3 text-xs sm:text-sm md:text-base items-start"
                                   >
                                     <span
                                       className={`${
@@ -1027,7 +1029,7 @@ const MyBookingPage = () => {
                           onClick={() => toggleSection("billingStatus")}
                           className="bg-gray-200 px-4 py-3 flex justify-between items-center cursor-pointer"
                         >
-                          <h3 className="font-semibold text-[15px] text-[#222]">
+                          <h3 className="font-semibold text-sm sm:text-base md:text-lg text-[#222]">
                             Billing Status
                           </h3>
                           <span
@@ -1049,14 +1051,14 @@ const MyBookingPage = () => {
                           }`}
                         >
                           <div className="px-4 py-4">
-                            <div className="flex justify-between text-[13px] font-semibold text-[#333] mb-4">
+                            <div className="flex justify-between text-xs sm:text-sm md:text-base font-semibold text-[#333] mb-4">
                               <span>Period</span>
                               <span>Billing Date.</span>
                               <span>AMT</span>
                               <span>Status</span>
                             </div>
 
-                            <div className="space-y-4 text-[13px]">
+                            <div className="space-y-4 text-sm sm:text-base">
                               <div className="flex justify-between items-center">
                                 <span className="text-[#555]">Q1</span>
                                 <span className="text-[#777]">12/12/23</span>
@@ -1092,9 +1094,9 @@ const MyBookingPage = () => {
                       </div>
                     </div>
                     {/* RIGHT COLUMN */}
-                    <div className="w-full md:w-[40%] bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                    <div className="w-full md:w-[35%] bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
                       <div className="flex items-start justify-between mb-4">
-                        <p className="text-[12px] text-[#a0a0a0]">
+                        <p className="text-xs sm:text-sm text-[#a0a0a0]">
                           Ref: TAS/AMC2223/000222
                         </p>
                         <span className="bg-[#e6f3e6] text-green-700 text-xs px-3 py-1 rounded-md font-medium">
@@ -1109,7 +1111,7 @@ const MyBookingPage = () => {
                           </span>
                           <div>
                             <span className="text-orange-500">📅</span>
-                            <span className="text-orange-700 text-[13px] font-medium">
+                            <span className="text-orange-700 text-sm sm:text-base font-medium">
                               Tuesday, 12 March 2024
                             </span>
                           </div>
@@ -1121,7 +1123,7 @@ const MyBookingPage = () => {
                           </span>
                           <div>
                             <span className="text-orange-500">📅</span>
-                            <span className="text-orange-700 text-[13px] font-medium">
+                            <span className="text-orange-700 text-sm sm:text-base font-medium">
                               Tuesday, 11 March 2025
                             </span>
                           </div>

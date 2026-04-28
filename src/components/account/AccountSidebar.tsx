@@ -92,7 +92,7 @@ export default function AccountSidebar() {
   return (
     <div
       className="
-    hidden md:flex flex-col gap-4
+    hidden md:flex flex-col gap-3 lg:gap-4 xl:gap-5
     bg-white rounded-2xl border border-gray-200
 
     md:w-[80px] lg:w-[250px]   // 👈 FIX
@@ -108,14 +108,14 @@ export default function AccountSidebar() {
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-center gap-[10px] px-3 py-2 rounded-xl transition md:justify-center lg:justify-start group"
+            className="flex items-center gap-2 md:gap-2 lg:gap-3 xl:gap-3 px-2 md:px-2 lg:px-3 xl:px-3 py-2 lg:py-3 rounded-xl transition md:justify-center lg:justify-start group"
           >
             {/* ICON */}
-            <div className="relative w-[32px] h-[32px]">
+            <div className="relative w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8">
               <img
                 src={item.icon}
                 alt={item.label}
-                className={`w-[32px] h-[32px] object-contain ${
+                className={`w-full h-full object-contain ${
                   isActive
                     ? "opacity-0"
                     : "brightness-0 invert-[75%] group-hover:opacity-0"
@@ -138,7 +138,7 @@ export default function AccountSidebar() {
             {/* TEXT */}
             <span
               className={`
-                text-[16px] font-bold whitespace-nowrap
+                text-sm md:text-[13px] lg:text-[15px] xl:text-base font-semibold whitespace-nowrap
                 md:hidden lg:block
                 ${
                   isActive
