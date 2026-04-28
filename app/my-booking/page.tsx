@@ -36,6 +36,8 @@ import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal
 import AddNewAddressModal from "@/components/AddNewAddressModal";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
 import Link from "next/link";
+import { AccountSidebar } from "@/components/account";
+import Breadcrumb from "@/components/account/Breadcrumb";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 const MyBookingPage = () => {
@@ -66,7 +68,11 @@ const MyBookingPage = () => {
   const [showComplaintModal, setShowComplaintModal] = useState(false);
   const [showAMCDetailsModal, setShowAMCDetailsModal] = useState(false);
   const [selectedAMC, setSelectedAMC] = useState<any>(null);
-  const [open, setOpen] = useState(true);
+  const [openSections, setOpenSections] = useState<string[]>([
+    "billing",
+    "schedule",
+    "billingStatus",
+  ]);
 
   const [amcBookings, setAmcBookings] = useState([
     {
@@ -184,6 +190,14 @@ const MyBookingPage = () => {
     review?: string;
   }
 
+  const toggleSection = (section: string) => {
+    setOpenSections((prev) =>
+      prev.includes(section)
+        ? prev.filter((item) => item !== section)
+        : [...prev, section],
+    );
+  };
+
   // Mock booking data
   const bookings = {
     pending: [
@@ -288,15 +302,18 @@ const MyBookingPage = () => {
     <div className="min-h-screen ">
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
-        <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
+        {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link className="hover:text-orange-500 cursor-pointer" href="/">
             Home
           </Link>
           |<span className="text-orange-500 font-medium">Profile</span>
-        </div>
-        <div className="flex flex-col md:flex-row gap-10 border-t border-gray-200 pt-8 w-full mx-auto">
+        </div> */}
+        <Breadcrumb
+          items={[{ label: "Home", href: "/" }, { label: "My Booking" }]}
+        />
+        <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
           {/* Sidebar */}
-          <div
+          {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
           >
             <div className="bg-white rounded-xl shadow-xl p-6">
@@ -331,7 +348,8 @@ const MyBookingPage = () => {
                 </a>
               </nav>
             </div>
-          </div>
+          </div> */}
+          <AccountSidebar />
 
           {/* Main Content */}
           {showChatBot ? (
@@ -355,7 +373,7 @@ const MyBookingPage = () => {
                       <nav className="flex">
                         <button
                           onClick={() => setBookingType("home")}
-                          className={`px-6  font-medium text-sm border-b-2 transition-colors ${
+                          className={`px-6  font-medium text-lg border-b-2 transition-colors ${
                             bookingType === "home"
                               ? "border-[#FF6A00] text-[#FF6A00]"
                               : "border-transparent text-gray-500 hover:text-gray-700"
@@ -365,7 +383,7 @@ const MyBookingPage = () => {
                         </button>
                         <button
                           onClick={() => setBookingType("amc")}
-                          className={`px-6  font-medium text-sm border-b-2 transition-colors ${
+                          className={`px-6  font-medium text-lg border-b-2 transition-colors ${
                             bookingType === "amc"
                               ? "border-[#FF6A00] text-[#FF6A00]"
                               : "border-transparent text-gray-500 hover:text-gray-700"
@@ -393,7 +411,7 @@ const MyBookingPage = () => {
                               <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as any)}
-                                className={`px-5 py-1 rounded-full text-sm whitespace-nowrap transition-all ${
+                                className={`px-5 py-1 rounded-full text-lg whitespace-nowrap transition-all ${
                                   activeTab === tab.id
                                     ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
                                     : "border border-orange-300 text-orange-500 hover:bg-orange-50"
@@ -407,7 +425,7 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* Booking Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full max-w-3xl gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-6">
                         {bookings[activeTab].length > 0 ? (
                           bookings[activeTab].map((booking) => (
                             <BookingCard
@@ -493,7 +511,7 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* AMC Cards Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-[90%]">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                         {amcBookings.length > 0 ? (
                           amcBookings.map((item) => (
                             <div
@@ -697,7 +715,7 @@ const MyBookingPage = () => {
                         <div className="mt-4 flex gap-3">
                           <input
                             placeholder="Apply Coupon"
-                            className="border rounded-lg px-3 py-2 flex-1 min-w-0"
+                            className="bg-white border rounded-lg px-3 py-2 flex-1 min-w-0"
                           />
                           <button className="bg-orange-500 text-white px-4 py-2 rounded-xl whitespace-nowrap">
                             Apply
@@ -839,65 +857,84 @@ const MyBookingPage = () => {
               )}
               {showAMCDetailsPage && selectedAMC && (
                 <div className="bg-[#f8f8f8] rounded-2xl ">
-                  <div className="flex flex-col md:flex-row  justify-between gap-10 items-start w-[70%] ">
+                  <div className="flex flex-col md:flex-row justify-between gap-10 items-start w-full">
                     {/* LEFT COLUMN */}
-                    <div className="space-y-5  w-[60%] ">
+                    <div className="space-y-5 w-full md:w-[60%]">
                       {/* AMC Billing Details */}
                       <div className="flex-1">
                         {/* Billing Card */}
                         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
                           {/* Header */}
-                          <div className="bg-gray-200 px-4 py-3 flex justify-between items-center">
+                          <div
+                            onClick={() => toggleSection("billing")}
+                            className="bg-gray-200 px-4 py-3 flex justify-between items-center cursor-pointer"
+                          >
                             <h3 className="font-semibold text-gray-800">
                               AMC Billing Details
                             </h3>
-                            <span className="text-gray-600 text-sm">▼</span>
+                            <span
+                              className={`text-gray-600 text-sm transition-transform ${
+                                openSections.includes("billing")
+                                  ? "rotate-180"
+                                  : ""
+                              }`}
+                            >
+                              ▼
+                            </span>
                           </div>
 
                           {/* Items */}
-                          <div className="p-4 space-y-4">
-                            {selectedAMC.billing?.items.map(
-                              (item: string, idx: number) => (
-                                <div
-                                  key={idx}
-                                  className="flex justify-between items-start text-sm"
-                                >
-                                  {/* Left */}
-                                  <div className="flex gap-2">
-                                    <span
-                                      onClick={() => setShowSplitModal(true)}
-                                      className="text-blue-600 font-medium cursor-pointer hover:underline"
-                                    >
-                                      {item}
-                                    </span>
-                                    <span className="text-gray-500">
-                                      Preventive(1.5 Ton * 2)
+                          <div
+                            className={`transition-all duration-300 overflow-hidden ${
+                              openSections.includes("billing")
+                                ? "max-h-[500px] opacity-100"
+                                : "max-h-0 opacity-0"
+                            }`}
+                          >
+                            <div className="p-4 space-y-4">
+                              {selectedAMC.billing?.items.map(
+                                (item: string, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex justify-between items-start text-sm"
+                                  >
+                                    {/* Left */}
+                                    <div className="flex gap-2">
+                                      <span
+                                        onClick={() => setShowSplitModal(true)}
+                                        className="text-blue-600 font-medium cursor-pointer hover:underline"
+                                      >
+                                        {item}
+                                      </span>
+                                      <span className="text-gray-500">
+                                        Preventive(1.5 Ton * 2)
+                                      </span>
+                                    </div>
+
+                                    {/* Price */}
+                                    <span className="font-medium text-gray-900">
+                                      ₹200
                                     </span>
                                   </div>
+                                ),
+                              )}
 
-                                  {/* Price */}
-                                  <span className="font-medium text-gray-900">
-                                    ₹200
-                                  </span>
+                              {/* Totals */}
+                              <div className="pt-4 border-t space-y-2 text-sm">
+                                <div className="flex justify-between font-semibold text-gray-900">
+                                  <span>Total Amount</span>
+                                  <span>₹{selectedAMC.billing?.total}</span>
                                 </div>
-                              ),
-                            )}
 
-                            {/* Totals */}
-                            <div className="pt-4 border-t space-y-2 text-sm">
-                              <div className="flex justify-between font-semibold text-gray-900">
-                                <span>Total Amount</span>
-                                <span>₹{selectedAMC.billing?.total}</span>
-                              </div>
+                                <div className="flex justify-between text-gray-700">
+                                  <span>Paid</span>
+                                  <span>₹{selectedAMC.billing?.paid}</span>
+                                </div>
 
-                              <div className="flex justify-between text-gray-700">
-                                <span>Paid</span>
-                                <span>₹{selectedAMC.billing?.paid}</span>
-                              </div>
-
-                              <div className="flex justify-between text-gray-400">
-                                <span>Balance Amount</span>
-                                <span>{selectedAMC.billing?.balance}</span>
+                                <div className="flex justify-between text-gray-400">
+                                  <span>Balance Amount</span>
+                                  <span>{selectedAMC.billing?.balance}</span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -909,7 +946,7 @@ const MyBookingPage = () => {
                       <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm w-full">
                         {/* Header */}
                         <div
-                          onClick={() => setOpen(!open)}
+                          onClick={() => toggleSection("schedule")}
                           className="bg-gray-200 px-4 py-3 flex justify-between items-center cursor-pointer"
                         >
                           <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
@@ -918,7 +955,9 @@ const MyBookingPage = () => {
 
                           <span
                             className={`text-gray-600 text-sm transition-transform duration-300 ${
-                              open ? "rotate-180" : ""
+                              openSections.includes("schedule")
+                                ? "rotate-180"
+                                : ""
                             }`}
                           >
                             ▼
@@ -928,7 +967,7 @@ const MyBookingPage = () => {
                         {/* Body */}
                         <div
                           className={`transition-all duration-300 ease-in-out ${
-                            open
+                            openSections.includes("schedule")
                               ? "max-h-[500px] opacity-100"
                               : "max-h-0 opacity-0"
                           } overflow-hidden`}
@@ -984,58 +1023,76 @@ const MyBookingPage = () => {
 
                       {/* Billing Status */}
                       <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-                        <div className="bg-gray-200 px-4 py-3 flex justify-between items-center">
+                        <div
+                          onClick={() => toggleSection("billingStatus")}
+                          className="bg-gray-200 px-4 py-3 flex justify-between items-center cursor-pointer"
+                        >
                           <h3 className="font-semibold text-[15px] text-[#222]">
                             Billing Status
                           </h3>
-                          <span className="text-black text-xs">▼</span>
+                          <span
+                            className={`text-black text-xs transition-transform ${
+                              openSections.includes("billingStatus")
+                                ? "rotate-180"
+                                : ""
+                            }`}
+                          >
+                            ▼
+                          </span>
                         </div>
 
-                        <div className="px-4 py-4">
-                          <div className="flex justify-between text-[13px] font-semibold text-[#333] mb-4">
-                            <span>Period</span>
-                            <span>Billing Date.</span>
-                            <span>AMT</span>
-                            <span>Status</span>
-                          </div>
-
-                          <div className="space-y-4 text-[13px]">
-                            <div className="flex justify-between items-center">
-                              <span className="text-[#555]">Q1</span>
-                              <span className="text-[#777]">12/12/23</span>
-                              <span className="text-[#555]">₹990</span>
-                              <span className="text-green-600 flex items-center gap-1">
-                                Paid <span className="text-[10px]">🧾</span>
-                              </span>
+                        <div
+                          className={`transition-all duration-300 overflow-hidden ${
+                            openSections.includes("billingStatus")
+                              ? "max-h-[500px] opacity-100"
+                              : "max-h-0 opacity-0"
+                          }`}
+                        >
+                          <div className="px-4 py-4">
+                            <div className="flex justify-between text-[13px] font-semibold text-[#333] mb-4">
+                              <span>Period</span>
+                              <span>Billing Date.</span>
+                              <span>AMT</span>
+                              <span>Status</span>
                             </div>
 
-                            <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
-                              <span className="text-[#555]">Q2</span>
-                              <span className="text-[#bbb]"></span>
-                              <span className="text-[#bbb]"></span>
-                              <span className="text-[#bbb]"></span>
-                            </div>
+                            <div className="space-y-4 text-[13px]">
+                              <div className="flex justify-between items-center">
+                                <span className="text-[#555]">Q1</span>
+                                <span className="text-[#777]">12/12/23</span>
+                                <span className="text-[#555]">₹990</span>
+                                <span className="text-green-600 flex items-center gap-1">
+                                  Paid <span className="text-[10px]">🧾</span>
+                                </span>
+                              </div>
 
-                            <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
-                              <span className="text-[#555]">Q3</span>
-                              <span className="text-[#bbb]"></span>
-                              <span className="text-[#bbb]"></span>
-                              <span className="text-[#bbb]"></span>
-                            </div>
+                              <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
+                                <span className="text-[#555]">Q2</span>
+                                <span className="text-[#bbb]"></span>
+                                <span className="text-[#bbb]"></span>
+                                <span className="text-[#bbb]"></span>
+                              </div>
 
-                            <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
-                              <span className="text-[#555]">Q4</span>
-                              <span className="text-[#bbb]"></span>
-                              <span className="text-[#bbb]"></span>
-                              <span className="text-[#bbb]"></span>
+                              <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
+                                <span className="text-[#555]">Q3</span>
+                                <span className="text-[#bbb]"></span>
+                                <span className="text-[#bbb]"></span>
+                                <span className="text-[#bbb]"></span>
+                              </div>
+
+                              <div className="grid grid-cols-[60px_1fr_50px_56px] items-center">
+                                <span className="text-[#555]">Q4</span>
+                                <span className="text-[#bbb]"></span>
+                                <span className="text-[#bbb]"></span>
+                                <span className="text-[#bbb]"></span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
                     {/* RIGHT COLUMN */}
-                    <div className=" w-[50%] bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                    <div className="w-full md:w-[40%] bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
                       <div className="flex items-start justify-between mb-4">
                         <p className="text-[12px] text-[#a0a0a0]">
                           Ref: TAS/AMC2223/000222

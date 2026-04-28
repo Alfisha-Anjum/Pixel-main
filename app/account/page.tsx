@@ -6,6 +6,7 @@
 // }
 
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 import SettingsList from "@/components/account/SettingsList";
 import ProfileCard from "@/components/account/ProfileCard";
 import GradientButton from "@/components/ui/GradientButton";
@@ -17,6 +18,7 @@ import MyReviews from "@/components/account/MyReviews";
 import MyCoupon from "@/components/account/MyCoupon";
 
 export default function AccountPage() {
+  const { user } = useAuth();
   const [activeView, setActiveView] = useState("default");
 
   const renderContent = () => {
@@ -37,6 +39,24 @@ export default function AccountPage() {
         return <SettingsList setActiveView={setActiveView} />;
     }
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Please Login to View Account
+          </h2>
+          <a
+            href="/login"
+            className="text-orange-600 font-medium hover:underline"
+          >
+            Go to Login
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-white">
