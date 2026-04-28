@@ -8,9 +8,19 @@ interface OTPVerificationProps {
   onBack: () => void;
 }
 
-const OTPVerification = ({ phoneNumber, onVerify, onResend, onBack }: OTPVerificationProps) => {
-  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null, null, null]);
+const OTPVerification = ({
+  phoneNumber,
+  onVerify,
+  onResend,
+  onBack,
+}: OTPVerificationProps) => {
+  const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([
+    null,
+    null,
+    null,
+    null,
+  ]);
   const [countdown, setCountdown] = useState<number>(30);
   const [resendDisabled, setResendDisabled] = useState<boolean>(true);
 
@@ -25,25 +35,28 @@ const OTPVerification = ({ phoneNumber, onVerify, onResend, onBack }: OTPVerific
   }, [countdown, resendDisabled]);
 
   const handleChange = (index: number, value: string) => {
-    if (/^\d$/.test(value) || value === '') {
+    if (/^\d$/.test(value) || value === "") {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
 
       // Move to next input if current is filled
-      if (value !== '' && index < 3) {
+      if (value !== "" && index < 3) {
         inputRefs.current[index + 1]?.focus();
       }
 
       // Submit if all fields are filled
-      if (newOtp.every(digit => digit !== '') && newOtp.length === 4) {
-        onVerify(newOtp.join(''));
+      if (newOtp.every((digit) => digit !== "") && newOtp.length === 4) {
+        onVerify(newOtp.join(""));
       }
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && otp[index] === '' && index > 0) {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === "Backspace" && otp[index] === "" && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
@@ -51,7 +64,7 @@ const OTPVerification = ({ phoneNumber, onVerify, onResend, onBack }: OTPVerific
   const handleResend = () => {
     setCountdown(30);
     setResendDisabled(true);
-    setOtp(['', '', '', '']);
+    setOtp(["", "", "", ""]);
     onResend();
   };
 
@@ -65,9 +78,12 @@ const OTPVerification = ({ phoneNumber, onVerify, onResend, onBack }: OTPVerific
         <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <Shield className="w-8 h-8 text-orange-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Verify Your Number</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Verify Your Number
+        </h2>
         <p className="text-gray-600">
-          Enter the 4-digit code sent to <span className="font-medium">{phoneNumber}</span>
+          Enter the 4-digit code sent to{" "}
+          <span className="font-medium">{phoneNumber}</span>
         </p>
       </div>
 
@@ -94,7 +110,9 @@ const OTPVerification = ({ phoneNumber, onVerify, onResend, onBack }: OTPVerific
           <Clock className="w-5 h-5 text-blue-600 mt-0.5" />
           <div>
             <p className="font-medium text-blue-800">OTP expires soon</p>
-            <p className="text-sm text-blue-600">Please enter the code before it expires</p>
+            <p className="text-sm text-blue-600">
+              Please enter the code before it expires
+            </p>
           </div>
         </div>
       </div>
@@ -106,14 +124,14 @@ const OTPVerification = ({ phoneNumber, onVerify, onResend, onBack }: OTPVerific
         >
           Back
         </button>
-        
+
         <button
           onClick={handleResend}
           disabled={resendDisabled}
           className={`w-full py-3 font-medium rounded-lg transition-colors flex items-center justify-center gap-2 ${
             resendDisabled
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-orange-100 text-orange-700 hover:bg-orange-200"
           }`}
         >
           <CheckCircle className="w-5 h-5" />
