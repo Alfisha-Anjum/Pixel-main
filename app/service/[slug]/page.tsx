@@ -913,26 +913,25 @@ const ACRepairLayout = () => {
           <div className="relative max-w-7xl text-center  rounded-2xl p-6 md:p-8 overflow-visible">
             {/* Background image layer with brightness filter only */}
             <div
-              className="absolute inset-0 z-0 h-full"
+              className="absolute inset-0 z-0 hidden md:block"
               style={{
                 backgroundImage: "url('/wht.png')",
                 backgroundSize: "auto 518px",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 filter: "brightness(0.7)",
-                height: "450px",
                 borderRadius: "16px",
               }}
             />
 
             {/* Content layer - all text now white */}
             <div className="relative z-10">
-              <h2 className="text-lg md:text-2xl font-semibold text-white text-right mb-2">
+              <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2">
                 What our Customers Say?
               </h2>
-
+              <h2 className="md:hidden block text-left ">Reviews</h2>
               {/* Rating Summary - text white */}
-              <div className="flex items-center justify-end gap-2 mb-8">
+              <div className="hidden md:flex items-center justify-end gap-2 mb-8">
                 <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
                     <svg
@@ -947,10 +946,25 @@ const ACRepairLayout = () => {
                 <span className="text-lg font-semibold text-white">4.5</span>
                 <span className="text-sm text-white/80">(12M Reviews)</span>
               </div>
+              <div className="md:hidden flex items-center justify-start gap-2 mb-8">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-5 h-5 fill-current"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-lg font-semibold ">4.5</span>
+                <span className="text-sm">(12M Reviews)</span>
+              </div>
               <div className="flex flex-col max-w-4xl mx-auto">
                 <div
                   ref={scrollContainerRef}
-                  className=" flex w-full mx-auto bg-transparent rounded-2xl gap-8 pb-5"
+                  className="flex flex-col md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-4 md:gap-8 pb-5 md:overflow-x-auto"
                 >
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
@@ -1051,7 +1065,7 @@ const ACRepairLayout = () => {
 
             <button
               onClick={scrollLeft}
-              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
               aria-label="Previous reviews"
             >
               <ChevronLeft className="w-6 h-6 text-orange-600" />
@@ -1061,7 +1075,7 @@ const ACRepairLayout = () => {
 
             <button
               onClick={scrollRight}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
               aria-label="Next reviews"
             >
               <ChevronRight className="w-6 h-6 text-orange-600" />
