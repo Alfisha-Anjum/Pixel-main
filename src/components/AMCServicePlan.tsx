@@ -131,7 +131,8 @@ const AMCServicePlan = () => {
 
         <div
           ref={sliderRef}
-          className="flex overflow-hidden gap-1 snap-x"
+          className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
+          style={{ gap: "20px" }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -139,7 +140,7 @@ const AMCServicePlan = () => {
           {[...amcPlans, ...amcPlans].map((plan, index) => (
             <div
               key={index}
-              className="min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] flex-shrink-0 snap-center"
+              className=" sm:min-w-[50%] lg:min-w-[30%] flex-shrink-0 snap-center"
             >
               <div className="relative w-[382px] h-[228px] rounded-[12px] overflow-hidden  group">
                 {/* Background Image */}
