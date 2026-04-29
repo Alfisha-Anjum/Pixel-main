@@ -371,7 +371,7 @@ const ACRepairLayout = () => {
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* LEFT CONTENT */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 leading-snug">
+              <h1 className="text-2xl font-semibold text-gray-900 leading-snug">
                 Best Air Condition (AC) <br />
                 Repair Service in Raipur
               </h1>
@@ -910,7 +910,7 @@ const ACRepairLayout = () => {
         </div>
         <div className=" w-full mx-auto mb-2">
           {/* Testimonial Card - Background filter isolated */}
-          <div className="relative max-w-7xl text-center  rounded-2xl p-6 md:p-8 overflow-visible">
+          <div className="relative max-w-7xl text-center  rounded-2xl p-0 sm:p-6 md:p-8 overflow-visible">
             {/* Background image layer with brightness filter only */}
             <div
               className="absolute inset-0 z-0 hidden md:block"
@@ -964,7 +964,7 @@ const ACRepairLayout = () => {
               <div className="flex flex-col max-w-4xl mx-auto">
                 <div
                   ref={scrollContainerRef}
-                  className="flex flex-col md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-4 md:gap-8 pb-5 md:overflow-x-auto"
+                  className="flex flex-col md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-10 sm:gap-4 md:gap-8 pb-5 md:overflow-x-auto"
                 >
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
@@ -1086,63 +1086,60 @@ const ACRepairLayout = () => {
 
           {/* View All Reviews Link */}
         </div>
-        <div className="container mx-auto relative">
+        <div className="mx-auto relative w-full overflow-hidden">
           {/* Heading */}
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-5">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-5 px-4 sm:px-0">
             We covered AC Brand
           </h2>
 
-          {/* Scrollable container with hidden scrollbar */}
+          {/* Scrollable container */}
           <div
             ref={scrollContainerRef}
-            className="flex px-10 overflow-x-auto hide-scrollbar scroll-smooth gap-4 "
+            className="flex overflow-x-auto hide-scrollbar scroll-smooth gap-4 px-4 sm:px-6 md:px-10 pb-2"
           >
             {brands.map((brand, index) => (
-              <div className="flex flex-col">
-                <div
-                  key={index}
-                  className="flex-shrink-0  bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-36 mx-auto"
-                >
-                  {/* Logo */}
-                  <div className="relative mb-2 h-[60px] w-full flex items-center justify-center">
+              <div
+                key={index}
+                className="flex-shrink-0 flex flex-col items-center w-36"
+              >
+                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-36 h-28">
+                  <div className="relative h-[60px] w-full flex items-center justify-center">
                     <Image
                       src={brand.logo}
                       alt={`${brand.name} logo`}
                       width={brand.width}
                       height={brand.height}
-                      className="object-contain"
+                      className="object-contain max-h-[60px]"
                       priority={index < 4}
                     />
                   </div>
-
-                  {/* Service description */}
                 </div>
-                <p className="text-xs mt-2 text-center">{brand.service}</p>
+
+                <p className="text-xs mt-2 text-center w-full line-clamp-2">
+                  {brand.service}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* Left Arrow Button */}
-
+          {/* Left Arrow */}
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+            className="absolute left-1 md:left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
             aria-label="Previous brands"
           >
             <ChevronLeft className="w-6 h-6 text-orange-600" />
           </button>
 
-          {/* Right Arrow Button */}
-
+          {/* Right Arrow */}
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
+            className="absolute right-1 md:right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
             aria-label="Next brands"
           >
             <ChevronRight className="w-6 h-6 text-orange-600" />
           </button>
 
-          {/* Global styles for hiding scrollbar */}
           <style jsx>{`
             .hide-scrollbar::-webkit-scrollbar {
               display: none;
@@ -1153,6 +1150,7 @@ const ACRepairLayout = () => {
             }
           `}</style>
         </div>
+
         <div className="flex flex-col gap-4 my-5">
           <h2 className="text-2xl font-semibold">
             AC Repair service in Raipur
@@ -1200,7 +1198,7 @@ const ACRepairLayout = () => {
           </p>
         </div>
         <div className=" mx-auto mt-5">
-          <h2 className="text-3xl font-semibold ">
+          <h2 className="text-2xl font-semibold ">
             Frequently Asked Questions (FAQ)?
           </h2>
 

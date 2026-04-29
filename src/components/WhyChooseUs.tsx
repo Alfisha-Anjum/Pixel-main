@@ -229,7 +229,7 @@ const WhyChooseUs = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex gap-4 sm:p-5 hover:shadow-card-hover transition-all duration-200"
+              className="flex gap-4 xl:p-5 hover:shadow-card-hover transition-all duration-200"
             >
               <div className="flex-shrink-0">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-light flex items-center justify-center">

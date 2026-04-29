@@ -107,7 +107,7 @@ const { user, logout } = useAuth();
               </Avatar>
 
               {/* Name (desktop only) */}
-              <span className="hidden sm:inline text-gray-700 font-medium">
+              <span className="hidden lg:text-base text-[10px] md:inline text-gray-700 font-medium">
                 {user.firstName || "Login"}
               </span>
 
