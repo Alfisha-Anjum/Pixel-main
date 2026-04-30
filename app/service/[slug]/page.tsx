@@ -371,7 +371,7 @@ const ACRepairLayout = () => {
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* LEFT CONTENT */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 leading-snug">
+              <h1 className="text-2xl font-semibold text-gray-900 leading-snug">
                 Best Air Condition (AC) <br />
                 Repair Service in Raipur
               </h1>
@@ -910,29 +910,28 @@ const ACRepairLayout = () => {
         </div>
         <div className=" w-full mx-auto mb-2">
           {/* Testimonial Card - Background filter isolated */}
-          <div className="relative max-w-7xl text-center  rounded-2xl p-6 md:p-8 overflow-visible">
+          <div className="relative max-w-7xl text-center  rounded-2xl p-0 sm:p-6 md:p-8 overflow-visible">
             {/* Background image layer with brightness filter only */}
             <div
-              className="absolute inset-0 z-0 h-full"
+              className="absolute inset-0 z-0 hidden md:block"
               style={{
                 backgroundImage: "url('/wht.png')",
                 backgroundSize: "auto 518px",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 filter: "brightness(0.7)",
-                height: "450px",
                 borderRadius: "16px",
               }}
             />
 
             {/* Content layer - all text now white */}
             <div className="relative z-10">
-              <h2 className="text-lg md:text-2xl font-semibold text-white text-right mb-2">
+              <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2">
                 What our Customers Say?
               </h2>
-
+              <h2 className="md:hidden block text-left ">Reviews</h2>
               {/* Rating Summary - text white */}
-              <div className="flex items-center justify-end gap-2 mb-8">
+              <div className="hidden md:flex items-center justify-end gap-2 mb-8">
                 <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
                     <svg
@@ -947,10 +946,25 @@ const ACRepairLayout = () => {
                 <span className="text-lg font-semibold text-white">4.5</span>
                 <span className="text-sm text-white/80">(12M Reviews)</span>
               </div>
+              <div className="md:hidden flex items-center justify-start gap-2 mb-8">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-5 h-5 fill-current"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-lg font-semibold ">4.5</span>
+                <span className="text-sm">(12M Reviews)</span>
+              </div>
               <div className="flex flex-col max-w-4xl mx-auto">
                 <div
                   ref={scrollContainerRef}
-                  className=" flex w-full mx-auto bg-transparent rounded-2xl gap-8 pb-5"
+                  className="flex flex-col md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-10 sm:gap-4 md:gap-8 pb-5 md:overflow-x-auto"
                 >
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
@@ -1051,7 +1065,7 @@ const ACRepairLayout = () => {
 
             <button
               onClick={scrollLeft}
-              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
               aria-label="Previous reviews"
             >
               <ChevronLeft className="w-6 h-6 text-orange-600" />
@@ -1061,7 +1075,7 @@ const ACRepairLayout = () => {
 
             <button
               onClick={scrollRight}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
               aria-label="Next reviews"
             >
               <ChevronRight className="w-6 h-6 text-orange-600" />
@@ -1072,63 +1086,60 @@ const ACRepairLayout = () => {
 
           {/* View All Reviews Link */}
         </div>
-        <div className="container mx-auto relative">
+        <div className="mx-auto relative w-full overflow-hidden">
           {/* Heading */}
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-5">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-5 px-4 sm:px-0">
             We covered AC Brand
           </h2>
 
-          {/* Scrollable container with hidden scrollbar */}
+          {/* Scrollable container */}
           <div
             ref={scrollContainerRef}
-            className="flex px-10 overflow-x-auto hide-scrollbar scroll-smooth gap-4 "
+            className="flex overflow-x-auto hide-scrollbar scroll-smooth gap-4 px-4 sm:px-6 md:px-10 pb-2"
           >
             {brands.map((brand, index) => (
-              <div className="flex flex-col">
-                <div
-                  key={index}
-                  className="flex-shrink-0  bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-36 mx-auto"
-                >
-                  {/* Logo */}
-                  <div className="relative mb-2 h-[60px] w-full flex items-center justify-center">
+              <div
+                key={index}
+                className="flex-shrink-0 flex flex-col items-center w-36"
+              >
+                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-36 h-28">
+                  <div className="relative h-[60px] w-full flex items-center justify-center">
                     <Image
                       src={brand.logo}
                       alt={`${brand.name} logo`}
                       width={brand.width}
                       height={brand.height}
-                      className="object-contain"
+                      className="object-contain max-h-[60px]"
                       priority={index < 4}
                     />
                   </div>
-
-                  {/* Service description */}
                 </div>
-                <p className="text-xs mt-2 text-center">{brand.service}</p>
+
+                <p className="text-xs mt-2 text-center w-full line-clamp-2">
+                  {brand.service}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* Left Arrow Button */}
-
+          {/* Left Arrow */}
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+            className="absolute left-1 md:left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
             aria-label="Previous brands"
           >
             <ChevronLeft className="w-6 h-6 text-orange-600" />
           </button>
 
-          {/* Right Arrow Button */}
-
+          {/* Right Arrow */}
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
+            className="absolute right-1 md:right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
             aria-label="Next brands"
           >
             <ChevronRight className="w-6 h-6 text-orange-600" />
           </button>
 
-          {/* Global styles for hiding scrollbar */}
           <style jsx>{`
             .hide-scrollbar::-webkit-scrollbar {
               display: none;
@@ -1139,6 +1150,7 @@ const ACRepairLayout = () => {
             }
           `}</style>
         </div>
+
         <div className="flex flex-col gap-4 my-5">
           <h2 className="text-2xl font-semibold">
             AC Repair service in Raipur
@@ -1186,7 +1198,7 @@ const ACRepairLayout = () => {
           </p>
         </div>
         <div className=" mx-auto mt-5">
-          <h2 className="text-3xl font-semibold ">
+          <h2 className="text-2xl font-semibold ">
             Frequently Asked Questions (FAQ)?
           </h2>
 

@@ -105,7 +105,7 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
 
   return (
     <section className="pt-5 bg-white">
-        <LayoutContainer>
+      <LayoutContainer>
         <div className=" mx-auto">
           {/* Updated Heading */}
           <h2
@@ -127,7 +127,7 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
           >
             <div
               ref={sliderRef}
-              className="flex overflow-x-auto gap-5 pb-5 scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x"
+              className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
               style={{ gap: "20px" }}
             >
               {cleaningServices.map((service, index) => (
@@ -167,8 +167,8 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
             </button>
           </div>
         </div>
-    </LayoutContainer>
-      </section>
+      </LayoutContainer>
+    </section>
   );
 };
 

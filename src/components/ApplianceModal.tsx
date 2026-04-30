@@ -4,45 +4,45 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const appliances = [
-  { image: "/ac.png", label: "AC Repair", slug: "ac-repair" },
-  { image: "/geyser.png", label: "Geyser Repair", slug: "geyser-repair" },
+  { image: "/10.svg", label: "AC Repair", slug: "ac-repair" },
+  { image: "/7.svg", label: "Geyser Repair", slug: "geyser-repair" },
   {
-    image: "/gas-stove.png",
+    image: "/9.svg",
     label: "Gas Stove Repair",
     slug: "gas-stove-repair",
   },
   {
-    image: "/water-cooler.png",
+    image: "/11.svg",
     label: "Water Cooler Repair",
     slug: "water-cooler-repair",
   },
   {
-    image: "/washing-machine.png",
+    image: "/2.svg",
     label: "Washing Machine Repair",
     slug: "washing-machine-repair",
   },
   {
-    image: "/chimney.png",
+    image: "/6.svg",
     label: "Kitchen Chimney Repair",
     slug: "chimney-repair",
   },
   {
-    image: "/refrigerator.png",
+    image: "/8.svg",
     label: "Refrigerator Repair",
     slug: "refrigerator-repair",
   },
   {
-    image: "/microwave.png",
+    image: "/5.svg",
     label: "Microwave Repair",
     slug: "microwave-repair",
   },
   {
-    image: "/water-purifier.png",
+    image: "/3.svg",
     label: "Water Purifier Repair",
     slug: "water-purifier-repair",
   },
-  { image: "/tv.png", label: "TV Repair", slug: "tv-repair" },
-  { image: "/computer.png", label: "Computer Repair", slug: "computer-repair" },
+  { image: "/4.svg", label: "TV Repair", slug: "tv-repair" },
+  { image: "/12.svg", label: "Computer Repair", slug: "computer-repair" },
   { image: "/see-all.png", label: "See All" },
 ];
 interface ApplianceModalProps {
