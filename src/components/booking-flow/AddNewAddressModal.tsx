@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import { useState } from "react";
+import { useCurrentLocation } from "@/hooks/useCurrentLocation";
 
 interface AddNewAddressModalProps {
   isOpen: boolean;
@@ -27,6 +28,8 @@ export const AddNewAddressModal: React.FC<AddNewAddressModalProps> = ({
     pincode: "",
   });
 
+  const { getCurrentLocation, loadingLocation } = useCurrentLocation();
+  
   if (!isOpen) return null;
 
   
