@@ -66,10 +66,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="md:min-h-screen flex flex-col">
       {/* <Header /> */}
 
-      <main className="flex-1 flex items-center justify-center py-8">
+      <main className="flex-1 flex items-center justify-center md:py-8">
         <div className="max-w-4xl w-full flex rounded-2xl overflow-hidden shadow-xl">
           {/* Left Side - White */}
           <div className="w-full md:w-1/2 bg-white p-6 md:p-12 flex flex-col justify-center">
