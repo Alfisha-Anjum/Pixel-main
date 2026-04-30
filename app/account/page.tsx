@@ -16,6 +16,7 @@ import LanguageSelectorPage from "@/components/account/LanguageSelectorModal";
 import MyWallet from "@/components/account/MyWallet";
 import MyReviews from "@/components/account/MyReviews";
 import MyCoupon from "@/components/account/MyCoupon";
+import Payment from "@/components/account/Payment";
 
 export default function AccountPage() {
   const { user } = useAuth();
@@ -35,6 +36,8 @@ export default function AccountPage() {
         return <MyReviews setActiveView={setActiveView} />;
       case "coupon":
         return <MyCoupon setActiveView={setActiveView} />;
+      case "payment":
+        return <Payment setActiveView={setActiveView} />;
       default:
         return <SettingsList setActiveView={setActiveView} />;
     }
