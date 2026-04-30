@@ -1,18 +1,11 @@
 "use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import RateCardTable from '@/components/RateCardTable';
-import { ArrowLeft, ChevronDown, Info } from 'lucide-react';
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 
 const RateCardPage = () => {
   const router = useRouter();
-
-  const handleBackToService = () => {
-    router.push('/service/ac-repair');
-  };
 
   return (
     <div className="min-h-screen ">
@@ -29,11 +22,14 @@ const RateCardPage = () => {
             </p>
           </div>
 
-          {/* Table Section */}
-          <div className="border border-gray-200 rounded-2xl overflow-hidden">
-            <div className="bg-black text-white px-4 py-3 flex justify-between items-center">
-              <span className="font-medium">Electrical Parts</span>
-              <ChevronDown />
+          {/* Table Wrapper (IMPORTANT for mobile scroll) */}
+          <div className="border border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden">
+            {/* Header */}
+            <div className="bg-black text-white px-3 sm:px-4 py-2 sm:py-3 flex justify-between items-center">
+              <span className="text-sm sm:text-base font-medium">
+                Electrical Parts
+              </span>
+              <ChevronDown size={18} />
             </div>
 
             {/* Table */}

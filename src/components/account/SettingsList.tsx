@@ -65,7 +65,12 @@ export default function SettingsList({ setActiveView }: Props) {
           onClick={() => setActiveView("wallet")}
         />
         <div className="border-t border-[#E1E4E8] " />
-
+        <Item
+          icon="/icons/wallet.png"
+          text="Saved Payment Methods"
+          onClick={() => setActiveView("payment")}
+        />
+        <div className="border-t border-[#E1E4E8] " />
         <Item
           icon="/icons/language.png"
           text="Change Language"
