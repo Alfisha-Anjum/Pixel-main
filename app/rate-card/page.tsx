@@ -8,20 +8,17 @@ const RateCardPage = () => {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Container */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-6 sm:py-8">
-        {/* Title */}
-        <h1 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
-          Rate Card
-        </h1>
+    <div className="min-h-screen ">
+      {/* <Header /> */}
 
-        {/* Card */}
-        <div className="bg-white rounded-xl sm:rounded-2xl lg:border border-gray-200 md:p-4 sm:p-0">
-          {/* Info Box */}
-          <div className="bg-orange-50 text-center py-3 sm:py-4 rounded-md mb-4 sm:mb-6">
-            <p className="text-orange-600 text-sm sm:text-base font-medium">
-              Labour Charges are capped at ₹499 per appliance
+      <div className="max-w-7xl mx-auto p-0 md:p-8">
+        <h1 className="text-2xl font-semibold mb-6">Rate Card</h1>
+
+        <div className="bg-white rounded-2xl border-0 sm:border-[1px] sm:border-gray-200 p-0 sm:p-6">
+          {/* Orange Info Box */}
+          <div className="bg-orange-50 text-center py-4 rounded-md mb-6">
+            <p className="text-orange-600 font-medium">
+              Labour Chares are capped at ₹499 per appliance
             </p>
           </div>
 
@@ -35,45 +32,59 @@ const RateCardPage = () => {
               <ChevronDown size={18} />
             </div>
 
-            {/* Scroll container */}
-            <div className="w-full overflow-x-auto">
-              <table className="min-w-[500px] w-full text-xs sm:text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="text-left px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-                      Description
-                    </th>
-                    <th className="text-left px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-                      Service Charge
-                    </th>
-                    <th className="text-left px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-                      Labour
-                    </th>
-                  </tr>
-                </thead>
+            {/* Table */}
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="text-left px-4 py-3">Description</th>
+                  <th className="text-left px-4 py-3">Service Charge</th>
+                  <th className="text-left px-4 py-3">Labour</th>
+                </tr>
+              </thead>
 
-                <tbody className="divide-y">
-                  {[
-                    ["Non-Inverter PCB Repaired", "₹1500", "₹200"],
-                    ["Inverter PCB Repaired", "₹4000", "₹200"],
-                    ["Replace LVT", "₹900", "₹200"],
-                    ["Capacitor 2-5 mfd", "₹250", "₹250"],
-                    ["Capacitor 35-50 mfd", "₹250", "₹250"],
-                    ["Capacitor 50-60 mfd", "₹250", "₹250"],
-                    ["Replace Sensor", "₹250", "₹250"],
-                  ].map((row, i) => (
-                    <tr key={i}>
-                      <td className="px-3 sm:px-4 py-2 sm:py-3">{row[0]}</td>
-                      <td className="px-3 sm:px-4 py-2 sm:py-3">{row[1]}</td>
-                      <td className="px-3 sm:px-4 py-2 sm:py-3">{row[2]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+              <tbody className="divide-y">
+                <tr>
+                  <td className="px-4 py-3">Non-Inverter PCB Repaired</td>
+                  <td className="px-4 py-3">₹1500</td>
+                  <td className="px-4 py-3">₹200</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Inverter PCB Repaired</td>
+                  <td className="px-4 py-3">₹4000</td>
+                  <td className="px-4 py-3">₹200</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Replace LVT</td>
+                  <td className="px-4 py-3">₹900</td>
+                  <td className="px-4 py-3">₹200</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Capacitor 2-5 mfd</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Capacitor 35-50 mfd</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Capacitor 50-60 mfd</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Replace Sensor</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

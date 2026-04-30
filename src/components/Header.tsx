@@ -11,6 +11,32 @@ import axios from "axios";
 const Header = () => {
 const { user, logout } = useAuth();
   const [isClient, setIsClient] = useState(false);
+  const [currentCity, setCurrentCity] = useState("Raipur");
+
+
+  useEffect(() => {
+  const savedLocation = localStorage.getItem("user_location");
+
+  if (savedLocation) {
+    const parsed = JSON.parse(savedLocation);
+    setCurrentCity(parsed.city || parsed.state || "Raipur");
+  }
+
+  const handleLocationUpdate = () => {
+    const updatedLocation = localStorage.getItem("user_location");
+
+    if (updatedLocation) {
+      const parsed = JSON.parse(updatedLocation);
+      setCurrentCity(parsed.city || parsed.state || "Raipur");
+    }
+  };
+
+  window.addEventListener("location-updated", handleLocationUpdate);
+
+  return () => {
+    window.removeEventListener("location-updated", handleLocationUpdate);
+  };
+}, []);
 
   useEffect(() => {
     setIsClient(true);
@@ -64,7 +90,9 @@ const { user, logout } = useAuth();
             {/* LOCATION - hide on small screens */}
             <div className="flex items-center gap-2 px-4 py-2 md:border-r text-sm">
               <MapPin className="w-4 h-4 text-orange-500" />
-              <span className="text-gray-700">Raipur</span>
+              <span className="text-gray-700 truncate max-w-[90px]">
+                {currentCity}
+              </span>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
 

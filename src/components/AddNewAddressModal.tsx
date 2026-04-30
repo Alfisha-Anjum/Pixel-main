@@ -16,6 +16,10 @@ interface AddNewAddressModalProps {
     houseNo: string;
     location: string;
     roadLandmark: string;
+    latitude?: number;
+    longitude?: number;
+    state_name?: string;
+    city_name?: string;
   }) => void;
 }
 
@@ -24,17 +28,21 @@ const AddNewAddressModal = ({
   onClose,
   onSave,
 }: AddNewAddressModalProps) => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    contactNumber: "",
-    alternateNumber: "",
-    postalCode: "",
-    state: "",
-    city: "",
-    houseNo: "",
-    location: "",
-    roadLandmark: "",
-  });
+const [formData, setFormData] = useState({
+  fullName: "",
+  contactNumber: "",
+  alternateNumber: "",
+  postalCode: "",
+  state: "",
+  city: "",
+  houseNo: "",
+  location: "",
+  roadLandmark: "",
+  latitude: 0,
+  longitude: 0,
+  state_name: "",
+  city_name: "",
+});
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -60,73 +68,94 @@ const AddNewAddressModal = ({
     }
     onSave(formData);
     // Reset form
-    setFormData({
-      fullName: "",
-      contactNumber: "",
-      alternateNumber: "",
-      postalCode: "",
-      state: "",
-      city: "",
-      houseNo: "",
-      location: "",
-      roadLandmark: "",
-    });
+  setFormData({
+    fullName: "",
+    contactNumber: "",
+    alternateNumber: "",
+    postalCode: "",
+    state: "",
+    city: "",
+    houseNo: "",
+    location: "",
+    roadLandmark: "",
+    latitude: 0,
+    longitude: 0,
+    state_name: "",
+    city_name: "",
+  });
   };
 
   if (!isOpen) return null;
 
-  const states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Location is not supported");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_GEOCODING_API_KEY;
+
+        const res = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`,
+        );
+
+        const data = await res.json();
+        const result = data?.results?.[0];
+
+        let city = "";
+        let state = "";
+        let postalCode = "";
+
+        result?.address_components?.forEach((component: any) => {
+          if (component.types.includes("locality")) {
+            city = component.long_name;
+          }
+
+          if (component.types.includes("administrative_area_level_1")) {
+            state = component.long_name;
+          }
+
+          if (component.types.includes("postal_code")) {
+            postalCode = component.long_name;
+          }
+        });
+
+        setFormData((prev) => ({
+          ...prev,
+          latitude,
+          longitude,
+          location: result?.formatted_address || "",
+          postalCode: postalCode || prev.postalCode,
+          city,
+          state,
+          city_name: city,
+          state_name: state,
+        }));
+        localStorage.setItem(
+          "user_location",
+          JSON.stringify({
+            latitude,
+            longitude,
+            address: result?.formatted_address || "",
+            city,
+            state,
+          }),
+        );
+
+        window.dispatchEvent(new Event("location-updated"));
+      },
+      () => {
+        alert("Please allow location permission");
+      },
+    );
+  };
+
+ const states = ["Chhattisgarh", "Madhya Pradesh", "Maharashtra", "Delhi"];
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -222,6 +251,7 @@ const AddNewAddressModal = ({
                 <label className="block text-sm font-medium text-gray-800 mb-1">
                   Use my Location
                 </label>
+
                 <div className="relative">
                   <input
                     type="text"
@@ -232,12 +262,13 @@ const AddNewAddressModal = ({
                     className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
                   />
 
-                  {/* Location Icon */}
-                  <img
-                    src="/loc.png"
-                    alt="location"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none"
-                  />
+                  <button
+                    type="button"
+                    onClick={handleUseCurrentLocation}
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                  >
+                    <img src="/loc.png" alt="location" className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
             </div>
