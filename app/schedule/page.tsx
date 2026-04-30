@@ -578,7 +578,7 @@ const MySchedulePage = () => {
   return (
     <div className="min-h-screen ">
       {/* <Header /> */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
+      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-8 ">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-orange-500 cursor-pointer">
             Home
@@ -675,9 +675,9 @@ const MySchedulePage = () => {
                 {/* LEFT SECTION */}
                 <div className="w-full lg:w-[75%] space-y-6">
                   {/* SERVICE CARD */}
-                  <div className="flex flex-col w-full justify-between border shadow-sm rounded-xl p-5">
-                    <div className="flex justify-between w-full">
-                      <div className="flex gap-4">
+                  <div className="flex flex-col w-full justify-between border shadow-sm rounded-xl p-3 md:p-5">
+                    <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-3">
+                      <div className="flex gap-4 w-full">
                         <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                           <img
                             src={selectedBooking.serviceImage}
@@ -690,7 +690,7 @@ const MySchedulePage = () => {
                           />
                         </div>
 
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col sm:items-end items-start w-full sm:w-auto mt-2 sm:mt-0">
                           <h3 className="text-sm font-semibold text-gray-900 leading-tight">
                             {selectedBooking.service}
                           </h3>
@@ -701,7 +701,7 @@ const MySchedulePage = () => {
                           <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
                             <Star className="w-3 h-3 fill-orange-400 text-orange-400" />
                             <span>{selectedBooking.rating}</span>
-                            <span className="text-gray-400">
+                            <span className="text-gray-400 whitespace-nowrap">
                               | {selectedBooking.reviews} reviews
                             </span>
                           </div>
@@ -718,9 +718,11 @@ const MySchedulePage = () => {
                     <div className="py-2">
                       <div className="border-t border-gray-100 my-4"></div>
 
-                      <div className="flex justify-between text-xs text-gray-600">
-                        <span className="text-gray-400">Date & Time</span>
-                        <span className="font-medium text-gray-800">
+                      <div className="flex justify-between text-[clamp(11px,1vw,13px)] text-gray-600">
+                        <span className="text-gray-400 whitespace-nowrap">
+                          Date & Time
+                        </span>
+                        <span className="font-medium text-gray-800 text-right whitespace-nowrap">
                           {selectedBooking.date} | {selectedBooking.time}
                         </span>
                       </div>
@@ -870,6 +872,7 @@ const MySchedulePage = () => {
             setShowSelectAddressModal(false); // close current
             setShowAddNewAddressModal(true); // open new one
           }}
+          addresses={[]}
         />
       )}
 

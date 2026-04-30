@@ -73,7 +73,7 @@ const OTPVerification = ({
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow-lg">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl md:shadow-lg">
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <Shield className="w-8 h-8 text-orange-600" />
@@ -99,7 +99,7 @@ const OTPVerification = ({
               value={digit}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-14 h-14 text-2xl text-center border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="bg-white w-14 h-14 text-2xl text-center font-bold border border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all shadow-sm"
             />
           ))}
         </div>

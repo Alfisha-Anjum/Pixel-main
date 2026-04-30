@@ -301,7 +301,7 @@ const MyBookingPage = () => {
   return (
     <div className="min-h-screen ">
       {/* <Header /> */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl mx-auto sm:px-0 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 md:py-8">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link className="hover:text-orange-500 cursor-pointer" href="/">
             Home
@@ -496,9 +496,8 @@ const MyBookingPage = () => {
                             ].map((tab) => (
                               <button
                                 key={tab.id}
-                                // (No functionality change — keep static or plug state later)
-                                className={`px-5 py-1 rounded-full text-sm whitespace-nowrap transition-all ${
-                                  tab.id === "pending" // keep default active like before
+                                className={`px-4 sm:px-5 py-1 rounded-full text-xs sm:text-sm whitespace-nowrap transition-all ${
+                                  tab.id === "pending" // (ya state laga dena agar chaho)
                                     ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
                                     : "border border-orange-300 text-orange-500 hover:bg-orange-50"
                                 }`}
@@ -627,7 +626,7 @@ const MyBookingPage = () => {
               )}
 
               {showBookingDetailsPage && selectedBooking && (
-                <div className="bg-[#f6f7f9] min-h-screen w-full max-w-full overflow-x-hidden rounded-2xl px-3 sm:px-6 lg:px-8">
+                <div className="bg-[#f6f7f9] min-h-screen w-full max-w-full overflow-x-hidden rounded-2xl px-3 sm:px-2 lg:px-8">
                   {/* Back */}
                   {/* <button
                 onClick={() => setShowBookingDetailsPage(false)}
@@ -1204,6 +1203,7 @@ const MyBookingPage = () => {
             setShowSelectAddressModal(false); // close current
             setShowAddNewAddressModal(true); // open new one
           }}
+          addresses={[]}
         />
       )}
 
