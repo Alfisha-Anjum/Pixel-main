@@ -68,18 +68,22 @@ const payload: any = {
   full_name: formData.fullName || formData.name || "",
   contact_number: cleanPhone(formData.contactNumber || formData.phone || ""),
   postal_code: formData.postalCode || formData.pincode || "",
-  latitude: 21.2514,
-  longitude: 81.6296,
+
+  latitude: formData.latitude || 21.2514,
+  longitude: formData.longitude || 81.6296,
+
   country_id: 1,
+
   state_id: 1,
+
+  state_name: formData.state_name || formData.state || "Chhattisgarh",
+  city_name: formData.city_name || formData.city || "Raipur", // ✅ ADD THIS
+
   city_id: 1,
+
   house_number: formData.houseNo || "",
-  street:
-    formData.street ||
-    formData.location ||
-    formData.roadLandmark ||
-    formData.address ||
-    "",
+  street: formData.street || formData.location || formData.address || "",
+
   type: "Home",
   is_active: 1,
 };
@@ -215,7 +219,7 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
         {/* <Header /> */}
 
         <main className="max-w-7xl mx-auto px-5">
-          <h1 className="text-3xl font-bold text-gray-900 mb-5">
+          <h1 className="text-2xl font-bold text-gray-900 mb-5">
             Cart Summary
           </h1>
 
@@ -227,7 +231,7 @@ const handleDateTimeContinue = (date: string, time: string, notes: string) => {
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Customer Details
                 </h2>
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between flex-wrap gap-5">
                   <div>
                     {displayAddress ? (
                       <>

@@ -451,36 +451,42 @@ const ACRepairLayout = () => {
               {/* <h3 className="text-lg font-bold text-gray-900 mb-4">
                 AC Service Categories
               </h3> */}
-              <div className="relative  flex items-center">
-                {/* Left Chevron Button */}
+              <div className="relative w-full flex items-center mb-5">
+                {/* Left Button */}
                 <button
                   onClick={scrollLeft}
-                  className="absolute -left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0 z-10"
+                  className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
                 >
-                  <ChevronLeft className="w-6 h-6 text-[#FF6A00]" />
+                  <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
                 </button>
 
-                {/* Scrollable Cards Container */}
+                {/* Scroll Container */}
                 <div
                   ref={scrollContainerRef}
-                  className="flex  gap-10  overflow-hidden"
-                  // style={{ scrollbarWidth: "thin" }} // optional: hides scrollbar visually
+                  className="
+      flex gap-10
+      overflow-x-auto sm:overflow-hidden
+      scroll-smooth hide-scrollbar
+      px-1 sm:px-12
+      w-full
+    "
                 >
                   {tabs.map((tab) => (
                     <div
                       key={tab.id}
-                      className="flex-shrink-0 w-40" // fixed width for consistent card size
+                      className="flex-shrink-0 
+           w-1/2 "
                     >
                       <div
                         onClick={() => setActiveTab(tab.id)}
                         className={`
-                cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border
-                ${
-                  activeTab === tab.id
-                    ? "border-[#FF6A00]  shadow-md"
-                    : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
-                }
-              `}
+            cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border 
+            ${
+              activeTab === tab.id
+                ? "border-[#FF6A00] shadow-md"
+                : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
+            }
+          `}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) =>
@@ -488,14 +494,14 @@ const ACRepairLayout = () => {
                           setActiveTab(tab.id)
                         }
                       >
-                        {/* Optional: you can still have icons inside the card if desired */}
-                        <div className="mb-2 text-3xl">
+                        <div className="mb-2 text-2xl sm:text-3xl">
                           {tab.id === "split" && "❄️"}
                           {tab.id === "window" && "🪟"}
                           {tab.id === "cassette" && "📦"}
                         </div>
+
                         <div
-                          className={`font-medium ${
+                          className={`text-sm sm:text-base font-medium ${
                             activeTab === tab.id
                               ? "text-[#FF6A00]"
                               : "text-gray-700"
@@ -508,19 +514,29 @@ const ACRepairLayout = () => {
                   ))}
                 </div>
 
-                {/* Right Chevron Button */}
+                {/* Right Button */}
                 <button
                   onClick={scrollRight}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors border border-[#FF6A00] text-gray-700 flex-shrink-0"
+                  className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
                 >
-                  <ChevronRight className="w-6 h-6 text-[#FF6A00]" />
+                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
                 </button>
+
+                <style jsx>{`
+                  .hide-scrollbar::-webkit-scrollbar {
+                    display: none;
+                  }
+                  .hide-scrollbar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                  }
+                `}</style>
               </div>
             </div>
-            <div className="lg:col-span-6 mt-12">
+            <div className="lg:col-span-6 mt-14">
               <div className="">
                 {currentServices.map((service) => (
-                  <div key={service.id} className="border-b py-2 max-w-lg">
+                  <div key={service.id} className="border-b py-2 sm:w-[80%] w-full lg:max-w-lg ">
                     {/* Category Title (Split AC etc) */}
                     <h3 className="text-2xl font-semibold text-gray-800 mb-3">
                       {"Split AC"}
@@ -559,7 +575,7 @@ const ACRepairLayout = () => {
                         <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md">
                           30 Days Warranty
                         </span>
-                        <div className=" w-[60%] flex justify-between items-start">
+                        <div className=" w-[60%] flex justify-between items-start sm:flex-row flex-col">
                           <div>
                             {/* Title */}
                             <h4 className="font-semibold text-gray-900 mt-1">

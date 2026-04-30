@@ -1,142 +1,160 @@
 "use client";
 
-
-
-import Header from "@/components/Header";
-
 import ServiceSection from "@/components/ServiceSection";
-
 import FeatureSection from "@/components/FeatureSection";
-
 import AppliancesGrid from "@/components/AppliancesGrid";
-
 import ServicePromoSection from "@/components/ServicePromoSection";
-
 import DeepCleaningServices from "@/components/DeepCleaningServices";
-
 import CleaningPackage from "@/components/CleaningPackage";
-
 import HandymanServices from "@/components/HandymanServices";
-
 import MajorServices from "@/components/MajorServices";
-
-import Footer from "@/components/Footer";
-
 import AMCServicePlan from "@/components/AMCServicePlan";
-
 import WhyChooseUs from "@/components/WhyChooseUs";
-
 import DownloadApp from "@/components/DownloadApp";
-
-import OnDemandServices from "@/components/OnDemandServices";
-
 import HomeStartupModal from "@/components/HomeStartupModal";
-
-import { useRouter } from "next/navigation";
-
-import { useAuth } from "@/context/AuthContext";
-
-import { useEffect, useState } from "react";
 import ServicesSection from "@/components/ServicesSection";
 
-
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-
   const router = useRouter();
-
   const { user } = useAuth();
 
   const [isMounted, setIsMounted] = useState(false);
-
-
+  const [location, setLocation] = useState<any>(null);
 
   useEffect(() => {
-
     setIsMounted(true);
-
   }, []);
 
-  
-
   useEffect(() => {
-
-    // Check if user profile is complete, if not redirect to profile completion
-
     if (user && !user.profileCompleted) {
-
-      // If email is not verified, go to email verification
-
-      if (!user.emailVerified) {
-
-        router.push(`/email-verification?phone=${user.phone}&firstName=${user.firstName}&lastName=${user.lastName}&email=${user.email}`);
-
-      } else {
-
-        // Otherwise, go to complete profile step 2
-
-        router.push(`/complete-profile-step-2?phone=${user.phone}&firstName=${user.firstName}&lastName=${user.lastName}&email=${user.email}`);
-
-      }
-
+      router.push(`/complete-profile?phone=${user.phone}`);
     }
-
   }, [user, router]);
 
-  
+  useEffect(() => {
+    if (!user) return;
 
-  const handleBookService = () => {
+    const fetchUserLocation = () => {
+      if (!navigator.geolocation) {
+        console.log("Geolocation not supported");
+        return;
+      }
 
-    router.push('/services');
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
 
-  };
+          console.log("LAT:", latitude);
+          console.log("LNG:", longitude);
 
-  
+          try {
+            const apiKey = process.env.NEXT_PUBLIC_GOOGLE_GEOCODING_API_KEY;
 
-  // Don't render anything if redirecting
+            const res = await fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`,
+            );
+
+            const data = await res.json();
+
+           const result = data?.results?.[0];
+
+           let city = "";
+           let state = "";
+
+           if (result?.address_components) {
+             result.address_components.forEach((component: any) => {
+               if (component.types.includes("locality")) {
+                 city = component.long_name;
+               }
+               if (component.types.includes("administrative_area_level_1")) {
+                 state = component.long_name;
+               }
+             });
+           }
+
+           const address = result?.formatted_address || "Address not found";
+
+           const locationData = {
+             latitude,
+             longitude,
+             address,
+             city,
+             state,
+           };
+
+         
+
+            setLocation(locationData);
+
+            localStorage.setItem("user_location", JSON.stringify(locationData));
+window.dispatchEvent(new Event("location-updated"));
+            console.log("LOCATION DATA:", locationData);
+console.log("FULL GOOGLE RESPONSE:", data);
+// console.log("FINAL LOCATION DATA:", locationData);
+            // call your location-wise service API here
+            // await fetchServicesByLocation(latitude, longitude);
+          } catch (error) {
+            console.error("Geocoding error:", error);
+          }
+        },
+        (error) => {
+          console.error("Location permission denied:", error);
+        },
+      );
+    };
+
+    fetchUserLocation();
+  }, [user]);
 
   if (isMounted && user && !user.profileCompleted) {
-
     return null;
-
   }
 
-  
+
+  const fetchServicesByLocation = async (latitude: number, longitude: number) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `https://taskpro.itmingo.com/api/services?latitude=${latitude}&longitude=${longitude}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+
+    const data = await res.json();
+    console.log("Location wise services:", data);
+  } catch (error) {
+    console.error("Service API error:", error);
+  }
+};
 
   return (
-    <div className="min-h-screen ">
-      {/* <Header /> */}
-
+    <div className="min-h-screen">
       <HomeStartupModal />
 
       <main>
-        <ServiceSection />
-
+        <ServiceSection location={location} />
         <FeatureSection />
-
         <AMCServicePlan />
-
         <AppliancesGrid />
-
         <DeepCleaningServices />
-
         <CleaningPackage />
-
         <HandymanServices />
-
         <MajorServices />
-
         <ServicePromoSection />
-
         <WhyChooseUs />
-
         <DownloadApp />
-
         <ServicesSection />
       </main>
-
-      {/* <Footer /> */}
     </div>
   );
-
 }
