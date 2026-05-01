@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Building2, Trash2, Check } from "lucide-react";
 import { Modal } from "../Modals/Modal";
 import { FormInput } from "../Forms/FormInput";
 import { useToast } from "../../../hooks/use-toast";
+import axios from "axios";
 
 interface BankAccount {
   id: string;
@@ -28,17 +29,8 @@ export const BankAccountModal = ({
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [accountToDelete, setAccountToDelete] = useState<string | null>(null);
-  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([
-    {
-      id: "1",
-      bankName: "State Bank of India",
-      accountHolderName: "John Doe",
-      accountNumber: "****1234",
-      ifscCode: "SBIN0002499",
-      isDefault: true,
-    },
-  ]);
-
+const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+const [fetchLoading, setFetchLoading] = useState(false);
   const [newAccount, setNewAccount] = useState({
     bankName: "",
     accountHolderName: "",
@@ -46,6 +38,53 @@ export const BankAccountModal = ({
     confirmAccountNumber: "",
     ifscCode: "",
   });
+
+
+
+const fetchBankAccounts = async () => {
+  setFetchLoading(true);
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(
+      "https://taskpro.itmingo.com/api/customers/customer-bank-details",
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (res.data.status) {
+      const formattedAccounts = res.data.data.map((item: any) => ({
+        id: String(item.id),
+        bankName: item.bank_name,
+        accountHolderName: item.account_title,
+        accountNumber: `****${String(item.account_number).slice(-4)}`,
+        ifscCode: item.iban_number,
+        isDefault: item.is_active === 1,
+      }));
+
+      setBankAccounts(formattedAccounts);
+    }
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: "Failed to fetch bank accounts.",
+      variant: "destructive",
+    });
+  } finally {
+    setFetchLoading(false);
+  }
+};
+
+useEffect(() => {
+  if (isOpen) {
+    fetchBankAccounts();
+  }
+}, [isOpen]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -73,54 +112,65 @@ export const BankAccountModal = ({
       newErrors.confirmAccountNumber = "Account numbers do not match";
     }
 
-    if (!newAccount.ifscCode.trim()) {
-      newErrors.ifscCode = "IFSC code is required";
-    } else if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(newAccount.ifscCode)) {
-      newErrors.ifscCode = "Please enter a valid IFSC code";
-    }
+   if (!newAccount.ifscCode.trim()) {
+     newErrors.ifscCode = "IBAN number is required";
+   }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+
   const handleAddAccount = async () => {
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsLoading(true);
 
     try {
-      const accountToAdd: BankAccount = {
-        id: Date.now().toString(),
-        bankName: newAccount.bankName.trim(),
-        accountHolderName: newAccount.accountHolderName.trim(),
-        accountNumber: `****${newAccount.accountNumber.slice(-4)}`,
-        ifscCode: newAccount.ifscCode.trim().toUpperCase(),
-        isDefault: bankAccounts.length === 0,
-      };
+      const token = localStorage.getItem("token");
 
-      setBankAccounts((prev) => [...prev, accountToAdd]);
+      const res = await axios.post(
+        "https://taskpro.itmingo.com/api/customers/customer-bank-details",
+        {
+          bank_name: newAccount.bankName,
+          account_title: newAccount.accountHolderName,
+          account_number: newAccount.accountNumber,
+          iban_number: newAccount.ifscCode, // your IFSC field mapped here
+          is_active: 1,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-      toast({
-        title: "Bank account added successfully!",
-        description: "Your bank account has been saved.",
-      });
+      if (res.data.status) {
+        toast({
+          title: "Success",
+          description: "Bank account added successfully!",
+        });
 
-      // Reset form
-      setNewAccount({
-        bankName: "",
-        accountHolderName: "",
-        accountNumber: "",
-        confirmAccountNumber: "",
-        ifscCode: "",
-      });
+        // 🔥 Refresh list from API
+        await fetchBankAccounts();
 
-      setShowAddAccount(false);
-    } catch (error) {
+        // reset form
+        setNewAccount({
+          bankName: "",
+          accountHolderName: "",
+          accountNumber: "",
+          confirmAccountNumber: "",
+          ifscCode: "",
+        });
+
+        setShowAddAccount(false);
+      }
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to add bank account. Please try again.",
+        description:
+          error?.response?.data?.message || "Failed to add bank account",
         variant: "destructive",
       });
     } finally {
@@ -133,19 +183,44 @@ export const BankAccountModal = ({
     setShowConfirmDelete(true);
   };
 
-  const confirmDelete = () => {
-    if (accountToDelete) {
-      setBankAccounts((prev) =>
-        prev.filter((account) => account.id !== accountToDelete),
+  const confirmDelete = async () => {
+    if (!accountToDelete) return;
+
+    setIsLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.delete(
+        `https://taskpro.itmingo.com/api/customers/customer-bank-details/${accountToDelete}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
 
-      toast({
-        title: "Bank account removed",
-        description: "The bank account has been deleted.",
-      });
+      if (res.data.status) {
+        toast({
+          title: "Bank account removed",
+          description: "The bank account has been deleted.",
+        });
 
-      setShowConfirmDelete(false);
-      setAccountToDelete(null);
+        await fetchBankAccounts();
+
+        setShowConfirmDelete(false);
+        setAccountToDelete(null);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description:
+          error?.response?.data?.message || "Failed to delete bank account",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -169,13 +244,6 @@ export const BankAccountModal = ({
       <Modal isOpen={isOpen} onClose={onClose} title="Bank Accounts" size="md">
         <div className="space-y-6">
           {/* Add New Account Button */}
-          <button
-            onClick={() => setShowAddAccount(true)}
-            className="w-full h-11 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md flex items-center justify-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Add Bank Account
-          </button>
 
           {/* Bank Accounts List */}
           <div className="space-y-4 max-h-96 overflow-y-auto">
@@ -236,6 +304,13 @@ export const BankAccountModal = ({
               </div>
             )}
           </div>
+          <button
+            onClick={() => setShowAddAccount(true)}
+            className="w-full h-11 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md flex items-center justify-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            Add Bank Account
+          </button>
         </div>
       </Modal>
 
@@ -297,12 +372,12 @@ export const BankAccountModal = ({
           />
 
           <FormInput
-            label="IFSC Code"
+            label="IBAN Number"
             value={newAccount.ifscCode}
             onChange={(value) =>
               setNewAccount((prev) => ({ ...prev, ifscCode: value }))
             }
-            placeholder="Enter IFSC code"
+            placeholder="Enter IBAN number"
             required
             error={errors.ifscCode}
           />
@@ -344,9 +419,10 @@ export const BankAccountModal = ({
             </button>
             <button
               onClick={confirmDelete}
-              className="flex-1 h-11 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 transition-colors"
+              disabled={isLoading}
+              className="flex-1 h-11 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 transition-colors disabled:opacity-50"
             >
-              Remove
+              {isLoading ? "Removing..." : "Remove"}
             </button>
           </div>
         </div>

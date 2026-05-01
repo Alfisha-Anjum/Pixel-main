@@ -30,7 +30,7 @@ const handymanServices = [
 
 const HandymanServices = () => {
   return (
-    <section className="py-5 max-w-7xl mx-auto bg-card">
+    <section className="py-5 max-w-[90%] mx-auto lg:px-8">
       <div className="">
         <h2 className="text-2xl md:text-2xl font-bold text-foreground mb-6">
           Handyman Services

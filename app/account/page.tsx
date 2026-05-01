@@ -17,15 +17,52 @@ import MyWallet from "@/components/account/MyWallet";
 import MyReviews from "@/components/account/MyReviews";
 import MyCoupon from "@/components/account/MyCoupon";
 import Payment from "@/components/account/Payment";
+import { useEffect } from "react";
+import axios from "axios";
+
+
 
 export default function AccountPage() {
   const { user } = useAuth();
   const [activeView, setActiveView] = useState("default");
+  const [profile, setProfile] = useState<any>(null);
+
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        "https://taskpro.itmingo.com/api/customers/profile",
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (res.data.status) {
+        setProfile(res.data.data);
+      }
+    } catch (error) {
+      console.log("Profile fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   const renderContent = () => {
     switch (activeView) {
       case "editProfile":
-        return <EditProfile setActiveView={setActiveView} />;
+        return (
+          <EditProfile
+            setActiveView={setActiveView}
+            profile={profile}
+            fetchProfile={fetchProfile}
+          />
+        );
       case "refer":
         return <ReferEarn setActiveView={setActiveView} />;
       case "language":
@@ -71,7 +108,7 @@ export default function AccountPage() {
         {/* Profile */}
         {activeView === "default" && (
           <div className="w-full lg:w-[390px]">
-            <ProfileCard />
+            <ProfileCard profile={profile} />
           </div>
         )}
       </div>

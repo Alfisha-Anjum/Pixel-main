@@ -3,34 +3,121 @@
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
 import GradientButton2 from "@/components/ui/GradientButton2";
+import { useAuth } from "@/context/AuthContext";
+
 
 export default function EditProfile({
   setActiveView,
+  profile,
+  fetchProfile,
 }: {
   setActiveView: (view: string) => void;
+  profile: any;
+  fetchProfile: () => void;
 }) {
-  const [gender, setGender] = useState("male");
-  const [preview, setPreview] = useState("/img/profileimg.png");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const getImageUrl = (img?: string) => {
+  if (!img) return "/img/profileimg.png";
+
+  if (img.startsWith("http") || img.startsWith("/")) {
+    return img;
+  }
+
+  return `https://taskpro.itmingo.com/${img}`;
+};
+  const [gender, setGender] = useState(profile?.gender || "Male");
+  const { login } = useAuth();
+const [preview, setPreview] = useState(
+  profile?.profile_url || "/img/profileimg.png",
+);
+  const [profileFile, setProfileFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    try {
+      setLoading(true);
 
-    console.log(data);
+      const token = localStorage.getItem("token");
+      const customerId = localStorage.getItem("customer_id");
 
-    setActiveView("default");
+      const form = e.currentTarget;
+      const formData = new FormData();
+
+      formData.append("customer_id", customerId || "");
+      formData.append("first_name", String(form.firstName.value));
+      formData.append("last_name", String(form.lastName.value));
+      formData.append("mobile", String(form.phone.value));
+      formData.append("gender", gender);
+
+      if (profileFile) {
+        formData.append("profile", profileFile);
+      }
+
+      const res = await axios.post(
+        "https://taskpro.itmingo.com/api/customers/update-profile",
+        formData,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (res.data.status) {
+      await fetchProfile();
+
+      const profileRes = await axios.get(
+        "https://taskpro.itmingo.com/api/customers/profile",
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const updated = profileRes.data.data;
+
+      login({
+        phone: updated.mobile,
+        firstName: updated.first_name,
+        lastName: updated.last_name,
+        email: updated.email,
+        alternateNumber: updated.alt_mobile,
+        gender: updated.gender,
+        profileImage: updated.profile_url,
+        profileCompleted: true,
+        contactVerified: true,
+      });
+
+      setActiveView("default");
+      } else {
+        alert(res.data.message || "Profile update failed");
+      }
+    }  catch (error: any) {
+  console.log("Update profile error:", error?.response?.data || error);
+
+  alert(
+    error?.response?.data?.message ||
+      error?.response?.data?.error ||
+      "Something went wrong"
+  );
+    }
   };
 
   return (
     <div className="w-full max-w-[390px] md:ml-12 mx-auto md:mx-0 flex flex-col items-center md:items-start">
-      {/* ===== Form Section ===== */}
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         <div className="w-full flex justify-between items-center mb-6 md:hidden">
-          {/* Back */}
           <button
+            type="button"
             onClick={() => setActiveView("default")}
             className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
           >
@@ -38,16 +125,15 @@ export default function EditProfile({
             Edit Profile
           </button>
 
-          {/* Save (text only) */}
           <button
-            onClick={() => setActiveView("default")}
+            type="submit"
+            disabled={loading}
             className="font-semibold bg-gradient-to-r from-[#FEC12D] to-[#FF552C] bg-clip-text text-transparent"
           >
-            Save
+            {loading ? "Saving..." : "Save"}
           </button>
         </div>
 
-        {/* ===== Profile Image Section ===== */}
         <div className="flex justify-center md:justify-start mb-10">
           <div className="relative">
             <Image
@@ -71,26 +157,27 @@ export default function EditProfile({
 
             <input
               type="file"
-              name="profileImage"
               id="profileUpload"
               accept="image/*"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
+                  setProfileFile(file);
                   setPreview(URL.createObjectURL(file));
                 }
               }}
             />
           </div>
         </div>
+
         <div>
           <label className="text-[16px] font-semibold text-black">
             First Name
           </label>
           <input
             name="firstName"
-            defaultValue="Andrew"
+            defaultValue={profile?.first_name || ""}
             className="w-full border-b border-orange-400 bg-white outline-none py-2 text-black"
           />
         </div>
@@ -101,23 +188,22 @@ export default function EditProfile({
           </label>
           <input
             name="lastName"
-            defaultValue="Ainsley"
+            defaultValue={profile?.last_name || ""}
             className="w-full border-b border-orange-400 bg-white outline-none py-2 text-black"
           />
         </div>
 
-        {/* Gender */}
         <div>
           <p className="text-[16px] font-semibold mb-2 bg-white text-black">
             Select gender
           </p>
+
           <div className="flex flex-col gap-4">
-            {["male", "female", "other"].map((g) => (
+            {["Male", "Female", "Other"].map((g) => (
               <label
                 key={g}
                 className="flex items-center gap-3 cursor-pointer group"
               >
-                {/* Hidden radio */}
                 <input
                   type="radio"
                   name="gender"
@@ -127,27 +213,24 @@ export default function EditProfile({
                   className="hidden"
                 />
 
-                {/* Outer gradient circle */}
                 <div
-                  className={`w-5 h-5 rounded-full flex items-center justify-center transition-all duration-200
-        ${
-          gender === g
-            ? "bg-gradient-to-r from-[#FEC12D] to-[#FF552C]"
-            : "border-2 border-gray-400 group-hover:border-orange-400"
-        }`}
+                  className={`w-5 h-5 rounded-full flex items-center justify-center transition-all duration-200 ${
+                    gender === g
+                      ? "bg-gradient-to-r from-[#FEC12D] to-[#FF552C]"
+                      : "border-2 border-gray-400 group-hover:border-orange-400"
+                  }`}
                 >
-                  {/* White ring */}
                   <div
-                    className={`w-4 h-4 rounded-full border-2 border-white transition-all duration-200
-          ${gender === g ? "opacity-100" : "opacity-0"}`}
+                    className={`w-4 h-4 rounded-full border-2 border-white transition-all duration-200 ${
+                      gender === g ? "opacity-100" : "opacity-0"
+                    }`}
                   />
                 </div>
 
-                {/* Label */}
                 <span className="text-black">
-                  {g === "male"
+                  {g === "Male"
                     ? "I am male"
-                    : g === "female"
+                    : g === "Female"
                       ? "I am female"
                       : "Rather not to say"}
                 </span>
@@ -156,21 +239,23 @@ export default function EditProfile({
           </div>
         </div>
 
-        {/* Phone */}
         <div>
           <label className="text-[16px] font-semibold text-black">
             Phone Number
           </label>
           <input
             name="phone"
-            defaultValue="+1-300-555-0399"
+            defaultValue={profile?.mobile || ""}
             className="w-full text-[16px] border-b border-orange-400 bg-white outline-none py-2 text-black mb-4"
           />
         </div>
 
-        {/* Save Button */}
         <div className="hidden md:block">
-          <GradientButton2 text="Save" width="w-full" type="submit" />
+          <GradientButton2
+            text={loading ? "Saving..." : "Save"}
+            width="w-full"
+            type="submit"
+          />
         </div>
       </form>
     </div>

@@ -14,6 +14,16 @@ const { user, logout } = useAuth();
   const [currentCity, setCurrentCity] = useState("Raipur");
 
 
+  const getProfileImage = (img?: string) => {
+  if (!img) return "/profile.png";
+
+  if (img.startsWith("http") || img.startsWith("/")) {
+    return img;
+  }
+
+  return `https://taskpro.itmingo.com/storage/customers/${img}`;
+};
+console.log("USER:", user);
   useEffect(() => {
   const savedLocation = localStorage.getItem("user_location");
 
@@ -126,13 +136,13 @@ const { user, logout } = useAuth();
           {!isClient ? null : user ? (
             <div className="relative group flex items-center gap-2 cursor-pointer">
               {/* Avatar */}
-              <Avatar className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0">
-                <AvatarImage
-                  src={user?.profileImage || "/profile.png"}
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0 bg-gray-200">
+                <img
+                  src={getProfileImage(user?.profileImage)}
                   alt="Profile"
                   className="w-full h-full object-cover rounded-full"
                 />
-              </Avatar>
+              </div>
 
               {/* Name (desktop only) */}
               <span className="hidden lg:text-base text-[10px] md:inline text-gray-700 font-medium">
