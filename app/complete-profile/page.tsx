@@ -42,7 +42,7 @@ function CompleteProfilePageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <main className="flex-1 flex items-center justify-center md:py-8">
         <div className="max-w-4xl w-full flex flex-col md:flex-row rounded-2xl overflow-hidden lg:shadow-xl">
           {/* Left Side - White */}

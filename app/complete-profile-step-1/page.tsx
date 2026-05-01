@@ -198,7 +198,7 @@ function CompleteProfileContent() {
   }, []);
 
   return (
-    <div className="lg:min-h-screen bg-white flex flex-col">
+    <div className="lg:min-h-screen flex flex-col">
       <main className="flex-1 flex items-center justify-center py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
         <div className="max-w-4xl w-full flex flex-col md:flex-row rounded-xl sm:rounded-2xl overflow-hidden md:shadow-xl bg-white">
           <div className="w-full md:w-1/2 bg-white p-4 sm:p-6 md:p-10 lg:p-12 flex flex-col justify-center">

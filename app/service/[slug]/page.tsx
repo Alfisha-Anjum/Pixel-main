@@ -36,7 +36,7 @@ import { useSearchParams } from "next/navigation";
 
 interface Service {
   id: number;
-  title: string;
+  name: string;
   description: string;
   rating: number;
   reviewCount: number;
@@ -55,24 +55,25 @@ const ACRepairLayout = () => {
   const [showCoupons, setShowCoupons] = useState(false);
   const [showCapacityModal, setShowCapacityModal] = useState(false);
   // const [selectedService, setSelectedService] = useState(null);
-  const [activeTab, setActiveTab] = useState("split");
+
+  const params = useParams();
+  const slug = params?.slug as string;
+  const service = SERVICES_DATA.find((s) => s.slug === slug);
+  const [activeTab, setActiveTab] = useState(service?.types[0]?.id || "");
   const [cartItems, setCartItems] = useState<CartItemService[]>([]);
   // const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
- const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedService, setSelectedService] = useState<SubService | null>(
+    null,
+  );
   const [showModal, setShowModal] = useState(false);
   const [showAMCModal, setShowAMCModal] = useState(false);
   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
 
-  const params = useParams();
-  const slug = params?.slug as string;
-
   const searchParams = useSearchParams();
   const source = searchParams?.get("source") || "";
-
-
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -194,111 +195,119 @@ const ACRepairLayout = () => {
     },
   ];
 
-  const servicesData: Record<string, Service[]> = {
-    split: [
-      {
-        id: 1,
-        title: "Split AC Service",
-        description: "Complete service including cleaning and maintenance",
-        rating: 4.9,
-        reviewCount: 856,
-        duration: "45 mins",
-        price: 2999,
-        originalPrice: 3999,
-        image:
-          "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop",
-      },
-      {
-        id: 2,
-        title: "Split AC Repair",
-        description: "Repair for compressor, gas refill, electrical issues",
-        rating: 4.7,
-        reviewCount: 654,
-        duration: "1-2 hours",
-        price: 3499,
-        originalPrice: 4999,
-        image:
-          "https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: 3,
-        title: "Split AC Installation",
-        description: "Professional installation of new AC units",
-        rating: 4.8,
-        reviewCount: 432,
-        duration: "2-3 hours",
-        price: 1999,
-        originalPrice: 2999,
-        image:
-          "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop",
-      },
-    ],
-    window: [
-      {
-        id: 4,
-        title: "Window AC Service",
-        description: "Complete cleaning and maintenance service",
-        rating: 4.8,
-        reviewCount: 623,
-        duration: "40 mins",
-        price: 2499,
-        originalPrice: 3499,
-        image:
-          "https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: 5,
-        title: "Window AC Repair",
-        description: "Comprehensive repair for all window AC issues",
-        rating: 4.6,
-        reviewCount: 412,
-        duration: "1-2 hours",
-        price: 2999,
-        originalPrice: 4499,
-        image:
-          "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
-      },
-    ],
-    cassette: [
-      {
-        id: 6,
-        title: "Cassette AC Service",
-        description: "Professional service for cassette AC units",
-        rating: 4.9,
-        reviewCount: 287,
-        duration: "60 mins",
-        price: 3999,
-        originalPrice: 5499,
-        image:
-          "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: 7,
-        title: "Cassette AC Installation",
-        description: "Expert installation for commercial spaces",
-        rating: 4.8,
-        reviewCount: 156,
-        duration: "3-4 hours",
-        price: 4999,
-        originalPrice: 6999,
-        image:
-          "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
-      },
-    ],
-  };
+  // const servicesData: Record<string, Service[]> = {
+  //   split: [
+  //     {
+  //       id: 1,
+  //       title: "Split AC Service",
+  //       description: "Complete service including cleaning and maintenance",
+  //       rating: 4.9,
+  //       reviewCount: 856,
+  //       duration: "45 mins",
+  //       price: 2999,
+  //       originalPrice: 3999,
+  //       image:
+  //         "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop",
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "Split AC Repair",
+  //       description: "Repair for compressor, gas refill, electrical issues",
+  //       rating: 4.7,
+  //       reviewCount: 654,
+  //       duration: "1-2 hours",
+  //       price: 3499,
+  //       originalPrice: 4999,
+  //       image:
+  //         "https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop",
+  //     },
+  //     {
+  //       id: 3,
+  //       title: "Split AC Installation",
+  //       description: "Professional installation of new AC units",
+  //       rating: 4.8,
+  //       reviewCount: 432,
+  //       duration: "2-3 hours",
+  //       price: 1999,
+  //       originalPrice: 2999,
+  //       image:
+  //         "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop",
+  //     },
+  //   ],
+  //   window: [
+  //     {
+  //       id: 4,
+  //       title: "Window AC Service",
+  //       description: "Complete cleaning and maintenance service",
+  //       rating: 4.8,
+  //       reviewCount: 623,
+  //       duration: "40 mins",
+  //       price: 2499,
+  //       originalPrice: 3499,
+  //       image:
+  //         "https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop",
+  //     },
+  //     {
+  //       id: 5,
+  //       title: "Window AC Repair",
+  //       description: "Comprehensive repair for all window AC issues",
+  //       rating: 4.6,
+  //       reviewCount: 412,
+  //       duration: "1-2 hours",
+  //       price: 2999,
+  //       originalPrice: 4499,
+  //       image:
+  //         "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
+  //     },
+  //   ],
+  //   cassette: [
+  //     {
+  //       id: 6,
+  //       title: "Cassette AC Service",
+  //       description: "Professional service for cassette AC units",
+  //       rating: 4.9,
+  //       reviewCount: 287,
+  //       duration: "60 mins",
+  //       price: 3999,
+  //       originalPrice: 5499,
+  //       image:
+  //         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop",
+  //     },
+  //     {
+  //       id: 7,
+  //       title: "Cassette AC Installation",
+  //       description: "Expert installation for commercial spaces",
+  //       rating: 4.8,
+  //       reviewCount: 156,
+  //       duration: "3-4 hours",
+  //       price: 4999,
+  //       originalPrice: 6999,
+  //       image:
+  //         "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
+  //     },
+  //   ],
+  // };
 
-  const tabs = [
-    { id: "split", label: "Split AC" },
-    { id: "window", label: "Window AC" },
-    { id: "cassette", label: "Cassette AC" },
-  ];
+  // const tabs = [
+  //   { id: "split", label: "Split AC" },
+  //   { id: "window", label: "Window AC" },
+  //   { id: "cassette", label: "Cassette AC" },
+  // ];
 
-  const currentServices = servicesData[activeTab] || [];
-// const { addToCart } = useBooking();
+  const tabsRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const brandsRef = useRef(null);
 
-  const addToCart = (service: Service | CartItemService) => {
+  const tabs = service?.types || [];
+
+  const currentType = service?.types.find((t) => t.id === activeTab);
+  const currentServices = currentType?.subServices || [];
+  // const { addToCart } = useBooking();
+
+  const addToCart = (service: SubService) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === service.id);
+
       if (existing) {
         return prev.map((item) =>
           item.id === service.id
@@ -306,6 +315,7 @@ const ACRepairLayout = () => {
             : item,
         );
       }
+
       return [...prev, { ...service, quantity: 1 }];
     });
   };
@@ -353,18 +363,30 @@ const ACRepairLayout = () => {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-5">
           {/* Breadcrumb */}
           <div className="text-sm sm:text-base md:text-lg text-gray-600 py-4">
-            <a href="/" className="hover:text-[#FF6A00]">
+            <Link href="/" className="hover:text-[#FF6A00]">
               Home
-            </a>
-            <span className="mx-2">/</span>
-            <a
-              href="/services/ac-appliance-repair"
-              className="hover:text-[#FF6A00]"
-            >
-              AC & Appliance Repair
-            </a>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-semibold">AC Repair</span>
+            </Link>
+
+            {service?.category && (
+              <>
+                <span className="mx-2">/</span>
+                <Link
+                  href={`/services/${service.categorySlug}`}
+                  className="hover:text-[#FF6A00]"
+                >
+                  {service.category}
+                </Link>
+              </>
+            )}
+
+            {service?.name && (
+              <>
+                <span className="mx-2">/</span>
+                <span className="text-gray-900 font-semibold">
+                  {service.name}
+                </span>
+              </>
+            )}
           </div>
 
           {/* Responsive Hero Layout */}
@@ -372,18 +394,31 @@ const ACRepairLayout = () => {
             {/* LEFT CONTENT */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
               <h1 className="text-2xl font-semibold text-gray-900 leading-snug">
-                Best Air Condition (AC) <br />
-                Repair Service in Raipur
+                Best {service?.name} <br />
+                Service in {service?.city || "Your City"}
               </h1>
 
               {/* Rating */}
               <div className="mt-4 flex flex-wrap items-center gap-2 text-sm sm:text-base">
                 <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
-                <span className="font-semibold text-gray-900">4.5</span>
-                <span className="text-gray-600">(480 review)</span>
+
+                <span className="font-semibold text-gray-900">
+                  {service?.rating || 0}
+                </span>
+
+                <span className="text-gray-600">
+                  ({service?.reviews || 0} reviews)
+                </span>
+
                 <span className="text-gray-400">|</span>
-                <span className="font-semibold text-gray-900">5785</span>
-                <span className="text-gray-600">(Bookings in Raipur)</span>
+
+                <span className="font-semibold text-gray-900">
+                  {service?.bookings || 0}
+                </span>
+
+                <span className="text-gray-600">
+                  (Bookings in {service?.city || "Your City"})
+                </span>
               </div>
 
               {/* Cover Card */}
@@ -404,7 +439,7 @@ const ACRepairLayout = () => {
                     <div className="flex gap-2 items-center">
                       <span>🏅</span>
                       <span className="text-sm text-gray-500">
-                        30 days unconditional warranty
+                        {service?.warranty || "No warranty info"}
                       </span>
                     </div>
                     <span>›</span>
@@ -464,7 +499,7 @@ const ACRepairLayout = () => {
                 <div
                   ref={scrollContainerRef}
                   className="
-      flex gap-10
+      flex gap-4 md:gap-6
       overflow-x-auto sm:overflow-hidden
       scroll-smooth hide-scrollbar
       px-1 sm:px-12
@@ -495,9 +530,7 @@ const ACRepairLayout = () => {
                         }
                       >
                         <div className="mb-2 text-2xl sm:text-3xl">
-                          {tab.id === "split" && "❄️"}
-                          {tab.id === "window" && "🪟"}
-                          {tab.id === "cassette" && "📦"}
+                          {tab.icon}
                         </div>
 
                         <div
@@ -507,7 +540,7 @@ const ACRepairLayout = () => {
                               : "text-gray-700"
                           }`}
                         >
-                          {tab.label}
+                          {tab.name}
                         </div>
                       </div>
                     </div>
@@ -535,11 +568,14 @@ const ACRepairLayout = () => {
             </div>
             <div className="lg:col-span-6 mt-14">
               <div className="">
-                {currentServices.map((service) => (
-                  <div key={service.id} className="border-b py-2 sm:w-[80%] w-full lg:max-w-lg ">
+                {currentServices.map((subService) => (
+                  <div
+                    key={subService.id}
+                    className="border-b py-2 sm:w-[80%] w-full lg:max-w-lg "
+                  >
                     {/* Category Title (Split AC etc) */}
                     <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-                      {"Split AC"}
+                      {currentType?.name}
                     </h3>
 
                     <div className="flex gap-4">
@@ -547,8 +583,8 @@ const ACRepairLayout = () => {
                       <div className="flex flex-col items-center">
                         <div className="relative w-28 h-28 rounded-lg overflow-hidden">
                           <Image
-                            src={service.image}
-                            alt={service.title}
+                            src={subService.image}
+                            alt={subService.name}
                             fill
                             className="object-cover"
                           />
@@ -558,10 +594,10 @@ const ACRepairLayout = () => {
                           // onClick={() => addToCart(service)}
                           onClick={() => {
                             if (source === "amc") {
-                              setSelectedService(service);
+                              setSelectedService(subService);
                               setShowCapacityModal(true);
                             } else {
-                              addToCart(service);
+                              addToCart(subService);
                             }
                           }}
                           className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
@@ -579,19 +615,19 @@ const ACRepairLayout = () => {
                           <div>
                             {/* Title */}
                             <h4 className="font-semibold text-gray-900 mt-1">
-                              {service.title}
+                              {subService.name}
                             </h4>
 
                             {/* Rating + Time */}
                             <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
                               <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
                               <span>
-                                {typeof service.rating === "number"
-                                  ? service.rating.toFixed(1)
+                                {typeof subService.rating === "number"
+                                  ? subService.rating.toFixed(1)
                                   : "0.0"}
                               </span>
                               <span>
-                                ({Math.round(service.reviewCount / 1000)}m
+                                ({Math.round(subService.reviews / 1000)}m
                                 reviews)
                               </span>
                             </div>
@@ -600,7 +636,7 @@ const ACRepairLayout = () => {
                               <Clock className="w-4 h-4" />
                               <p className="text-xs text-gray-700">
                                 {" "}
-                                {service.duration} approx
+                                {subService.duration} approx
                               </p>
                             </div>
                           </div>
@@ -610,11 +646,11 @@ const ACRepairLayout = () => {
                           <div className="flex  flex-col mt-2">
                             <div className="flex items-center gap-2">
                               <span className="font-semibold text-gray-900">
-                                ₹{service.price}
+                                ₹{subService.discountedPrice}
                               </span>
-                              {service.originalPrice && (
+                              {subService.originalPrice && (
                                 <span className="text-xs text-gray-400 line-through">
-                                  ₹{service.originalPrice}
+                                  ₹{subService.originalPrice}
                                 </span>
                               )}
                             </div>
@@ -643,7 +679,7 @@ const ACRepairLayout = () => {
                       {/* More Details */}
                       <p
                         onClick={() => {
-                          setSelectedService(service);
+                          setSelectedService(subService);
                           setShowModal(true);
                         }}
                         className="text-blue-600 text-xs mt-2 cursor-pointer"
@@ -693,7 +729,7 @@ const ACRepairLayout = () => {
                           {/* Title */}
                           <div className="truncate">
                             <p className="text-sm text-gray-400 truncate">
-                              {item.title}
+                              {item.name}
                             </p>
                           </div>
 
@@ -725,10 +761,10 @@ const ACRepairLayout = () => {
                           {/* Price */}
                           <div className="text-right">
                             <p className="text-sm font-semibold text-gray-900">
-                              ₹{item.price * item.quantity}
+                              ₹{item.discountedPrice * item.quantity}
                             </p>
                             <p className="text-xs text-gray-400 line-through">
-                              ₹{item.price + 50}
+                              ₹{item.originalPrice + 50}
                             </p>
                           </div>
                         </div>
@@ -741,7 +777,8 @@ const ACRepairLayout = () => {
                         <p className="font-semibold text-gray-900">
                           ₹
                           {cartItems.reduce(
-                            (acc, item) => acc + item.price * item.quantity,
+                            (acc, item) =>
+                              acc + item.discountedPrice * item.quantity,
                             0,
                           )}
                         </p>
@@ -1295,175 +1332,211 @@ const ACRepairLayout = () => {
   );
 };
 
-export default function ServiceDetailPage() {
-  const { addToCart } = useBooking();
-   const params = useParams();
-  const slug = params?.slug as string;
+// export default function ServiceDetailPage() {
+//   const { addToCart } = useBooking();
+//   const params = useParams();
+//   const slug = params?.slug as string;
 
-  const searchParams = useSearchParams();
-  const source = searchParams?.get("source") || "";
+//   const searchParams = useSearchParams();
+//   const source = searchParams?.get("source") || "";
 
-  // If it's the AC repair service, use the new layout
-  if (slug === "ac-repair") {
-    return <ACRepairLayout />;
-  }
-  const service = SERVICES_DATA.find((s) => s.slug === slug);
-  const [activeTab, setActiveTab] = useState(
-    service?.types[0].id || "split-ac",
-  );
-  const [showCapacityModal, setShowCapacityModal] = useState(false);
-  const [showAMCModal, setShowAMCModal] = useState(false);
-  const [selectedService, setSelectedService] = useState<any>(null);
-  const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
+//   // If it's the AC repair service, use the new layout
+//   // if (slug === "ac-repair") {
+//   //   return <ACRepairLayout />;
+//   // }
+//   const service = SERVICES_DATA.find((s) => s.slug === slug);
+//   const [activeTab, setActiveTab] = useState(
+//     service?.types[0].id || "split-ac",
+//   );
+//   const [showCapacityModal, setShowCapacityModal] = useState(false);
+//   const [showAMCModal, setShowAMCModal] = useState(false);
+//   const [selectedService, setSelectedService] = useState<any>(null);
+//   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
 
-  if (!service) {
-    return (
-      <div className="min-h-screen ">
-        {/* <Header /> */}
-        <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Service Not Found
-          </h1>
-        </div>
-        {/* <Footer /> */}
-      </div>
-    );
-  }
+//   if (!service) {
+//     return (
+//       <div className="min-h-screen ">
+//         {/* <Header /> */}
+//         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+//           <h1 className="text-2xl font-bold text-gray-900">
+//             Service Not Found
+//           </h1>
+//         </div>
+//         {/* <Footer /> */}
+//       </div>
+//     );
+//   }
 
-  const activeType = service.types.find((t) => t.id === activeTab);
+//   const activeType = service.types.find((t) => t.id === activeTab);
 
-  const handleAddService = (subService: any) => {
-    setSelectedService(subService);
-    setShowCapacityModal(true);
-  };
+//   const handleAddService = (subService: any) => {
+//     setSelectedService(subService);
+//     setShowCapacityModal(true);
+//   };
 
-  const handleCapacitySelected = (capacity: string) => {
-    setSelectedCapacity(capacity);
-    setShowCapacityModal(false);
-  };
+//   const handleCapacitySelected = (capacity: string) => {
+//     setSelectedCapacity(capacity);
+//     setShowCapacityModal(false);
+//   };
 
-  const handleAMCDurationSelected = (duration: string) => {
-    if (selectedService && selectedCapacity) {
-      const cartItem: CartItem = {
-        id: `${selectedService.id}-${selectedCapacity}-${duration}`,
-        serviceId: service.id,
-        serviceName: service.name,
-        subService: selectedService.name,
-        capacity: selectedCapacity,
-        amc: duration,
-        price: selectedService.discountedPrice,
-        image: selectedService.image,
-        duration: selectedService.duration,
-        rating: selectedService.rating,
-        reviews: selectedService.reviews,
-      };
-      addToCart(cartItem);
-      setShowAMCModal(false);
-      setShowCapacityModal(false);
-      setSelectedCapacity(null);
-      setSelectedService(null);
-    }
-  };
+//   const handleAMCDurationSelected = (duration: string) => {
+//     if (selectedService && selectedCapacity) {
+//       const cartItem: CartItem = {
+//         id: `${selectedService.id}-${selectedCapacity}-${duration}`,
+//         serviceId: `${service.id}-${selectedCapacity}-${duration}`,
+//         serviceName: service.name,
+//         subService: selectedService.name,
+//         capacity: selectedCapacity,
+//         amc: duration,
+//         price: selectedService.discountedPrice,
+//         image: selectedService.image,
+//         duration: selectedService.duration,
+//         rating: selectedService.rating,
+//         reviews: selectedService.reviews,
+//       };
+//       addToCart(cartItem);
+//       setShowAMCModal(false);
+//       setShowCapacityModal(false);
+//       setSelectedCapacity(null);
+//       setSelectedService(null);
+//     }
+//   };
 
-  return (
-    <div className="min-h-screen ">
-      {/* <Header /> */}
+//   return (
+//     <div className="min-h-screen ">
+//       {/* <Header /> */}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-          <a href="/" className="hover:text-orange-600">
-            Home
-          </a>
-          <ChevronRight className="w-4 h-4" />
-          <a href="/services" className="hover:text-orange-600">
-            {service.breadcrumb}
-          </a>
-          <ChevronRight className="w-4 h-4" />
-          <span className="text-gray-900 font-semibold">{service.name}</span>
-        </div>
+//       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+//         {/* Breadcrumb */}
+//         <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+//           <a href="/" className="hover:text-orange-600">
+//             Home
+//           </a>
+//           <ChevronRight className="w-4 h-4" />
+//           <a href="/services" className="hover:text-orange-600">
+//             {service.breadcrumb}
+//           </a>
+//           <ChevronRight className="w-4 h-4" />
+//           <span className="text-gray-900 font-semibold">{service.name}</span>
+//         </div>
 
-        {/* Top Section: Image + Summary */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-8">
-          {/* Left: Banner Image */}
-          <div className="lg:col-span-2">
-            <div className="relative w-full h-96 rounded-xl overflow-hidden ">
-              <Image
-                src={service.image}
-                alt={service.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+//         {/* Top Section: Image + Summary */}
+//         <div className="grid lg:grid-cols-3 gap-8 mb-8">
+//           {/* Left: Banner Image */}
+//           <div className="lg:col-span-2">
+//             <div className="relative w-full h-96 rounded-xl overflow-hidden ">
+//               <Image
+//                 src={service.image}
+//                 alt={service.name}
+//                 fill
+//                 className="object-cover"
+//               />
+//             </div>
+//           </div>
 
-          {/* Right: Summary Card */}
-          <ServiceSummaryCard
-            rating={service.rating}
-            reviews={service.reviews}
-            price={service.price}
-            duration={service.duration}
-            warranty={service.warranty}
-            service={service}
-          />
-        </div>
+//           {/* Right: Summary Card */}
+//           <ServiceSummaryCard
+//             rating={service.rating}
+//             reviews={service.reviews}
+//             price={service.price}
+//             duration={service.duration}
+//             warranty={service.warranty}
+//             service={service}
+//           />
+//         </div>
 
-        {/* Service Type Tabs */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
-            Choose a Service Type
-          </h2>
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {service.types.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setActiveTab(type.id)}
-                style={{
-                  backgroundColor:
-                    activeTab === type.id ? "#FF6B00" : "#F3F4F6",
-                  color: activeTab === type.id ? "white" : "#374151",
-                }}
-                className="px-6 py-2 rounded-lg font-semibold whitespace-nowrap transition-all"
-              >
-                {type.name}
-              </button>
-            ))}
-          </div>
-        </div>
+//         {/* Service Type Tabs */}
+//         <div className="mb-8">
+//           <h2 className="text-lg font-bold text-gray-900 mb-4">
+//             Choose a Service Type
+//           </h2>
+//           <div className="flex gap-4 overflow-x-auto hide-scrollbar">
+//             {service.types.map((type) => (
+//               <div
+//                 key={type.id}
+//                 onClick={() => setActiveTab(type.id)}
+//                 className={`cursor-pointer rounded-xl p-4 text-center border ${
+//                   activeTab === type.id
+//                     ? "border-[#FF6A00] shadow-md"
+//                     : "border-gray-200"
+//                 }`}
+//               >
+//                 <div className="text-lg font-medium">{type.name}</div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left: Sub Services List */}
-          <div className="lg:col-span-2 space-y-4">
-            {activeType && activeType.subServices.length > 0 ? (
-              activeType.subServices.map((subService) => (
-                <SubServiceCard
-                  key={subService.id}
-                  id={subService.id}
-                  image={subService.image}
-                  name={subService.name}
-                  description={subService.description}
-                  rating={subService.rating}
-                  reviews={subService.reviews}
-                  duration={subService.duration}
-                  originalPrice={subService.originalPrice}
-                  discountedPrice={subService.discountedPrice}
-                  onAdd={() => handleAddService(subService)}
-                />
-              ))
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                No services available for this type
-              </div>
-            )}
-          </div>
+//         {/* Main Content Grid */}
+//         <div className="grid lg:grid-cols-3 gap-8">
+//           {/* Left: Sub Services List */}
+//           <div className="lg:col-span-2 space-y-4">
+//             {activeType?.subServices.map((service) => (
+//               <div key={service.id} className="border-b py-4">
+//                 <div className="flex gap-4">
+//                   {/* IMAGE + ADD */}
+//                   <div className="flex flex-col items-center">
+//                     <div className="relative w-28 h-28 rounded-lg overflow-hidden">
+//                       <Image
+//                         src={service.image}
+//                         alt={service.name}
+//                         fill
+//                         className="object-cover"
+//                       />
+//                     </div>
 
-          {/* Right: Cart Summary */}
-          <CartSummaryCard />
-        </div>
-      </main>
+//                     <button
+//                       onClick={() => handleAddService(service)}
+//                       className="-mt-4 border border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm bg-white"
+//                     >
+//                       Add
+//                     </button>
+//                   </div>
 
-      {/* <Footer /> */}
-    </div>
-  );
+//                   {/* CONTENT */}
+//                   <div className="flex-1">
+//                     <h4 className="font-semibold text-gray-900">
+//                       {service.name}
+//                     </h4>
+
+//                     <p className="text-xs text-gray-600 mt-1">
+//                       {service.description}
+//                     </p>
+
+//                     <div className="flex items-center gap-2 text-xs mt-2">
+//                       ⭐ {service.rating} ({service.reviews})
+//                     </div>
+
+//                     <div className="mt-2 flex justify-between items-center">
+//                       <span className="font-semibold">
+//                         ₹{service.discountedPrice}
+//                       </span>
+
+//                       {service.originalPrice && (
+//                         <span className="line-through text-xs text-gray-400">
+//                           ₹{service.originalPrice}
+//                         </span>
+//                       )}
+//                     </div>
+
+//                     <p className="text-xs text-gray-500 mt-1">
+//                       ⏱ {service.duration}
+//                     </p>
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+
+//           {/* Right: Cart Summary */}
+//           <CartSummaryCard />
+//         </div>
+//       </main>
+
+//       {/* <Footer /> */}
+//     </div>
+//   );
+// }
+export default function Page() {
+  return <ACRepairLayout />;
 }

@@ -11,12 +11,15 @@ export const SERVICES_DATA = [
     rating: 4.8,
     reviews: 1240,
     price: 3999,
+    city: "Raipur",
     duration: "45 mins - 1 hour",
     warranty: "12 Month Warranty",
+    bookings: 1000,
     types: [
       {
         id: "split-ac",
         name: "Split AC",
+        icon: "❄️",
         subServices: [
           {
             id: "split-ac-service",
@@ -55,6 +58,7 @@ export const SERVICES_DATA = [
       },
       {
         id: "window-ac",
+        icon: "🪟",
         name: "Window AC",
         subServices: [
           {
@@ -84,6 +88,7 @@ export const SERVICES_DATA = [
       {
         id: "cassette-ac",
         name: "Cassette AC",
+        icon: "📦",
         subServices: [
           {
             id: "cassette-ac-service",
@@ -107,6 +112,7 @@ export const SERVICES_DATA = [
     category: "Heating Appliances",
     breadcrumb: "Heating Appliances",
     image: "/hero2.png",
+    city: "Raipur",
     rating: 4.7,
     reviews: 892,
     price: 2999,
@@ -116,6 +122,7 @@ export const SERVICES_DATA = [
       {
         id: "electric-geyser",
         name: "Electric Geyser",
+        icon: "🔥",
         subServices: [
           {
             id: "electric-geyser-service",
@@ -144,6 +151,7 @@ export const SERVICES_DATA = [
       {
         id: "gas-geyser",
         name: "Gas Geyser",
+        icon: "🔥",
         subServices: [
           {
             id: "gas-geyser-service",
@@ -176,6 +184,7 @@ export const SERVICES_DATA = [
       {
         id: "front-load",
         name: "Front Load",
+        icon: "🧺",
         subServices: [
           {
             id: "front-load-service",
@@ -193,6 +202,7 @@ export const SERVICES_DATA = [
       {
         id: "top-load",
         name: "Top Load",
+        icon: "🧺",
         subServices: [
           {
             id: "top-load-service",
@@ -225,6 +235,7 @@ export const SERVICES_DATA = [
       {
         id: "single-door",
         name: "Single Door",
+        icon: "❄️",
         subServices: [
           {
             id: "single-door-service",
@@ -242,6 +253,7 @@ export const SERVICES_DATA = [
       {
         id: "double-door",
         name: "Double Door",
+        icon: "❄️",
         subServices: [
           {
             id: "double-door-service",
@@ -274,6 +286,7 @@ export const SERVICES_DATA = [
       {
         id: "solo-microwave",
         name: "Solo Microwave",
+        icon: "🔥",
         subServices: [
           {
             id: "solo-microwave-service",
@@ -291,6 +304,7 @@ export const SERVICES_DATA = [
       {
         id: "convection-microwave",
         name: "Convection",
+        icon: "🔥",
         subServices: [
           {
             id: "convection-service",
