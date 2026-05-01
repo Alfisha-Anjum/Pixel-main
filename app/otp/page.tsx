@@ -28,31 +28,35 @@ function OTPVerificationPageContent() {
         },
       );
 
-      if (res.data.status) {
-        const token = res.data.token;
-        const customer = res.data.data;
+     if (res.data.status) {
+       const token = res.data.token;
+       const user = res.data.data;
 
-        // ✅ STORE TOKEN + CUSTOMER ID
-        localStorage.setItem("token", token);
-        localStorage.setItem("customer_id", customer.id);
+       localStorage.setItem("token", token);
+       localStorage.setItem("customer_id", String(user.id));
 
-        console.log("TOKEN SAVED:", token);
-        console.log("CUSTOMER ID SAVED:", customer.id);
+       // ✅ profile already completed
+       if (user?.first_name && user.first_name.trim() !== "") {
+         login({
+           phone: user.mobile,
+           firstName: user.first_name,
+           email: user.email,
+           alternateNumber: user.alt_mobile,
+           gender: user.gender,
+           profileImage: user.profile,
+           profileCompleted: true,
+           contactVerified: true,
+         });
 
-        // ✅ Create user object
-        const userData = {
-          phone,
-          profileCompleted: false,
-        };
+         router.push("/");
+         return;
+       }
 
-        // ✅ Save in context
-        login(userData);
-
-        // ✅ Redirect to profile step
-        router.push(`/complete-profile-step-1?phone=${phone}`);
-      } else {
-        alert(res.data.message || "OTP verification failed");
-      }
+       // ❌ profile not completed
+       router.push(`/complete-profile-step-1?phone=${user.mobile}`);
+     } else {
+       alert(res.data.message || "OTP verification failed");
+     }
     } catch (error) {
       console.error("OTP verification failed:", error);
       alert("Invalid OTP. Please try again.");

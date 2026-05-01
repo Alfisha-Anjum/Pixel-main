@@ -8,7 +8,7 @@ interface User {
   firstName?: string;
   lastName?: string;
   email?: string;
-  profileImage?: string | null;
+  profileImage?: string;
   gender?: string;
   location?: string;
   emailVerified?: boolean;

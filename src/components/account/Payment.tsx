@@ -3,26 +3,46 @@
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { BankAccountModal } from "@/components/account/Modals/BankAccountModal";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function SavedPayments() {
   const [isBankModalOpen, setIsBankModalOpen] = useState(false);
-  const cards = [
-    {
-      bank: "State Bank of India",
-      number: "3811",
-      type: "VISA",
-    },
-    {
-      bank: "AXIS Bank",
-      number: "1234",
-      type: "VISA",
-    },
-    {
-      bank: "HDFC Bank",
-      number: "5678",
-      type: "MASTERCARD",
-    },
-  ];
+const [cards, setCards] = useState<any[]>([]);
+
+const fetchBankDetails = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(
+      "https://taskpro.itmingo.com/api/customers/customer-bank-details",
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (res.data.status) {
+      const formattedCards = res.data.data.map((item: any) => ({
+        id: item.id,
+        bank: item.bank_name,
+        number: String(item.account_number).slice(-4),
+        type: "BANK",
+      }));
+
+      setCards(formattedCards);
+    }
+  } catch (error) {
+    console.log("Failed to fetch bank details", error);
+  }
+};
+
+useEffect(() => {
+  fetchBankDetails();
+}, []);
+  
   return (
     <div className="md:min-h-screen bg-white flex flex-col">
       {/* HEADER */}
@@ -45,10 +65,10 @@ export default function SavedPayments() {
           <div className="flex gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
             {cards.map((card, index) => (
               <div
-                key={index}
+                key={card.id || index}
                 className="min-w-[260px] lg:min-w-0 rounded-2xl p-5 text-white 
-      bg-gradient-to-r from-teal-400 to-teal-700 shadow 
-      flex flex-col justify-between"
+    bg-gradient-to-r from-teal-400 to-teal-700 shadow 
+    flex flex-col justify-between"
               >
                 <p className="text-sm opacity-90">{card.bank}</p>
 
@@ -114,7 +134,10 @@ export default function SavedPayments() {
       </div>
       <BankAccountModal
         isOpen={isBankModalOpen}
-        onClose={() => setIsBankModalOpen(false)}
+        onClose={() => {
+          setIsBankModalOpen(false);
+          fetchBankDetails();
+        }}
       />
     </div>
   );

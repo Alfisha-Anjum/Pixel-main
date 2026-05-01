@@ -47,7 +47,7 @@ const CleaningPackage = () => {
 
   return (
     <LayoutContainer>
-      <div className="bg-white flex justify-between items-center mb-5">
+      <div className="bg-white flex justify-between items-center my-5">
         <h2 className="text-2xl font-semibold text-gray-800">
           Cleaning Package
         </h2>
