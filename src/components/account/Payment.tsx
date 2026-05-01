@@ -24,7 +24,7 @@ export default function SavedPayments() {
     },
   ];
   return (
-    <div className="bg-white flex flex-col">
+    <div className="md:min-h-screen bg-white flex flex-col">
       {/* HEADER */}
       <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 py-3 bg-white shadow-sm">
         <ArrowLeft className="w-5 h-5 cursor-pointer" />

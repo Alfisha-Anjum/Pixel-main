@@ -36,51 +36,47 @@ const RateCardPage = () => {
             <table className="w-full text-sm">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="text-left px-2 sm:px-4 py-3">Description</th>
-                  <th className="text-left px-2 sm:px-4 py-3">
-                    Service Charge
-                  </th>
-                  <th className="text-left px-2 sm:px-4 py-3">Labour</th>
+                  <th className="text-left px-4 py-3">Description</th>
+                  <th className="text-left px-4 py-3">Service Charge</th>
+                  <th className="text-left px-4 py-3">Labour</th>
                 </tr>
               </thead>
 
               <tbody className="divide-y">
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">
-                    Non-Inverter PCB Repaired
-                  </td>
-                  <td className="px-2 sm:px-4 py-3">₹1500</td>
-                  <td className="px-2 sm:px-4 py-3">₹200</td>
+                  <td className="px-4 py-3">Non-Inverter PCB Repaired</td>
+                  <td className="px-4 py-3">₹1500</td>
+                  <td className="px-4 py-3">₹200</td>
                 </tr>
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">Inverter PCB Repaired</td>
-                  <td className="px-2 sm:px-4 py-3">₹4000</td>
-                  <td className="px-2 sm:px-4 py-3">₹200</td>
+                  <td className="px-4 py-3">Inverter PCB Repaired</td>
+                  <td className="px-4 py-3">₹4000</td>
+                  <td className="px-4 py-3">₹200</td>
                 </tr>
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">₹200</td>
-                  <td className="px-2 sm:px-4 py-3">Replace LVT</td>
-                  <td className="px-2 sm:px-4 py-3">₹900</td>
+                  <td className="px-4 py-3">Replace LVT</td>
+                  <td className="px-4 py-3">₹900</td>
+                  <td className="px-4 py-3">₹200</td>
                 </tr>
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">Capacitor 2-5 mfd</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">Capacitor 2-5 mfd</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
                 </tr>
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">Capacitor 35-50 mfd</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">Capacitor 35-50 mfd</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
                 </tr>
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">Capacitor 50-60 mfd</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">Capacitor 50-60 mfd</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
                 </tr>
                 <tr>
-                  <td className="px-2 sm:px-4 py-3">Replace Sensor</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
-                  <td className="px-2 sm:px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">Replace Sensor</td>
+                  <td className="px-4 py-3">₹250</td>
+                  <td className="px-4 py-3">₹250</td>
                 </tr>
               </tbody>
             </table>
@@ -88,7 +84,7 @@ const RateCardPage = () => {
         </div>
       </div>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
