@@ -14,7 +14,7 @@ const RateCardPage = () => {
       <div className="max-w-7xl mx-auto p-0 md:p-8">
         <h1 className="text-2xl font-semibold mb-6">Rate Card</h1>
 
-        <div className="bg-white rounded-2xl border-0 sm:border-[1px] sm:border-gray-200 p-0 sm:p-6">
+        <div className="bg-white rounded-2xl border p-0 sm:p-6">
           {/* Orange Info Box */}
           <div className="bg-orange-50 text-center py-4 rounded-md mb-6">
             <p className="text-orange-600 font-medium">
