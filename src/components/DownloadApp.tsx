@@ -1,127 +1,66 @@
 "use client";
 
-import LayoutContainer from "./LayoutContainer";
-
 const DownloadApp = () => {
   return (
-    <section className="pb-10">
+    <section className="pb-10 px-4">
       <div className="max-w-7xl mx-auto">
-        <div 
-          className="w-full"
-          style={{
-            height: '400px',
-            borderRadius: '20px',
-            background: 'linear-gradient(to right, #000000, #1a1a1a)',
-            overflow: 'hidden',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            alignItems: 'center',
-            padding: '0'
-          }}
-        >
-          {/* Left Content */}
-          <div style={{
-            padding: '40px',
-            zIndex: 10
-          }}>
-            <h2 
-              style={{
-                fontSize: '30px',
-                fontWeight: 'bold',
-                color: 'white',
-                marginBottom: '18px',
-                lineHeight: '1.2'
-              }}
-            >
-              Download This App
-            </h2>
-            <p 
-              style={{
-                fontSize: '14px',
-                color: '#9CA3AF',
-                lineHeight: '1.5',
-                marginBottom: '24px',
-                maxWidth: '350px'
-              }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent egestas id erat a ornare. 
-              Donec bibendum venenatis mollis. Aliquam id libero at mi bibendum venenatis at ac purus. 
-              Mauris eu volutpat diam, id vulputate risus.
-            </p>
-            
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '18px'
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}>
-                <a href="#" style={{
-                  transition: 'transform 0.2s',
-                  display: 'block'
-                }}>
-                  <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                    alt="Get it on Google Play" 
-                    style={{
-                      height: '28px',
-                      width: 'auto'
-                    }}
+        <div className="w-full rounded-[20px] overflow-hidden bg-gradient-to-r from-black to-[#1a1a1a]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-[360px] lg:h-[400px]">
+            {/* Left Content */}
+            <div className="p-6 sm:p-10">
+              <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4 leading-tight">
+                Download This App
+              </h2>
+
+              <p className="text-gray-400 text-sm leading-relaxed max-w-[420px] mb-6">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Praesent egestas id erat a ornare. Donec bibendum venenatis
+                mollis. Aliquam id libero at mi bibendum venenatis at ac purus.
+              </p>
+
+              {/* Playstore + QR below content */}
+              <div className="flex items-center gap-5">
+                <div className="flex flex-col gap-3">
+                  <a href="#">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                      alt="Get it on Google Play"
+                      className="h-8 sm:h-9 w-auto"
+                    />
+                  </a>
+
+                  <a href="#">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                      alt="Download on the App Store"
+                      className="h-8 sm:h-9 w-auto"
+                    />
+                  </a>
+                </div>
+
+                <div className="w-px h-20 bg-gray-700"></div>
+
+                <div className="bg-white p-2 rounded-xl shadow-md">
+                  <img
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taspro.in"
+                    alt="Scan QR Code"
+                    className="w-16 h-16 sm:w-20 sm:h-20"
                   />
-                </a>
-                <a href="#" style={{
-                  transition: 'transform 0.2s',
-                  display: 'block'
-                }}>
-                  <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" 
-                    alt="Download on the App Store" 
-                    style={{
-                      height: '28px',
-                      width: 'auto'
-                    }}
-                  />
-                </a>
-              </div>
-              
-              <div style={{
-                width: '1px',
-                height: '72px',
-                backgroundColor: '#374151'
-              }}></div>
-              
-              <div style={{
-                backgroundColor: 'white',
-                padding: '6px',
-                borderRadius: '10px',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-              }}>
-                <img 
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://taspro.in" 
-                  alt="Scan QR Code" 
-                  style={{
-                    width: '54px',
-                    height: '54px'
-                  }}
-                />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Image */}
-          <div >
+            {/* Mobile image only lg and above */}
+            <div className="hidden lg:flex items-center justify-center">
               <img
                 src="/mob.png"
                 alt="App Mockup"
-           className="w-full h-72 object-contain"
+                className="w-full max-w-[280px] h-72 object-contain"
               />
             </div>
           </div>
         </div>
-      
+      </div>
     </section>
   );
 };
