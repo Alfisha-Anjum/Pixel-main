@@ -20,7 +20,10 @@ interface BankAccountModalProps {
   onClose: () => void;
 }
 
-export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => {
+export const BankAccountModal = ({
+  isOpen,
+  onClose,
+}: BankAccountModalProps) => {
   const { toast } = useToast();
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -32,8 +35,8 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
       accountHolderName: "John Doe",
       accountNumber: "****1234",
       ifscCode: "SBIN0002499",
-      isDefault: true
-    }
+      isDefault: true,
+    },
   ]);
 
   const [newAccount, setNewAccount] = useState({
@@ -41,7 +44,7 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
     accountHolderName: "",
     accountNumber: "",
     confirmAccountNumber: "",
-    ifscCode: ""
+    ifscCode: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -49,33 +52,33 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!newAccount.bankName.trim()) {
       newErrors.bankName = "Bank name is required";
     }
-    
+
     if (!newAccount.accountHolderName.trim()) {
       newErrors.accountHolderName = "Account holder name is required";
     }
-    
+
     if (!newAccount.accountNumber.trim()) {
       newErrors.accountNumber = "Account number is required";
     } else if (newAccount.accountNumber.length < 9) {
       newErrors.accountNumber = "Please enter a valid account number";
     }
-    
+
     if (!newAccount.confirmAccountNumber.trim()) {
       newErrors.confirmAccountNumber = "Please confirm account number";
     } else if (newAccount.accountNumber !== newAccount.confirmAccountNumber) {
       newErrors.confirmAccountNumber = "Account numbers do not match";
     }
-    
+
     if (!newAccount.ifscCode.trim()) {
       newErrors.ifscCode = "IFSC code is required";
     } else if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(newAccount.ifscCode)) {
       newErrors.ifscCode = "Please enter a valid IFSC code";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -86,7 +89,7 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
     }
 
     setIsLoading(true);
-    
+
     try {
       const accountToAdd: BankAccount = {
         id: Date.now().toString(),
@@ -94,31 +97,31 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
         accountHolderName: newAccount.accountHolderName.trim(),
         accountNumber: `****${newAccount.accountNumber.slice(-4)}`,
         ifscCode: newAccount.ifscCode.trim().toUpperCase(),
-        isDefault: bankAccounts.length === 0
+        isDefault: bankAccounts.length === 0,
       };
-      
-      setBankAccounts(prev => [...prev, accountToAdd]);
-      
+
+      setBankAccounts((prev) => [...prev, accountToAdd]);
+
       toast({
         title: "Bank account added successfully!",
-        description: "Your bank account has been saved."
+        description: "Your bank account has been saved.",
       });
-      
+
       // Reset form
       setNewAccount({
         bankName: "",
         accountHolderName: "",
         accountNumber: "",
         confirmAccountNumber: "",
-        ifscCode: ""
+        ifscCode: "",
       });
-      
+
       setShowAddAccount(false);
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to add bank account. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -132,27 +135,31 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
 
   const confirmDelete = () => {
     if (accountToDelete) {
-      setBankAccounts(prev => prev.filter(account => account.id !== accountToDelete));
-      
+      setBankAccounts((prev) =>
+        prev.filter((account) => account.id !== accountToDelete),
+      );
+
       toast({
         title: "Bank account removed",
-        description: "The bank account has been deleted."
+        description: "The bank account has been deleted.",
       });
-      
+
       setShowConfirmDelete(false);
       setAccountToDelete(null);
     }
   };
 
   const handleSetDefault = (id: string) => {
-    setBankAccounts(prev => prev.map(account => ({
-      ...account,
-      isDefault: account.id === id
-    })));
-    
+    setBankAccounts((prev) =>
+      prev.map((account) => ({
+        ...account,
+        isDefault: account.id === id,
+      })),
+    );
+
     toast({
       title: "Default account updated",
-      description: "This account is now your default."
+      description: "This account is now your default.",
     });
   };
 
@@ -173,11 +180,16 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
           {/* Bank Accounts List */}
           <div className="space-y-4 max-h-96 overflow-y-auto">
             {bankAccounts.map((account) => (
-              <div key={account.id} className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+              <div
+                key={account.id}
+                className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow"
+              >
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center gap-2">
                     <Building2 className="w-5 h-5 text-orange-500" />
-                    <h3 className="font-semibold text-gray-900">{account.bankName}</h3>
+                    <h3 className="font-semibold text-gray-900">
+                      {account.bankName}
+                    </h3>
                     {account.isDefault && (
                       <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                         Default
@@ -199,15 +211,24 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="space-y-1 text-sm text-gray-600">
-                  <p><span className="font-medium">Account Holder:</span> {account.accountHolderName}</p>
-                  <p><span className="font-medium">Account Number:</span> {account.accountNumber}</p>
-                  <p><span className="font-medium">IFSC Code:</span> {account.ifscCode}</p>
+                  <p>
+                    <span className="font-medium">Account Holder:</span>{" "}
+                    {account.accountHolderName}
+                  </p>
+                  <p>
+                    <span className="font-medium">Account Number:</span>{" "}
+                    {account.accountNumber}
+                  </p>
+                  <p>
+                    <span className="font-medium">IFSC Code:</span>{" "}
+                    {account.ifscCode}
+                  </p>
                 </div>
               </div>
             ))}
-            
+
             {bankAccounts.length === 0 && (
               <div className="text-center py-12">
                 <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-4" />
@@ -219,12 +240,19 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
       </Modal>
 
       {/* Add New Account Modal */}
-      <Modal isOpen={showAddAccount} onClose={() => setShowAddAccount(false)} title="Add Bank Account" size="md">
+      <Modal
+        isOpen={showAddAccount}
+        onClose={() => setShowAddAccount(false)}
+        title="Add Bank Account"
+        size="md"
+      >
         <div className="space-y-4">
           <FormInput
             label="Bank Name"
             value={newAccount.bankName}
-            onChange={(value) => setNewAccount(prev => ({ ...prev, bankName: value }))}
+            onChange={(value) =>
+              setNewAccount((prev) => ({ ...prev, bankName: value }))
+            }
             placeholder="Enter bank name"
             required
             error={errors.bankName}
@@ -233,7 +261,9 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
           <FormInput
             label="Account Holder Name"
             value={newAccount.accountHolderName}
-            onChange={(value) => setNewAccount(prev => ({ ...prev, accountHolderName: value }))}
+            onChange={(value) =>
+              setNewAccount((prev) => ({ ...prev, accountHolderName: value }))
+            }
             placeholder="Enter account holder name"
             required
             error={errors.accountHolderName}
@@ -243,7 +273,9 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
             label="Account Number"
             type="password"
             value={newAccount.accountNumber}
-            onChange={(value) => setNewAccount(prev => ({ ...prev, accountNumber: value }))}
+            onChange={(value) =>
+              setNewAccount((prev) => ({ ...prev, accountNumber: value }))
+            }
             placeholder="Enter account number"
             required
             error={errors.accountNumber}
@@ -253,7 +285,12 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
             label="Confirm Account Number"
             type="password"
             value={newAccount.confirmAccountNumber}
-            onChange={(value) => setNewAccount(prev => ({ ...prev, confirmAccountNumber: value }))}
+            onChange={(value) =>
+              setNewAccount((prev) => ({
+                ...prev,
+                confirmAccountNumber: value,
+              }))
+            }
             placeholder="Confirm account number"
             required
             error={errors.confirmAccountNumber}
@@ -262,7 +299,9 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
           <FormInput
             label="IFSC Code"
             value={newAccount.ifscCode}
-            onChange={(value) => setNewAccount(prev => ({ ...prev, ifscCode: value }))}
+            onChange={(value) =>
+              setNewAccount((prev) => ({ ...prev, ifscCode: value }))
+            }
             placeholder="Enter IFSC code"
             required
             error={errors.ifscCode}
@@ -279,14 +318,23 @@ export const BankAccountModal = ({ isOpen, onClose }: BankAccountModalProps) => 
       </Modal>
 
       {/* Confirm Delete Modal */}
-      <Modal isOpen={showConfirmDelete} onClose={() => setShowConfirmDelete(false)} size="sm">
+      <Modal
+        isOpen={showConfirmDelete}
+        onClose={() => setShowConfirmDelete(false)}
+        size="sm"
+      >
         <div className="text-center py-6">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Trash2 className="w-8 h-8 text-red-600" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Remove Bank Account?</h3>
-          <p className="text-gray-600 mb-6">Are you sure you want to remove this bank account? This action cannot be undone.</p>
-          
+          <h3 className="text-xl font-bold text-gray-900 mb-2">
+            Remove Bank Account?
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Are you sure you want to remove this bank account? This action
+            cannot be undone.
+          </p>
+
           <div className="flex gap-3">
             <button
               onClick={() => setShowConfirmDelete(false)}
