@@ -141,7 +141,7 @@ const handleCardClick = (item: ApplianceItem) => {
 
         {/* Tablet Layout - 3 cards per row */}
         <div className="hidden md:block lg:hidden">
-          <div className="grid grid-cols-3 gap-4 justify-items-center">
+          <div className="grid grid-cols-4 gap-4 justify-items-center">
             {appliances.map((item, index) => {
               const isAction = item.label === "See All";
               return (
@@ -192,7 +192,7 @@ const handleCardClick = (item: ApplianceItem) => {
 
         {/* Mobile Layout - 2 cards per row */}
         <div className="md:hidden">
-          <div className="grid grid-cols-2 gap-3 justify-items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 justify-items-center">
             {appliances.map((item, index) => {
               const isAction = item.label === "See All";
               return (

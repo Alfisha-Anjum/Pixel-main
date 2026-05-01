@@ -199,7 +199,7 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
 
         {/* Address List */}
         <div className="space-y-5 mb-5">
-          {addresses.map((address) => (
+          {addresses?.map((address) => (
             <div
               key={address.id}
               onClick={() => setSelectedId(String(address.id))}

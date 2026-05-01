@@ -75,6 +75,7 @@ function CompleteProfileContent() {
     }
   };
 
+  
   const handleContinue = async () => {
     if (!validateFields()) return;
 
@@ -118,7 +119,34 @@ function CompleteProfileContent() {
         },
       );
 
-      if (response.data?.status) {
+    if (response.data?.status) {
+      const updated = response.data.data || {};
+
+      login({
+        phone: updated.mobile || phone,
+        firstName: updated.first_name || firstName,
+        lastName: updated.last_name || "",
+        email: updated.email || email,
+        alternateNumber: updated.alt_mobile || alternateNumber,
+        gender: updated.gender || gender,
+        profileImage:
+          updated.profile_url ||
+          updated.profile ||
+          profileImage ||
+          "/profile.png",
+        profileCompleted: true,
+        contactVerified: true,
+      });
+
+      router.push("/");
+    } else {
+      const message = response.data?.message || "";
+
+      if (
+        message.toLowerCase().includes("mobile") ||
+        message.toLowerCase().includes("already") ||
+        message.toLowerCase().includes("exists")
+      ) {
         login({
           phone,
           firstName,
@@ -131,12 +159,37 @@ function CompleteProfileContent() {
         });
 
         router.push("/");
-      } else {
-        alert(response.data?.message || "Profile update failed");
+        return;
       }
-    } catch (error) {
+
+      alert(message || "Profile update failed");
+    }
+    } catch (error: any) {
       console.error(error);
-      alert("Something went wrong while updating profile");
+
+      const message = error?.response?.data?.message || "";
+
+      if (
+        message.toLowerCase().includes("mobile") ||
+        message.toLowerCase().includes("already") ||
+        message.toLowerCase().includes("exists")
+      ) {
+        login({
+          phone,
+          firstName,
+          email,
+          alternateNumber,
+          gender,
+          profileImage,
+          profileCompleted: true,
+          contactVerified: true,
+        });
+
+        router.push("/");
+        return;
+      }
+
+      alert(message || "Something went wrong while updating profile");
     }
   };
 
