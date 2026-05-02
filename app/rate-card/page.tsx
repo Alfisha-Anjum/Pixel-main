@@ -84,7 +84,7 @@ const RateCardPage = () => {
         </div>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
