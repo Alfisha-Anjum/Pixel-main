@@ -97,7 +97,7 @@ export default function AccountSidebar() {
 
     md:w-[80px] lg:w-[250px]   // 👈 FIX
     md:px-3 lg:px-6
-    md:py-6 lg:py-10
+    md:py-4 lg:py-6
     h-fit
   "
     >
@@ -108,7 +108,7 @@ export default function AccountSidebar() {
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-center gap-2 md:gap-2 lg:gap-3 xl:gap-3 px-2 md:px-2 lg:px-3 xl:px-3 py-2 lg:py-3 rounded-xl transition md:justify-center lg:justify-start group"
+            className="flex items-center gap-2 md:gap-2 lg:gap-3 xl:gap-3 px-2 md:px-2 lg:px-3 xl:px-3 py-2 lg:py-2 rounded-xl transition md:justify-center lg:justify-start group"
           >
             {/* ICON */}
             <div className="relative w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8">

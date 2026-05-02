@@ -26,7 +26,7 @@ export default function ProfileCard({ profile }: { profile: any }) {
       <div className="flex gap-2 md:gap-3 mt-5">
         <GradientButton
           text="My Bookings"
-          width="w-[185px]"
+          width="w-[150px] md:w-[185px]"
           height="h-[35px]"
           textClassName="text-[16px]"
           onClick={() => router.push("/my-booking")}
@@ -34,7 +34,7 @@ export default function ProfileCard({ profile }: { profile: any }) {
 
         <GradientButton
           text="Help Center"
-          width="w-[185px]"
+          width="w-[150px] md:w-[185px]"
           height="h-[35px]"
           textClassName="text-[16px]"
           onClick={() => router.push("/contact-us")}

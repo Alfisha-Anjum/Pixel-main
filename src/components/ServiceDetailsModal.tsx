@@ -48,26 +48,22 @@ export default function ServiceDetailsModal({
   onClose,
   service,
   onAdd,
-  
-
 }: Props) {
   if (!isOpen || !service) return null;
-const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
 
-const updateQuantity = (value: number) => {
-  if (value < 1) return;
-  setQuantity(value);
-};
-const [cartItems, setCartItems] = useState<any[]>([]);
-const handleAddItem = (item: any) => {
-  setCartItems((prev) => [...prev, item]);
-};
-
+  const updateQuantity = (value: number) => {
+    if (value < 1) return;
+    setQuantity(value);
+  };
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const handleAddItem = (item: any) => {
+    setCartItems((prev) => [...prev, item]);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
-      {/* Modal */}
-      <div className="bg-white w-full max-w-md relative">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white w-full max-w-sm relative">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -85,12 +81,24 @@ const handleAddItem = (item: any) => {
           }}
         >
           <div className="relative h-48 w-full">
-            <Image
-              src={service.image}
-              alt={service.title}
-              fill
-              className="object-cover"
-            />
+            {service.video ? (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+              >
+                <source src={service.video} type="video/mp4" />
+              </video>
+            ) : (
+              <Image
+                src={service.image}
+                alt={service.title}
+                fill
+                className="object-cover"
+              />
+            )}
           </div>
 
           {/* Content */}
@@ -114,33 +122,36 @@ const handleAddItem = (item: any) => {
             </div> */}
             <div
               key={service.id}
-              className="flex justify-between items-center gap-2 px-6 py-2"
+              className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
             >
-              {/* Title */}
-              <div className="">
-                <p className="text-lg font-bold ">{service.title}</p>
-                <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+              {/* LEFT: Title + Rating */}
+              <div className="flex-1">
+                <p className="text-base sm:text-lg font-bold leading-tight">
+                  {service.title}
+                </p>
+                <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
                   <Star className="w-3 h-3 text-orange-500 fill-orange-500" />
                   {service.rating} • {service.duration}
                 </div>
               </div>
 
-              {/* Quantity */}
-              <div className="text-right flex items-center gap-2 justify-center">
-                <p className="text-sm font-semibold text-gray-900">
-                  ₹{service.price * quantity}
-                </p>
-                <p className="text-xs text-gray-400 line-through">
-                  ₹{service.originalPrice}
-                </p>
-              </div>
+              {/* RIGHT: Price + Quantity */}
+              <div className="flex items-center justify-between sm:justify-end gap-4">
+                {/* Price */}
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-gray-900">
+                    ₹{service.discountedPrice * quantity}
+                  </p>
+                  <p className="text-xs text-gray-400 line-through">
+                    ₹{service.originalPrice}
+                  </p>
+                </div>
 
-              {/* Price */}
-              <div className="flex justify-end">
-                <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
+                {/* Quantity */}
+                <div className="flex items-center border border-orange-500 h-7 gap-3 px-2 rounded-md">
                   <button
                     onClick={() => updateQuantity(quantity - 1)}
-                    className="text-orange-500"
+                    className="text-orange-500 text-sm"
                   >
                     -
                   </button>
@@ -149,7 +160,7 @@ const handleAddItem = (item: any) => {
 
                   <button
                     onClick={() => updateQuantity(quantity + 1)}
-                    className="text-orange-500"
+                    className="text-orange-500 text-sm"
                   >
                     +
                   </button>
@@ -196,23 +207,29 @@ const handleAddItem = (item: any) => {
             </div>
 
             {/* Sections */}
-            <div className="px-6">
-              <h3 className="font-semibold mb-1">Service Inclusion</h3>
-              <p className="text-sm text-gray-600">
+            <div className="px-4 sm:px-6">
+              <h3 className="font-semibold text-sm sm:text-base mb-1">
+                Service Inclusion
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                 Lorem ipsum is dummy text used in printing industry.
               </p>
             </div>
 
-            <div className="px-6">
-              <h3 className="font-semibold mb-1">Service Exclusion</h3>
-              <p className="text-sm text-gray-600">
+            <div className="px-4 sm:px-6 mt-4">
+              <h3 className="font-semibold text-sm sm:text-base mb-1">
+                Service Exclusion
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                 Lorem ipsum is dummy text used in printing industry.
               </p>
             </div>
 
-            <div className="px-6">
-              <h3 className="font-semibold mb-1">Important Note</h3>
-              <p className="text-sm text-gray-600">
+            <div className="px-4 sm:px-6 mt-4">
+              <h3 className="font-semibold text-sm sm:text-base mb-1">
+                Important Note
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                 Lorem ipsum is dummy text used in printing industry.
               </p>
             </div>
