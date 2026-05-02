@@ -30,6 +30,57 @@ const AMCServicePlan = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+
+  
+  const checkScrollState = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+  };
+
+  useEffect(() => {
+    checkScrollState();
+
+    const slider = sliderRef.current;
+
+    if (slider) {
+      slider.addEventListener("scroll", checkScrollState);
+    }
+
+    window.addEventListener("resize", checkScrollState);
+
+    return () => {
+      if (slider) {
+        slider.removeEventListener("scroll", checkScrollState);
+      }
+      window.removeEventListener("resize", checkScrollState);
+    };
+  }, []);
+  const checkScrollable = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    setCanScroll(slider.scrollWidth > slider.clientWidth);
+  };
+
+  useEffect(() => {
+    checkScrollable();
+
+    window.addEventListener("resize", checkScrollable);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollable);
+    };
+  }, []);
 
   const slidesToShow = {
     desktop: 3,
@@ -116,18 +167,23 @@ const AMCServicePlan = () => {
         </h2>
 
         {/* Navigation Arrows */}
-        <button
-          onClick={scrollLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full items-center justify-center transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          onClick={scrollRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full items-center justify-center transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+        {canScroll && !atStart && (
+          <button
+            onClick={scrollLeft}
+            className="absolute left-[-1px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        )}
+
+        {canScroll && !atEnd && (
+          <button
+            onClick={scrollRight}
+            className="absolute right-[-1px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        )}
 
         <div
           ref={sliderRef}

@@ -59,6 +59,9 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -67,6 +70,51 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
     }
   };
 
+  const checkScrollState = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+  };
+
+  useEffect(() => {
+    checkScrollState();
+
+    const slider = sliderRef.current;
+
+    if (slider) {
+      slider.addEventListener("scroll", checkScrollState);
+    }
+
+    window.addEventListener("resize", checkScrollState);
+
+    return () => {
+      if (slider) {
+        slider.removeEventListener("scroll", checkScrollState);
+      }
+      window.removeEventListener("resize", checkScrollState);
+    };
+  }, []);
+  const checkScrollable = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    setCanScroll(slider.scrollWidth > slider.clientWidth);
+  };
+
+  useEffect(() => {
+    checkScrollable();
+
+    window.addEventListener("resize", checkScrollable);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollable);
+    };
+  }, []);
   const scrollRight = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: 307, behavior: "smooth" });
@@ -147,24 +195,23 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
             </div>
 
             {/* Navigation Buttons */}
-            <button
-              onClick={scrollLeft}
-              className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
-              style={{
-                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={scrollRight}
-              className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-12 h-12 items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700 hover:shadow-xl"
-              style={{
-                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+            {canScroll && !atStart && (
+              <button
+                onClick={scrollLeft}
+                className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+            )}
+
+            {canScroll && !atEnd && (
+              <button
+                onClick={scrollRight}
+                className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            )}
           </div>
         </div>
       </LayoutContainer>
