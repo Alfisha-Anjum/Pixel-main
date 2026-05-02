@@ -142,7 +142,7 @@ console.log("FULL GOOGLE RESPONSE:", data);
       <HomeStartupModal />
 
       <main>
-        <ServiceSection location={location} />
+        <ServiceSection />
         <FeatureSection />
         <AMCServicePlan />
         <AppliancesGrid />
