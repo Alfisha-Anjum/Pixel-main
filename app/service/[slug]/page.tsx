@@ -294,9 +294,9 @@ const ACRepairLayout = () => {
   //   { id: "cassette", label: "Cassette AC" },
   // ];
 
-  const tabsRef = useRef(null);
-  const reviewsRef = useRef(null);
-  const brandsRef = useRef(null);
+  const tabsRef = useRef<HTMLDivElement | null>(null);
+  const reviewsRef = useRef<HTMLDivElement | null>(null);
+  const brandsRef = useRef<HTMLDivElement | null>(null);
 
   const tabs = service?.types || [];
 
@@ -340,18 +340,21 @@ const ACRepairLayout = () => {
       0,
     );
   };
+
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
+  const scroll = (
+    ref: React.RefObject<HTMLDivElement>,
+    direction: "left" | "right",
+  ) => {
+    if (!ref.current) return;
 
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
+    const width = ref.current.offsetWidth;
+
+    ref.current.scrollBy({
+      left: direction === "left" ? -width : width,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -489,7 +492,7 @@ const ACRepairLayout = () => {
               <div className="relative w-full flex items-center mb-5">
                 {/* Left Button */}
                 <button
-                  onClick={scrollLeft}
+                  onClick={() => scroll(tabsRef, "left")}
                   className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
                 >
                   <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
@@ -497,10 +500,10 @@ const ACRepairLayout = () => {
 
                 {/* Scroll Container */}
                 <div
-                  ref={scrollContainerRef}
+                  ref={tabsRef}
                   className="
       flex gap-4 md:gap-6
-      overflow-x-auto sm:overflow-hidden
+      overflow-x-auto
       scroll-smooth hide-scrollbar
       px-1 sm:px-12
       w-full
@@ -549,7 +552,7 @@ const ACRepairLayout = () => {
 
                 {/* Right Button */}
                 <button
-                  onClick={scrollRight}
+                  onClick={() => scroll(tabsRef, "right")}
                   className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
                 >
                   <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
@@ -1016,7 +1019,7 @@ const ACRepairLayout = () => {
               </div>
               <div className="flex flex-col max-w-4xl mx-auto">
                 <div
-                  ref={scrollContainerRef}
+                  ref={reviewsRef}
                   className="flex flex-col md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-10 sm:gap-4 md:gap-8 pb-5 md:overflow-x-auto"
                 >
                   {reviews.map((review, idx) => (
@@ -1117,7 +1120,7 @@ const ACRepairLayout = () => {
             </div>
 
             <button
-              onClick={scrollLeft}
+              onClick={() => scroll(reviewsRef, "left")}
               className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
               aria-label="Previous reviews"
             >
@@ -1127,7 +1130,7 @@ const ACRepairLayout = () => {
             {/* Right Chevron Button */}
 
             <button
-              onClick={scrollRight}
+              onClick={() => scroll(reviewsRef, "right")}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
               aria-label="Next reviews"
             >
@@ -1147,7 +1150,7 @@ const ACRepairLayout = () => {
 
           {/* Scrollable container */}
           <div
-            ref={scrollContainerRef}
+            ref={brandsRef}
             className="flex overflow-x-auto hide-scrollbar scroll-smooth gap-4 px-4 sm:px-6 md:px-10 pb-2"
           >
             {brands.map((brand, index) => (
@@ -1177,7 +1180,7 @@ const ACRepairLayout = () => {
 
           {/* Left Arrow */}
           <button
-            onClick={scrollLeft}
+            onClick={() => scroll(brandsRef, "left")}
             className="absolute left-1 md:left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
             aria-label="Previous brands"
           >
@@ -1186,7 +1189,7 @@ const ACRepairLayout = () => {
 
           {/* Right Arrow */}
           <button
-            onClick={scrollRight}
+            onClick={() => scroll(brandsRef, "right")}
             className="absolute right-1 md:right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
             aria-label="Next brands"
           >
