@@ -583,7 +583,7 @@ export default function BlogPage() {
   }, [currentPage]);
 
   return (
-    <div className="bg-white min-h-screen py-10 px-4">
+    <div className="bg-white dark:bg-gray-900 min-h-screen py-10 px-4">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
         {/* LEFT - BLOGS */}
         <div className="w-full">
@@ -618,8 +618,10 @@ export default function BlogPage() {
               ) : (
                 <>
                   <div className="m-6">
-                    <h3 className="text-[28px] font-semibold">Our Blogs</h3>
-                    <p className="text-gray-600 text-[18px] mt-2">
+                    <h3 className="text-[28px] font-semibold dark:text-gray-200">
+                      Our Blogs
+                    </h3>
+                    <p className="text-gray-600 text-[18px] mt-2 dark:text-gray-400">
                       There are many variations of passages of Lorem Ipsum
                     </p>
                   </div>
@@ -670,7 +672,7 @@ export default function BlogPage() {
               )}
             </div>
 
-            <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start lg:mt-20 sticky lg:top-20">
+            <aside className="w-full lg:w-[35%] lg:min-w-[320px] space-y-6 self-start lg:mt-20 sticky lg:top-20 p-4">
               {/* Categories */}
               <div className="bg-white p-6 rounded-md">
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 pb-2">

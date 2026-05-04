@@ -15,11 +15,11 @@ export default function ProfileCard({ profile }: { profile: any }) {
         className="rounded-full mb-3"
       />
 
-      <h4 className="font-semibold text-[#0A0F0D] text-[16px]">
+      <h4 className="font-semibold text-[#0A0F0D] dark:text-white text-[16px]">
         {profile?.first_name || "User"}
       </h4>
 
-      <p className="text-[#808080] text-[14px]">
+      <p className="text-[#808080] text-[14px] dark:text-gray-200">
         {profile?.email || "No email added"}
       </p>
 

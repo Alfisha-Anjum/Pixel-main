@@ -42,7 +42,7 @@ export default function SettingsList({ setActiveView }: Props) {
   return (
     <div className="w-full max-w-[390px] mx-auto lg:ml-12 px-4 lg:px-0">
       {/* ===== Account Settings ===== */}
-      <h2 className="text-[20px] font-semibold text-[#1B1B1B] mb-4">
+      <h2 className="text-[20px] font-semibold text-[#1B1B1B] dark:text-white mb-4">
         Account Settings
       </h2>
 
@@ -52,25 +52,25 @@ export default function SettingsList({ setActiveView }: Props) {
           text="Edit Profile"
           onClick={() => setActiveView("editProfile")}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
           icon="/icons/save.png"
           text="Saved Address"
           onClick={() => setIsAddressModalOpen(true)}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
           icon="/icons/wallet.png"
           text="My Wallet"
           onClick={() => setActiveView("wallet")}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
           icon="/icons/wallet.png"
           text="Saved Payment Methods"
           onClick={() => setActiveView("payment")}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
           icon="/icons/language.png"
           text="Change Language"
@@ -78,7 +78,7 @@ export default function SettingsList({ setActiveView }: Props) {
         />
 
         {/* Divider */}
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
 
         <Toggle
           icon="/icons/setting.png"
@@ -86,7 +86,7 @@ export default function SettingsList({ setActiveView }: Props) {
           state={notify}
           setState={setNotify}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Toggle
           icon="/icons/toggle.png"
           text="Dark Mode"
@@ -96,7 +96,7 @@ export default function SettingsList({ setActiveView }: Props) {
       </div>
 
       {/* ===== My Activity ===== */}
-      <h3 className="text-[20px] font-semibold text-[#1B1B1B] mt-8 mb-4">
+      <h3 className="text-[20px] font-semibold text-[#1B1B1B] dark:text-white mt-8 mb-4">
         My Activity
       </h3>
 
@@ -106,13 +106,13 @@ export default function SettingsList({ setActiveView }: Props) {
           text="My Rating & Reviews"
           onClick={() => setActiveView("reviews")}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
           icon="/icons/coupon.png"
           text="My Coupon"
           onClick={() => setActiveView("coupon")}
         />
-        <div className="border-t border-[#E1E4E8] " />
+        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
           icon="/icons/refer.png"
           text="Refer & Earn"
@@ -144,8 +144,10 @@ function Item({ icon, text, onClick }: ItemProps) {
       className="flex items-center justify-between py-3 cursor-pointer group"
     >
       <div className="flex items-center gap-3">
-        <Image src={icon} alt={text} width={20} height={20} />
-        <span className="text-[16px] text-[#1B1B1B] font-medium group-hover:text-orange-500 transition">
+        <div className="dark:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center">
+          <Image src={icon} alt={text} width={20} height={20} />
+        </div>
+        <span className="text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium group-hover:text-orange-500 transition">
           {text}
         </span>
       </div>

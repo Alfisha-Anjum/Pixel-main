@@ -70,8 +70,9 @@
 
 "use client";
 
+import router from "next/dist/shared/lib/router/router";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 type MenuItem = {
   icon: string;
@@ -81,6 +82,7 @@ type MenuItem = {
 
 export default function AccountSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const menu: MenuItem[] = [
     { icon: "/icons/Home.png", label: "Home", href: "/" },
@@ -93,7 +95,7 @@ export default function AccountSidebar() {
     <div
       className="
     hidden md:flex flex-col gap-3 lg:gap-4 xl:gap-5
-    bg-white rounded-2xl border border-gray-200
+    bg-white dark:bg-gray-100 rounded-2xl border border-gray-200
 
     md:w-[80px] lg:w-[250px]   // 👈 FIX
     md:px-3 lg:px-6
@@ -108,6 +110,14 @@ export default function AccountSidebar() {
           <Link
             key={item.href}
             href={item.href}
+            onClick={(e) => {
+              if (pathname === item.href) {
+                e.preventDefault();
+
+                // 👇 add random query to force rerender
+                router.replace(`${item.href}?refresh=${Date.now()}`);
+              }
+            }}
             className="flex items-center gap-2 md:gap-2 lg:gap-3 xl:gap-3 px-2 md:px-2 lg:px-3 xl:px-3 py-2 lg:py-2 rounded-xl transition md:justify-center lg:justify-start group"
           >
             {/* ICON */}

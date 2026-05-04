@@ -18,7 +18,7 @@ export default function MyWallet({ setActiveView }: Props) {
     <div className="flex flex-col-reverse lg:flex-row gap-2 md:gap-20 px-2 lg:px-8 w-full">
       {/* Transactions */}
       <div className="flex-1 w-full max-w-[392px]">
-        <h2 className="text-[18px] font-semibold text-black mb-4">
+        <h2 className="text-[18px] font-semibold text-black dark:text-white mb-4">
           Transactions
         </h2>
 
@@ -31,18 +31,22 @@ export default function MyWallet({ setActiveView }: Props) {
                 </div>
 
                 <div>
-                  <p className="text-[16px] text-[#1B1B1B] font-medium">
+                  <p className="text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium">
                     {item.name}
                   </p>
-                  <p className="text-[10px] text-[#666666]">{item.phone}</p>
+                  <p className="text-[10px] text-[#666666] dark:text-gray-400">
+                    {item.phone}
+                  </p>
                 </div>
               </div>
 
               <div className="text-right">
-                <p className="text-[16px] text-[#1B1B1B] font-medium">
+                <p className="text-[16px] text-[#1B1B1B] dark:text-gray-200  font-medium">
                   {item.amount}
                 </p>
-                <p className="text-[10px] text-[#666666]">{item.date}</p>
+                <p className="text-[10px] text-[#666666] dark:text-gray-400">
+                  {item.date}
+                </p>
               </div>
             </div>
           ))}

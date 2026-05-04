@@ -221,17 +221,17 @@ import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function OrderConfirmation() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <main className="w-full">
         <div className="w-full xl:w-[90%] max-w-[1240px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col md:flex-row gap-6 lg:gap-10">
           {/* LEFT */}
           <div className="basis-2/3 min-w-0 flex flex-col">
             {/* HEADER */}
             <div className="max-w-full my-6 md:my-8 lg:my-10">
-              <h1 className="text-xl md:text-2xl font-semibold mb-3 text-[#1B1B1B]">
+              <h1 className="text-xl md:text-2xl font-semibold mb-3 text-[#1B1B1B] dark:text-gray-200">
                 Thanks for giving us opportunity to serve you better
               </h1>
-              <p className="text-base lg:text-lg text-[#848484] mb-3">
+              <p className="text-base lg:text-lg text-[#848484] mb-3 dark:text-gray-400">
                 Service Delivery by Fri, 26-jan-2024
               </p>
               <a className="text-base lg:text-lg text-blue-600 font-semibold cursor-pointer">
