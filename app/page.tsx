@@ -13,6 +13,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import DownloadApp from "@/components/DownloadApp";
 import HomeStartupModal from "@/components/HomeStartupModal";
 import ServicesSection from "@/components/ServicesSection";
+import axios from "axios";
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -24,10 +25,36 @@ export default function Home() {
 
   const [isMounted, setIsMounted] = useState(false);
   const [location, setLocation] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<any>(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const fetchDashboardData = async (state: string, city: string) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(
+      "https://taskpro.itmingo.com/api/customers/dashboard",
+      {
+        params: {
+          state_name: state,
+          city_name: city,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+
+    console.log("DASHBOARD DATA:", res.data);
+    setDashboardData(res.data?.data || res.data);
+  } catch (error: any) {
+    console.log("DASHBOARD API ERROR:", error.response?.data || error);
+  }
+};
 
   useEffect(() => {
     if (user && !user.profileCompleted) {
@@ -61,41 +88,41 @@ export default function Home() {
 
             const data = await res.json();
 
-           const result = data?.results?.[0];
+            const result = data?.results?.[0];
 
-           let city = "";
-           let state = "";
+            let city = "";
+            let state = "";
 
-           if (result?.address_components) {
-             result.address_components.forEach((component: any) => {
-               if (component.types.includes("locality")) {
-                 city = component.long_name;
-               }
-               if (component.types.includes("administrative_area_level_1")) {
-                 state = component.long_name;
-               }
-             });
-           }
+            if (result?.address_components) {
+              result.address_components.forEach((component: any) => {
+                if (component.types.includes("locality")) {
+                  city = component.long_name;
+                }
+                if (component.types.includes("administrative_area_level_1")) {
+                  state = component.long_name;
+                }
+              });
+            }
 
-           const address = result?.formatted_address || "Address not found";
+            const address = result?.formatted_address || "Address not found";
 
-           const locationData = {
-             latitude,
-             longitude,
-             address,
-             city,
-             state,
-           };
-
-         
+            const locationData = {
+              latitude,
+              longitude,
+              address,
+              city,
+              state,
+            };
 
             setLocation(locationData);
 
             localStorage.setItem("user_location", JSON.stringify(locationData));
-window.dispatchEvent(new Event("location-updated"));
+            window.dispatchEvent(new Event("location-updated"));
+
+            await fetchDashboardData(state || "Chhattisgarh", city || "Raipur");
             console.log("LOCATION DATA:", locationData);
-console.log("FULL GOOGLE RESPONSE:", data);
-// console.log("FINAL LOCATION DATA:", locationData);
+            console.log("FULL GOOGLE RESPONSE:", data);
+            // console.log("FINAL LOCATION DATA:", locationData);
             // call your location-wise service API here
             // await fetchServicesByLocation(latitude, longitude);
           } catch (error) {
@@ -104,13 +131,16 @@ console.log("FULL GOOGLE RESPONSE:", data);
         },
         (error) => {
           console.error("Location permission denied:", error);
+          fetchDashboardData("Chhattisgarh", "Raipur");
         },
       );
     };
+    
 
     fetchUserLocation();
   }, [user]);
 
+  
   if (isMounted && user && !user.profileCompleted) {
     return null;
   }
@@ -136,20 +166,26 @@ console.log("FULL GOOGLE RESPONSE:", data);
     console.error("Service API error:", error);
   }
 };
+console.log("dashboardData", dashboardData);
 
   return (
     <div className="min-h-screen">
       <HomeStartupModal />
 
       <main>
-        <ServiceSection />
+        <ServiceSection data={dashboardData?.services} />
+        <AMCServicePlan data={dashboardData?.amc_plans} />
+        <DeepCleaningServices data={dashboardData?.deep_cleaning_services} />
+        <HandymanServices data={dashboardData?.handyman_services} />
+        <MajorServices data={dashboardData?.major_services} />
+        {/* <ServiceSection /> */}
         <FeatureSection />
-        <AMCServicePlan />
+        {/* <AMCServicePlan /> */}
         <AppliancesGrid />
-        <DeepCleaningServices />
+        {/* <DeepCleaningServices /> */}
         <CleaningPackage />
-        <HandymanServices />
-        <MajorServices />
+        {/* <HandymanServices /> */}
+        {/* <MajorServices /> */}
         <ServicePromoSection />
         <WhyChooseUs />
         <DownloadApp />
