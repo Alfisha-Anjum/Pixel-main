@@ -4,7 +4,7 @@ import GradientButton2 from "../ui/GradientButton2";
 import { useState } from "react";
 import RedeemModal from "./Modals/ReedemModal";
 import RedeemSuccessModal from "./Modals/ReedemSuccessModal";
-import ShareModal from "./Modals/ShareModal";
+// import ShareModal from "./Modals/ShareModal";
 
 type Props = {
   setActiveView: (view: string) => void;
@@ -37,10 +37,12 @@ export default function ReferEarn(ActiveView: Props) {
   return (
     <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 lg:ml-14 px-4 lg:px-0">
       {/* Terms Section */}
-      <div className="bg-white rounded-lg max-w-3xl mx-auto w-full order-3 lg:order-1">
-        <h3 className="font-semibold text-[18px]">Rules For Refer a friend</h3>
+      <div className="rounded-lg max-w-3xl mx-auto w-full order-3 lg:order-1">
+        <h3 className="font-semibold text-[18px] dark:text-white">
+          Rules For Refer a friend
+        </h3>
         <ol
-          className={`list-decimal list-inside space-y-2 text-[14px] text-[#414141] transition-all duration-300 ${
+          className={`list-decimal list-inside space-y-2 text-[14px] text-[#414141] dark:text-gray-200 transition-all duration-300 ${
             showAll ? "" : "line-clamp-2"
           } lg:line-clamp-none`}
         >
@@ -49,7 +51,7 @@ export default function ReferEarn(ActiveView: Props) {
           ))}
         </ol>
         <p
-          className="text-blue-500 text-center mt-2 cursor-pointer"
+          className="lg:hidden text-blue-500 text-center mt-2 cursor-pointer"
           onClick={() => setShowAll(!showAll)}
         >
           {showAll ? "View less" : "View more"}
@@ -114,7 +116,7 @@ export default function ReferEarn(ActiveView: Props) {
         isSuccessOpen={isSuccessOpen}
         onClose={() => setIsSuccessOpen(false)}
       />
-      <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
+      {/* <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} /> */}
     </div>
   );
 }

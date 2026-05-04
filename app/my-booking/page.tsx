@@ -282,7 +282,7 @@ const MyBookingPage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen  flex items-center justify-center">
+      <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Please Login to View Bookings
@@ -299,7 +299,7 @@ const MyBookingPage = () => {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen dark:bg-gray-900">
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto sm:px-0 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 md:py-8">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">

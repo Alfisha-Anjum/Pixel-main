@@ -7,7 +7,6 @@ import axios from "axios";
 import GradientButton2 from "@/components/ui/GradientButton2";
 import { useAuth } from "@/context/AuthContext";
 
-
 export default function EditProfile({
   setActiveView,
   profile,
@@ -17,25 +16,22 @@ export default function EditProfile({
   profile: any;
   fetchProfile: () => void;
 }) {
+  const getImageUrl = (img?: string) => {
+    if (!img) return "/img/profileimg.png";
 
-    const getImageUrl = (img?: string) => {
-  if (!img) return "/img/profileimg.png";
+    if (img.startsWith("http") || img.startsWith("/")) {
+      return img;
+    }
 
-  if (img.startsWith("http") || img.startsWith("/")) {
-    return img;
-  }
-
-  return `https://taskpro.itmingo.com/${img}`;
-};
+    return `https://taskpro.itmingo.com/${img}`;
+  };
   const [gender, setGender] = useState(profile?.gender || "Male");
   const { login } = useAuth();
-const [preview, setPreview] = useState(
-  profile?.profile_url || "/img/profileimg.png",
-);
+  const [preview, setPreview] = useState(
+    profile?.profile_url || "/img/profileimg.png",
+  );
   const [profileFile, setProfileFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,44 +67,44 @@ const [preview, setPreview] = useState(
       );
 
       if (res.data.status) {
-      await fetchProfile();
+        await fetchProfile();
 
-      const profileRes = await axios.get(
-        "https://taskpro.itmingo.com/api/customers/profile",
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
+        const profileRes = await axios.get(
+          "https://taskpro.itmingo.com/api/customers/profile",
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
+        );
 
-      const updated = profileRes.data.data;
+        const updated = profileRes.data.data;
 
-      login({
-        phone: updated.mobile,
-        firstName: updated.first_name,
-        lastName: updated.last_name,
-        email: updated.email,
-        alternateNumber: updated.alt_mobile,
-        gender: updated.gender,
-        profileImage: updated.profile_url,
-        profileCompleted: true,
-        contactVerified: true,
-      });
+        login({
+          phone: updated.mobile,
+          firstName: updated.first_name,
+          lastName: updated.last_name,
+          email: updated.email,
+          alternateNumber: updated.alt_mobile,
+          gender: updated.gender,
+          profileImage: updated.profile_url,
+          profileCompleted: true,
+          contactVerified: true,
+        });
 
-      setActiveView("default");
+        setActiveView("default");
       } else {
         alert(res.data.message || "Profile update failed");
       }
-    }  catch (error: any) {
-  console.log("Update profile error:", error?.response?.data || error);
+    } catch (error: any) {
+      console.log("Update profile error:", error?.response?.data || error);
 
-  alert(
-    error?.response?.data?.message ||
-      error?.response?.data?.error ||
-      "Something went wrong"
-  );
+      alert(
+        error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          "Something went wrong",
+      );
     }
   };
 
@@ -172,29 +168,29 @@ const [preview, setPreview] = useState(
         </div>
 
         <div>
-          <label className="text-[16px] font-semibold text-black">
+          <label className="text-[16px] font-semibold text-black dark:text-white">
             First Name
           </label>
           <input
             name="firstName"
             defaultValue={profile?.first_name || ""}
-            className="w-full border-b border-orange-400 bg-white outline-none py-2 text-black"
+            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-white dark:rounded-lg"
           />
         </div>
 
         <div>
-          <label className="text-[16px] font-semibold text-black">
+          <label className="text-[16px] font-semibold text-black dark:text-white">
             Last Name
           </label>
           <input
             name="lastName"
             defaultValue={profile?.last_name || ""}
-            className="w-full border-b border-orange-400 bg-white outline-none py-2 text-black"
+            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-white dark:rounded-lg"
           />
         </div>
 
         <div>
-          <p className="text-[16px] font-semibold mb-2 bg-white text-black">
+          <p className="text-[16px] font-semibold mb-2 text-black dark:text-white">
             Select gender
           </p>
 
@@ -227,7 +223,7 @@ const [preview, setPreview] = useState(
                   />
                 </div>
 
-                <span className="text-black">
+                <span className="text-black dark:text-gray-200">
                   {g === "Male"
                     ? "I am male"
                     : g === "Female"
@@ -240,13 +236,13 @@ const [preview, setPreview] = useState(
         </div>
 
         <div>
-          <label className="text-[16px] font-semibold text-black">
+          <label className="text-[16px] font-semibold text-black dark:text-white">
             Phone Number
           </label>
           <input
             name="phone"
             defaultValue={profile?.mobile || ""}
-            className="w-full text-[16px] border-b border-orange-400 bg-white outline-none py-2 text-black mb-4"
+            className="w-full text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-white mb-4 dark:rounded-lg"
           />
         </div>
 

@@ -187,7 +187,7 @@ import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function CareersPage() {
   return (
-    <div className="flex flex-col w-full overflow-x-hidden bg-white px-4">
+    <div className="flex flex-col w-full overflow-x-hidden bg-white dark:bg-gray-900 px-4">
       <CareerHeroSection />
 
       <div className="w-full max-w-[1240px] mx-auto">

@@ -61,41 +61,39 @@ export default function Home() {
 
             const data = await res.json();
 
-           const result = data?.results?.[0];
+            const result = data?.results?.[0];
 
-           let city = "";
-           let state = "";
+            let city = "";
+            let state = "";
 
-           if (result?.address_components) {
-             result.address_components.forEach((component: any) => {
-               if (component.types.includes("locality")) {
-                 city = component.long_name;
-               }
-               if (component.types.includes("administrative_area_level_1")) {
-                 state = component.long_name;
-               }
-             });
-           }
+            if (result?.address_components) {
+              result.address_components.forEach((component: any) => {
+                if (component.types.includes("locality")) {
+                  city = component.long_name;
+                }
+                if (component.types.includes("administrative_area_level_1")) {
+                  state = component.long_name;
+                }
+              });
+            }
 
-           const address = result?.formatted_address || "Address not found";
+            const address = result?.formatted_address || "Address not found";
 
-           const locationData = {
-             latitude,
-             longitude,
-             address,
-             city,
-             state,
-           };
-
-         
+            const locationData = {
+              latitude,
+              longitude,
+              address,
+              city,
+              state,
+            };
 
             setLocation(locationData);
 
             localStorage.setItem("user_location", JSON.stringify(locationData));
-window.dispatchEvent(new Event("location-updated"));
+            window.dispatchEvent(new Event("location-updated"));
             console.log("LOCATION DATA:", locationData);
-console.log("FULL GOOGLE RESPONSE:", data);
-// console.log("FINAL LOCATION DATA:", locationData);
+            console.log("FULL GOOGLE RESPONSE:", data);
+            // console.log("FINAL LOCATION DATA:", locationData);
             // call your location-wise service API here
             // await fetchServicesByLocation(latitude, longitude);
           } catch (error) {
@@ -115,27 +113,29 @@ console.log("FULL GOOGLE RESPONSE:", data);
     return null;
   }
 
+  const fetchServicesByLocation = async (
+    latitude: number,
+    longitude: number,
+  ) => {
+    try {
+      const token = localStorage.getItem("token");
 
-  const fetchServicesByLocation = async (latitude: number, longitude: number) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const res = await fetch(
-      `https://taskpro.itmingo.com/api/services?latitude=${latitude}&longitude=${longitude}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
+      const res = await fetch(
+        `https://taskpro.itmingo.com/api/services?latitude=${latitude}&longitude=${longitude}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
         },
-      }
-    );
+      );
 
-    const data = await res.json();
-    console.log("Location wise services:", data);
-  } catch (error) {
-    console.error("Service API error:", error);
-  }
-};
+      const data = await res.json();
+      console.log("Location wise services:", data);
+    } catch (error) {
+      console.error("Service API error:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen">
