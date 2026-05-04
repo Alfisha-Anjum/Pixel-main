@@ -1,5 +1,5 @@
 interface ToggleProps {
-  icon: string;
+  icon: React.ReactNode;
   text: string;
   state: boolean;
   setState: (value: boolean) => void;
@@ -7,11 +7,12 @@ interface ToggleProps {
 
 export default function Toggle({ icon, text, state, setState }: ToggleProps) {
   return (
-    <div className="flex items-center justify-between py-3">
+    <div className="flex items-center justify-between py-3 group">
       <div className="flex items-center gap-3">
-        <div className="dark:bg-gray-200 w-6 h-6 rounded-full flex items-center justify-center">
-          <img src={icon} alt={text} className="w-5 h-5" />
+        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-700 group-hover:bg-orange-100 transition">
+          {icon}
         </div>
+
         <span className="text-[16px] font-medium text-[#1B1B1B] dark:text-gray-200">
           {text}
         </span>

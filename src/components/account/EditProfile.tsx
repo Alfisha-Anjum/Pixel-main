@@ -174,7 +174,7 @@ export default function EditProfile({
           <input
             name="firstName"
             defaultValue={profile?.first_name || ""}
-            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-white dark:rounded-lg"
+            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-gray-700 dark:rounded-lg"
           />
         </div>
 
@@ -185,7 +185,7 @@ export default function EditProfile({
           <input
             name="lastName"
             defaultValue={profile?.last_name || ""}
-            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-white dark:rounded-lg"
+            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-gray-700 dark:rounded-lg"
           />
         </div>
 
@@ -242,7 +242,7 @@ export default function EditProfile({
           <input
             name="phone"
             defaultValue={profile?.mobile || ""}
-            className="w-full text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-white mb-4 dark:rounded-lg"
+            className="w-full text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none py-2 text-black dark:text-gray-700 mb-4 dark:rounded-lg"
           />
         </div>
 

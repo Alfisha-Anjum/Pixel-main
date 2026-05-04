@@ -1,5 +1,18 @@
 "use client";
 
+import {
+  User,
+  MapPin,
+  Wallet,
+  CreditCard,
+  Globe,
+  Bell,
+  Moon,
+  Star,
+  Ticket,
+  Gift,
+  StarIcon,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,31 +61,33 @@ export default function SettingsList({ setActiveView }: Props) {
 
       <div className="">
         <Item
-          icon="/icons/user.png"
+          icon={<User className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
           text="Edit Profile"
           onClick={() => setActiveView("editProfile")}
         />
-        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
+
         <Item
-          icon="/icons/save.png"
+          icon={<MapPin className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
           text="Saved Address"
           onClick={() => setIsAddressModalOpen(true)}
         />
-        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
+
         <Item
-          icon="/icons/wallet.png"
+          icon={<Wallet className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
           text="My Wallet"
           onClick={() => setActiveView("wallet")}
         />
-        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
+
         <Item
-          icon="/icons/wallet.png"
+          icon={
+            <CreditCard className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          }
           text="Saved Payment Methods"
           onClick={() => setActiveView("payment")}
         />
-        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
+
         <Item
-          icon="/icons/language.png"
+          icon={<Globe className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
           text="Change Language"
           onClick={() => setActiveView("language")}
         />
@@ -81,14 +96,18 @@ export default function SettingsList({ setActiveView }: Props) {
         <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
 
         <Toggle
-          icon="/icons/setting.png"
+          icon={
+            <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="Notification Setting"
           state={notify}
           setState={setNotify}
         />
-        <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
+
         <Toggle
-          icon="/icons/toggle.png"
+          icon={
+            <Moon className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="Dark Mode"
           state={dark}
           setState={setDark}
@@ -102,19 +121,21 @@ export default function SettingsList({ setActiveView }: Props) {
 
       <div className="">
         <Item
-          icon="/icons/rating.png"
+          icon={
+            <StarIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          }
           text="My Rating & Reviews"
           onClick={() => setActiveView("reviews")}
         />
         <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
-          icon="/icons/coupon.png"
-          text="My Coupon"
+          icon={<Ticket className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          text="My Coupons"
           onClick={() => setActiveView("coupon")}
         />
         <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
-          icon="/icons/refer.png"
+          icon={<Gift className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
           text="Refer & Earn"
           onClick={() => setActiveView("refer")}
         />
@@ -144,9 +165,10 @@ function Item({ icon, text, onClick }: ItemProps) {
       className="flex items-center justify-between py-3 cursor-pointer group"
     >
       <div className="flex items-center gap-3">
-        <div className="dark:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center">
-          <Image src={icon} alt={text} width={20} height={20} />
+        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+          {icon}
         </div>
+
         <span className="text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium group-hover:text-orange-500 transition">
           {text}
         </span>

@@ -8,29 +8,28 @@ const features = [
     id: 1,
     icon: "/service.png",
     title: "Same Day Service",
-    alt: "Service icon"
+    alt: "Service icon",
   },
   {
     id: 2,
-    icon: "group.png", 
+    icon: "group.png",
     title: "Verified Serviceman",
-    alt: "Verified serviceman icon"
+    alt: "Verified serviceman icon",
   },
   {
     id: 3,
     icon: "/frame.png",
-    title: "Satisfaction Guaranteed", 
-    alt: "Satisfaction badge icon"
-  }
+    title: "Satisfaction Guaranteed",
+    alt: "Satisfaction badge icon",
+  },
 ];
 
 export default function FeatureSection() {
   return (
-    <section className="py-1 bg-white">
+    <section className="py-1">
       <LayoutContainer>
         {/* Feature Container */}
         <div className="w-full mx-auto h-auto lg:h-[122px] flex flex-col sm:flex-row justify-between items-center gap-[30px] sm:gap-[20px] opacity-100 transform-none">
-          
           {features.map((feature) => (
             <div
               key={feature.id}
@@ -45,14 +44,13 @@ export default function FeatureSection() {
                   loading="lazy"
                 />
               </div>
-              
+
               {/* Feature Title */}
-              <h3 className="mt-[12px] text-base sm:text-xs lg:text-[18px] font-semibold text-[#1A1A1A] leading-tight">
+              <h3 className="mt-[12px] text-base sm:text-xs lg:text-[18px] font-semibold text-[#1A1A1A] dark:text-gray-300 leading-tight">
                 {feature.title}
               </h3>
             </div>
           ))}
-          
         </div>
       </LayoutContainer>
     </section>

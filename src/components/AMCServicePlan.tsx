@@ -10,17 +10,20 @@ const amcPlans = [
   {
     title: "Looking for Fridge Repair?",
     subtitle: "",
-    image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&q=80",
   },
   {
     title: "AC Servicing",
     subtitle: "AC Service repair at your doorstep",
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80",
   },
   {
     title: "Need for Electrician",
     subtitle: "Electric Service at your doorstep",
-    image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80",
   },
 ];
 
@@ -99,7 +102,8 @@ const AMCServicePlan = () => {
     const handleResize = () => {
       const slidesToShowCount = getSlidesToShow();
       sliderRef.current?.scrollTo({
-        left: (currentSlide * sliderRef.current.offsetWidth) / slidesToShowCount,
+        left:
+          (currentSlide * sliderRef.current.offsetWidth) / slidesToShowCount,
         behavior: "smooth",
       });
     };
@@ -109,9 +113,9 @@ const AMCServicePlan = () => {
   }, [currentSlide]);
 
   return (
-    <section className="w-full bg-white py-5">
+    <section className="w-full bg-white dark:bg-gray-900 py-5">
       <LayoutContainer className="relative">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-5">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-5">
           AMC Service Plan
         </h2>
 

@@ -111,7 +111,7 @@ export default function AccountPage() {
 
         {/* Profile */}
         {activeView === "default" && (
-          <div className="w-full lg:w-[390px]">
+          <div className="w-full lg:w-[390px] px-10">
             <ProfileCard profile={profile} />
           </div>
         )}
