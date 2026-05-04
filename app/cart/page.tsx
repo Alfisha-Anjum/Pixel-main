@@ -21,155 +21,170 @@ interface Address {
 
 export default function CartPage() {
   const router = useRouter();
-  const { cartItems, removeFromCart, selectedAddress, setSelectedAddress } = useBooking();
+  const { cartItems, removeFromCart, selectedAddress, setSelectedAddress } =
+    useBooking();
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
-const [showDateTimeModal, setShowDateTimeModal] = useState(false);
-const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
+  const [showDateTimeModal, setShowDateTimeModal] = useState(false);
+  const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
   const totalMRP = cartItems.reduce((sum, item) => sum + item.price * 1.2, 0);
-  const totalDiscount = totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
+  const totalDiscount =
+    totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const [addresses, setAddresses] = useState<any[]>([]);
   const displayAddress = selectedAddress || addresses[0];
     const [showCoupons, setShowCoupons] = useState(false);
   // const [token, setToken] = useState<string | null>(null);
 
- const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
- const getCustomerAddresses = async (token: string) => {
-   const res = await axios.get(
-     "https://taskpro.itmingo.com/api/customers/customer-addresses",
-     {
-       headers: {
-         Authorization: `Bearer ${token}`,
-         Accept: "application/json",
-       },
-     },
-   );
-
-   return res.data;
- };
-
-const addCustomerAddress = async (token: string, formData: any) => {
-
-const cleanPhone = (value: string) => {
-  const digits = value.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
-  return `+91 ${digits}`;
-};
-
-const altRaw = formData.alternateNumber || formData.altPhone || "";
-const altDigits = altRaw
-  .replace(/\D/g, "")
-  .replace(/^91/, "")
-  .replace(/^0/, "");
-
-const payload: any = {
-  full_name: formData.fullName || formData.name || "",
-  contact_number: cleanPhone(formData.contactNumber || formData.phone || ""),
-  postal_code: formData.postalCode || formData.pincode || "",
-
-  latitude: formData.latitude || 21.2514,
-  longitude: formData.longitude || 81.6296,
-
-  country_id: 1,
-
-  state_id: 1,
-
-  state_name: formData.state_name || formData.state || "Chhattisgarh",
-  city_name: formData.city_name || formData.city || "Raipur", // ✅ ADD THIS
-
-  city_id: 1,
-
-  house_number: formData.houseNo || "",
-  street: formData.street || formData.location || formData.address || "",
-
-  type: "Home",
-  is_active: 1,
-};
-
-payload.alt_contact_number =
-  altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
-
-
- 
-  console.log("POST PAYLOAD:", payload);
-
-  const res = await axios.post(
-    "https://taskpro.itmingo.com/api/customers/customer-addresses",
-    payload,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
+  const getCustomerAddresses = async (token: string) => {
+    const res = await axios.get(
+      "https://taskpro.itmingo.com/api/customers/customer-addresses",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
       },
-    },
-  );
+    );
 
-  return res.data;
-};
-
-const updateCustomerAddress = async (token: string, id: number, formData: any) => {
-  const cleanPhone = (value: string) => {
-    const digits = value.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
-    return `+91 ${digits}`;
+    return res.data;
   };
 
-  const altRaw = formData.alternateNumber || formData.altPhone || "";
-  const altDigits = altRaw.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
+  const addCustomerAddress = async (token: string, formData: any) => {
+    const cleanPhone = (value: string) => {
+      const digits = value
+        .replace(/\D/g, "")
+        .replace(/^91/, "")
+        .replace(/^0/, "");
+      return `+91 ${digits}`;
+    };
 
-  const payload: any = {
-    full_name: formData.fullName || formData.name || "",
-    contact_number: cleanPhone(formData.contactNumber || formData.phone || ""),
-    postal_code: formData.postalCode || formData.pincode || "",
-    latitude: 21.2514,
-    longitude: 81.6296,
-    state_id: 1,
-    city_id: 1,
-    house_number: formData.houseNo || "",
-    street:
-      formData.street ||
-      formData.landmark ||
-      formData.roadLandmark ||
-      formData.location ||
-      formData.address ||
-      formData.houseNo ||
-      "",
-    type: "Home",
-    is_active: 1,
+    const altRaw = formData.alternateNumber || formData.altPhone || "";
+    const altDigits = altRaw
+      .replace(/\D/g, "")
+      .replace(/^91/, "")
+      .replace(/^0/, "");
+
+    const payload: any = {
+      full_name: formData.fullName || formData.name || "",
+      contact_number: cleanPhone(
+        formData.contactNumber || formData.phone || "",
+      ),
+      postal_code: formData.postalCode || formData.pincode || "",
+
+      latitude: formData.latitude || 21.2514,
+      longitude: formData.longitude || 81.6296,
+
+      country_id: 1,
+
+      state_id: 1,
+
+      state_name: formData.state_name || formData.state || "Chhattisgarh",
+      city_name: formData.city_name || formData.city || "Raipur", // ✅ ADD THIS
+
+      city_id: 1,
+
+      house_number: formData.houseNo || "",
+      street: formData.street || formData.location || formData.address || "",
+
+      type: "Home",
+      is_active: 1,
+    };
+
+    payload.alt_contact_number =
+      altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
+
+    console.log("POST PAYLOAD:", payload);
+
+    const res = await axios.post(
+      "https://taskpro.itmingo.com/api/customers/customer-addresses",
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return res.data;
   };
 
-  payload.alt_contact_number =
-    altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
+  const updateCustomerAddress = async (
+    token: string,
+    id: number,
+    formData: any,
+  ) => {
+    const cleanPhone = (value: string) => {
+      const digits = value
+        .replace(/\D/g, "")
+        .replace(/^91/, "")
+        .replace(/^0/, "");
+      return `+91 ${digits}`;
+    };
 
-  const res = await axios.put(
-    `https://taskpro.itmingo.com/api/customers/customer-addresses/${id}`,
-    payload,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
+    const altRaw = formData.alternateNumber || formData.altPhone || "";
+    const altDigits = altRaw
+      .replace(/\D/g, "")
+      .replace(/^91/, "")
+      .replace(/^0/, "");
+
+    const payload: any = {
+      full_name: formData.fullName || formData.name || "",
+      contact_number: cleanPhone(
+        formData.contactNumber || formData.phone || "",
+      ),
+      postal_code: formData.postalCode || formData.pincode || "",
+      latitude: 21.2514,
+      longitude: 81.6296,
+      state_id: 1,
+      city_id: 1,
+      house_number: formData.houseNo || "",
+      street:
+        formData.street ||
+        formData.landmark ||
+        formData.roadLandmark ||
+        formData.location ||
+        formData.address ||
+        formData.houseNo ||
+        "",
+      type: "Home",
+      is_active: 1,
+    };
+
+    payload.alt_contact_number =
+      altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
+
+    const res = await axios.put(
+      `https://taskpro.itmingo.com/api/customers/customer-addresses/${id}`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       },
-    }
-  );
+    );
 
-  return res.data;
-};
+    return res.data;
+  };
 
- const fetchAddresses = async () => {
-  if (!token) return;
+  const fetchAddresses = async () => {
+    if (!token) return;
 
-  const res = await getCustomerAddresses(token);
-  setAddresses(res.data || []);
-};
+    const res = await getCustomerAddresses(token);
+    setAddresses(res.data || []);
+  };
 
-useEffect(() => {
-  fetchAddresses();
-}, [token]);
-
+  useEffect(() => {
+    fetchAddresses();
+  }, [token]);
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -203,20 +218,22 @@ useEffect(() => {
     },
   ];
 
-const handleContinue = () => {
-
+  const handleContinue = () => {
     setShowDateTimeModal(true); // 👈 open date modal instead
-  
-};
-const handleDateTimeContinue = (date: string, time: string, notes: string) => {
-  console.log(date, time, notes);
+  };
+  const handleDateTimeContinue = (
+    date: string,
+    time: string,
+    notes: string,
+  ) => {
+    console.log(date, time, notes);
 
-  setShowDateTimeModal(false); // close date modal
-  setShowAddressModal(true); // ✅ OPEN ADDRESS MODAL
-};
+    setShowDateTimeModal(false); // close date modal
+    setShowAddressModal(true); // ✅ OPEN ADDRESS MODAL
+  };
   return (
     <>
-      <div className="min-h-screen ">
+      <div className="min-h-screen dark:bg-gray-900">
         {/* <Header /> */}
 
         <main className="max-w-7xl mx-auto px-5">

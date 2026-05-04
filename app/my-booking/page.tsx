@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import {
   Home,
@@ -38,10 +38,14 @@ import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeMod
 import Link from "next/link";
 import { AccountSidebar } from "@/components/account";
 import Breadcrumb from "@/components/account/Breadcrumb";
+import { usePathname, useSearchParams } from "next/navigation";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 const MyBookingPage = () => {
   const { user } = useAuth();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [activeTab, setActiveTab] = useState<
     "pending" | "rejected" | "completed"
   >("pending");
@@ -143,6 +147,13 @@ const MyBookingPage = () => {
     setShowCancelledSuccess(true);
   };
 
+  useEffect(() => {
+    setShowBookingDetailsPage(false);
+    setShowAMCDetailsPage(false);
+    setShowChatBot(false);
+    setSelectedBooking(null);
+    setSelectedAMC(null);
+  }, [searchParams]);
   const handleRescheduleContinue = (
     date: string,
     time: string,
@@ -282,7 +293,7 @@ const MyBookingPage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen  flex items-center justify-center">
+      <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Please Login to View Bookings
@@ -299,7 +310,7 @@ const MyBookingPage = () => {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen dark:bg-gray-900">
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto sm:px-0 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 md:py-8">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
@@ -375,7 +386,7 @@ const MyBookingPage = () => {
                           onClick={() => setBookingType("home")}
                           className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
                             bookingType === "home"
-                              ? "border-[#FF6A00] text-[#FF6A00]"
+                              ? "border-[#FF6A00] dark:border-gray-600 text-[#FF6A00]"
                               : "border-transparent text-gray-500 hover:text-gray-700"
                           }`}
                         >
@@ -383,9 +394,9 @@ const MyBookingPage = () => {
                         </button>
                         <button
                           onClick={() => setBookingType("amc")}
-                          className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
+                          className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 dark:border-gray-600 transition-colors ${
                             bookingType === "amc"
-                              ? "border-[#FF6A00] text-[#FF6A00]"
+                              ? "border-[#FF6A00] dark:border-gray-600 text-[#FF6A00]"
                               : "border-transparent text-gray-500 hover:text-gray-700"
                           }`}
                         >

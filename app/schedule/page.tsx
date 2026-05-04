@@ -389,6 +389,8 @@ import {
   Info,
   X,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { Pencil } from "lucide-react";
 // import SelectAddressModal from "@/components/SelectAddressModal";
 import BookingDetailsModal from "@/components/BookingDetailsModal";
@@ -412,6 +414,8 @@ import Link from "next/link";
 
 const MySchedulePage = () => {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const refresh = searchParams.get("refresh");
   const [activeTab, setActiveTab] = useState<
     "pending" | "rejected" | "completed"
   >("pending");
@@ -451,6 +455,12 @@ const MySchedulePage = () => {
 
     setShowRescheduleModal(false); // close modal after continue
   };
+
+  useEffect(() => {
+    setShowBookingDetailsPage(false);
+    setShowChatBot(false);
+    setSelectedBooking(null);
+  }, [refresh]);
 
   const handleOpenChat = (booking: any) => {
     setSelectedChatBooking(booking);
@@ -559,7 +569,7 @@ const MySchedulePage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen  flex items-center justify-center">
+      <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Please Login to View Bookings
@@ -576,7 +586,7 @@ const MySchedulePage = () => {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen dark:bg-gray-900">
       {/* <Header /> */}
       <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-8">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
@@ -675,7 +685,7 @@ const MySchedulePage = () => {
                 {/* LEFT SECTION */}
                 <div className="w-full lg:w-[75%] space-y-6">
                   {/* SERVICE CARD */}
-                  <div className="flex flex-col w-full justify-between border shadow-sm rounded-xl p-3 md:p-5">
+                  <div className="bg-white flex flex-col w-full justify-between border shadow-sm rounded-xl p-3 md:p-5">
                     <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-3">
                       <div className="flex gap-4 w-full">
                         <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">

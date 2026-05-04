@@ -117,9 +117,7 @@ export default function Home() {
             setLocation(locationData);
 
             localStorage.setItem("user_location", JSON.stringify(locationData));
-            window.dispatchEvent(new Event("location-updated"));
-
-            await fetchDashboardData(state || "Chhattisgarh", city || "Raipur");
+window.dispatchEvent(new Event("location-updated"));
             console.log("LOCATION DATA:", locationData);
             console.log("FULL GOOGLE RESPONSE:", data);
             // console.log("FINAL LOCATION DATA:", locationData);
@@ -145,20 +143,22 @@ export default function Home() {
     return null;
   }
 
+  const fetchServicesByLocation = async (
+    latitude: number,
+    longitude: number,
+  ) => {
+    try {
+      const token = localStorage.getItem("token");
 
-  const fetchServicesByLocation = async (latitude: number, longitude: number) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const res = await fetch(
-      `https://taskpro.itmingo.com/api/services?latitude=${latitude}&longitude=${longitude}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
+      const res = await fetch(
+        `https://taskpro.itmingo.com/api/services?latitude=${latitude}&longitude=${longitude}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
         },
-      }
-    );
+      );
 
     const data = await res.json();
     console.log("Location wise services:", data);
@@ -166,10 +166,9 @@ export default function Home() {
     console.error("Service API error:", error);
   }
 };
-console.log("dashboardData", dashboardData);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <HomeStartupModal />
 
       <main>

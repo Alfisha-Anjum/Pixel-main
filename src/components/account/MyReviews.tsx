@@ -48,7 +48,7 @@ export default function MyReviews({ setActiveView }: Props) {
         {/* Back */}
         <button
           onClick={() => setActiveView("default")}
-          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+          className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
         >
           <ArrowLeft size={20} />
           My Rating and Reviews
@@ -88,7 +88,7 @@ export default function MyReviews({ setActiveView }: Props) {
           {reviews.map((item, i) => (
             <div
               key={i}
-              className="relative flex gap-3 bg-white rounded-xl w-full w-full"
+              className="relative flex gap-3 bg-white dark:bg-gray-200 rounded-xl w-full w-full p-4"
             >
               <div>
                 <div className=" flex gap-3 justify-content items-center">
@@ -141,12 +141,12 @@ export default function MyReviews({ setActiveView }: Props) {
       </div>
 
       {/* Back button */}
-      <button
+      {/* <button
         onClick={() => setActiveView("settings")}
         className="hidden md:block md:mt-6 md:text-sm md:text-orange-500"
       >
         ← Back
-      </button>
+      </button> */}
     </div>
   );
 }

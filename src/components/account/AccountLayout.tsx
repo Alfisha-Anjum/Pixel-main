@@ -9,7 +9,24 @@ import Input from "./Input";
 import Button from "./Button";
 import PremiumAddressModal from "./PremiumAddressModal";
 import PremiumAddressListModal from "./PremiumAddressListModal";
-import { Check, Plus, Trash2, ChevronRight, Camera, Coins, X, Copy, Facebook, Twitter, Instagram, Linkedin, MessageCircle, Share2, ChevronDown, Navigation } from "lucide-react";
+import {
+  Check,
+  Plus,
+  Trash2,
+  ChevronRight,
+  Camera,
+  Coins,
+  X,
+  Copy,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  MessageCircle,
+  Share2,
+  ChevronDown,
+  Navigation,
+} from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import Header from "../Header";
@@ -27,10 +44,14 @@ type Address = {
   isDefault: boolean;
 };
 
-export const AccountLayout: React.FC<{ initial?: string }> = ({ initial = "main" }) => {
+export const AccountLayout: React.FC<{ initial?: string }> = ({
+  initial = "main",
+}) => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
-  const [step, setStep] = useState<string>(initial === "address" ? "address" : "main");
+  const [step, setStep] = useState<string>(
+    initial === "address" ? "address" : "main",
+  );
   const [dark, setDark] = useState(false);
   const [notification, setNotification] = useState(true);
 
@@ -40,17 +61,21 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({ initial = "main"
   const [gender, setGender] = useState("I am male");
 
   // Language state
-  const [language, setLanguage] = useState({ code: 'US', name: 'English', flag: '🇺🇸' });
+  const [language, setLanguage] = useState({
+    code: "US",
+    name: "English",
+    flag: "🇺🇸",
+  });
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const languages = [
-    { code: 'US', name: 'English', flag: '🇺🇸' },
-    { code: 'CN', name: '中国人', flag: '🇨🇳' },
-    { code: 'ES', name: 'Español', flag: '🇪🇸' },
-    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'SA', name: 'عربي', flag: '🇸🇦' },
-    { code: 'RU', name: 'Русский', flag: '🇷🇺' },
-    { code: 'IT', name: 'Italiano', flag: '🇮🇹' },
-    { code: 'PK', name: 'اردو', flag: '🇵🇰' },
+    { code: "US", name: "English", flag: "🇺🇸" },
+    { code: "CN", name: "中国人", flag: "🇨🇳" },
+    { code: "ES", name: "Español", flag: "🇪🇸" },
+    { code: "DE", name: "Deutsch", flag: "🇩🇪" },
+    { code: "SA", name: "عربي", flag: "🇸🇦" },
+    { code: "RU", name: "Русский", flag: "🇷🇺" },
+    { code: "IT", name: "Italiano", flag: "🇮🇹" },
+    { code: "PK", name: "اردو", flag: "🇵🇰" },
   ];
 
   // Refer flow
@@ -79,7 +104,10 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({ initial = "main"
 
   // Bank flow
   const [banks, setBanks] = useState<any[]>([]);
-  const [removeConfirm, setRemoveConfirm] = useState<{ open: boolean; id?: string }>({ open: false });
+  const [removeConfirm, setRemoveConfirm] = useState<{
+    open: boolean;
+    id?: string;
+  }>({ open: false });
 
   const handleAddAddress = (addr: Address) => {
     setAddresses((s) => [addr, ...s]);
@@ -98,13 +126,12 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({ initial = "main"
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header/>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+      <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <span
-          
             className="hover:text-orange-500 cursor-pointer"
             onClick={() => setStep("main")}
           >
@@ -220,7 +247,7 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({ initial = "main"
                     </div>
                   </div>
                 </div>
-            
+
                 <div className="bg-white rounded-[12px] shadow-sm p-6 md:p-8">
                   {/* Header: Home | Profile */}
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">

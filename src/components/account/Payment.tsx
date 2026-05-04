@@ -8,47 +8,46 @@ import { useEffect } from "react";
 
 export default function SavedPayments() {
   const [isBankModalOpen, setIsBankModalOpen] = useState(false);
-const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<any[]>([]);
 
-const fetchBankDetails = async () => {
-  try {
-    const token = localStorage.getItem("token");
+  const fetchBankDetails = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "https://taskpro.itmingo.com/api/customers/customer-bank-details",
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await axios.get(
+        "https://taskpro.itmingo.com/api/customers/customer-bank-details",
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    );
+      );
 
-    if (res.data.status) {
-      const formattedCards = res.data.data.map((item: any) => ({
-        id: item.id,
-        bank: item.bank_name,
-        number: String(item.account_number).slice(-4),
-        type: "BANK",
-      }));
+      if (res.data.status) {
+        const formattedCards = res.data.data.map((item: any) => ({
+          id: item.id,
+          bank: item.bank_name,
+          number: String(item.account_number).slice(-4),
+          type: "BANK",
+        }));
 
-      setCards(formattedCards);
+        setCards(formattedCards);
+      }
+    } catch (error) {
+      console.log("Failed to fetch bank details", error);
     }
-  } catch (error) {
-    console.log("Failed to fetch bank details", error);
-  }
-};
+  };
 
-useEffect(() => {
-  fetchBankDetails();
-}, []);
-  
+  useEffect(() => {
+    fetchBankDetails();
+  }, []);
+
   return (
-    <div className="md:min-h-screen bg-white flex flex-col">
+    <div className="md:min-h-screen flex flex-col">
       {/* HEADER */}
-      <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 py-3 bg-white shadow-sm">
-        <ArrowLeft className="w-5 h-5 cursor-pointer" />
-        <h1 className="text-base sm:text-lg font-semibold">
+      <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 py-3 shadow-sm">
+        <h1 className="text-base dark:text-white sm:text-lg font-semibold">
           Saved Payment Methods
         </h1>
       </div>
@@ -57,7 +56,7 @@ useEffect(() => {
       <div className="flex-1 w-full max-w-6xl mx-auto">
         {/* SAVED CARDS */}
         <div className="lg:px-8 py-4">
-          <h2 className="text-gray-700 font-medium mb-3 text-sm sm:text-base">
+          <h2 className="text-gray-700 dark:text-gray-200 font-medium mb-3 text-sm sm:text-base">
             Saved Cards
           </h2>
 
@@ -88,7 +87,7 @@ useEffect(() => {
 
         {/* UPI */}
         <div className="px-4 sm:px-6 lg:px-8 py-4">
-          <h2 className="text-gray-700 font-medium mb-3 text-sm sm:text-base">
+          <h2 className="text-gray-700 dark:text-gray-200 font-medium mb-3 text-sm sm:text-base">
             UPI
           </h2>
 

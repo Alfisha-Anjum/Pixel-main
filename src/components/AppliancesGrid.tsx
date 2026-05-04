@@ -58,22 +58,22 @@ const AppliancesGrid = () => {
   const [modalSource, setModalSource] = useState<"default" | "amc">("default");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
- useEffect(() => {
-   const openModal = (event: Event) => {
-     const customEvent = event as CustomEvent<{ source?: "default" | "amc" }>;
-     setModalSource(customEvent.detail?.source || "default");
-     setIsModalOpen(true);
-   };
+  useEffect(() => {
+    const openModal = (event: Event) => {
+      const customEvent = event as CustomEvent<{ source?: "default" | "amc" }>;
+      setModalSource(customEvent.detail?.source || "default");
+      setIsModalOpen(true);
+    };
 
-   window.addEventListener("openApplianceModal", openModal as EventListener);
+    window.addEventListener("openApplianceModal", openModal as EventListener);
 
-   return () => {
-     window.removeEventListener(
-       "openApplianceModal",
-       openModal as EventListener,
-     );
-   };
- }, []);
+    return () => {
+      window.removeEventListener(
+        "openApplianceModal",
+        openModal as EventListener,
+      );
+    };
+  }, []);
 
   // Close modal on ESC key
   useEffect(() => {
@@ -92,19 +92,18 @@ const AppliancesGrid = () => {
     };
   }, [isModalOpen]);
 
-
-const handleCardClick = (item: ApplianceItem) => {
-  if (item.label === "See All") {
-    setIsModalOpen(true);
-  } else if (item.slug) {
-    router.push(`/service/${item.slug}`);
-  }
-};
+  const handleCardClick = (item: ApplianceItem) => {
+    if (item.label === "See All") {
+      setIsModalOpen(true);
+    } else if (item.slug) {
+      router.push(`/service/${item.slug}`);
+    }
+  };
   // Filter out "See All" for modal content
   // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
   return (
-    <section className="w-full bg-white py-15">
+    <section className="w-full py-15">
       <LayoutContainer>
         <h2 className="text-2xl font-semibold text-gray-900 mb-5">
           Appliances Repair & Service

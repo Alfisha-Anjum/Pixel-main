@@ -18,12 +18,18 @@ import MyReviews from "@/components/account/MyReviews";
 import MyCoupon from "@/components/account/MyCoupon";
 import Payment from "@/components/account/Payment";
 import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import axios from "axios";
 
 export default function AccountPage() {
   const { user } = useAuth();
   const [activeView, setActiveView] = useState("default");
   const [profile, setProfile] = useState<any>(null);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setActiveView("default");
+  }, [searchParams]);
 
   const fetchProfile = async () => {
     try {
@@ -80,7 +86,7 @@ export default function AccountPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Please Login to View Account
@@ -97,7 +103,7 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white dark:bg-gray-900">
       {/* Content */}
       <div className="flex flex-col-reverse lg:flex-row">
         {/* Content */}
@@ -105,7 +111,7 @@ export default function AccountPage() {
 
         {/* Profile */}
         {activeView === "default" && (
-          <div className="w-full lg:w-[390px]">
+          <div className="w-full lg:w-[390px] px-10">
             <ProfileCard profile={profile} />
           </div>
         )}

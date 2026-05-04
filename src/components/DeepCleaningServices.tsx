@@ -14,7 +14,8 @@ const cleaningServices = [
     price: 550,
     originalPrice: 650,
     duration: "45 min",
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80",
   },
   {
     title: "Furniture Cleaning",
@@ -23,7 +24,8 @@ const cleaningServices = [
     price: 450,
     originalPrice: 550,
     duration: "60 min",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=200&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=200&fit=crop&q=80",
   },
   {
     title: "Office Cleaning",
@@ -32,7 +34,8 @@ const cleaningServices = [
     price: 850,
     originalPrice: 950,
     duration: "2 Hours",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&h=200&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&h=200&fit=crop&q=80",
   },
   {
     title: "Post Construction",
@@ -41,7 +44,8 @@ const cleaningServices = [
     price: 1250,
     originalPrice: 1500,
     duration: "4 Hours",
-    image: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=300&h=200&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=300&h=200&fit=crop&q=80",
   },
   {
     title: "Bathroom Cleaning",
@@ -152,12 +156,12 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
   };
 
   return (
-    <section className="pt-5 bg-white">
+    <section className="pt-5 bg-white dark:bg-gray-900">
       <LayoutContainer>
         <div className=" mx-auto">
           {/* Updated Heading */}
           <h2
-            className="text-gray-900 font-semibold mb-5"
+            className="text-gray-900 dark:text-gray-200 font-semibold mb-5"
             style={{
               fontSize: "24px",
               fontWeight: "600",

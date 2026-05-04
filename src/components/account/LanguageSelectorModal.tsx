@@ -56,13 +56,14 @@ type Props = {
 
 const languages = [
   { name: "English", flag: "/flags/English.png" },
-  { name: "Chinese", flag: "/flags/Chinese.png" },
-  { name: "Spanish", flag: "/flags/Spanish.png" },
-  { name: "Italian", flag: "/flags/Italian.png" },
-  { name: "Urdu", flag: "/flags/Urdu.png" },
-  { name: "Arabic", flag: "/flags/Arabic.png" },
-  { name: "German", flag: "/flags/German.png" },
-  { name: "Russian", flag: "/flags/Russian.png" },
+  { name: "Hindi", flag: "/flags/india.png" },
+  // { name: "Chinese", flag: "/flags/Chinese.png" },
+  // { name: "Spanish", flag: "/flags/Spanish.png" },
+  // { name: "Italian", flag: "/flags/Italian.png" },
+  // { name: "Urdu", flag: "/flags/Urdu.png" },
+  // { name: "Arabic", flag: "/flags/Arabic.png" },
+  // { name: "German", flag: "/flags/German.png" },
+  // { name: "Russian", flag: "/flags/Russian.png" },
 ];
 
 const LanguageSelectorPage: React.FC<Props> = ({ setActiveView }) => {
@@ -70,7 +71,7 @@ const LanguageSelectorPage: React.FC<Props> = ({ setActiveView }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white px-4 py-6">
+    <div className="min-h-screen px-4 py-6">
       <div className="w-full flex justify-between items-center mb-6 md:hidden">
         {/* Back */}
         <button
