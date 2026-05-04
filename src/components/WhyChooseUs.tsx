@@ -215,7 +215,7 @@ const WhyChooseUs = () => {
     <section className="py-5 ">
       <div className="container-custom">
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-2xl font-bold text-foreground mb-3">
+          <h2 className="text-2xl md:text-2xl font-bold text-foreground dark:text-gray-200 mb-3">
             Why Choose Us
           </h2>
           <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
@@ -241,7 +241,7 @@ const WhyChooseUs = () => {
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-foreground mb-1">
+                <h3 className="font-semibold text-foreground dark:text-gray-200 mb-1">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">

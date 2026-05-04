@@ -5,7 +5,7 @@ import LayoutContainer from "./LayoutContainer";
 const ServicesSection = () => {
   return (
     <>
-      <section className="bg-background py-5">
+      <section className="py-5">
         <LayoutContainer>
           <div className=" ">
             {/* Main Title
@@ -100,7 +100,7 @@ const ServicesSection = () => {
         </LayoutContainer>
       </section>
       <LayoutContainer>
-        <div className="bg-white pt-5">
+        <div className="pt-5">
           <div className=" flex items-center gap-1 mx-auto">
             {/* <h3 className="text-lg  text-gray-900 mb-2"></h3> */}
             <p className="text-sm text-gray-600 leading-relaxed">

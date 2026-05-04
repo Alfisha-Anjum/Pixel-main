@@ -113,7 +113,7 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
         <div className=" mx-auto">
           {/* Updated Heading */}
           <h2
-            className="text-gray-900 font-semibold mb-5"
+            className="text-gray-900 dark:text-gray-200 font-semibold mb-5"
             style={{
               fontSize: "24px",
               fontWeight: "600",

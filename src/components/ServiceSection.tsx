@@ -1,14 +1,14 @@
 "use client";
 
-import { 
-  ChevronLeft, 
+import {
+  ChevronLeft,
   ChevronRight,
   Snowflake,
   Sparkles,
   Hammer,
   Bug,
   SprayCan,
-  ClipboardCheck
+  ClipboardCheck,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -20,46 +20,55 @@ const services = [
     title: "AC & Appliance Repair",
     icon: Snowflake,
     color: "purple",
-    link: "/service/ac-repair"
+    link: "/service/ac-repair",
   },
   {
     title: "Deep Cleaning Services",
     icon: Sparkles,
     color: "blue",
-    link: "/service/deep-cleaning"
+    link: "/service/deep-cleaning",
   },
   {
     title: "Handyman Services",
     icon: Hammer,
     color: "yellow",
-    link: "/service/handyman"
+    link: "/service/handyman",
   },
   {
     title: "Pest Control & Waterproofing",
     icon: Bug,
     color: "orange",
-    link: "/service/pest-control"
+    link: "/service/pest-control",
   },
   {
     title: "Cleaning Packages",
     icon: SprayCan,
     color: "green",
-    link: "/service/cleaning-packages"
+    link: "/service/cleaning-packages",
   },
   {
     title: "AMC Service Plan",
     icon: ClipboardCheck,
     color: "gray",
-    link: "/amc-services"
+    link: "/amc-services",
   },
 ];
 
 const getColorClasses = (color: string) => {
   const colors: Record<string, { card: string; icon: string }> = {
-    purple: { card: "bg-purple-50 hover:bg-purple-100", icon: "text-purple-600" },
+    purple: {
+      card: "bg-purple-50 hover:bg-purple-100",
+      icon: "text-purple-600",
+    },
     blue: { card: "bg-blue-50 hover:bg-blue-100", icon: "text-blue-600" },
-    yellow: { card: "bg-yellow-50 hover:bg-yellow-100", icon: "text-yellow-600" },
-    orange: { card: "bg-orange-50 hover:bg-orange-100", icon: "text-orange-600" },
+    yellow: {
+      card: "bg-yellow-50 hover:bg-yellow-100",
+      icon: "text-yellow-600",
+    },
+    orange: {
+      card: "bg-orange-50 hover:bg-orange-100",
+      icon: "text-orange-600",
+    },
     green: { card: "bg-green-50 hover:bg-green-100", icon: "text-green-600" },
     gray: { card: "bg-gray-50 hover:bg-gray-100", icon: "text-gray-600" },
   };
@@ -67,16 +76,15 @@ const getColorClasses = (color: string) => {
 };
 
 export default function ServiceSection() {
-  
   const router = useRouter();
-const [showApplianceModal, setShowApplianceModal] = useState(false);
+  const [showApplianceModal, setShowApplianceModal] = useState(false);
   return (
-    <section className="w-full bg-white pb-10 px-5">
+    <section className="w-full pb-10 px-5">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[40%] xl:w-[35%] flex flex-col">
-            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 mb-5 leading-[1.2] text-left max-w-[580px]">
+            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-5 leading-[1.2] text-left max-w-[580px]">
               How can we serve you
               <br />
               today?
@@ -104,7 +112,7 @@ const [showApplianceModal, setShowApplianceModal] = useState(false);
                     >
                       <Icon className={`w-12 h-12 ${icon}`} />
                     </div>
-                    <p className="mt-4 text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-orange-600 transition-colors">
+                    <p className="mt-4 text-sm font-semibold text-gray-800 dark:text-gray-300 text-center leading-tight group-hover:text-orange-600 transition-colors">
                       {service.title}
                     </p>
                   </div>
