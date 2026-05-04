@@ -108,11 +108,18 @@ const CleaningPackage = () => {
 
       <div className="relative group">
         <div
+        <div
           ref={sliderRef}
           className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
           style={{ gap: "20px" }}
+          style={{ gap: "20px" }}
         >
           {packages.map((pkg, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 snap-center"
+              style={{ width: "382px", height: "228px" }}
+            >
             <div
               key={index}
               className="flex-shrink-0 snap-center"
@@ -129,18 +136,23 @@ const CleaningPackage = () => {
         </div>
 
         {/* Navigation Buttons */}
-        <button 
-          onClick={scrollLeft}
-          className="absolute -left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button 
-          onClick={scrollRight}
-          className="absolute -right-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+        {canScroll && !atStart && (
+          <button
+            onClick={scrollLeft}
+            className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        )}
+
+        {canScroll && !atEnd && (
+          <button
+            onClick={scrollRight}
+            className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        )}
       </div>
     </LayoutContainer>
   );

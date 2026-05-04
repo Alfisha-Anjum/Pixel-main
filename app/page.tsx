@@ -89,7 +89,10 @@ export default function Home() {
             const data = await res.json();
 
             const result = data?.results?.[0];
+            const result = data?.results?.[0];
 
+            let city = "";
+            let state = "";
             let city = "";
             let state = "";
 
@@ -103,9 +106,27 @@ export default function Home() {
                 }
               });
             }
+            if (result?.address_components) {
+              result.address_components.forEach((component: any) => {
+                if (component.types.includes("locality")) {
+                  city = component.long_name;
+                }
+                if (component.types.includes("administrative_area_level_1")) {
+                  state = component.long_name;
+                }
+              });
+            }
 
             const address = result?.formatted_address || "Address not found";
+            const address = result?.formatted_address || "Address not found";
 
+            const locationData = {
+              latitude,
+              longitude,
+              address,
+              city,
+              state,
+            };
             const locationData = {
               latitude,
               longitude,
@@ -117,8 +138,12 @@ export default function Home() {
             setLocation(locationData);
 
             localStorage.setItem("user_location", JSON.stringify(locationData));
-window.dispatchEvent(new Event("location-updated"));
+            window.dispatchEvent(new Event("location-updated"));
+
+            await fetchDashboardData(state || "Chhattisgarh", city || "Raipur");
             console.log("LOCATION DATA:", locationData);
+            console.log("FULL GOOGLE RESPONSE:", data);
+            // console.log("FINAL LOCATION DATA:", locationData);
             console.log("FULL GOOGLE RESPONSE:", data);
             // console.log("FINAL LOCATION DATA:", locationData);
             // call your location-wise service API here
@@ -166,6 +191,7 @@ window.dispatchEvent(new Event("location-updated"));
     console.error("Service API error:", error);
   }
 };
+console.log("dashboardData", dashboardData);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
