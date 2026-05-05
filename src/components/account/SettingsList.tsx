@@ -21,7 +21,7 @@ import { SelectAddressModal } from "../booking-flow/SelectAddressModal";
 import AddNewAddressModal from "../AddNewAddressModal";
 
 type ItemProps = {
-  icon: string;
+  icon: React.ReactNode; // ✅ JSX allow karega
   text: string;
   onClick: () => void;
 };
@@ -61,33 +61,41 @@ export default function SettingsList({ setActiveView }: Props) {
 
       <div className="">
         <Item
-          icon={<User className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          icon={
+            <User className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="Edit Profile"
           onClick={() => setActiveView("editProfile")}
         />
 
         <Item
-          icon={<MapPin className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          icon={
+            <MapPin className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="Saved Address"
           onClick={() => setIsAddressModalOpen(true)}
         />
 
         <Item
-          icon={<Wallet className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          icon={
+            <Wallet className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="My Wallet"
           onClick={() => setActiveView("wallet")}
         />
 
         <Item
           icon={
-            <CreditCard className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            <CreditCard className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Saved Payment Methods"
           onClick={() => setActiveView("payment")}
         />
 
         <Item
-          icon={<Globe className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          icon={
+            <Globe className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="Change Language"
           onClick={() => setActiveView("language")}
         />
@@ -122,20 +130,24 @@ export default function SettingsList({ setActiveView }: Props) {
       <div className="">
         <Item
           icon={
-            <StarIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            <StarIcon className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="My Rating & Reviews"
           onClick={() => setActiveView("reviews")}
         />
         <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
-          icon={<Ticket className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          icon={
+            <Ticket className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="My Coupons"
           onClick={() => setActiveView("coupon")}
         />
         <div className="border-t border-[#E1E4E8] dark:border-gray-700] " />
         <Item
-          icon={<Gift className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+          icon={
+            <Gift className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+          }
           text="Refer & Earn"
           onClick={() => setActiveView("refer")}
         />
@@ -157,7 +169,6 @@ export default function SettingsList({ setActiveView }: Props) {
     </div>
   );
 }
-
 function Item({ icon, text, onClick }: ItemProps) {
   return (
     <div
@@ -165,11 +176,19 @@ function Item({ icon, text, onClick }: ItemProps) {
       className="flex items-center justify-between py-3 cursor-pointer group"
     >
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+        <div
+          className="w-8 h-8 rounded-full flex items-center justify-center 
+          bg-gray-100 dark:bg-gray-700 
+          group-hover:bg-orange-100
+          transition"
+        >
           {icon}
         </div>
 
-        <span className="text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium group-hover:text-orange-500 transition">
+        <span
+          className="text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium 
+          group-hover:text-orange-500 transition"
+        >
           {text}
         </span>
       </div>

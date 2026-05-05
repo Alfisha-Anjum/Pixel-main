@@ -13,7 +13,7 @@ export default function Toggle({ icon, text, state, setState }: ToggleProps) {
           {icon}
         </div>
 
-        <span className="text-[16px] font-medium text-[#1B1B1B] dark:text-gray-200">
+        <span className="text-[16px] font-medium text-[#1B1B1B] dark:text-gray-200 group-hover:text-orange-500 transition">
           {text}
         </span>
       </div>

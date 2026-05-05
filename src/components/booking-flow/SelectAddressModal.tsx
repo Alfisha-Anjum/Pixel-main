@@ -207,7 +207,7 @@ export const SelectAddressModal: React.FC<SelectAddressModalProps> = ({
             >
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
-                 selectedId === String(address.id) 
+                  selectedId === String(address.id)
                     ? "border-orange-500"
                     : "border-gray-300"
                 }`}

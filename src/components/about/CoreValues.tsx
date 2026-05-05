@@ -45,7 +45,7 @@ const Item = ({ item, index }: any) => {
 
       {/* TEXT */}
       <div className="lg:hidden flex flex-col">
-        <h4 className="font-medium">{item.title}</h4>
+        <h4 className="font-medium dark:text-white">{item.title}</h4>
         <p className="text-sm text-gray-500">{item.desc}</p>
       </div>
 
@@ -54,7 +54,9 @@ const Item = ({ item, index }: any) => {
         {/* TOP TEXT */}
         {isTop && (
           <div className="mb-4 text-center">
-            <h4 className="text-[16px] font-medium">{item.title}</h4>
+            <h4 className="text-[16px] font-medium dark:text-white">
+              {item.title}
+            </h4>
             <p className="text-[16px] text-gray-500">{item.desc}</p>
           </div>
         )}
@@ -69,7 +71,7 @@ const Item = ({ item, index }: any) => {
         {/* BOTTOM TEXT */}
         {!isTop && (
           <div className="mt-4 text-center">
-            <h4 className="font-medium">{item.title}</h4>
+            <h4 className="font-medium dark:text-white">{item.title}</h4>
             <p className="text-sm text-gray-500">{item.desc}</p>
           </div>
         )}
@@ -79,10 +81,12 @@ const Item = ({ item, index }: any) => {
 };
 export default function CoreValues() {
   return (
-    <section className="bg-white">
+    <section className="">
       <div className="max-w-full mx-auto">
         <div className="relative max-w-7xl mx-auto">
-          <h2 className="text-3xl font-semibold mb-2">Our Core Values</h2>
+          <h2 className="text-3xl dark:text-white font-semibold mb-2">
+            Our Core Values
+          </h2>
           <p className="text-gray-500 mb-4 lg:mb-20">
             There are many variations of passages of Lorem Ipsum
           </p>
