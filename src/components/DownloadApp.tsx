@@ -55,7 +55,7 @@ const DownloadApp = () => {
               <img
                 src="/mob.png"
                 alt="App Mockup"
-                className="w-full max-w-[280px] h-72 object-contain"
+                className="w-full h-72 object-contain"
               />
             </div>
           </div>

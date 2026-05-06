@@ -35,6 +35,7 @@ export default function CartPage() {
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const [addresses, setAddresses] = useState<any[]>([]);
   const displayAddress = selectedAddress || addresses[0];
+    const [showCoupons, setShowCoupons] = useState(false);
   // const [token, setToken] = useState<string | null>(null);
 
   const token = localStorage.getItem("token");
@@ -380,21 +381,86 @@ export default function CartPage() {
 
             {/* Right: Amount Summary */}
 
-            <div className="lg:col-span-1 gap-5 flex flex-col">
-              <div className="border border-orange-400 rounded-xl p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      Coupons $ Offer
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-300">
-                      Save upto 15% on every booking
-                    </p>
+            <div className="lg:col-span-1 gap-5 flex flex-col  sticky top-6">
+              <div className=" border border-orange-500 rounded-xl px-4 py-3">
+                {/* Header */}
+                <button
+                  onClick={() => setShowCoupons(!showCoupons)}
+                  className="w-full flex items-center justify-between "
+                >
+                  <div className="flex gap-4">
+                    <div className=" ">
+                      <img src="/coupon.png" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-start ">
+                      {" "}
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                        Coupons & Offer
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-300">
+                        Save upto 15% on every booking
+                      </p>
+                    </div>
                   </div>
-                  <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-300" />
-                </div>
+
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-500 dark:text-gray-300 transition-transform ${
+                      showCoupons ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Expand Section */}
+                {showCoupons && (
+                  <div className="mt-8 space-y-4">
+                    {/* Item 1 */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                        %
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <p className="text-sm font-medium text-gray-800">
+                          Assured Cashback on Paytm
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Flat ₹30 Cashback
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Item 2 */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                        %
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          Assured Cashback on CRED
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Get cashback of ₹10
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Item 3 */}
+                    <div className="flex items-start gap-3 pb-6">
+                      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-500 text-white text-xs">
+                        %
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          15% off on Kotak Debit Cards
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          15% off up to ₹250
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="bg-white rounded-2xl border border-gray-200 p-5 sticky top-6">
+              <div className="bg-white rounded-2xl border border-gray-200 p-5">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Amount Summary
                 </h2>
@@ -463,6 +529,7 @@ export default function CartPage() {
           onContinue={(address) => {
             setSelectedAddress(address);
             setShowAddressModal(false);
+            setShowTCModal(true)
           }}
           onAddNew={() => {
             setEditingAddress(null);

@@ -150,8 +150,8 @@ const CardDetailsPage = () => {
     <div className="min-h-screen">
       {/* <Header /> */}
 
-      <main className="py-10  min-h-screen">
-        <div className="max-w-7xl mx-auto py-8">
+      <main className="  min-h-screen">
+        <div className="max-w-7xl mx-auto ">
           <div className="grid grid-cols-2 gap-8">
             <div className="w-full">
               <h1 className="text-3xl font-bold mb-2">Add Card Details</h1>

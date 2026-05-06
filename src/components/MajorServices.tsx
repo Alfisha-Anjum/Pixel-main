@@ -29,7 +29,8 @@ const majorServices = [
   },
 ];
 
-const MajorServices = () => {
+const MajorServices = ({ data = [] }: { data?: any[] }) => {
+  const finalServices = data.length > 0 ? data : majorServices;
   const router = useRouter();
 
   const handleBookService = (serviceTitle: string) => {
@@ -44,7 +45,7 @@ const MajorServices = () => {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {majorServices.map((service, index) => (
+          {finalServices.map((service, index) => (
             <div
               key={index}
               style={{
@@ -73,7 +74,7 @@ const MajorServices = () => {
               >
                 <img
                   src={service.image}
-                  alt={service.title}
+                  alt={service.title || service.name}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -102,7 +103,7 @@ const MajorServices = () => {
                     lineHeight: "1.3",
                   }}
                 >
-                  {service.title}
+                  {service.title || service.name}
                 </h3>
 
                 {/* Rating Row */}
@@ -118,7 +119,7 @@ const MajorServices = () => {
                     }}
                   />
                   <span style={{ fontSize: "13px", color: "#6B7280" }}>
-                    {service.rating}
+                    {Number(service.rating) || 0}
                   </span>
                   <span style={{ fontSize: "13px", color: "#6B7280" }}>
                     ({service.reviews})
@@ -146,24 +147,11 @@ const MajorServices = () => {
                   </span>
 
                   <button
-                    onClick={() => handleBookService(service.title)}
-                    style={{
-                      background: "#F97316",
-                      color: "white",
-                      padding: "8px 16px",
-                      borderRadius: "6px",
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      border: "none",
-                      cursor: "pointer",
-                      transition: "background-color 0.2s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = "#EA580C";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "#F97316";
-                    }}
+                    onClick={() =>
+                      service.slug
+                        ? router.push(`/service/${service.slug}`)
+                        : handleBookService(service.title || service.name)
+                    }
                   >
                     Book Now
                   </button>
