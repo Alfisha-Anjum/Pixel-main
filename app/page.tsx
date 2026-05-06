@@ -13,6 +13,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import DownloadApp from "@/components/DownloadApp";
 import HomeStartupModal from "@/components/HomeStartupModal";
 import ServicesSection from "@/components/ServicesSection";
+import axios from "axios";
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -24,10 +25,40 @@ export default function Home() {
 
   const [isMounted, setIsMounted] = useState(false);
   const [location, setLocation] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<any>(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    fetchDashboardData("Chhattisgarh", "Raipur");
+  }, []);
+
+  const fetchDashboardData = async (state: string, city: string) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(
+      "https://taskpro.itmingo.com/api/customers/dashboard",
+      {
+        params: {
+          state_name: state,
+          city_name: city,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+
+    console.log("DASHBOARD DATA:", res.data);
+    setDashboardData(res.data?.data || res.data);
+  } catch (error: any) {
+    console.log("DASHBOARD API ERROR:", error.response?.data || error);
+  }
+};
 
   useEffect(() => {
     if (user && !user.profileCompleted) {
@@ -62,10 +93,14 @@ export default function Home() {
             const data = await res.json();
 
             const result = data?.results?.[0];
+        
 
             let city = "";
             let state = "";
+            // let city = "";
+            // let state = "";
 
+          
             if (result?.address_components) {
               result.address_components.forEach((component: any) => {
                 if (component.types.includes("locality")) {
@@ -78,6 +113,7 @@ export default function Home() {
             }
 
             const address = result?.formatted_address || "Address not found";
+        
 
             const locationData = {
               latitude,
@@ -86,12 +122,17 @@ export default function Home() {
               city,
               state,
             };
+          
 
             setLocation(locationData);
 
             localStorage.setItem("user_location", JSON.stringify(locationData));
             window.dispatchEvent(new Event("location-updated"));
+
+            await fetchDashboardData(state || "Chhattisgarh", city || "Raipur");
             console.log("LOCATION DATA:", locationData);
+            console.log("FULL GOOGLE RESPONSE:", data);
+            // console.log("FINAL LOCATION DATA:", locationData);
             console.log("FULL GOOGLE RESPONSE:", data);
             // console.log("FINAL LOCATION DATA:", locationData);
             // call your location-wise service API here
@@ -102,13 +143,16 @@ export default function Home() {
         },
         (error) => {
           console.error("Location permission denied:", error);
+          fetchDashboardData("Chhattisgarh", "Raipur");
         },
       );
     };
+    
 
     fetchUserLocation();
   }, [user]);
 
+  
   if (isMounted && user && !user.profileCompleted) {
     return null;
   }
@@ -130,28 +174,43 @@ export default function Home() {
         },
       );
 
-      const data = await res.json();
-      console.log("Location wise services:", data);
-    } catch (error) {
-      console.error("Service API error:", error);
-    }
-  };
+    const data = await res.json();
+    console.log("Location wise services:", data);
+  } catch (error) {
+    console.error("Service API error:", error);
+  }
+};
+console.log("dashboardData", dashboardData);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HomeStartupModal />
 
       <main>
-        <ServiceSection location={location} />
+        <ServiceSection data={dashboardData?.categories || []} />
+
+        {/* <ServiceSection /> */}
         <FeatureSection />
-        <AMCServicePlan />
+        {/* <AMCServicePlan /> */}
+        <AMCServicePlan data={dashboardData?.amc_services || []} />
+
         <AppliancesGrid />
-        <DeepCleaningServices />
-        <CleaningPackage />
-        <HandymanServices />
-        <MajorServices />
+        {/* <DeepCleaningServices /> */}
+        <DeepCleaningServices
+          data={dashboardData?.deep_cleaning_services || []}
+        />
+        {/* <CleaningPackage /> */}
+        <CleaningPackage data={dashboardData?.cleaning_packages || []} />
+
+        {/* <HandymanServices /> */}
+        <HandymanServices data={dashboardData?.handyman_services || []} />
+
+        {/* <MajorServices /> */}
+        <MajorServices data={dashboardData?.major_services || []} />
+
         <ServicePromoSection />
-        <WhyChooseUs />
+        {/* <WhyChooseUs /> */}
+        <WhyChooseUs data={dashboardData?.why_choose_us || []} />
         <DownloadApp />
         <ServicesSection />
       </main>

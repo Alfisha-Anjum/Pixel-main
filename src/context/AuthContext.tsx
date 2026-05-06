@@ -2,19 +2,36 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+// interface User {
+//   id?: string;
+  
+//   firstName?: string;
+//   lastName?: string;
+//   email?: string;
+//   profileImage?: string;
+//   gender?: string;
+  // location?: string;
+  // emailVerified?: boolean;
+  // profileCompleted: boolean;
+// }
+
+
 interface User {
-  id?: string;
+  id?: number;
   phone: string;
   firstName?: string;
   lastName?: string;
   email?: string;
-  profileImage?: string;
+  mobile?: string;
+  alt_mobile?: string;
+  alternateNumber?: string;
   gender?: string;
+  profileImage?: string | null;
   location?: string;
   emailVerified?: boolean;
   profileCompleted: boolean;
+  contactVerified: boolean;
 }
-
 interface AuthContextType {
   user: User | null;
   login: (userData: User) => void;

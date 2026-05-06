@@ -210,7 +210,16 @@ const features = [
       "We provide various choices in order to satisfy the customer and to meet their demand at the standard they want.",
   },
 ];
-const WhyChooseUs = () => {
+const WhyChooseUs = ({ data = [] }: { data?: any[] }) => {
+  const finalFeatures =
+    data.length > 0
+      ? data.map((item) => ({
+          image: "/satis.png",
+          title: item.title,
+          description: item.description,
+        }))
+      : features;
+
   return (
     <section className="py-5 ">
       <div className="container-custom">
@@ -226,7 +235,7 @@ const WhyChooseUs = () => {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
+          {finalFeatures.map((feature, index) => (
             <div
               key={index}
               className="flex gap-4 xl:p-5 hover:shadow-card-hover transition-all duration-200"

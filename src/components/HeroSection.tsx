@@ -1,71 +1,75 @@
 "use client";
 
-import { Star, Shield, CheckCircle, Award } from "lucide-react";
-import Image from "next/image";
-import nikImg from "./nik.png";
-import kkImg from "./kk.png";
+import { useRouter } from "next/navigation";
 
-const HeroSection = () => {
+const handymanServices = [
+  {
+    label: "Electrician",
+    image: "/electrician.png",
+  },
+  {
+    label: "Carpenter",
+    image: "/Carpenter.png",
+  },
+  {
+    label: "Plumber",
+    image: "/plumber.png",
+  },
+  {
+    label: "Furniture Assembly & Dismantle",
+    image: "/Furniture Assembly & Dismantle.png",
+  },
+  {
+    label: "House Reparer",
+    image: "/House Repairer.png",
+  },
+];
+
+const HandymanServices = ({ data = [] }: { data?: any[] }) => {
+  const router = useRouter();
+
+  const finalServices =
+    data.length > 0
+      ? data.map((item) => ({
+          label: item.name,
+          image: item.icon,
+          slug: item.slug,
+        }))
+      : handymanServices;
+
   return (
-    <div className="max-w-7xl mx-auto mb-12">
-      {/* Breadcrumb */}
-      <div className="text-sm text-gray-600 mb-4">
-        Home / AC & Appliance Repair / AC Repair
-      </div>
-      
-      {/* Hero Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-        {/* Left Side - Text */}
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Best Air Condition (AC)<br />Repair Service in Raipur
-            </h1>
-            
-            {/* Rating */}
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <span className="text-gray-700 font-semibold">4.8</span>
-              <span className="text-gray-500">(2,847 Bookings)</span>
+    <section className="py-5 max-w-[90%] mx-auto lg:px-8">
+      <h2 className="text-2xl md:text-2xl font-bold text-foreground dark:text-gray-200 mb-6">
+        Handyman Services
+      </h2>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        {finalServices.map((service, index) => (
+          <div
+            key={index}
+            onClick={() =>
+              service.slug
+                ? router.push(`/service/${service.slug}`)
+                : router.push("/services")
+            }
+            className="text-center group cursor-pointer"
+          >
+            <div className="bg-gray-100 rounded-xl h-36 flex items-center justify-center overflow-hidden">
+              <img
+                src={service.image}
+                alt={service.label}
+                className="h-28 object-contain group-hover:scale-105 transition-transform duration-300"
+              />
             </div>
+
+            <p className="mt-3 text-sm font-medium text-gray-800 dark:text-gray-200">
+              {service.label}
+            </p>
           </div>
-          
-          {/* TASPro Cover Card */}
-          <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <h3 className="font-bold text-lg mb-4 text-gray-900">TASPro Cover</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <Shield className="w-5 h-5 text-green-500" />
-                <span className="text-gray-700">30-Day Service Warranty</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                <span className="text-gray-700">Verified Technicians</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Award className="w-5 h-5 text-green-500" />
-                <span className="text-gray-700">Best Price Guarantee</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Right Side - Images */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="relative h-64 rounded-xl overflow-hidden">
-            <Image src={nikImg} alt="AC Service" fill className="object-cover" />
-          </div>
-          <div className="relative h-64 rounded-xl overflow-hidden">
-            <Image src={kkImg} alt="AC Repair" fill className="object-cover" />
-          </div>
-        </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 
-export default HeroSection;
+export default HandymanServices;

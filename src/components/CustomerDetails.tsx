@@ -1,63 +1,53 @@
 import AlternateNumberModal from "./AlternateNumberModal";
 import { useState } from "react";
 
-export default function CustomerDetails() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+type CustomerDetailsProps = {
+  address?: any;
+  onChangeAddress?: () => void;
+};
+
+export default function CustomerDetails({
+  address,
+  onChangeAddress,
+}: CustomerDetailsProps) {
   return (
-    <div className="w-full bg-white my-6 p-5 rounded-xl border border-gray-200">
-      <h3 className="text-[20px] font-semibold mb-4 text-[#666666]">
-        Customer Details
-      </h3>
+    <div className="w-full my-6 bg-white border border-[#E1E1E1] rounded-xl p-5 mb-4">
+      <div className="flex items-start sm:flex-row flex-col justify-between gap-4">
+        <div>
+          <h3 className="text-base lg:text-lg font-semibold text-[#1B1B1B]">
+            Customer Details
+          </h3>
 
-      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-        <div className="flex gap-3">
-          {/* <MapPin className="text-orange-500" /> */}
-          <div className="w-[32px] h-[32px]">
-            <img src="/map.png" alt="success" />
-          </div>
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-[16px] sm:text-[18px] font-medium text-[#666666]">
-                Mr Tikesh Dewangan{" "}
+          {address ? (
+            <div className="mt-3">
+              <p className="font-medium text-gray-800">
+                {address.full_name || "Customer Name"}
+                <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded">
+                  {address.type || "Home"}
+                </span>
               </p>
-              <div className="flex items-center justify-center w-[68px] h-[28px] bg-[#D9D9D9]">
-                <button className="text-black text-[12px]">Home</button>
-              </div>
+
+              <p className="text-sm text-gray-500 mt-1">
+                {address.house_number}, {address.street},{" "}
+                {address.city?.name || "Raipur"} {address.postal_code}
+              </p>
+
+              <p className="text-sm text-gray-500 mt-1">
+                {address.contact_number}
+              </p>
             </div>
-
-            <p className="text-[14px] sm:text-[16px] text-[#898989]">
-              Office No 201, Atlantis Corporate Park, Ring Road No.1,
-              Telibandha, Raipur 492001
-            </p>
-            <p className="text-[14px] sm:text-[16px] text-[#898989] mt-1">
-              +91 7247799900
-            </p>
-
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="text-[#413EFF] text-[14px] sm:text-[18px] mt-2 cursor-pointer"
-            >
-              Add Alternate Number
-            </button>
-          </div>
+          ) : (
+            <p className="text-sm text-gray-500 mt-3">No address selected</p>
+          )}
         </div>
 
-        <button className="w-full md:w-[180px] h-[44px] p-[1px] rounded-lg bg-gradient-to-r from-[#FEC12D] to-[#FF552C]">
-          <span className="flex items-center justify-center w-full h-full bg-white rounded-lg">
-            <span className="bg-gradient-to-r from-[#FEC12D] to-[#FF552C] font-semibold bg-clip-text text-transparent font-medium cursor-pointer">
-              Change Address
-            </span>
-          </span>
+        <button
+          onClick={onChangeAddress}
+          className="border border-orange-500 text-orange-500 px-4 py-1.5 rounded-lg text-sm whitespace-nowrap"
+        >
+          Change Address
         </button>
       </div>
-      <AlternateNumberModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={(num) => {
-          console.log("Saved:", num);
-          setIsModalOpen(false);
-        }}
-      />
     </div>
   );
 }
