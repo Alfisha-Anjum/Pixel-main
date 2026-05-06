@@ -27,7 +27,8 @@ const amcPlans = [
   },
 ];
 
-const AMCServicePlan = () => {
+const AMCServicePlan = ({ data = [] }: { data?: any[] }) => {
+  const finalPlans = data.length > 0 ? data : amcPlans;
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -37,8 +38,6 @@ const AMCServicePlan = () => {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
-
-  
   const checkScrollState = () => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -197,7 +196,7 @@ const AMCServicePlan = () => {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Duplicate slides for infinite loop effect */}
-          {[...amcPlans, ...amcPlans].map((plan, index) => (
+          {[...finalPlans, ...finalPlans].map((plan, index) => (
             <div
               key={index}
               className=" sm:min-w-[50%] lg:min-w-[30%] flex-shrink-0 snap-center"

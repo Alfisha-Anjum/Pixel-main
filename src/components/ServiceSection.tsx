@@ -74,10 +74,11 @@ const getColorClasses = (color: string) => {
   };
   return colors[color] || colors.gray;
 };
-
-export default function ServiceSection() {
+export default function ServiceSection({ data = [] }: { data?: any[] }) {
   const router = useRouter();
   const [showApplianceModal, setShowApplianceModal] = useState(false);
+
+  const finalServices = data.length > 0 ? data : services;
   return (
     <section className="w-full pb-10 px-5">
       <div className="max-w-7xl mx-auto">
@@ -91,29 +92,30 @@ export default function ServiceSection() {
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-14 xl:pb-0 pb-10">
-              {services.map((service, index) => {
-                const { card, icon } = getColorClasses(service.color);
-                const Icon = service.icon;
+              {finalServices.map((service, index) => {
+                const { card, icon } = getColorClasses(service.color || "blue");
+                const Icon = services[index]?.icon || Snowflake;
 
                 return (
                   <div
-                    key={index}
+                    key={service.id || index}
                     className="flex flex-col items-center cursor-pointer group"
                     onClick={() => {
-                      if (service.title === "AC & Appliance Repair") {
+                      if (service.slug?.includes("appliances")) {
                         setShowApplianceModal(true);
                       } else {
-                        router.push(service.link);
+                        router.push(`/service/${service.slug}`);
                       }
                     }}
                   >
                     <div
-                      className={`${card} w-32 h-24 sm:w-32 sm:h-24 rounded-3xl flex items-center justify-center transition-all duration-300 group-hover:scale-105`}
+                      className={`${card} w-32 h-24 sm:w-32 sm:h-24 rounded-3xl flex items-center justify-center`}
                     >
                       <Icon className={`w-12 h-12 ${icon}`} />
                     </div>
-                    <p className="mt-4 text-sm font-semibold text-gray-800 dark:text-gray-300 text-center leading-tight group-hover:text-orange-600 transition-colors">
-                      {service.title}
+
+                    <p className="mt-4 text-sm font-semibold text-gray-800 dark:text-gray-300 text-center">
+                      {service.name || service.title}
                     </p>
                   </div>
                 );

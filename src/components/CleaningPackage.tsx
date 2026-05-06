@@ -33,12 +33,13 @@ const packages = [
   },
 ];
 
-const CleaningPackage = () => {
+const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
+  const finalPackages = data.length > 0 ? data : packages;
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
-    const [canScroll, setCanScroll] = useState(false);
-    const [atStart, setAtStart] = useState(true);
-    const [atEnd, setAtEnd] = useState(false);
+  const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -52,51 +53,51 @@ const CleaningPackage = () => {
     }
   };
 
-    const checkScrollState = () => {
-      const slider = sliderRef.current;
-      if (!slider) return;
-  
-      const { scrollLeft, scrollWidth, clientWidth } = slider;
-  
-      setCanScroll(scrollWidth > clientWidth);
-      setAtStart(scrollLeft <= 5);
-      setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
-    };
-  
-    useEffect(() => {
-      checkScrollState();
-  
-      const slider = sliderRef.current;
-  
+  const checkScrollState = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+  };
+
+  useEffect(() => {
+    checkScrollState();
+
+    const slider = sliderRef.current;
+
+    if (slider) {
+      slider.addEventListener("scroll", checkScrollState);
+    }
+
+    window.addEventListener("resize", checkScrollState);
+
+    return () => {
       if (slider) {
-        slider.addEventListener("scroll", checkScrollState);
+        slider.removeEventListener("scroll", checkScrollState);
       }
-  
-      window.addEventListener("resize", checkScrollState);
-  
-      return () => {
-        if (slider) {
-          slider.removeEventListener("scroll", checkScrollState);
-        }
-        window.removeEventListener("resize", checkScrollState);
-      };
-    }, []);
-    const checkScrollable = () => {
-      const slider = sliderRef.current;
-      if (!slider) return;
-  
-      setCanScroll(slider.scrollWidth > slider.clientWidth);
+      window.removeEventListener("resize", checkScrollState);
     };
-  
-    useEffect(() => {
-      checkScrollable();
-  
-      window.addEventListener("resize", checkScrollable);
-  
-      return () => {
-        window.removeEventListener("resize", checkScrollable);
-      };
-    }, []);
+  }, []);
+  const checkScrollable = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    setCanScroll(slider.scrollWidth > slider.clientWidth);
+  };
+
+  useEffect(() => {
+    checkScrollable();
+
+    window.addEventListener("resize", checkScrollable);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollable);
+    };
+  }, []);
 
   return (
     <LayoutContainer>
@@ -108,34 +109,26 @@ const CleaningPackage = () => {
 
       <div className="relative group">
         <div
-        <div
           ref={sliderRef}
           className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
           style={{ gap: "20px" }}
-          style={{ gap: "20px" }}
         >
-          {packages.map((pkg, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 snap-center"
-              style={{ width: "382px", height: "228px" }}
-            >
+          {finalPackages.map((pkg, index) => (
             <div
               key={index}
               className="flex-shrink-0 snap-center"
               style={{ width: "382px", height: "228px" }}
             >
               <PackageCard
-                title={pkg.title}
-                subtitle={pkg.subtitle}
-                image={pkg.image}
-                onBook={() => router.push("/services")}
+                title={pkg.title || pkg.name}
+                subtitle={pkg.subtitle || "Best Value"}
+                image={pkg.image || pkg.icon}
+                onBook={() => router.push(`/service/${pkg.slug || "services"}`)}
               />
             </div>
           ))}
         </div>
 
-        {/* Navigation Buttons */}
         {canScroll && !atStart && (
           <button
             onClick={scrollLeft}

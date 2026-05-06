@@ -58,7 +58,14 @@ const cleaningServices = [
   },
 ];
 
-const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
+const DeepCleaningServices = ({
+  title = "Deep Cleaning Services",
+  data = [],
+}: {
+  title?: string;
+  data?: any[];
+}) => {
+  const finalServices = data.length > 0 ? data : cleaningServices;
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -182,17 +189,23 @@ const DeepCleaningServices = ({ title = "Deep Cleaning Services" }) => {
               className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
               style={{ gap: "20px" }}
             >
-              {cleaningServices.map((service, index) => (
+              {finalServices.map((service, index) => (
                 <div key={index} className="flex-shrink-0 snap-center">
                   <ServiceCard
-                    title={service.title}
-                    image={service.image}
-                    rating={service.rating}
-                    reviewCount={service.reviews}
-                    price={service.price}
-                    originalPrice={service.originalPrice}
-                    duration={service.duration}
-                    onAdd={() => handleBookService(service.title)}
+                    title={service.title || service.name}
+                    image={service.image || service.icon}
+                    rating={Number(service.rating) || 0}
+                    reviewCount={service.reviews || 0}
+                    price={service.price || service.visiting_charge || 0}
+                    originalPrice={
+                      service.originalPrice || service.oldPrice || 0
+                    }
+                    duration={`${service.duration || 30} min`}
+                    onAdd={() =>
+                      router.push(
+                        `/service/${service.slug || (service.title || service.name).toLowerCase().replace(/\s+/g, "-")}`,
+                      )
+                    }
                   />
                 </div>
               ))}

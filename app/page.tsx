@@ -31,6 +31,10 @@ export default function Home() {
     setIsMounted(true);
   }, []);
 
+  useEffect(() => {
+    fetchDashboardData("Chhattisgarh", "Raipur");
+  }, []);
+
   const fetchDashboardData = async (state: string, city: string) => {
   try {
     const token = localStorage.getItem("token");
@@ -89,23 +93,14 @@ export default function Home() {
             const data = await res.json();
 
             const result = data?.results?.[0];
-            const result = data?.results?.[0];
+        
 
             let city = "";
             let state = "";
-            let city = "";
-            let state = "";
+            // let city = "";
+            // let state = "";
 
-            if (result?.address_components) {
-              result.address_components.forEach((component: any) => {
-                if (component.types.includes("locality")) {
-                  city = component.long_name;
-                }
-                if (component.types.includes("administrative_area_level_1")) {
-                  state = component.long_name;
-                }
-              });
-            }
+          
             if (result?.address_components) {
               result.address_components.forEach((component: any) => {
                 if (component.types.includes("locality")) {
@@ -118,7 +113,7 @@ export default function Home() {
             }
 
             const address = result?.formatted_address || "Address not found";
-            const address = result?.formatted_address || "Address not found";
+        
 
             const locationData = {
               latitude,
@@ -127,13 +122,7 @@ export default function Home() {
               city,
               state,
             };
-            const locationData = {
-              latitude,
-              longitude,
-              address,
-              city,
-              state,
-            };
+          
 
             setLocation(locationData);
 
@@ -198,21 +187,30 @@ console.log("dashboardData", dashboardData);
       <HomeStartupModal />
 
       <main>
-        <ServiceSection data={dashboardData?.services} />
-        <AMCServicePlan data={dashboardData?.amc_plans} />
-        <DeepCleaningServices data={dashboardData?.deep_cleaning_services} />
-        <HandymanServices data={dashboardData?.handyman_services} />
-        <MajorServices data={dashboardData?.major_services} />
+        <ServiceSection data={dashboardData?.categories || []} />
+
         {/* <ServiceSection /> */}
         <FeatureSection />
         {/* <AMCServicePlan /> */}
+        <AMCServicePlan data={dashboardData?.amc_services || []} />
+
         <AppliancesGrid />
         {/* <DeepCleaningServices /> */}
-        <CleaningPackage />
+        <DeepCleaningServices
+          data={dashboardData?.deep_cleaning_services || []}
+        />
+        {/* <CleaningPackage /> */}
+        <CleaningPackage data={dashboardData?.cleaning_packages || []} />
+
         {/* <HandymanServices /> */}
+        <HandymanServices data={dashboardData?.handyman_services || []} />
+
         {/* <MajorServices /> */}
+        <MajorServices data={dashboardData?.major_services || []} />
+
         <ServicePromoSection />
-        <WhyChooseUs />
+        {/* <WhyChooseUs /> */}
+        <WhyChooseUs data={dashboardData?.why_choose_us || []} />
         <DownloadApp />
         <ServicesSection />
       </main>
