@@ -33,7 +33,7 @@ export default function WhatSetsUsApart() {
     <section className="w-full max-w-[1240px] mx-auto px-4 py-10 md:py-16 flex flex-col lg:flex-row gap-10">
       {/* LEFT SIDE */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-3">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-3 dark:text-white">
           What sets us apart?
         </h2>
 
@@ -51,7 +51,7 @@ export default function WhatSetsUsApart() {
 
               {/* Text */}
               <div>
-                <h3 className="text-base md:text-lg font-medium">
+                <h3 className="text-base md:text-lg font-medium dark:text-gray-300">
                   {item.title}
                 </h3>
                 <p className="text-sm md:text-base text-gray-500">

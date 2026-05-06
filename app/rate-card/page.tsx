@@ -12,7 +12,9 @@ const RateCardPage = () => {
       {/* <Header /> */}
 
       <div className="max-w-7xl mx-auto p-0 md:p-8">
-        <h1 className="text-2xl font-semibold mb-6">Rate Card</h1>
+        <h1 className="text-2xl font-semibold mb-6 dark:text-white">
+          Rate Card
+        </h1>
 
         <div className="bg-white rounded-2xl border p-0 sm:p-6">
           {/* Orange Info Box */}

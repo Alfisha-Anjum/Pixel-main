@@ -12,8 +12,8 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="bg-white max-w-[1240px] mx-auto pt-8 px-16 md:px-0">
-      <h2 className="text-3xl font-semibold mb-6">About Us</h2>
+    <section className="max-w-[1240px] mx-auto pt-8 px-16 md:px-0">
+      <h2 className="text-3xl dark:text-white font-semibold mb-6">About Us</h2>
 
       <p className="text-gray-600 mb-6">
         Welcome to <span className="font-semibold">TASPRO Company</span>by DEJA
@@ -23,7 +23,9 @@ export default function AboutSection() {
         hire independent service professionals who can meet your unique needs.
       </p>
 
-      <h3 className="text-xl font-semibold mt-6 mb-2">Who are we?</h3>
+      <h3 className="text-xl font-semibold dark:text-white mt-6 mb-2">
+        Who are we?
+      </h3>
       <p className="text-gray-600 mb-6">
         At DEJA Tech LLC, we take a customer-centric approach to developing
         intuitive service apps that prioritize your satisfaction and deliver
@@ -33,7 +35,7 @@ export default function AboutSection() {
         you and the services you require.
       </p>
 
-      <h3 className="text-xl font-semibold mt-6 mb-4">
+      <h3 className="text-xl font-semibold dark:text-white mt-6 mb-4">
         What makes TASPro Company the best?
       </h3>
       <p className="mb-6 text-[#414141]">
