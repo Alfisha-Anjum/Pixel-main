@@ -66,46 +66,51 @@ export default function SettingsList({ setActiveView }: Props) {
   };
 
   const addCustomerAddress = async (formData: any) => {
-  const token = localStorage.getItem("token");
-  if (!token) return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-  const cleanPhone = (value: string) => {
-    const digits = value.replace(/\D/g, "").replace(/^91/, "").replace(/^0/, "");
-    return `+91 ${digits}`;
-  };
+    const cleanPhone = (value: string) => {
+      const digits = value
+        .replace(/\D/g, "")
+        .replace(/^91/, "")
+        .replace(/^0/, "");
+      return `+91 ${digits}`;
+    };
 
-  const payload = {
-    full_name: formData.fullName || formData.name || "",
-    contact_number: cleanPhone(formData.contactNumber || formData.phone || ""),
-    alt_contact_number: cleanPhone(
-      formData.alternateNumber || formData.altPhone || formData.phone || ""
-    ),
-    postal_code: formData.postalCode || formData.pincode || "",
-    latitude: formData.latitude || 21.2514,
-    longitude: formData.longitude || 81.6296,
-    country_id: 1,
-    state_id: 1,
-    city_id: 1,
-    state_name: formData.state_name || formData.state || "Chhattisgarh",
-    city_name: formData.city_name || formData.city || "Raipur",
-    house_number: formData.houseNo || "",
-    street: formData.street || formData.location || formData.address || "",
-    type: "Home",
-    is_active: 1,
-  };
+    const payload = {
+      full_name: formData.fullName || formData.name || "",
+      contact_number: cleanPhone(
+        formData.contactNumber || formData.phone || "",
+      ),
+      alt_contact_number: cleanPhone(
+        formData.alternateNumber || formData.altPhone || formData.phone || "",
+      ),
+      postal_code: formData.postalCode || formData.pincode || "",
+      latitude: formData.latitude || 21.2514,
+      longitude: formData.longitude || 81.6296,
+      country_id: 1,
+      state_id: 1,
+      city_id: 1,
+      state_name: formData.state_name || formData.state || "Chhattisgarh",
+      city_name: formData.city_name || formData.city || "Raipur",
+      house_number: formData.houseNo || "",
+      street: formData.street || formData.location || formData.address || "",
+      type: "Home",
+      is_active: 1,
+    };
 
-  await axios.post(
-    "https://taskpro.itmingo.com/api/customers/customer-addresses",
-    payload,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
+    await axios.post(
+      "https://taskpro.itmingo.com/api/customers/customer-addresses",
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       },
-    }
-  );
-};
+    );
+  };
 
   const handleSavedAddressClick = async () => {
     setIsAddressModalOpen(true);
@@ -129,7 +134,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
   return (
     <div className="w-full max-w-[390px] mx-auto lg:ml-12 px-4 lg:px-0">
-      <h2 className="text-[20px] font-semibold text-[#1B1B1B] mb-4">
+      <h2 className="text-[20px] font-semibold text-[#1B1B1B] dark:text-white mb-4">
         Account Settings
       </h2>
 
@@ -205,7 +210,7 @@ export default function SettingsList({ setActiveView }: Props) {
         />
       </div>
 
-      <h3 className="text-[20px] font-semibold text-[#1B1B1B] mt-8 mb-4">
+      <h3 className="text-[20px] font-semibold text-[#1B1B1B] dark:text-white mt-8 mb-4">
         My Activity
       </h3>
 

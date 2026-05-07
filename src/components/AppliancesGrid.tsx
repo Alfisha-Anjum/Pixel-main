@@ -105,7 +105,7 @@ const AppliancesGrid = () => {
   return (
     <section className="w-full py-15">
       <LayoutContainer>
-        <h2 className="text-2xl font-semibold text-gray-900 mb-5">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-5">
           Appliances Repair & Service
         </h2>
 
@@ -130,7 +130,7 @@ const AppliancesGrid = () => {
                     }}
                   />
                 </div>
-                <span className="text-sm text-gray-700 font-medium leading-tight">
+                <span className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-tight">
                   {appliance.label}
                 </span>
               </div>
