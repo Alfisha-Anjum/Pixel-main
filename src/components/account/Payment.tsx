@@ -6,7 +6,11 @@ import { BankAccountModal } from "@/components/account/Modals/BankAccountModal";
 import axios from "axios";
 import { useEffect } from "react";
 
-export default function SavedPayments() {
+type Props = {
+  setActiveView: (view: string) => void;
+};
+
+export default function SavedPayments({ setActiveView }: Props) {
   const [isBankModalOpen, setIsBankModalOpen] = useState(false);
   const [cards, setCards] = useState<any[]>([]);
 
@@ -47,9 +51,19 @@ export default function SavedPayments() {
     <div className="md:min-h-screen flex flex-col">
       {/* HEADER */}
       <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 py-3 shadow-sm">
-        <h1 className="text-base dark:text-white sm:text-lg font-semibold">
+        <div className="w-full flex justify-between items-center mb-6 md:hidden">
+          {/* Back */}
+          <button
+            onClick={() => setActiveView("default")}
+            className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+          >
+            <ArrowLeft size={20} />
+            Saved Payment Methods
+          </button>
+        </div>
+        <h2 className="hidden md:block text-base dark:text-white sm:text-lg font-semibold">
           Saved Payment Methods
-        </h1>
+        </h2>
       </div>
 
       {/* MAIN WRAPPER */}

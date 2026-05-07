@@ -77,53 +77,53 @@ const ACRepairLayout = () => {
   const [canScroll, setCanScroll] = useState(false);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
-const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
+  const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
 
- const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
-   const slider = ref.current;
-   if (!slider) return;
+  const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
+    const slider = ref.current;
+    if (!slider) return;
 
-   const { scrollLeft, scrollWidth, clientWidth } = slider;
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
 
-   setCanScroll(scrollWidth > clientWidth);
-   setAtStart(scrollLeft <= 5);
-   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
- };
- useEffect(() => {
-  const slider = brandsRef.current;
-  if (!slider) return;
-
-  const handleScroll = () => {
-    setActiveScroll("brands");
-    checkScrollState(brandsRef);
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
   };
+  useEffect(() => {
+    const slider = brandsRef.current;
+    if (!slider) return;
 
-  slider.addEventListener("scroll", handleScroll);
-  window.addEventListener("resize", () => checkScrollState(brandsRef));
+    const handleScroll = () => {
+      setActiveScroll("brands");
+      checkScrollState(brandsRef);
+    };
 
-  return () => {
-    slider.removeEventListener("scroll", handleScroll);
-  };
-}, []);
+    slider.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", () => checkScrollState(brandsRef));
 
- useEffect(() => {
-  const slider = tabsRef.current;
-  if (!slider) return;
+    return () => {
+      slider.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-  const handleScroll = () => {
-    setActiveScroll("tabs");
+  useEffect(() => {
+    const slider = tabsRef.current;
+    if (!slider) return;
+
+    const handleScroll = () => {
+      setActiveScroll("tabs");
+      checkScrollState(tabsRef);
+    };
+
+    slider.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", () => checkScrollState(tabsRef));
+
     checkScrollState(tabsRef);
-  };
 
-  slider.addEventListener("scroll", handleScroll);
-  window.addEventListener("resize", () => checkScrollState(tabsRef));
-
-  checkScrollState(tabsRef);
-
-  return () => {
-    slider.removeEventListener("scroll", handleScroll);
-  };
-}, []);
+    return () => {
+      slider.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const checkScrollable = () => {
     const slider = tabsRef.current;
@@ -408,6 +408,12 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
     );
   };
 
+  const totalSavings = cartItems.reduce(
+    (acc, item) =>
+      acc + (item.originalPrice + 50 - item.discountedPrice) * item.quantity,
+    0,
+  );
+
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const scroll = (
@@ -436,7 +442,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
             <Link href="/" className="hover:text-[#FF6A00]">
               Home
             </Link>
-{/* 
+            {/* 
             {service?.category && (
               <>
                 <span className="mx-2">/</span>
@@ -452,7 +458,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
             {service?.name && (
               <>
                 <span className="mx-2">/</span>
-                <span className="text-gray-900 font-semibold">
+                <span className="text-gray-900 dark:text-white font-semibold">
                   {service.name}
                 </span>
               </>
@@ -569,30 +575,17 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                 {/* Scroll Container */}
                 <div
                   ref={tabsRef}
-                  className="
-      flex gap-4 md:gap-6
-      overflow-x-auto
-      scroll-smooth hide-scrollbar
-      px-1 sm:px-12
-      w-full
-    "
+                  className="flex gap-4 md:gap-6 overflow-x-auto scroll-smooth hide-scrollbar px-1 sm:px-12 w-full"
                 >
                   {tabs.map((tab) => (
-                    <div
-                      key={tab.id}
-                      className="flex-shrink-0 
-           w-1/2 "
-                    >
+                    <div key={tab.id} className="flex-shrink-0 w-1/2 ">
                       <div
                         onClick={() => setActiveTab(tab.id)}
-                        className={`
-            cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border 
-            ${
-              activeTab === tab.id
-                ? "border-[#FF6A00] shadow-md"
-                : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
-            }
-          `}
+                        className={`cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border ${
+                          activeTab === tab.id
+                            ? "border-[#FF6A00] shadow-md"
+                            : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
+                        }`}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) =>
@@ -717,7 +710,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                           {/* Price Row */}
                           <div className="flex  flex-col mt-2">
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-gray-900">
+                              <span className="font-semibold text-gray-900 dark:text-white">
                                 ₹{subService.discountedPrice}
                               </span>
                               {subService.originalPrice && (
@@ -855,7 +848,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                           )}
                         </p>
                         <p className="text-green-600 text-xs font-semibold">
-                          You save ₹102 on this order
+                          You save ₹{totalSavings} on this order
                         </p>
                       </div>
 
@@ -1284,7 +1277,14 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           <h2 className="text-2xl font-semibold dark:text-white">
             AC Repair service in Raipur
           </h2>
-          <p className="dark:text-gray-300">
+
+          <p className="text-gray-600 leading-relaxed text-justify">
+            There are many variations of passages of Lorem Ipsum available, but
+            the majority have suffered alteration in some form, by injected
+            humour, or randomized words which don't look even slightly
+            believable. If you are going to use a passage of Lorem Ipsum, you
+            need to be sure there isn't anything embarrassing hidden in the
+            middle of text. All the Lorem Ipsum generators on the Internet tend
             to repeat predefined chunks as necessary, making this the first true
             generator on the Internet. It uses a dictionary of over 200 Latin
             words, combined with a handful of model sentence structures, to
@@ -1301,7 +1301,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           <h2 className="text-2xl font-semibold dark:text-white">
             Hiring guide for AC Repair service in Raipur
           </h2>
-          <p className="dark:text-gray-300">
+          <p>
             There are many variations of passages of Lorem Ipsum available, but
             the majority have suffered alteration in some form, by injected
             humour, or randomized words which don't look even slightly
