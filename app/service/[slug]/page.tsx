@@ -341,6 +341,12 @@ const ACRepairLayout = () => {
     );
   };
 
+  const totalSavings = cartItems.reduce(
+    (acc, item) =>
+      acc + (item.originalPrice + 50 - item.discountedPrice) * item.quantity,
+    0,
+  );
+
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const scroll = (
@@ -385,7 +391,7 @@ const ACRepairLayout = () => {
             {service?.name && (
               <>
                 <span className="mx-2">/</span>
-                <span className="text-gray-900 font-semibold">
+                <span className="text-gray-900 dark:text-white font-semibold">
                   {service.name}
                 </span>
               </>
@@ -501,30 +507,17 @@ const ACRepairLayout = () => {
                 {/* Scroll Container */}
                 <div
                   ref={tabsRef}
-                  className="
-      flex gap-4 md:gap-6
-      overflow-x-auto
-      scroll-smooth hide-scrollbar
-      px-1 sm:px-12
-      w-full
-    "
+                  className="flex gap-4 md:gap-6 overflow-x-auto scroll-smooth hide-scrollbar px-1 sm:px-12 w-full"
                 >
                   {tabs.map((tab) => (
-                    <div
-                      key={tab.id}
-                      className="flex-shrink-0 
-           w-1/2 "
-                    >
+                    <div key={tab.id} className="flex-shrink-0 w-1/2 ">
                       <div
                         onClick={() => setActiveTab(tab.id)}
-                        className={`
-            cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border 
-            ${
-              activeTab === tab.id
-                ? "border-[#FF6A00] shadow-md"
-                : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
-            }
-          `}
+                        className={`cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border ${
+                          activeTab === tab.id
+                            ? "border-[#FF6A00] shadow-md"
+                            : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
+                        }`}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) =>
@@ -648,7 +641,7 @@ const ACRepairLayout = () => {
                           {/* Price Row */}
                           <div className="flex  flex-col mt-2">
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-gray-900">
+                              <span className="font-semibold text-gray-900 dark:text-white">
                                 ₹{subService.discountedPrice}
                               </span>
                               {subService.originalPrice && (
@@ -786,7 +779,7 @@ const ACRepairLayout = () => {
                           )}
                         </p>
                         <p className="text-green-600 text-xs font-semibold">
-                          You save ₹102 on this order
+                          You save ₹{totalSavings} on this order
                         </p>
                       </div>
 
@@ -1211,7 +1204,7 @@ const ACRepairLayout = () => {
           <h2 className="text-2xl font-semibold dark:text-white">
             AC Repair service in Raipur
           </h2>
-          <p className="dark:text-gray-300">
+          <p className="dark:text-gray-300 text-justify">
             to repeat predefined chunks as necessary, making this the first true
             generator on the Internet. It uses a dictionary of over 200 Latin
             words, combined with a handful of model sentence structures, to
@@ -1228,7 +1221,7 @@ const ACRepairLayout = () => {
           <h2 className="text-2xl font-semibold dark:text-white">
             Hiring guide for AC Repair service in Raipur
           </h2>
-          <p className="dark:text-gray-300">
+          <p className="dark:text-gray-300 text-justify">
             There are many variations of passages of Lorem Ipsum available, but
             the majority have suffered alteration in some form, by injected
             humour, or randomized words which don't look even slightly

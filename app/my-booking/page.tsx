@@ -312,7 +312,7 @@ const MyBookingPage = () => {
   return (
     <div className="min-h-screen dark:bg-gray-900">
       {/* <Header /> */}
-      <div className="max-w-7xl mx-auto sm:px-0 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-8">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link className="hover:text-orange-500 cursor-pointer" href="/">
             Home
@@ -322,7 +322,7 @@ const MyBookingPage = () => {
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "My Booking" }]}
         />
-        <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 w-full mx-auto">
+        <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
           {/* Sidebar */}
           {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
