@@ -26,7 +26,15 @@ const handymanServices = [
   },
 ];
 
-const HandymanServices = () => {
+const HandymanServices = ({ data = [] }: { data?: any[] }) => {
+  const finalServices =
+    data.length > 0
+      ? data.map((item) => ({
+          label: item.name,
+          image: item.icon,
+          slug: item.slug,
+        }))
+      : handymanServices;
   return (
     <section className="py-5 max-w-[90%] mx-auto lg:px-8">
       <div className="">
@@ -35,7 +43,7 @@ const HandymanServices = () => {
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {handymanServices.map((service, index) => (
+          {finalServices.map((service, index) => (
             <div key={index} className="text-center group cursor-pointer">
               {/* Image Card */}
               <div className="bg-gray-100 rounded-xl h-36 flex items-center justify-center overflow-hidden">

@@ -74,11 +74,41 @@ const getColorClasses = (color: string) => {
   };
   return colors[color] || colors.gray;
 };
-export default function ServiceSection({ data = [] }: { data?: any[] }) {
+
+
+export default function ServiceSection({
+  data = [],
+  applianceData = [],
+}: {
+  data?: any[];
+  applianceData?: any[];
+}) {
   const router = useRouter();
   const [showApplianceModal, setShowApplianceModal] = useState(false);
 
+  const fetchCategoryServices = async (service: any) => {
+  try {
+    const res = await fetch(
+      `https://taskpro.itmingo.com/api/services?state=Chhattisgarh&city=Raipur&state_id=1&service_category_id=${service.id}&service_category_name=${encodeURIComponent(service.name)}&state_name=Chhattisgarh&city_name=Raipur`,
+      {
+        headers: {
+          accept: "application/json",
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    console.log("CATEGORY SERVICES:", data);
+
+    router.push(`/service/${service.slug}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   const finalServices = data.length > 0 ? data : services;
+
   return (
     <section className="w-full pb-10 px-5">
       <div className="max-w-7xl mx-auto">
@@ -101,10 +131,10 @@ export default function ServiceSection({ data = [] }: { data?: any[] }) {
                     key={service.id || index}
                     className="flex flex-col items-center cursor-pointer group"
                     onClick={() => {
-                      if (service.slug?.includes("appliances")) {
+                      if (service.name === "Appliances Repair & Service") {
                         setShowApplianceModal(true);
                       } else {
-                        router.push(`/service/${service.slug}`);
+                       fetchCategoryServices(service);
                       }
                     }}
                   >
@@ -134,18 +164,19 @@ export default function ServiceSection({ data = [] }: { data?: any[] }) {
             />
 
             {/* Slider Navigation Buttons */}
-            <button className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 duration-300">
+            {/* <button className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 duration-300">
               <ChevronLeft className="w-6 h-6 text-gray-800" />
             </button>
             <button className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 duration-300">
               <ChevronRight className="w-6 h-6 text-gray-800" />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
       <ApplianceModal
         isOpen={showApplianceModal}
         onClose={() => setShowApplianceModal(false)}
+        data={applianceData}
       />
     </section>
   );

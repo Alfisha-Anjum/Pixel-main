@@ -48,9 +48,22 @@ const appliances = [
 interface ApplianceModalProps {
   isOpen: boolean;
   onClose: () => void;
+  data?: any[];
 }
 
-const ApplianceModal = ({ isOpen, onClose }: ApplianceModalProps) => {
+const ApplianceModal = ({
+  isOpen,
+  onClose,
+  data = [],
+}: ApplianceModalProps) => {
+  const finalAppliances =
+    data.length > 0
+      ? data.map((item) => ({
+          image: item.icon,
+          label: item.name,
+          slug: item.slug,
+        }))
+      : appliances.filter((item) => item.label !== "See All");
   const router = useRouter();
 
   useEffect(() => {
@@ -86,29 +99,27 @@ const ApplianceModal = ({ isOpen, onClose }: ApplianceModalProps) => {
 
         {/* Grid */}
         <div className="grid grid-cols-4 gap-3">
-          {appliances
-            .filter((item) => item.label !== "See All")
-            .map((item, i) => (
-              <a
-                key={i}
-                href={`/service/${item.slug}`}
-                className="flex flex-col items-center gap-1"
-              >
-                {/* Circle Icon */}
-                <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
-                  <img
-                    src={item.image}
-                    alt={item.label}
-                    className="h-7 object-contain"
-                  />
-                </div>
+          {finalAppliances.map((item, i) => (
+            <a
+              key={i}
+              href={`/service/${item.slug?.startsWith("ac-repair") ? "ac-repair" : item.slug}`}
+              className="flex flex-col items-center gap-1"
+            >
+              {/* Circle Icon */}
+              <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
+                <img
+                  src={item.image}
+                  alt={item.label}
+                  className="h-7 object-contain"
+                />
+              </div>
 
-                {/* Label */}
-                <span className="text-[10px] text-center text-gray-600 leading-tight">
-                  {item.label}
-                </span>
-              </a>
-            ))}
+              {/* Label */}
+              <span className="text-[10px] text-center text-gray-600 leading-tight">
+                {item.label}
+              </span>
+            </a>
+          ))}
         </div>
       </div>
     </div>

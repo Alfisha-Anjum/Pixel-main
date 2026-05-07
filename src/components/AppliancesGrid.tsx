@@ -53,7 +53,18 @@ interface ApplianceItem {
   label: string;
   slug?: string;
 }
-const AppliancesGrid = () => {
+const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
+  const finalAppliances =
+    data.length > 0
+      ? [
+          ...data.map((item: any) => ({
+            image: item.icon,
+            label: item.name,
+            slug: item.slug,
+          })),
+          { image: "/see-all.png", label: "See All" },
+        ]
+      : appliances;
   const router = useRouter();
   const [modalSource, setModalSource] = useState<"default" | "amc">("default");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,11 +103,21 @@ const AppliancesGrid = () => {
     };
   }, [isModalOpen]);
 
+  const getRouteSlug = (slug?: string) => {
+  if (!slug) return "";
+
+  if (slug.startsWith("ac-repair")) return "ac-repair";
+  if (slug.startsWith("washing-repair")) return "washing-repair";
+  if (slug.startsWith("carpenter")) return "carpenter";
+
+  return slug;
+};
+
   const handleCardClick = (item: ApplianceItem) => {
     if (item.label === "See All") {
       setIsModalOpen(true);
     } else if (item.slug) {
-      router.push(`/service/${item.slug}`);
+    router.push(`/service/${getRouteSlug(item.slug)}`);
     }
   };
   // Filter out "See All" for modal content
@@ -112,7 +133,7 @@ const AppliancesGrid = () => {
         {/* Desktop Layout - 6 cards per row */}
         <div className="hidden lg:block">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {appliances.map((appliance, index) => (
+            {finalAppliances.map((appliance, index) => (
               <div
                 key={index}
                 onClick={() => handleCardClick(appliance)}
@@ -141,7 +162,7 @@ const AppliancesGrid = () => {
         {/* Tablet Layout - 3 cards per row */}
         <div className="hidden md:block lg:hidden">
           <div className="grid grid-cols-4 gap-4 justify-items-center">
-            {appliances.map((item, index) => {
+            {finalAppliances.map((item, index) => {
               const isAction = item.label === "See All";
               return (
                 <div
@@ -192,7 +213,7 @@ const AppliancesGrid = () => {
         {/* Mobile Layout - 2 cards per row */}
         <div className="md:hidden">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 justify-items-center">
-            {appliances.map((item, index) => {
+            {finalAppliances.map((item, index) => {
               const isAction = item.label === "See All";
               return (
                 <div
@@ -265,16 +286,18 @@ const AppliancesGrid = () => {
 
             {/* Grid */}
             <div className="grid grid-cols-4 gap-3">
-              {appliances
+              {finalAppliances
                 .filter((item) => item.label !== "See All")
                 .map((item, i) => (
                   <div
                     key={i}
                     onClick={() => {
                       if (item.slug === "ac-repair" && modalSource === "amc") {
-                        router.push(`/service/${item.slug}?source=amc`);
+                       router.push(
+                         `/service/${getRouteSlug(item.slug)}?source=amc`,
+                       );
                       } else {
-                        router.push(`/service/${item.slug}`);
+                       router.push(`/service/${getRouteSlug(item.slug)}`);
                       }
                       setIsModalOpen(false);
                     }}
