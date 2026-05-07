@@ -77,53 +77,53 @@ const ACRepairLayout = () => {
   const [canScroll, setCanScroll] = useState(false);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
-const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
+  const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
 
- const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
-   const slider = ref.current;
-   if (!slider) return;
+  const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
+    const slider = ref.current;
+    if (!slider) return;
 
-   const { scrollLeft, scrollWidth, clientWidth } = slider;
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
 
-   setCanScroll(scrollWidth > clientWidth);
-   setAtStart(scrollLeft <= 5);
-   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
- };
- useEffect(() => {
-  const slider = brandsRef.current;
-  if (!slider) return;
-
-  const handleScroll = () => {
-    setActiveScroll("brands");
-    checkScrollState(brandsRef);
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
   };
+  useEffect(() => {
+    const slider = brandsRef.current;
+    if (!slider) return;
 
-  slider.addEventListener("scroll", handleScroll);
-  window.addEventListener("resize", () => checkScrollState(brandsRef));
+    const handleScroll = () => {
+      setActiveScroll("brands");
+      checkScrollState(brandsRef);
+    };
 
-  return () => {
-    slider.removeEventListener("scroll", handleScroll);
-  };
-}, []);
+    slider.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", () => checkScrollState(brandsRef));
 
- useEffect(() => {
-  const slider = tabsRef.current;
-  if (!slider) return;
+    return () => {
+      slider.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-  const handleScroll = () => {
-    setActiveScroll("tabs");
+  useEffect(() => {
+    const slider = tabsRef.current;
+    if (!slider) return;
+
+    const handleScroll = () => {
+      setActiveScroll("tabs");
+      checkScrollState(tabsRef);
+    };
+
+    slider.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", () => checkScrollState(tabsRef));
+
     checkScrollState(tabsRef);
-  };
 
-  slider.addEventListener("scroll", handleScroll);
-  window.addEventListener("resize", () => checkScrollState(tabsRef));
-
-  checkScrollState(tabsRef);
-
-  return () => {
-    slider.removeEventListener("scroll", handleScroll);
-  };
-}, []);
+    return () => {
+      slider.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const checkScrollable = () => {
     const slider = tabsRef.current;
@@ -442,7 +442,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
             <Link href="/" className="hover:text-[#FF6A00]">
               Home
             </Link>
-{/* 
+            {/* 
             {service?.category && (
               <>
                 <span className="mx-2">/</span>
@@ -1277,7 +1277,14 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           <h2 className="text-2xl font-semibold dark:text-white">
             AC Repair service in Raipur
           </h2>
-          <p className="dark:text-gray-300 text-justify">
+
+          <p className="text-gray-600 leading-relaxed text-justify">
+            There are many variations of passages of Lorem Ipsum available, but
+            the majority have suffered alteration in some form, by injected
+            humour, or randomized words which don't look even slightly
+            believable. If you are going to use a passage of Lorem Ipsum, you
+            need to be sure there isn't anything embarrassing hidden in the
+            middle of text. All the Lorem Ipsum generators on the Internet tend
             to repeat predefined chunks as necessary, making this the first true
             generator on the Internet. It uses a dictionary of over 200 Latin
             words, combined with a handful of model sentence structures, to
@@ -1294,7 +1301,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           <h2 className="text-2xl font-semibold dark:text-white">
             Hiring guide for AC Repair service in Raipur
           </h2>
-          <p className="dark:text-gray-300 text-justify">
+          <p>
             There are many variations of passages of Lorem Ipsum available, but
             the majority have suffered alteration in some form, by injected
             humour, or randomized words which don't look even slightly
