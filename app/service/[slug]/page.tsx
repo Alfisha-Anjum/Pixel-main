@@ -558,7 +558,7 @@ const ACRepairLayout = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-5">
           {/* Left Column - Categories */}
           <div className="">
-            <div className="bg-white dark:bg-gray-800 rounded-xl ">
+            <div className="rounded-xl ">
               {/* <h3 className="text-lg font-bold text-gray-900 mb-4">
                 AC Service Categories
               </h3> */}
@@ -584,7 +584,7 @@ const ACRepairLayout = () => {
                         className={`cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border ${
                           activeTab === tab.id
                             ? "border-[#FF6A00] shadow-md"
-                            : "border-gray-200 bg-white hover:shadow-sm hover:border-gray-300"
+                            : "border-gray-200 hover:shadow-sm hover:border-gray-300"
                         }`}
                         role="button"
                         tabIndex={0}

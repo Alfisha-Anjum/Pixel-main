@@ -55,7 +55,7 @@ export default function SavedPayments({ setActiveView }: Props) {
           {/* Back */}
           <button
             onClick={() => setActiveView("default")}
-            className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+            className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
           >
             <ArrowLeft size={20} />
             Saved Payment Methods

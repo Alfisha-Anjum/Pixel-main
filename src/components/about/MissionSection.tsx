@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export default function MissionSection() {
   return (
-    <section className="py-4 md:py-4 md:px-6">
+    <section className="py-4 md:py-4 px-4 md:px-6">
       <div className="max-w-[900px] mx-auto grid md:grid-cols-2 md:gap-10 items-center">
         {/* LEFT */}
         <div>
-          <h2 className="text-3xl font-semibold dark:text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl dark:text-white font-semibold mb-6 leading-tight">
             Our Mission
           </h2>
           <p className="text-gray-600">

@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
-// import Header from "@/components/Header";
-// import Footer from "@/components/Footer";
 
 const FaqPage = () => {
   useEffect(() => {
@@ -51,7 +49,7 @@ const FaqPage = () => {
     {
       question: "How do I become a service professional?",
       answer:
-        "You can apply to become a service professional through our partner portal. We require relevant experience, proper tools, and completion of our training program. Contact our recruitment team for more details.",
+        "You can apply to become a service professional through our partner portal. We require relevant experience, proper tools, and completion of our training program.",
     },
   ];
 
@@ -60,47 +58,48 @@ const FaqPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      {/* <Header /> */}
-      <div className="w-full flex justify-between items-center mb-6 md:hidden">
-        {/* Back */}
-        <button className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition">
-          <ArrowLeft size={20} />
-          FAQ
-        </button>
-      </div>
-      <main className="flex-grow">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="hidden md:block mb-6">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+    <div className="min-h-screen py-8 md:py-12">
+      <main>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Desktop Header */}
+          <div className="mb-10">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 dark:text-white mb-6 md:mb-8 leading-tight">
               Frequently Asked Questions
             </h1>
-            {/* <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+
+            <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-7">
               Find answers to common questions about our services, booking
-              process, and policies.
-            </p> */}
+              process, payments, and policies.
+            </p>
           </div>
 
-          <div className="overflow-hidden">
+          {/* FAQ Section */}
+          <div className="max-w-4xl space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="">
+              <div
+                key={index}
+                className="border border-gray-200 dark:border-gray-700 rounded-2xl px-4 sm:px-6 py-4 shadow-sm transition-all"
+              >
+                {/* Question */}
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full py-4 text-left flex items-center justify-between transition-colors"
+                  className="w-full flex items-start justify-between gap-4 text-left"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white pr-4">
+                  <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-6">
                     {faq.question}
                   </h3>
+
                   {openIndex === index ? (
-                    <ChevronUp className="w-5 h-5 text-orange-500 flex-shrink-0 dark:text-orange-500" />
+                    <ChevronUp className="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-black flex-shrink-0 dark:text-white" />
+                    <ChevronDown className="w-5 h-5 text-gray-700 dark:text-white flex-shrink-0 mt-1" />
                   )}
                 </button>
 
+                {/* Answer */}
                 {openIndex === index && (
-                  <div className="dark:text-gray-300">
-                    <p className="text-gray-600 pl-2 border-l-2 border-orange-200 dark:text-gray-300">
+                  <div className="mt-4 pl-4 border-l-2 border-orange-300">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-7">
                       {faq.answer}
                     </p>
                   </div>
@@ -108,27 +107,8 @@ const FaqPage = () => {
               </div>
             ))}
           </div>
-
-          {/* <div className="mt-12 bg-orange-50 rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Still have questions?
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Our customer support team is here to help you 24/7
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-6 py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors">
-                Contact Support
-              </button>
-              <button className="px-6 py-3 border border-orange-500 text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors">
-                Live Chat
-              </button>
-            </div>
-          </div> */}
         </div>
       </main>
-
-      {/* <Footer /> */}
     </div>
   );
 };

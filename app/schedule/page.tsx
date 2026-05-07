@@ -830,7 +830,9 @@ const MySchedulePage = () => {
 
                 {/* RIGHT SECTION */}
                 <div className="shadow-sm h-fit w-full lg:w-[25%] lg:sticky lg:top-24 order-2 lg:order-none">
-                  <h3 className="font-semibold mb-4">Payment Summary</h3>
+                  <h3 className="font-semibold mb-4 dark:text-white">
+                    Payment Summary
+                  </h3>
 
                   <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
                     <div className="flex justify-between border-b pb-3">

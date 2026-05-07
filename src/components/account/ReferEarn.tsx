@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import GradientButton2 from "../ui/GradientButton2";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import RedeemModal from "./Modals/ReedemModal";
 import RedeemSuccessModal from "./Modals/ReedemSuccessModal";
@@ -10,7 +11,7 @@ type Props = {
   setActiveView: (view: string) => void;
 };
 
-export default function ReferEarn(ActiveView: Props) {
+export default function ReferEarn({ setActiveView }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -37,6 +38,7 @@ export default function ReferEarn(ActiveView: Props) {
   return (
     <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 lg:ml-14 px-4 lg:px-0">
       {/* Terms Section */}
+
       <div className="rounded-lg max-w-3xl mx-auto w-full order-3 lg:order-1">
         <h3 className="font-semibold text-[18px] dark:text-white">
           Rules For Refer a friend
@@ -60,6 +62,16 @@ export default function ReferEarn(ActiveView: Props) {
 
       {/* Right Section */}
       <div className="flex flex-col items-center gap-6 w-full order-1 lg:order-2">
+        <div className="w-full flex justify-between items-center md:hidden">
+          {/* Back */}
+          <button
+            onClick={() => setActiveView("default")}
+            className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
+          >
+            <ArrowLeft size={20} />
+            Refer & Earn
+          </button>
+        </div>
         {/* Card */}
         <div className="bg-[#0B0B2A] text-white p-6 rounded-2xl md:rounded-2xl w-full md:max-w-[430px] flex flex-col items-center gap-6">
           <p className="text-orange-400 text-center font-semibold">
