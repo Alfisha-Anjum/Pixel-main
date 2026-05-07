@@ -74,6 +74,73 @@ const ACRepairLayout = () => {
 
   const searchParams = useSearchParams();
   const source = searchParams?.get("source") || "";
+  const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
+
+ const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
+   const slider = ref.current;
+   if (!slider) return;
+
+   const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+   setCanScroll(scrollWidth > clientWidth);
+   setAtStart(scrollLeft <= 5);
+   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+ };
+ useEffect(() => {
+  const slider = brandsRef.current;
+  if (!slider) return;
+
+  const handleScroll = () => {
+    setActiveScroll("brands");
+    checkScrollState(brandsRef);
+  };
+
+  slider.addEventListener("scroll", handleScroll);
+  window.addEventListener("resize", () => checkScrollState(brandsRef));
+
+  return () => {
+    slider.removeEventListener("scroll", handleScroll);
+  };
+}, []);
+
+ useEffect(() => {
+  const slider = tabsRef.current;
+  if (!slider) return;
+
+  const handleScroll = () => {
+    setActiveScroll("tabs");
+    checkScrollState(tabsRef);
+  };
+
+  slider.addEventListener("scroll", handleScroll);
+  window.addEventListener("resize", () => checkScrollState(tabsRef));
+
+  checkScrollState(tabsRef);
+
+  return () => {
+    slider.removeEventListener("scroll", handleScroll);
+  };
+}, []);
+
+  const checkScrollable = () => {
+    const slider = tabsRef.current;
+    if (!slider) return;
+
+    setCanScroll(slider.scrollWidth > slider.clientWidth);
+  };
+
+  useEffect(() => {
+    checkScrollable();
+
+    window.addEventListener("resize", checkScrollable);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollable);
+    };
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -375,7 +442,7 @@ const ACRepairLayout = () => {
             <Link href="/" className="hover:text-[#FF6A00]">
               Home
             </Link>
-
+{/* 
             {service?.category && (
               <>
                 <span className="mx-2">/</span>
@@ -386,7 +453,7 @@ const ACRepairLayout = () => {
                   {service.category}
                 </Link>
               </>
-            )}
+            )} */}
 
             {service?.name && (
               <>
@@ -497,13 +564,14 @@ const ACRepairLayout = () => {
               </h3> */}
               <div className="relative w-full flex items-center mb-5">
                 {/* Left Button */}
-                <button
-                  onClick={() => scroll(tabsRef, "left")}
-                  className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
-                >
-                  <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
-                </button>
-
+                {activeScroll === "tabs" && canScroll && !atStart && (
+                  <button
+                    onClick={() => scroll(tabsRef, "left")}
+                    className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
+                  >
+                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
+                  </button>
+                )}
                 {/* Scroll Container */}
                 <div
                   ref={tabsRef}
@@ -544,13 +612,14 @@ const ACRepairLayout = () => {
                 </div>
 
                 {/* Right Button */}
-                <button
-                  onClick={() => scroll(tabsRef, "right")}
-                  className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
-                >
-                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
-                </button>
-
+                {activeScroll === "tabs" && canScroll && !atEnd && (
+                  <button
+                    onClick={() => scroll(tabsRef, "right")}
+                    className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 border border-[#FF6A00] z-20"
+                  >
+                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
+                  </button>
+                )}
                 <style jsx>{`
                   .hide-scrollbar::-webkit-scrollbar {
                     display: none;
@@ -1078,7 +1147,7 @@ const ACRepairLayout = () => {
                   ))}
                 </div>
 
-                <div className="my-8 mb-10 relative flex items-start justify-start">
+                <div className="my-8 mb-0 md:mb-10 relative flex items-start justify-start">
                   <p className="inline-flex items-center gap-1 text-[#FF6A00] font-medium">
                     View All Reviews
                     <svg
@@ -1111,7 +1180,7 @@ const ACRepairLayout = () => {
                 </div>
               </div>
             </div>
-
+            {/* {canScroll && !atStart && (
             <button
               onClick={() => scroll(reviewsRef, "left")}
               className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
@@ -1119,9 +1188,10 @@ const ACRepairLayout = () => {
             >
               <ChevronLeft className="w-6 h-6 text-orange-600" />
             </button>
-
+ )} */}
             {/* Right Chevron Button */}
-
+            {/* 
+{canScroll && !atEnd && (
             <button
               onClick={() => scroll(reviewsRef, "right")}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
@@ -1129,6 +1199,7 @@ const ACRepairLayout = () => {
             >
               <ChevronRight className="w-6 h-6 text-orange-600" />
             </button>
+)} */}
           </div>
 
           {/* Global styles for hiding scrollbar */}
@@ -1149,9 +1220,9 @@ const ACRepairLayout = () => {
             {brands.map((brand, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 flex flex-col items-center w-36"
+                className="flex-shrink-0 flex flex-col items-center "
               >
-                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-36 h-28">
+                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-full h-28">
                   <div className="relative h-[60px] w-full flex items-center justify-center">
                     <Image
                       src={brand.logo}
@@ -1172,23 +1243,25 @@ const ACRepairLayout = () => {
           </div>
 
           {/* Left Arrow */}
-          <button
-            onClick={() => scroll(brandsRef, "left")}
-            className="absolute left-1 md:left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
-            aria-label="Previous brands"
-          >
-            <ChevronLeft className="w-6 h-6 text-orange-600" />
-          </button>
-
+          {activeScroll === "brands" && canScroll && !atStart && (
+            <button
+              onClick={() => scroll(brandsRef, "left")}
+              className="absolute left-1 md:left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+              aria-label="Previous brands"
+            >
+              <ChevronLeft className="w-6 h-6 text-orange-600" />
+            </button>
+          )}
           {/* Right Arrow */}
-          <button
-            onClick={() => scroll(brandsRef, "right")}
-            className="absolute right-1 md:right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
-            aria-label="Next brands"
-          >
-            <ChevronRight className="w-6 h-6 text-orange-600" />
-          </button>
-
+          {activeScroll === "brands" && canScroll && !atStart && (
+            <button
+              onClick={() => scroll(brandsRef, "right")}
+              className="absolute right-1 md:right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
+              aria-label="Next brands"
+            >
+              <ChevronRight className="w-6 h-6 text-orange-600" />
+            </button>
+          )}
           <style jsx>{`
             .hide-scrollbar::-webkit-scrollbar {
               display: none;

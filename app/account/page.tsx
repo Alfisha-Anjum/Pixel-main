@@ -78,7 +78,7 @@ export default function AccountPage() {
       case "coupon":
         return <MyCoupon setActiveView={setActiveView} />;
       case "payment":
-        return <Payment setActiveView={setActiveView} />;
+        return <Payment  />;
       default:
         return <SettingsList setActiveView={setActiveView} />;
     }

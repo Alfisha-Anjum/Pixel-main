@@ -2,7 +2,7 @@
 
 import PackageCard from "./PackageCard";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import LayoutContainer from "./LayoutContainer";
 
@@ -33,9 +33,13 @@ const packages = [
   },
 ];
 
-const CleaningPackage = () => {
+const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
+  const finalPackages = data.length > 0 ? data : packages;
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -48,6 +52,52 @@ const CleaningPackage = () => {
       sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
+
+  const checkScrollState = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+  };
+
+  useEffect(() => {
+    checkScrollState();
+
+    const slider = sliderRef.current;
+
+    if (slider) {
+      slider.addEventListener("scroll", checkScrollState);
+    }
+
+    window.addEventListener("resize", checkScrollState);
+
+    return () => {
+      if (slider) {
+        slider.removeEventListener("scroll", checkScrollState);
+      }
+      window.removeEventListener("resize", checkScrollState);
+    };
+  }, []);
+  const checkScrollable = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    setCanScroll(slider.scrollWidth > slider.clientWidth);
+  };
+
+  useEffect(() => {
+    checkScrollable();
+
+    window.addEventListener("resize", checkScrollable);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollable);
+    };
+  }, []);
 
   return (
     <LayoutContainer>
@@ -63,35 +113,39 @@ const CleaningPackage = () => {
           className="flex overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x items-center"
           style={{ gap: "20px" }}
         >
-          {packages.map((pkg, index) => (
+          {finalPackages.map((pkg, index) => (
             <div
               key={index}
               className="flex-shrink-0 snap-center"
               style={{ width: "382px", height: "228px" }}
             >
               <PackageCard
-                title={pkg.title}
-                subtitle={pkg.subtitle}
-                image={pkg.image}
-                onBook={() => router.push("/services")}
+                title={pkg.title || pkg.name}
+                subtitle={pkg.subtitle || "Best Value"}
+                image={pkg.image || pkg.icon}
+                onBook={() => router.push(`/service/${pkg.slug || "services"}`)}
               />
             </div>
           ))}
         </div>
 
-        {/* Navigation Buttons */}
-        <button
-          onClick={scrollLeft}
-          className="absolute -left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          onClick={scrollRight}
-          className="absolute -right-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 hidden md:flex border border-orange-600 text-orange-700"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+        {canScroll && !atStart && (
+          <button
+            onClick={scrollLeft}
+            className="absolute left-[-25px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        )}
+
+        {canScroll && !atEnd && (
+          <button
+            onClick={scrollRight}
+            className="absolute right-[-25px] top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 hidden md:flex items-center justify-center border border-orange-600 text-orange-700 z-10"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        )}
       </div>
     </LayoutContainer>
   );

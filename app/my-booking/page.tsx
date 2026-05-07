@@ -521,7 +521,7 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* AMC Cards Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full gap-4 sm:gap-5 md:gap-6 lg:gap-7">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full sm:gap-5 md:gap-6 lg:gap-7">
                         {amcBookings.length > 0 ? (
                           amcBookings.map((item) => (
                             <div
