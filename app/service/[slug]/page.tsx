@@ -1148,10 +1148,10 @@ const ACRepairLayout = () => {
                 </div>
 
                 <div className="my-8 mb-0 md:mb-10 relative flex items-start justify-start">
-                  <p className="inline-flex items-center gap-1 text-[#FF6A00] font-medium">
-                    View All Reviews
+                  <p className="inline-flex items-center text-[#FF6A00] font-medium">
+                    View All Reviews 
                     <svg
-                      className="w-4 h-4"
+                      className=" h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1164,7 +1164,7 @@ const ACRepairLayout = () => {
                       />
                     </svg>
                     <svg
-                      className="w-4 h-4"
+                      className=" h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1208,7 +1208,7 @@ const ACRepairLayout = () => {
         </div>
         <div className="mx-auto relative w-full overflow-hidden">
           {/* Heading */}
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 text-white mb-5 px-4 sm:px-0">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800  mb-5 px-4 sm:px-0">
             We covered AC Brand
           </h2>
 
@@ -1278,7 +1278,7 @@ const ACRepairLayout = () => {
             AC Repair service in Raipur
           </h2>
 
-          <p className="text-gray-600 leading-relaxed text-justify">
+          <p className=" leading-relaxed text-justify">
             There are many variations of passages of Lorem Ipsum available, but
             the majority have suffered alteration in some form, by injected
             humour, or randomized words which don't look even slightly
@@ -1352,7 +1352,9 @@ const ACRepairLayout = () => {
           </div>
         </div>
       </div>
+      <div className="my-10">
       <DeepCleaningServices />
+      </div>
       <ServicesSection />
 
       <SelectCapacityModal

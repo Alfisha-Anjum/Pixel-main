@@ -53,16 +53,16 @@ const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
     }
   };
 
-  const checkScrollState = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+const checkScrollState = () => {
+  const slider = sliderRef.current;
+  if (!slider) return;
 
-    const { scrollLeft, scrollWidth, clientWidth } = slider;
+  const { scrollLeft, scrollWidth, clientWidth } = slider;
 
-    setCanScroll(scrollWidth > clientWidth);
-    setAtStart(scrollLeft <= 5);
-    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
-  };
+  setCanScroll(scrollWidth > clientWidth);
+  setAtStart(scrollLeft <= 5);
+  setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+};
 
   useEffect(() => {
     checkScrollState();
@@ -82,23 +82,7 @@ const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
       window.removeEventListener("resize", checkScrollState);
     };
   }, []);
-  const checkScrollable = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-
-    setCanScroll(slider.scrollWidth > slider.clientWidth);
-  };
-
-  useEffect(() => {
-    checkScrollable();
-
-    window.addEventListener("resize", checkScrollable);
-
-    return () => {
-      window.removeEventListener("resize", checkScrollable);
-    };
-  }, []);
-
+ 
   return (
     <LayoutContainer>
       <div className="flex justify-between items-center my-5">
