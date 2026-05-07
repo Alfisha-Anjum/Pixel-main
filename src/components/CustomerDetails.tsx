@@ -10,6 +10,7 @@ export default function CustomerDetails({
   address,
   onChangeAddress,
 }: CustomerDetailsProps) {
+  const [isAlternateModalOpen, setIsAlternateModalOpen] = useState(false);
   return (
     <div className="w-full my-6 bg-white border border-[#E1E1E1] rounded-xl p-5 mb-4">
       <div className="flex items-start sm:flex-row flex-col justify-between gap-4">
@@ -20,21 +21,36 @@ export default function CustomerDetails({
 
           {address ? (
             <div className="mt-3">
-              <p className="font-medium text-gray-800">
-                {address.full_name || "Customer Name"}
-                <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded">
-                  {address.type || "Home"}
-                </span>
-              </p>
+              <div className="flex items-center gap-2">
+                <img src="/map.png" alt="Map" className="w-6 h-6 rounded-lg" />
+                <p className="font-medium text-gray-800">
+                  {address.full_name || "Customer Name"}
+                  <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded">
+                    {address.type || "Home"}
+                  </span>
+                </p>
+              </div>
 
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 mt-1 px-6">
                 {address.house_number}, {address.street},{" "}
                 {address.city?.name || "Raipur"} {address.postal_code}
               </p>
 
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 mt-1 px-6">
                 {address.contact_number}
               </p>
+              <button
+                onClick={() => setIsAlternateModalOpen(true)}
+                className="text-md text-blue-600 mt-2 px-6 font-medium"
+              >
+                Add Alternate Number
+              </button>
+              {isAlternateModalOpen && (
+                <AlternateNumberModal
+                  isOpen={isAlternateModalOpen}
+                  onClose={() => setIsAlternateModalOpen(false)}
+                />
+              )}
             </div>
           ) : (
             <p className="text-sm text-gray-500 mt-3">No address selected</p>

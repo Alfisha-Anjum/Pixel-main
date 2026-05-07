@@ -81,10 +81,10 @@ const Item = ({ item, index }: any) => {
 };
 export default function CoreValues() {
   return (
-    <section className="">
+    <section className="px-4">
       <div className="max-w-full mx-auto">
         <div className="relative max-w-7xl mx-auto">
-          <h2 className="text-3xl dark:text-white font-semibold mb-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl dark:text-white font-semibold mb-6 leading-tight">
             Our Core Values
           </h2>
           <p className="text-gray-500 mb-4 lg:mb-20">

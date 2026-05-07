@@ -54,7 +54,7 @@ export default function MyWallet({ setActiveView }: Props) {
       </div>
 
       {/* Wallet Card */}
-      <div className="w-full max-w-[390px] h-[200px] mx-auto">
+      <div className="w-full max-w-[390px] h-[200px] mx-auto mb-4">
         <div className="relative h-[200px] bg-gradient-to-r from-[#FF512F] to-[#F09819] text-white rounded-2xl p-4">
           {/* 🔹 Content (Left) */}
           <div className="z-10 relative">
@@ -91,7 +91,7 @@ export default function MyWallet({ setActiveView }: Props) {
         {/* Back */}
         <button
           onClick={() => setActiveView("default")}
-          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+          className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
         >
           <ArrowLeft size={20} />
           My Wallet

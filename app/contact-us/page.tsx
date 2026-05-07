@@ -195,90 +195,129 @@
 // };
 
 // export default ContactPage;
+"use client";
+
 export default function ContactPage() {
   return (
-    <div className="py-10 px-6 md:px-16">
-      {/* HEADER */}
-      <div className="max-w-5xl mx-auto mb-12">
-        <h1 className="text-2xl dark:text-white font-semibold mb-4">
-          Contact Us
-        </h1>
-        <p className="text-gray-600 text-[14px]">
-          We're here to assist you! If you have any questions, concerns, or need
-          further assistance, please don't hesitate to reach out to us. Our
-          dedicated support team is ready to help and provide the guidance you
-          need. Whether you have inquiries about our services, suggestions for
-          improvement, or require technical support, we're just a message away.
-          Your satisfaction is our priority, and we are committed to ensuring a
-          seamless experience for you on TASPRO Company. We appreciate your
-          feedback and value the opportunity to assist you. Contact us today,
-          and let us help make your TASPRO Company journey a success!"
-        </p>
-      </div>
+    <div className="py-8 md:py-12">
+      {/* Main Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* HEADER */}
+        <div className="mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 dark:text-white mb-4 leading-tight">
+            Contact Us
+          </h1>
 
-      {/* CONTACT CARDS */}
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 mb-16">
-        {/* CHAT */}
-        <div className="flex-1 bg-white dark:bg-gray-500 p-6 flex gap-4 items-start">
-          <div className="w-10 h-10 shadow-md items-center justify-center flex bg-[#FEECE7]">
-            <img src="/message.png" alt="chat" className="w-6 h-6 shadow-md" />
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 leading-7 max-w-4xl">
+            We're here to assist you! If you have any questions, concerns, or
+            need further assistance, please don't hesitate to reach out to us.
+            Our dedicated support team is ready to help and provide the guidance
+            you need. Whether you have inquiries about our services, suggestions
+            for improvement, or require technical support, we're just a message
+            away. Your satisfaction is our priority, and we are committed to
+            ensuring a seamless experience for you on TASPRO Company.
+          </p>
+        </div>
+
+        {/* CONTACT CARDS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 mb-10 items-stretch">
+          {/* CHAT CARD */}
+          <div className="h-full bg-white dark:bg-gray-800 p-5 sm:p-6 flex gap-4">
+            {/* Icon */}
+            <div className="min-w-10 w-10 h-10 rounded-xl bg-[#FEECE7] flex items-center justify-center">
+              <img
+                src="/message.png"
+                alt="chat"
+                className="w-5 h-5 sm:w-6 sm:h-6"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="flex-1">
+              <p className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white">
+                Chat to us
+              </p>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Our friendly team is here to help.
+              </p>
+
+              <p className="text-sm sm:text-base text-gray-900 dark:text-white mt-3 break-words">
+                help@tasprocompany.app
+              </p>
+            </div>
           </div>
 
-          <div>
-            <p className="font-semibold text-[#0A0F0D] text-lg">Chat to us</p>
-            <p className="text-gray-500 text-sm">
-              Our friendly team is here to help.
-            </p>
-            <p className="text-[#0A0F0D] mt-1">help@tasprocompany.app</p>
+          {/* PHONE CARD */}
+          <div className="h-full bg-white dark:bg-gray-800 p-5 sm:p-6 flex gap-4">
+            {/* Icon */}
+            <div className="min-w-10 w-10 h-10 rounded-xl bg-[#FEECE7] flex items-center justify-center">
+              <img
+                src="/phone.png"
+                alt="phone"
+                className="w-5 h-5 sm:w-6 sm:h-6"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="flex-1">
+              <p className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white">
+                Phone
+              </p>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Mon – Fri from 8am to 5pm
+              </p>
+
+              <p className="text-sm sm:text-base text-gray-900 dark:text-white mt-3">
+                +1 (555) 000-0000
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* PHONE */}
-        <div className="flex-1 bg-white dark:bg-gray-500 p-6 flex gap-4 items-start">
-          <div className="w-10 h-10 shadow-md items-center justify-center flex bg-[#FEECE7]">
-            <img src="/phone.png" alt="phone" className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="font-semibold text-[#0A0F0D] text-lg">Phone</p>
-            <p className="text-gray-500 text-sm">Mon–Fri from 8am to 5pm</p>
-            <p className="text-[#0A0F0D] mt-1">+1 (555) 000-0000</p>
-          </div>
-        </div>
-      </div>
+        {/* SOCIAL SECTION */}
+        <div className="bg-white dark:bg-gray-800 p-5 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Social Links
+          </h2>
 
-      {/* SOCIAL SECTION */}
-      <div className="max-w-5xl mx-auto mb-10 p-6">
-        <p className="text-xl text-gray-900 dark:text-white font-semibold mb-2">
-          Social Links
-        </p>
-        <p className="text-gray-500 mb-6">Follow us on social media</p>
+          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6">
+            Follow us on social media
+          </p>
 
-        <div className="flex gap-6">
-          <img
-            src="/facebook.png"
-            alt="facebook"
-            className="w-8 h-8 rounded-full cursor-pointer hover:scale-110 transition"
-          />
-          <img
-            src="/twitter2.png"
-            alt="twitter"
-            className="w-8 h-8 cursor-pointer hover:scale-110 transition"
-          />
-          <img
-            src="/linkedin.png"
-            alt="linkedin"
-            className="w-8 h-8 rounded-full cursor-pointer hover:scale-110 transition"
-          />
-          <img
-            src="/instagram.png"
-            alt="instagram"
-            className="w-8 h-8 rounded-full  cursor-pointer hover:scale-110 transition"
-          />
-          <img
-            src="/threat.png"
-            alt="threat"
-            className="w-8 h-8 rounded-full cursor-pointer hover:scale-110 transition"
-          />
+          {/* Social Icons */}
+          <div className="flex items-center gap-4 sm:gap-5">
+            <img
+              src="/facebook.png"
+              alt="facebook"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer hover:scale-110 transition"
+            />
+
+            <img
+              src="/twitter2.png"
+              alt="twitter"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer hover:scale-110 transition"
+            />
+
+            <img
+              src="/linkedin.png"
+              alt="linkedin"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer hover:scale-110 transition"
+            />
+
+            <img
+              src="/instagram.png"
+              alt="instagram"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer hover:scale-110 transition"
+            />
+
+            <img
+              src="/threat.png"
+              alt="threads"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer hover:scale-110 transition"
+            />
+          </div>
         </div>
       </div>
     </div>

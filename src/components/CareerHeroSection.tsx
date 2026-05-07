@@ -28,7 +28,7 @@ export default function CareerHeroSection() {
   bg-white rounded-3xl shadow-sm p-6 md:p-10 z-20
 "
       >
-        <h2 className="text-[32px] font-semibold text-center mb-4">
+        <h2 className="text-[24px] md:text-[32px] font-semibold text-center mb-4">
           Apply for a job
         </h2>
 

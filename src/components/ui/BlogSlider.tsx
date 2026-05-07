@@ -80,7 +80,7 @@ export default function BlogSlider({
       {/* LEFT BUTTON */}
       <button
         onClick={scrollLeft}
-        className="absolute left-0 md:-left-5 top-[60%] -translate-y-1/2 bg-white border border-orange-500 rounded-full text-orange-500 w-10 h-10 flex items-center justify-center z-10"
+        className="hidden md:block absolute left-0 md:-left-5 top-[60%] -translate-y-1/2 bg-white border border-orange-500 rounded-full text-orange-500 w-10 h-10 flex items-center justify-center z-10"
       >
         <ChevronLeft />
       </button>
@@ -88,7 +88,7 @@ export default function BlogSlider({
       {/* RIGHT BUTTON */}
       <button
         onClick={scrollRight}
-        className="absolute right-0 md:-right-5 top-[60%] -translate-y-1/2 bg-white border border-orange-500 rounded-full text-orange-500 w-10 h-10 flex items-center justify-center z-10"
+        className="hidden md:block absolute right-0 md:-right-5 top-[60%] -translate-y-1/2 bg-white border border-orange-500 rounded-full text-orange-500 w-10 h-10 flex items-center justify-center z-10"
       >
         <ChevronRight />
       </button>
