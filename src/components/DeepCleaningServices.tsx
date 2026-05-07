@@ -87,7 +87,7 @@ const checkScrollState = () => {
 
   const { scrollLeft, scrollWidth, clientWidth } = slider;
 
-  setCanScroll(scrollWidth > clientWidth);
+  setCanScroll(finalServices.length > 1 && scrollWidth > clientWidth + 5);
   setAtStart(scrollLeft <= 5);
   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
 };
@@ -108,7 +108,7 @@ const checkScrollState = () => {
       }
       window.removeEventListener("resize", checkScrollState);
     };
-  }, []);
+  }, [finalServices.length]);
   // const checkScrollable = () => {
   //   const slider = sliderRef.current;
   //   if (!slider) return;
