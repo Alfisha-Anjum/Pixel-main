@@ -166,7 +166,7 @@ import GradientButton2 from "@/components/ui/GradientButton2";
 
 export default function AboutPage() {
   return (
-    <div className="bg-white">
+    <div className="">
       <AboutSection />
       <MissionSection />
       <CoreValues />

@@ -429,7 +429,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
       {/* <Header /> */}
 
       {/* Hero Section */}
-      <section className="bg-white">
+      <section className="">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-5">
           {/* Breadcrumb */}
           <div className="text-sm sm:text-base md:text-lg text-gray-600 py-4">
@@ -463,7 +463,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* LEFT CONTENT */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <h1 className="text-2xl font-semibold text-gray-900 leading-snug">
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white leading-snug">
                 Best {service?.name} <br />
                 Service in {service?.city || "Your City"}
               </h1>
@@ -472,27 +472,27 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
               <div className="mt-4 flex flex-wrap items-center gap-2 text-sm sm:text-base">
                 <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
 
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {service?.rating || 0}
                 </span>
 
-                <span className="text-gray-600">
+                <span className="text-gray-600 dark:text-gray-300">
                   ({service?.reviews || 0} reviews)
                 </span>
 
                 <span className="text-gray-400">|</span>
 
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {service?.bookings || 0}
                 </span>
 
-                <span className="text-gray-600">
+                <span className="text-gray-600 dark:text-gray-300">
                   (Bookings in {service?.city || "Your City"})
                 </span>
               </div>
 
               {/* Cover Card */}
-              <div className="bg-white border border-gray-300 rounded-2xl p-4 mt-6 relative max-w-lg">
+              <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl p-4 mt-6 relative max-w-lg">
                 {/* Badge */}
                 <div className="absolute -top-3 left-5 bg-white px-3 py-1 border rounded-lg flex items-center gap-2">
                   <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
@@ -548,11 +548,11 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
       </section>
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto bg-white">
+      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-5">
           {/* Left Column - Categories */}
           <div className="">
-            <div className="bg-white rounded-xl ">
+            <div className="bg-white dark:bg-gray-800 rounded-xl ">
               {/* <h3 className="text-lg font-bold text-gray-900 mb-4">
                 AC Service Categories
               </h3> */}
@@ -646,7 +646,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                     className="border-b py-2 sm:w-[80%] w-full lg:max-w-lg "
                   >
                     {/* Category Title (Split AC etc) */}
-                    <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                    <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-3">
                       {currentType?.name}
                     </h3>
 
@@ -686,7 +686,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                         <div className=" w-[60%] flex justify-between items-start sm:flex-row flex-col">
                           <div>
                             {/* Title */}
-                            <h4 className="font-semibold text-gray-900 mt-1">
+                            <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
                               {subService.name}
                             </h4>
 
@@ -868,7 +868,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
               </div>
 
               <div className="border rounded-xl p-5 mb-6">
-                <h4 className="font-semibold text-sm text-gray-900 mb-3">
+                <h4 className="font-semibold text-sm text-gray-900 dark:text-white mb-3">
                   Why TASPro Company
                 </h4>
 
@@ -949,10 +949,10 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                     </div>
                     <div className="flex flex-col gap-2 items-start ">
                       {" "}
-                      <p className="text-sm font-semibold text-gray-900">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
                         Coupons & Offer
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-300">
                         Save upto 15% on every booking
                       </p>
                     </div>
@@ -1215,7 +1215,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
         </div>
         <div className="mx-auto relative w-full overflow-hidden">
           {/* Heading */}
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-5 px-4 sm:px-0">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 text-white mb-5 px-4 sm:px-0">
             We covered AC Brand
           </h2>
 
@@ -1242,7 +1242,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                   </div>
                 </div>
 
-                <p className="text-xs mt-2 text-center w-full line-clamp-2">
+                <p className="text-xs mt-2 dark:text-white text-center w-full line-clamp-2">
                   {brand.service}
                 </p>
               </div>
@@ -1281,17 +1281,10 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
         </div>
 
         <div className="flex flex-col gap-4 my-5">
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-2xl font-semibold dark:text-white">
             AC Repair service in Raipur
           </h2>
-
-          <p className="text-gray-600 leading-relaxed text-justify">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomized words which don't look even slightly
-            believable. If you are going to use a passage of Lorem Ipsum, you
-            need to be sure there isn't anything embarrassing hidden in the
-            middle of text. All the Lorem Ipsum generators on the Internet tend
+          <p className="dark:text-gray-300">
             to repeat predefined chunks as necessary, making this the first true
             generator on the Internet. It uses a dictionary of over 200 Latin
             words, combined with a handful of model sentence structures, to
@@ -1305,10 +1298,10 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           </p>
         </div>
         <div className="flex flex-col gap-4 ">
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-2xl font-semibold dark:text-white">
             Hiring guide for AC Repair service in Raipur
           </h2>
-          <p>
+          <p className="dark:text-gray-300">
             There are many variations of passages of Lorem Ipsum available, but
             the majority have suffered alteration in some form, by injected
             humour, or randomized words which don't look even slightly
@@ -1328,7 +1321,7 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
           </p>
         </div>
         <div className=" mx-auto mt-5">
-          <h2 className="text-2xl font-semibold ">
+          <h2 className="text-2xl font-semibold dark:text-white">
             Frequently Asked Questions (FAQ)?
           </h2>
 
@@ -1339,11 +1332,11 @@ const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex justify-between items-center text-left"
                 >
-                  <span className="font-medium text-gray-800">
+                  <span className="font-medium text-gray-800 dark:text-white">
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`transition-transform ${
+                    className={`transition-transform dark:text-white ${
                       openIndex === index ? "rotate-180" : ""
                     }`}
                   />

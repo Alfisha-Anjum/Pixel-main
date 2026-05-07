@@ -60,7 +60,7 @@ const FaqPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* <Header /> */}
       <div className="w-full flex justify-between items-center mb-6 md:hidden">
         {/* Back */}
@@ -72,7 +72,7 @@ const FaqPage = () => {
       <main className="flex-grow">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="hidden md:block mb-6">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
               Frequently Asked Questions
             </h1>
             {/* <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -81,26 +81,26 @@ const FaqPage = () => {
             </p> */}
           </div>
 
-          <div className="bg-white overflow-hidden">
+          <div className="overflow-hidden">
             {faqs.map((faq, index) => (
               <div key={index} className="">
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  className="w-full py-4 text-left flex items-center justify-between transition-colors"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900 pr-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white pr-4">
                     {faq.question}
                   </h3>
                   {openIndex === index ? (
-                    <ChevronUp className="w-5 h-5 text-orange-500 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-orange-500 flex-shrink-0 dark:text-orange-500" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-black flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-black flex-shrink-0 dark:text-white" />
                   )}
                 </button>
 
                 {openIndex === index && (
-                  <div className="">
-                    <p className="text-gray-600 pl-2 border-l-2 border-orange-200">
+                  <div className="dark:text-gray-300">
+                    <p className="text-gray-600 pl-2 border-l-2 border-orange-200 dark:text-gray-300">
                       {faq.answer}
                     </p>
                   </div>

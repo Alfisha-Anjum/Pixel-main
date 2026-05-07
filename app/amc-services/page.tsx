@@ -92,19 +92,17 @@ const scheduleItems = [
   },
 ];
 
-const statusClasses: Record<
-  (typeof scheduleItems)[number]["status"],
-  string
-> = {
-  Completed: "bg-green-50 text-green-600",
-  Upcoming: "bg-red-50 text-red-600",
-  Pending: "bg-gray-100 text-gray-600",
-};
+const statusClasses: Record<(typeof scheduleItems)[number]["status"], string> =
+  {
+    Completed: "bg-green-50 text-green-600",
+    Upcoming: "bg-red-50 text-red-600",
+    Pending: "bg-gray-100 text-gray-600",
+  };
 
 const AmcServicesPage = () => {
   return (
     <div className="min-h-screen ">
-      <Header />
+      {/* <Header /> */}
 
       <main className="py-8">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-0">
@@ -240,7 +238,7 @@ const AmcServicesPage = () => {
             <aside className="w-full lg:basis-[30%] lg:max-w-[30%] space-y-4">
               {/* Billing details */}
               <div className=" rounded-[12px] p-4 shadow-sm">
-                <h2 className="text-sm font-semibold text-gray-900 mb-4">
+                <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
                   AMC Billing Details
                 </h2>
 
@@ -248,10 +246,12 @@ const AmcServicesPage = () => {
                   {billingItems.map((item) => (
                     <div
                       key={item.label}
-                      className="flex items-center justify-between text-xs text-gray-700"
+                      className="flex items-center justify-between text-xs text-gray-700 dark:text-gray-300"
                     >
                       <span>{item.label}</span>
-                      <span className="font-semibold">{item.amount}</span>
+                      <span className="font-semibold dark:text-white">
+                        {item.amount}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -265,8 +265,8 @@ const AmcServicesPage = () => {
                       <span
                         className={`${
                           idx === billingSummary.length - 1
-                            ? "font-semibold text-gray-900"
-                            : "text-gray-600"
+                            ? "font-semibold text-gray-900 dark:text-white"
+                            : "text-gray-600 dark:text-gray-300"
                         }`}
                       >
                         {item.label}
@@ -275,7 +275,7 @@ const AmcServicesPage = () => {
                         className={`font-semibold ${
                           idx === billingSummary.length - 1
                             ? "text-orange-600"
-                            : "text-gray-900"
+                            : "text-gray-900 dark:text-white"
                         }`}
                       >
                         {item.amount}
@@ -286,8 +286,8 @@ const AmcServicesPage = () => {
               </div>
 
               {/* Schedule table */}
-              <div className="bg-[#f7f7f7] rounded-[12px] p-4 shadow-sm">
-                <h2 className="text-sm font-semibold text-gray-900 mb-4">
+              <div className="bg-[#f7f7f7] dark:bg-gray-400 rounded-[12px] p-4 shadow-sm">
+                <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
                   AMC Schedule
                 </h2>
 
@@ -310,7 +310,7 @@ const AmcServicesPage = () => {
                       >
                         {item.status}
                       </span>
-                      <span className="text-xs text-gray-800 truncate">
+                      <span className="text-xs text-gray-800 dark:text-gray-300 truncate">
                         {item.date}
                       </span>
                       <button
@@ -329,7 +329,7 @@ const AmcServicesPage = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

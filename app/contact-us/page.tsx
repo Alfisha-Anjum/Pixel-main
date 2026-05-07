@@ -197,10 +197,12 @@
 // export default ContactPage;
 export default function ContactPage() {
   return (
-    <div className="bg-white py-10 px-6 md:px-16">
+    <div className="py-10 px-6 md:px-16">
       {/* HEADER */}
       <div className="max-w-5xl mx-auto mb-12">
-        <h1 className="text-2xl font-semibold mb-4">Contact Us</h1>
+        <h1 className="text-2xl dark:text-white font-semibold mb-4">
+          Contact Us
+        </h1>
         <p className="text-gray-600 text-[14px]">
           We're here to assist you! If you have any questions, concerns, or need
           further assistance, please don't hesitate to reach out to us. Our
@@ -217,7 +219,7 @@ export default function ContactPage() {
       {/* CONTACT CARDS */}
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 mb-16">
         {/* CHAT */}
-        <div className="flex-1 bg-white p-6 flex gap-4 items-start">
+        <div className="flex-1 bg-white dark:bg-gray-500 p-6 flex gap-4 items-start">
           <div className="w-10 h-10 shadow-md items-center justify-center flex bg-[#FEECE7]">
             <img src="/message.png" alt="chat" className="w-6 h-6 shadow-md" />
           </div>
@@ -232,7 +234,7 @@ export default function ContactPage() {
         </div>
 
         {/* PHONE */}
-        <div className="flex-1 bg-white p-6 flex gap-4 items-start">
+        <div className="flex-1 bg-white dark:bg-gray-500 p-6 flex gap-4 items-start">
           <div className="w-10 h-10 shadow-md items-center justify-center flex bg-[#FEECE7]">
             <img src="/phone.png" alt="phone" className="w-6 h-6" />
           </div>
@@ -245,8 +247,10 @@ export default function ContactPage() {
       </div>
 
       {/* SOCIAL SECTION */}
-      <div className="max-w-5xl mx-auto mb-10">
-        <p className="text-xl font-semibold mb-2">Social Links</p>
+      <div className="max-w-5xl mx-auto mb-10 p-6">
+        <p className="text-xl text-gray-900 dark:text-white font-semibold mb-2">
+          Social Links
+        </p>
         <p className="text-gray-500 mb-6">Follow us on social media</p>
 
         <div className="flex gap-6">

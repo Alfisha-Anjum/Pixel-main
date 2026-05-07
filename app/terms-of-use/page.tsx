@@ -10,9 +10,11 @@ const TermsPage = () => {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen py-10">
-      <div className="max-w-4xl mx-auto bg-white text-gray-700">
-        <h1 className="text-3xl font-semibold mb-4">Term of use</h1>
+    <div className="min-h-screen py-10">
+      <div className="max-w-4xl mx-auto text-gray-700">
+        <h1 className="text-3xl font-semibold mb-4 dark:text-white">
+          Term of use
+        </h1>
 
         <p className="text-[15px] mb-6">
           Welcome to TASPRO Company! These Terms of Use govern your access to

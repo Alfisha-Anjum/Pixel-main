@@ -15,16 +15,16 @@ const ServicesSection = () => {
 
             {/* SECTION 1: On-demand Services */}
             <div className="">
-              <h3 className="text-lg font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
                 On-demand Services we offer in Raipur Chhattisgarh
               </h3>
 
               {/* Appliances Repair & Service */}
               <div className="mb-3">
-                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                <h4 className="text-sm font-bold text-gray-800 dark:text-white mb-1.5">
                   Appliances Repair & Service
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   AC Repair | Air Cooler Repair | Gas Stove Repair | Geyser
                   Repair | Kitchen Chimney Cleaning | Kitchen Chimney Repair |
                   Microwave Oven Repair | Refrigerator Repair | Residential
@@ -35,10 +35,10 @@ const ServicesSection = () => {
 
               {/* Deep Cleaning Services */}
               <div className="mb-3">
-                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                <h4 className="text-sm font-bold text-gray-800 dark:text-white mb-1.5">
                   Deep Cleaning Services
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   Bathroom Cleaning | Carpet Cleaning | Floor Cleaning | Home
                   Deep Cleaning | Kitchen Deep Cleaning | Office Deep Cleaning |
                   Sofa Cleaning | Water Tank Cleaning | Carpenter | Electrician
@@ -48,10 +48,10 @@ const ServicesSection = () => {
 
               {/* Construction & Remodeling */}
               <div className="mb-3">
-                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                <h4 className="text-sm font-bold text-gray-800 dark:text-white mb-1.5">
                   Construction & Remodeling
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   Home Renovation & Remodeling | Bathroom Renovation &
                   Remodeling | Commercial Chimney Service | Painting Contractor
                   | Plumbing Contractor | Electrical Contractor | False Ceiling
@@ -65,16 +65,16 @@ const ServicesSection = () => {
 
             {/* SECTION 2: AMC Services */}
             <div className="">
-              <h3 className="text-lg font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
                 AMC Services we offer in Raipur Chhattisgarh
               </h3>
 
               {/* Annual Maintenance Contract (AMC) */}
               <div className="mb-3">
-                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                <h4 className="text-sm font-bold text-gray-800 dark:text-white mb-1.5">
                   Annual Maintenance Contract (AMC)
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   Air Conditioner (AC) AMC | Water Purifier (RO) AMC | Kitchen
                   Chimney AMC
                 </p>
@@ -82,10 +82,10 @@ const ServicesSection = () => {
 
               {/* Cleaning Packages */}
               <div className="">
-                <h4 className="text-sm font-bold text-gray-800 mb-1.5">
+                <h4 className="text-sm font-bold text-gray-800 dark:text-white mb-1.5">
                   Cleaning Packages
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   Bathroom Cleaning Package | Water Tank Cleaning Package | Sofa
                   Cleaning Package | Home Cleaning Package
                 </p>
@@ -103,7 +103,7 @@ const ServicesSection = () => {
         <div className="pt-5">
           <div className=" flex items-center gap-1 mx-auto">
             {/* <h3 className="text-lg  text-gray-900 mb-2"></h3> */}
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
               Serving Cities : Raipur | New Raipur | Durg | Bhilai | Korba |
               Raigarh | Kanker
             </p>

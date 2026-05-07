@@ -5,21 +5,23 @@
 
 const TermsPage = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* <Header /> */}
 
       <main className="py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Terms and Conditions
             </h1>
-            <p className="text-gray-600">Last updated: January 29, 2026</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              Last updated: January 29, 2026
+            </p>
           </div>
 
           <div className="prose prose-gray max-w-none">
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 1. Introduction
               </h2>
               <p className="text-gray-700 mb-4">
@@ -35,10 +37,12 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 2. Interpretation and Definitions
               </h2>
-              <h3 className="font-medium text-gray-800 mb-2">Interpretation</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
+                Interpretation
+              </h3>
               <p className="text-gray-700 mb-4">
                 The words of which the initial letter is capitalized have
                 meanings as defined in the following conditions. The following
@@ -46,7 +50,9 @@ const TermsPage = () => {
                 they appear in singular or in plural.
               </p>
 
-              <h3 className="font-medium text-gray-800 mb-2">Definitions</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
+                Definitions
+              </h3>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
                 <li>
                   <strong>Company:</strong> Refers to TAS PRO, the service
@@ -72,10 +78,10 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 3. Booking and Service Terms
               </h2>
-              <h3 className="font-medium text-gray-800 mb-2">
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
                 Booking Process
               </h3>
               <p className="text-gray-700 mb-4">
@@ -84,7 +90,7 @@ const TermsPage = () => {
                 for ensuring the accuracy of the service location and timing.
               </p>
 
-              <h3 className="font-medium text-gray-800 mb-2">
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
                 Service Execution
               </h3>
               <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
@@ -107,7 +113,7 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 4. Pricing and Payment
               </h2>
               <p className="text-gray-700 mb-4">
@@ -116,7 +122,7 @@ const TermsPage = () => {
                 without prior notice.
               </p>
 
-              <h3 className="font-medium text-gray-800 mb-2">
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
                 Payment Methods
               </h3>
               <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
@@ -136,10 +142,12 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 5. Cancellation and Refund Policy
               </h2>
-              <h3 className="font-medium text-gray-800 mb-2">Cancellation</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
+                Cancellation
+              </h3>
               <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
                 <li>
                   Cancellations made 24 hours before the scheduled service are
@@ -152,7 +160,9 @@ const TermsPage = () => {
                 <li>No-shows will be charged a cancellation fee</li>
               </ul>
 
-              <h3 className="font-medium text-gray-800 mb-2">Refunds</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
+                Refunds
+              </h3>
               <p className="text-gray-700">
                 Refunds are processed within 7-10 business days to the original
                 payment method. Refunds may be partial depending on the service
@@ -161,7 +171,7 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 6. Service Quality and Warranty
               </h2>
               <p className="text-gray-700 mb-4">
@@ -169,7 +179,9 @@ const TermsPage = () => {
                 service must be reported within 24 hours of service completion.
               </p>
 
-              <h3 className="font-medium text-gray-800 mb-2">Warranty Terms</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-400 mb-2">
+                Warranty Terms
+              </h3>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
                 <li>Warranty periods vary by service type</li>
                 <li>Warranty covers defects in workmanship</li>
@@ -178,7 +190,7 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 7. Limitation of Liability
               </h2>
               <p className="text-gray-700">
@@ -190,7 +202,7 @@ const TermsPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 8. Changes to Terms
               </h2>
               <p className="text-gray-700">
@@ -202,7 +214,7 @@ const TermsPage = () => {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 9. Contact Information
               </h2>
               <p className="text-gray-700">

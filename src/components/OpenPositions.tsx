@@ -9,10 +9,12 @@ const jobs = Array(9).fill({
 
 export default function OpenPositions() {
   return (
-    <section className="bg-white md:py-20">
+    <section className="md:py-20">
       <div className="max-w-[1240] mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-3xl font-semibold pt-10 mb-4">Open Positions</h2>
+        <h2 className="text-3xl dark:text-white font-semibold pt-10 mb-4">
+          Open Positions
+        </h2>
 
         <p className="text-gray-500 max-w-2xl mx-auto mb-12">
           There are many variations of passages of Lorem Ipsum available, but

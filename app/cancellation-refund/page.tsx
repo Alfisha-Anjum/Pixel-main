@@ -10,13 +10,13 @@ const CancellationPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* <Header /> */}
 
       <main className="flex-grow">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-xl md:p-12">
-            <h1 className="text-xl md:text-2xl font-semibold text-gray-900 mb-8">
+          <div className="rounded-xl md:p-12">
+            <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-8">
               Cancellation & Refund
             </h1>
 
@@ -26,7 +26,7 @@ const CancellationPage = () => {
                 which you can cancel services and receive refunds.
               </p>
 
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 mt-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 mt-8">
                 Cancellation Policy
               </h2>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -40,7 +40,7 @@ const CancellationPage = () => {
                 <li>Cancellations must be made through our app or website</li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 mt-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 mt-8">
                 Refund Process
               </h2>
               <p className="text-gray-700 mb-6">
@@ -49,7 +49,7 @@ const CancellationPage = () => {
                 refund is initiated.
               </p>
 
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 mt-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 mt-8">
                 Service Quality Issues
               </h2>
               <p className="text-gray-700 mb-6">
@@ -58,7 +58,7 @@ const CancellationPage = () => {
                 consideration.
               </p>
 
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 mt-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 mt-8">
                 Special Circumstances
               </h2>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -68,7 +68,7 @@ const CancellationPage = () => {
                 <li>Technical issues preventing service delivery</li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 mt-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 mt-8">
                 Non-Refundable Items
               </h2>
               <p className="text-gray-700 mb-6">

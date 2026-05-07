@@ -237,7 +237,7 @@ export default function CartPage() {
         {/* <Header /> */}
 
         <main className="max-w-7xl mx-auto px-5">
-          <h1 className="text-2xl font-bold text-gray-900 mb-5">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-5">
             Cart Summary
           </h1>
 
@@ -394,17 +394,17 @@ export default function CartPage() {
                     </div>
                     <div className="flex flex-col gap-2 items-start ">
                       {" "}
-                      <p className="text-sm font-semibold text-gray-900">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
                         Coupons & Offer
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-300">
                         Save upto 15% on every booking
                       </p>
                     </div>
                   </div>
 
                   <ChevronDown
-                    className={`w-5 h-5 text-gray-500 transition-transform ${
+                    className={`w-5 h-5 text-gray-500 dark:text-gray-300 transition-transform ${
                       showCoupons ? "rotate-180" : ""
                     }`}
                   />
