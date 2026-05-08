@@ -12,7 +12,7 @@ export default function ProfileCard({ profile }: { profile: any }) {
         alt="profile"
         width={100}
         height={100}
-        className="rounded-full mb-3"
+        className="w-[100px] h-[100px] rounded-full object-cover overflow-hidden mb-3"
       />
 
       <h4 className="font-semibold text-[#0A0F0D] dark:text-white text-[16px]">

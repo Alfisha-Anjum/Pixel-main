@@ -84,7 +84,11 @@ const DeepCleaningServices = ({
 const checkScrollState = () => {
   const slider = sliderRef.current;
   if (!slider) return;
+const checkScrollState = () => {
+  const slider = sliderRef.current;
+  if (!slider) return;
 
+  const { scrollLeft, scrollWidth, clientWidth } = slider;
   const { scrollLeft, scrollWidth, clientWidth } = slider;
 
   setCanScroll(finalServices.length > 1 && scrollWidth > clientWidth + 5);

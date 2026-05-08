@@ -119,16 +119,16 @@ export default function OrderConfirmation() {
       <main className="w-full">
         <div className="w-full max-w-7xl justify-between mx-auto flex flex-col gap-10 lg:flex-row px-5 xl:px-8">
           <div className="flex flex-col">
-            <div className="max-w-full">
-              <h1 className="text-xl md:text-2xl font-semibold mb-3 text-[#1B1B1B]">
+            <div className="max-w-full sm:text-left text-center">
+              <h1 className="text-xl md:text-2xl font-semibold mb-3 text-[#1B1B1B] dark:text-white">
                 Thanks for giving us opportunity to serve you better
               </h1>
 
-              <p className="text-base lg:text-lg text-[#848484] mb-3">
+              <p className="text-base lg:text-lg text-[#848484] mb-3 dark:text-gray-400">
                 Service Delivery by Fri, 26-jan-2024
               </p>
 
-              <a className="text-base lg:text-lg text-blue-600 font-semibold cursor-pointer">
+              <a className="text-base lg:text-lg text-blue-600 font-semibold cursor-pointer dark:text-blue-400">
                 Track & Manage Order
               </a>
             </div>

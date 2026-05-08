@@ -12,7 +12,7 @@ export default function OpenPositions() {
     <section className="md:py-20">
       <div className="max-w-[1240] mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-3xl dark:text-white font-semibold pt-10 mb-4">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl dark:text-white font-semibold mb-6 leading-tight mt-10">
           Open Positions
         </h2>
 

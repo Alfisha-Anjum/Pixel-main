@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { MoreVertical, Star, ArrowLeft } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { MoreVertical, Star, ArrowLeft, Edit, Trash2 } from "lucide-react";
 
 type Props = {
   setActiveView: (view: string) => void;
@@ -10,6 +10,22 @@ type Props = {
 
 export default function MyReviews({ setActiveView }: Props) {
   const [loading, setLoading] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenIndex(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const reviews = [
     {
@@ -43,7 +59,7 @@ export default function MyReviews({ setActiveView }: Props) {
   ];
 
   return (
-    <div className="md:px-6 md:py-6 w-full">
+    <div className="md:px-6 w-full">
       <div className="w-full flex justify-between items-center mb-6 md:hidden">
         {/* Back */}
         <button
@@ -55,7 +71,7 @@ export default function MyReviews({ setActiveView }: Props) {
         </button>
       </div>
 
-      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] md:font-semibold md:mb-6">
+      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] dark:text-white md:font-semibold md:mb-6">
         My Rating and Reviews
       </h2>
       {loading && (
@@ -134,7 +150,28 @@ export default function MyReviews({ setActiveView }: Props) {
               </div>
 
               {/* Top Right Icon */}
-              <MoreVertical className="w-4 h-4 text-black cursor-pointer absolute top-1 right-0" />
+              <div className="" ref={menuRef}>
+                {/* Icon */}
+                <MoreVertical
+                  className="w-4 h-4 text-black cursor-pointer absolute top-4 right-1"
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                />
+
+                {/* Dropdown */}
+                {openIndex === i && (
+                  <div className="absolute top-10 right-0 w-36 bg-white shadow-lg rounded-xl border border-gray-200 py-2 z-50">
+                    <button className="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-100">
+                      <Edit className="w-4 h-4" />
+                      Edit
+                    </button>
+
+                    <button className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-500 hover:bg-red-50">
+                      <Trash2 className="w-4 h-4" />
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
