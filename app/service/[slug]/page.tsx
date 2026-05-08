@@ -34,22 +34,29 @@ import ServicesSection from "@/components/ServicesSection";
 import { useSearchParams } from "next/navigation";
 // import { useBooking, CartItem } from "@/context/BookingContext";
 
-interface Service {
-  id: number;
+
+
+// interface CartItemService extends Service {
+//   quantity: number;
+// }
+
+
+
+type SubService = {
+  id: number | string;
   name: string;
-  description: string;
-  rating: number;
-  reviewCount: number;
-  duration: string;
-  price: number;
-  originalPrice?: number;
+  description?: string;
   image: string;
-}
+  rating: number;
+  reviews: number;
+  duration: string;
+  discountedPrice: number;
+  originalPrice: number;
+};
 
-interface CartItemService extends Service {
+type CartItemService = SubService & {
   quantity: number;
-}
-
+};
 // AC Repair Component
 const ACRepairLayout = () => {
   const [showCoupons, setShowCoupons] = useState(false);
@@ -79,6 +86,7 @@ const ACRepairLayout = () => {
   const [atEnd, setAtEnd] = useState(false);
   const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
 
+  
   const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
     const slider = ref.current;
     if (!slider) return;
@@ -371,42 +379,47 @@ const ACRepairLayout = () => {
   const currentServices = currentType?.subServices || [];
   // const { addToCart } = useBooking();
 
-  const addToCart = (service: SubService) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === service.id);
+ const addToCart = (service: SubService) => {
+   setCartItems((prev: CartItemService[]) => {
+     const existing = prev.find((item) => item.id === service.id);
 
-      if (existing) {
-        return prev.map((item) =>
-          item.id === service.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      }
+     if (existing) {
+       return prev.map((item) =>
+         item.id === service.id
+           ? { ...item, quantity: item.quantity + 1 }
+           : item,
+       );
+     }
 
-      return [...prev, { ...service, quantity: 1 }];
-    });
-  };
+     const newItem: CartItemService = {
+       ...service,
+       quantity: 1,
+     };
 
-  const updateQuantity = (id: number, quantity: number) => {
-    if (quantity === 0) {
-      removeFromCart(id);
-    } else {
-      setCartItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
-      );
-    }
-  };
+     return [...prev, newItem];
+   });
+ };
 
-  const removeFromCart = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+ const updateQuantity = (id: number | string, quantity: number) => {
+   if (quantity === 0) {
+     removeFromCart(id);
+   } else {
+     setCartItems((prev) =>
+       prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
+     );
+   }
+ };
 
-  const getTotalPrice = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    );
-  };
+ const removeFromCart = (id: number | string) => {
+   setCartItems((prev) => prev.filter((item) => item.id !== id));
+ };
+
+const getTotalPrice = () => {
+  return cartItems.reduce(
+    (total, item) => total + item.discountedPrice * item.quantity,
+    0,
+  );
+};
 
   const totalSavings = cartItems.reduce(
     (acc, item) =>

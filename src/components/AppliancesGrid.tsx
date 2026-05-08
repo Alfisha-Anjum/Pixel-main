@@ -48,13 +48,20 @@ const appliances = [
   { image: "/see-all.png", label: "See All" },
 ];
 
-interface ApplianceItem {
+// interface ApplianceItem {
+//   image: string;
+//   label: string;
+//   slug?: string;
+// }
+
+type ApplianceItem = {
   image: string;
   label: string;
   slug?: string;
-}
+};
+
 const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
-  const finalAppliances =
+  const finalAppliances: ApplianceItem[] =
     data.length > 0
       ? [
           ...data.map((item: any) => ({
@@ -292,12 +299,14 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                   <div
                     key={i}
                     onClick={() => {
-                      if (item.slug === "ac-repair" && modalSource === "amc") {
-                       router.push(
-                         `/service/${getRouteSlug(item.slug)}?source=amc`,
-                       );
+                      const routeSlug = getRouteSlug(item.slug);
+
+                      if (routeSlug === "ac-repair" && modalSource === "amc") {
+                        router.push(
+                          `/service/${getRouteSlug(item.slug)}?source=amc`,
+                        );
                       } else {
-                       router.push(`/service/${getRouteSlug(item.slug)}`);
+                        router.push(`/service/${getRouteSlug(item.slug)}`);
                       }
                       setIsModalOpen(false);
                     }}

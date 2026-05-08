@@ -52,21 +52,18 @@ const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
       sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
-
-const checkScrollState = () => {
-  const slider = sliderRef.current;
-  if (!slider) return;
 const checkScrollState = () => {
   const slider = sliderRef.current;
   if (!slider) return;
 
   const { scrollLeft, scrollWidth, clientWidth } = slider;
-  const { scrollLeft, scrollWidth, clientWidth } = slider;
 
- setCanScroll(finalPackages.length > 1 && scrollWidth > clientWidth + 5);
+  setCanScroll(finalPackages.length > 1 && scrollWidth > clientWidth + 5);
   setAtStart(scrollLeft <= 5);
   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
 };
+
+
 
   useEffect(() => {
     checkScrollState();

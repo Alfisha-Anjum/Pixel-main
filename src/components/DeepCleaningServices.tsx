@@ -84,17 +84,14 @@ const DeepCleaningServices = ({
 const checkScrollState = () => {
   const slider = sliderRef.current;
   if (!slider) return;
-const checkScrollState = () => {
-  const slider = sliderRef.current;
-  if (!slider) return;
 
-  const { scrollLeft, scrollWidth, clientWidth } = slider;
   const { scrollLeft, scrollWidth, clientWidth } = slider;
 
   setCanScroll(finalServices.length > 1 && scrollWidth > clientWidth + 5);
   setAtStart(scrollLeft <= 5);
   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
 };
+
   useEffect(() => {
     checkScrollState();
 
@@ -124,9 +121,7 @@ const checkScrollState = () => {
   const scrollRight = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: 307, behavior: "smooth" });
-      setCurrentIndex((prev) =>
-        Math.min(cleaningServices.length - 1, prev + 1),
-      );
+      setCurrentIndex((prev) => Math.min(finalServices.length - 1, prev + 1));
     }
   };
 
