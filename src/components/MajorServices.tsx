@@ -1,164 +1,167 @@
-import { Star } from "lucide-react";
+"use client";
+
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import LayoutContainer from "./LayoutContainer";
 
 const majorServices = [
   {
     title: "Plumbing Service Agency",
     rating: 4.5,
-    reviews: "30 Reviews",
+    reviews: "12m Review",
     image: "/heroimage.jpg",
   },
   {
     title: "Electrical Service Agency",
     rating: 4.5,
-    reviews: "30 Reviews",
+    reviews: "12m Review",
     image: "/heroimage.jpg",
   },
   {
-    title: "Water proofing Service Agency",
+    title: "Waterproofing Service Agency",
     rating: 4.5,
-    reviews: "30 Reviews",
+    reviews: "12m Review",
     image: "/heroimage.jpg",
   },
   {
     title: "Bathroom & Kitchen Renovation",
     rating: 4.5,
-    reviews: "30 Reviews",
+    reviews: "12m Review",
     image: "/heroimage.jpg",
   },
 ];
 
 const MajorServices = ({ data = [] }: { data?: any[] }) => {
   const finalServices = data.length > 0 ? data : majorServices;
+
   const router = useRouter();
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const checkScrollState = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+    setCanScroll(scrollWidth > clientWidth);
+    setAtStart(scrollLeft <= 5);
+    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+  };
+
+  useEffect(() => {
+    checkScrollState();
+
+    const slider = sliderRef.current;
+
+    if (slider) {
+      slider.addEventListener("scroll", checkScrollState);
+    }
+
+    window.addEventListener("resize", checkScrollState);
+
+    return () => {
+      if (slider) {
+        slider.removeEventListener("scroll", checkScrollState);
+      }
+      window.removeEventListener("resize", checkScrollState);
+    };
+  }, [finalServices.length]);
+
+  const scrollLeft = () => {
+    sliderRef.current?.scrollBy({ left: -307, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    sliderRef.current?.scrollBy({ left: 307, behavior: "smooth" });
+  };
 
   const handleBookService = (serviceTitle: string) => {
     router.push(`/service/${serviceTitle.toLowerCase().replace(/\s+/g, "-")}`);
   };
 
   return (
-    <section className="">
+    <section className="py-5 bg-white dark:bg-gray-900">
       <LayoutContainer>
         <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-5">
           Major Services
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {finalServices.map((service, index) => (
-            <div
-              key={index}
-              style={{
-                borderRadius: "16px",
-                boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-                transition: "transform 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
-            >
-              {/* Large Service Image */}
+        <div className="relative">
+          <div
+            ref={sliderRef}
+            className="flex gap-5 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [scrollbar-width:none] snap-x"
+          >
+            {finalServices.map((service, index) => (
               <div
-                style={{
-                  width: "100%",
-                  height: "195px",
-                  overflow: "hidden",
-                  borderRadius: "16px 16px 0 0",
-                }}
+                key={index}
+                className="flex-shrink-0 snap-center w-[260px] sm:w-[270px] lg:w-[285px] bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.12)] border border-gray-100"
               >
-                <img
-                  src={service.image}
-                  alt={service.title || service.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-
-              {/* Content Below Image */}
-              <div
-                style={{
-                  padding: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                  flex: 1,
-                }}
-              >
-                {/* Service Title */}
-                <h3
-                  style={{
-                    fontSize: "15px",
-                    fontWeight: "500",
-                    color: "#1F2937",
-                    margin: 0,
-                    lineHeight: "1.3",
-                  }}
-                >
-                  {service.title || service.name}
-                </h3>
-
-                {/* Rating Row */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                >
-                  <Star
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      color: "#F97316",
-                      fill: "#F97316",
-                    }}
+                <div className="w-full h-[145px] overflow-hidden">
+                  <img
+                    src={service.image}
+                    alt={service.title || service.name}
+                    className="w-full h-full object-cover"
                   />
-                  <span style={{ fontSize: "13px", color: "#6B7280" }}>
-                    {Number(service.rating) || 0}
-                  </span>
-                  <span style={{ fontSize: "13px", color: "#6B7280" }}>
-                    ({service.reviews})
-                  </span>
                 </div>
 
-                {/* Buttons Row */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: "8px",
-                    marginTop: "4px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#16A34A",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Free Consultancy
-                  </span>
+                <div className="p-3">
+                  <h3 className="text-[15px] font-semibold text-[#222] leading-tight mb-2">
+                    {service.title || service.name}
+                  </h3>
 
-                  <button
-                    onClick={() =>
-                      service.slug
-                        ? router.push(`/service/${service.slug}`)
-                        : handleBookService(service.title || service.name)
-                    }
-                  >
-                    Book Now
-                  </button>
+                  <div className="flex items-center gap-1 mb-3">
+                    <Star className="w-3.5 h-3.5 text-orange-500 fill-orange-500" />
+                    <span className="text-[11px] text-gray-600">
+                      {Number(service.rating) || 4.5}
+                    </span>
+                    <span className="text-[11px] text-gray-500">
+                      ({service.reviews || "12m Review"})
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-bold text-green-600 uppercase whitespace-nowrap">
+                      Free Consultancy
+                    </span>
+
+                    <button
+                      onClick={() =>
+                        service.slug
+                          ? router.push(`/service/${service.slug}`)
+                          : handleBookService(service.title || service.name)
+                      }
+                      className="bg-gradient-to-r from-orange-500 to-orange-400 text-white text-xs font-medium px-5 py-2 rounded-md"
+                    >
+                      Book Now
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {canScroll && !atStart && (
+            <button
+              onClick={scrollLeft}
+              className="absolute left-[-12px] top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-500 rounded-full hidden md:flex items-center justify-center z-10 text-orange-500"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          )}
+
+          {canScroll && !atEnd && (
+            <button
+              onClick={scrollRight}
+              className="absolute right-[-12px] top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-500 rounded-full hidden md:flex items-center justify-center z-10 text-orange-500"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
         </div>
       </LayoutContainer>
     </section>

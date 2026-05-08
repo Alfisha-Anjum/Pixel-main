@@ -5,7 +5,7 @@ import LayoutContainer from "./LayoutContainer";
 const ServicesSection = () => {
   return (
     <>
-      <section className="py-5">
+      <section className="py-5 bg-gray-50 ">
         <LayoutContainer>
           <div className=" ">
             {/* Main Title

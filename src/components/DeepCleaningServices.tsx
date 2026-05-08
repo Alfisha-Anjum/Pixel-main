@@ -81,17 +81,16 @@ const DeepCleaningServices = ({
     }
   };
 
-  const checkScrollState = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+const checkScrollState = () => {
+  const slider = sliderRef.current;
+  if (!slider) return;
 
-    const { scrollLeft, scrollWidth, clientWidth } = slider;
+  const { scrollLeft, scrollWidth, clientWidth } = slider;
 
-    setCanScroll(scrollWidth > clientWidth);
-    setAtStart(scrollLeft <= 5);
-    setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
-  };
-
+  setCanScroll(scrollWidth > clientWidth);
+  setAtStart(scrollLeft <= 5);
+  setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
+};
   useEffect(() => {
     checkScrollState();
 
@@ -110,22 +109,14 @@ const DeepCleaningServices = ({
       window.removeEventListener("resize", checkScrollState);
     };
   }, []);
-  const checkScrollable = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+  // const checkScrollable = () => {
+  //   const slider = sliderRef.current;
+  //   if (!slider) return;
 
-    setCanScroll(slider.scrollWidth > slider.clientWidth);
-  };
+  //   setCanScroll(slider.scrollWidth > slider.clientWidth);
+  // };
 
-  useEffect(() => {
-    checkScrollable();
 
-    window.addEventListener("resize", checkScrollable);
-
-    return () => {
-      window.removeEventListener("resize", checkScrollable);
-    };
-  }, []);
   const scrollRight = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: 307, behavior: "smooth" });

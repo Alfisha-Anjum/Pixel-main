@@ -1148,10 +1148,10 @@ const ACRepairLayout = () => {
                 </div>
 
                 <div className="my-8 mb-0 md:mb-10 relative flex items-start justify-start">
-                  <p className="inline-flex items-center gap-1 text-[#FF6A00] font-medium">
-                    View All Reviews
+                  <p className="inline-flex items-center text-[#FF6A00] font-medium">
+                    View All Reviews 
                     <svg
-                      className="w-4 h-4"
+                      className=" h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1164,7 +1164,7 @@ const ACRepairLayout = () => {
                       />
                     </svg>
                     <svg
-                      className="w-4 h-4"
+                      className=" h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1208,7 +1208,7 @@ const ACRepairLayout = () => {
         </div>
         <div className="mx-auto relative w-full overflow-hidden">
           {/* Heading */}
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 text-white mb-5 px-4 sm:px-0">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800  mb-5 px-4 sm:px-0">
             We covered AC Brand
           </h2>
 
@@ -1277,14 +1277,7 @@ const ACRepairLayout = () => {
           <h2 className="text-2xl font-semibold dark:text-white">
             AC Repair service in Raipur
           </h2>
-
-          <p className="text-gray-600 leading-relaxed text-justify">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomized words which don't look even slightly
-            believable. If you are going to use a passage of Lorem Ipsum, you
-            need to be sure there isn't anything embarrassing hidden in the
-            middle of text. All the Lorem Ipsum generators on the Internet tend
+          <p className="dark:text-gray-300">
             to repeat predefined chunks as necessary, making this the first true
             generator on the Internet. It uses a dictionary of over 200 Latin
             words, combined with a handful of model sentence structures, to
@@ -1352,7 +1345,9 @@ const ACRepairLayout = () => {
           </div>
         </div>
       </div>
+      <div className="my-10">
       <DeepCleaningServices />
+      </div>
       <ServicesSection />
 
       <SelectCapacityModal

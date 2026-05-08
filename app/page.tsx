@@ -187,14 +187,17 @@ console.log("dashboardData", dashboardData);
       <HomeStartupModal />
 
       <main>
-        <ServiceSection data={dashboardData?.categories || []} />
+        <ServiceSection
+          data={dashboardData?.categories || []}
+          applianceData={dashboardData?.appliance_repair_services || []}
+        />
 
         {/* <ServiceSection /> */}
         <FeatureSection />
         {/* <AMCServicePlan /> */}
         <AMCServicePlan data={dashboardData?.amc_services || []} />
 
-        <AppliancesGrid />
+        <AppliancesGrid data={dashboardData?.appliance_repair_services || []} />
         {/* <DeepCleaningServices /> */}
         <DeepCleaningServices
           data={dashboardData?.deep_cleaning_services || []}
