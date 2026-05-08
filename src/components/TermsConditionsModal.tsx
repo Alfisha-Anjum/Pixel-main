@@ -134,8 +134,8 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 relative flex flex-col">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative flex flex-col">
         <button
           onClick={onClose}
           className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md z-10"
@@ -143,7 +143,7 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({
           <X className="w-5 h-5" />
         </button>
         <div
-          className="max-h-[75vh] overflow-y-auto pr-2"
+          className="max-h-[75vh] overflow-y-auto "
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -153,8 +153,8 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({
             Terms & Conditions
           </h2>
 
-          <div className="flex-grow overflow-y-auto mb-6 pr-4">
-            <div className="space-y-4 text-sm text-gray-700">
+          <div className="flex-grow overflow-y-auto mb-6 ">
+            <div className="space-y-2 text-sm text-gray-700">
               <h3 className="font-bold text-gray-900">1. Service Terms</h3>
               <p>
                 By booking a service through our platform, you agree to these
