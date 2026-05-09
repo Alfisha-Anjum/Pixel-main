@@ -86,24 +86,33 @@ export default function ServiceSection({
   const router = useRouter();
   const [showApplianceModal, setShowApplianceModal] = useState(false);
 
-  const fetchCategoryServices = async (service: any) => {
+const fetchCategoryServices = async (service: any) => {
   try {
-    const res = await fetch(
-      `https://taskpro.itmingo.com/api/services?state=Chhattisgarh&city=Raipur&state_id=1&service_category_id=${service.id}&service_category_name=${encodeURIComponent(service.name)}&state_name=Chhattisgarh&city_name=Raipur`,
-      {
-        headers: {
-          accept: "application/json",
-        },
-      }
-    );
+    console.log("CLICKED SERVICE:", service);
+
+    const url = `https://taskpro.itmingo.com/api/services?state=Chhattisgarh&city=Raipur&state_id=1&service_category_id=${service.id}&service_category_name=${encodeURIComponent(service.name)}&state_name=Chhattisgarh&city_name=Raipur`;
+
+    console.log("API URL:", url);
+
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    console.log("STATUS:", res.status);
 
     const data = await res.json();
 
-    console.log("CATEGORY SERVICES:", data);
+    console.log("SERVICES API RESPONSE:", data);
+
+    if (data?.status) {
+      console.log("SUB CATEGORIES:", data.data);
+    }
 
     router.push(`/service/${service.slug}`);
   } catch (error) {
-    console.log(error);
+    console.log("SERVICES API ERROR:", error);
   }
 };
 
@@ -154,9 +163,9 @@ export default function ServiceSection({
           </div>
 
           {/* Right Side - Hero Image Banner */}
-          <div className="w-full lg:w-[60%] relative h-[300px] lg:h-[450px] rounded-3xl overflow-hidden shadow-xl group lg:ml-8">
-            <Image
-              src="/heroimage.jpg"
+            <div className="w-full lg:w-[60%] relative h-[300px] lg:h-[450px] rounded-3xl overflow-hidden shadow-xl group lg:ml-8">
+              <Image
+                src="/heroimage.jpg"
               alt="Home Services"
               fill
               className="object-cover w-full h-full"

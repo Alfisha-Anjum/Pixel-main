@@ -56,14 +56,14 @@ const ApplianceModal = ({
   onClose,
   data = [],
 }: ApplianceModalProps) => {
-  const finalAppliances =
-    data.length > 0
-      ? data.map((item) => ({
-          image: item.icon,
-          label: item.name,
-          slug: item.slug,
-        }))
-      : appliances.filter((item) => item.label !== "See All");
+const finalAppliances =
+  data.length > 0
+    ? data.map((item) => ({
+        image: item.image || "/10.svg",
+        label: item.name,
+        slug: `ac-repair?sub_category_id=${item.id}`,
+      }))
+    : appliances.filter((item) => item.label !== "See All");
   const router = useRouter();
 
   useEffect(() => {
@@ -102,7 +102,8 @@ const ApplianceModal = ({
           {finalAppliances.map((item, i) => (
             <a
               key={i}
-              href={`/service/${item.slug?.startsWith("ac-repair") ? "ac-repair" : item.slug}`}
+              // href={`/service/${item.slug?.startsWith("ac-repair") ? "ac-repair" : item.slug}`}
+              href={`/service/${item.slug}`}
               className="flex flex-col items-center gap-1"
             >
               {/* Circle Icon */}

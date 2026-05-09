@@ -65,7 +65,7 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
     data.length > 0
       ? [
           ...data.map((item: any) => ({
-            image: item.icon,
+            image: item.image || "/10.svg",
             label: item.name,
             slug: item.slug,
           })),
@@ -151,11 +151,7 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                     src={appliance.image}
                     alt={appliance.label}
                     className="h-14 object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        "https://via.placeholder.com/56?text=" +
-                        appliance.label.charAt(0);
-                    }}
+                    
                   />
                 </div>
                 <span className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-tight">
@@ -198,11 +194,7 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                         height={110}
                         className="object-contain"
                         style={{ objectFit: "contain" }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            "https://via.placeholder.com/120?text=" +
-                            item.label.charAt(0);
-                        }}
+                        
                       />
                     )}
                   </div>
