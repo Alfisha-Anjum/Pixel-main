@@ -74,6 +74,7 @@ const DeepCleaningServices = ({
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
+  
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -307, behavior: "smooth" });

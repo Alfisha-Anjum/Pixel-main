@@ -1,7 +1,8 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import Image from "next/image";
+// import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import { useRef, useEffect, useState } from "react";
 import LayoutContainer from "./LayoutContainer";
 import { useRouter } from "next/navigation";
@@ -203,7 +204,7 @@ const AMCServicePlan = ({ data = [] }: { data?: any[] }) => {
             >
               <div className="relative w-[382px] h-[228px] rounded-[12px] overflow-hidden  group">
                 {/* Background Image */}
-                <Image
+                <SafeImage
                   src={plan.image}
                   alt={plan.title}
                   fill

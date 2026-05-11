@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+// import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import { ChevronsRight, X } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import LayoutContainer from "./LayoutContainer";
@@ -61,17 +62,19 @@ type ApplianceItem = {
 };
 
 const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
-  const finalAppliances: ApplianceItem[] =
-    data.length > 0
-      ? [
-          ...data.map((item: any) => ({
-            image: item.image || "/10.svg",
-            label: item.name,
-            slug: item.slug,
-          })),
-          { image: "/see-all.png", label: "See All" },
-        ]
-      : appliances;
+const finalAppliances: ApplianceItem[] =
+  data.length > 0
+    ? [
+        ...data.map((item: any) => ({
+          image: item.image || item.icon || item.home_icon || "/10.svg",
+
+          label: item.name,
+          slug: item.slug,
+        })),
+        { image: "/see-all.png", label: "See All" },
+      ]
+    : appliances;
+    // console.log("APPLIANCE DATA", data);
   const router = useRouter();
   const [modalSource, setModalSource] = useState<"default" | "amc">("default");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -147,11 +150,12 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                 className="flex flex-col items-center text-center gap-3 group cursor-pointer"
               >
                 <div className="w-full h-28 bg-gray-100 rounded-2xl flex items-center justify-center hover:bg-gray-200 transition">
-                  <img
+                  <SafeImage
                     src={appliance.image}
                     alt={appliance.label}
+                    width={56}
+                    height={56}
                     className="h-14 object-contain"
-                    
                   />
                 </div>
                 <span className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-tight">
@@ -187,14 +191,13 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                         <ChevronsRight className="w-6 h-6 text-orange-500" />
                       </div>
                     ) : (
-                      <Image
+                      <SafeImage
                         src={item.image}
                         alt={item.label}
                         width={110}
                         height={110}
                         className="object-contain"
                         style={{ objectFit: "contain" }}
-                        
                       />
                     )}
                   </div>
@@ -234,18 +237,13 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                         <ChevronsRight className="w-5 h-5 text-orange-500" />
                       </div>
                     ) : (
-                      <Image
+                      <SafeImage
                         src={item.image}
                         alt={item.label}
                         width={80}
                         height={80}
                         className="object-contain"
                         style={{ objectFit: "contain" }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            "https://via.placeholder.com/120?text=" +
-                            item.label.charAt(0);
-                        }}
                       />
                     )}
                   </div>
@@ -306,9 +304,11 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
                   >
                     {/* Circle Icon */}
                     <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
-                      <img
+                      <SafeImage
                         src={item.image}
                         alt={item.label}
+                        width={28}
+                        height={28}
                         className="h-7 object-contain"
                       />
                     </div>

@@ -5,10 +5,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "taskpro.itmingo.com",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        pathname: "/**",
       },
     ],
   },
