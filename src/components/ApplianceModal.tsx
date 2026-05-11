@@ -56,12 +56,36 @@ const ApplianceModal = ({
   onClose,
   data = [],
 }: ApplianceModalProps) => {
+const getApplianceImage = (name: string) => {
+  const lower = name.toLowerCase();
+
+  if (lower.includes("ac")) return "/10.svg";
+  if (lower.includes("washing")) return "/2.svg";
+  if (lower.includes("gas")) return "/9.svg";
+  if (lower.includes("water cooler")) return "/11.svg";
+  if (lower.includes("chimney")) return "/6.svg";
+  if (lower.includes("refrigerator")) return "/8.svg";
+  if (lower.includes("microwave")) return "/5.svg";
+  if (lower.includes("water purifier")) return "/3.svg";
+  if (lower.includes("tv")) return "/4.svg";
+  if (lower.includes("computer")) return "/12.svg";
+  if (lower.includes("geyser")) return "/7.svg";
+  if (lower.includes("deep")) return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80";
+  if (lower.includes("bathroom")) return "/bathroom.png";
+  if (lower.includes("electric")) return "/electrician.png";
+  if (lower.includes("plumber")) return "/plumber.png";
+  if (lower.includes("cleaning")) return "/cleaningpackage.png";
+
+  return "/10.svg";
+};
+
 const finalAppliances =
   data.length > 0
     ? data.map((item) => ({
-        image: item.image || "/10.svg",
+        id: item.id,
+        image: getApplianceImage(item.name), // hardcoded image
         label: item.name,
-        slug: `ac-repair?sub_category_id=${item.id}`,
+        slug: item.slug || "ac-repair",
       }))
     : appliances.filter((item) => item.label !== "See All");
   const router = useRouter();
@@ -100,12 +124,14 @@ const finalAppliances =
         {/* Grid */}
         <div className="grid grid-cols-4 gap-3">
           {finalAppliances.map((item, i) => (
-            <a
-              key={i}
-              // href={`/service/${item.slug?.startsWith("ac-repair") ? "ac-repair" : item.slug}`}
-              href={`/service/${item.slug}`}
-              className="flex flex-col items-center gap-1"
-            >
+       <div
+  key={i}
+  onClick={() => {
+    router.push(`/service/${item.slug}?service_id=${item.id}`);
+    onClose();
+  }}
+  className="flex flex-col items-center gap-1 cursor-pointer"
+>
               {/* Circle Icon */}
               <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
                 <img
@@ -119,7 +145,7 @@ const finalAppliances =
               <span className="text-[10px] text-center text-gray-600 leading-tight">
                 {item.label}
               </span>
-            </a>
+            </div>
           ))}
         </div>
       </div>

@@ -58,6 +58,21 @@ const cleaningServices = [
   },
 ];
 
+const getServiceImage = (name: string) => {
+  const lower = name.toLowerCase();
+
+  if (lower.includes("deep")) return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80";
+  if (lower.includes("furniture")) return "/furniture.png";
+  if (lower.includes("office")) return "/officeclean.png";
+  if (lower.includes("post")) return "/postconstruction.png";
+  if (lower.includes("bathroom")) return "/bathroom.png";
+  if (lower.includes("ac")) return "/10.svg";
+  if (lower.includes("washing")) return "/2.svg";
+  if (lower.includes("plumber")) return "/plumber.png";
+  if (lower.includes("electric")) return "/electrician.png";
+
+  return "/deepclean.png";
+};
 const DeepCleaningServices = ({
   title = "Deep Cleaning Services",
   data = [],
@@ -150,7 +165,12 @@ const checkScrollState = () => {
   }, [isAutoScrolling]);
 
   const handleBookService = (serviceTitle: string) => {
-    router.push(`/service/${serviceTitle.toLowerCase().replace(/\s+/g, "-")}`);
+   router.push(
+     `/service/${
+       service.slug ||
+       (service.title || service.name).toLowerCase().replace(/\s+/g, "-")
+     }?service_id=${service.id}`,
+   );
   };
 
   return (
@@ -184,7 +204,7 @@ const checkScrollState = () => {
                 <div key={index} className="flex-shrink-0 snap-center">
                   <ServiceCard
                     title={service.title || service.name}
-                    image={service.image || service.icon}
+                    image={getServiceImage(service.title || service.name)}
                     rating={Number(service.rating) || 0}
                     reviewCount={service.reviews || 0}
                     price={service.price || service.visiting_charge || 0}

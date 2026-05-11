@@ -56,20 +56,45 @@ const appliances = [
 // }
 
 type ApplianceItem = {
+  id?: number | string;
   image: string;
   label: string;
   slug?: string;
 };
 
 const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
+  const getApplianceImage = (name: string) => {
+    const lower = name.toLowerCase();
+
+    if (lower.includes("ac")) return "/10.svg";
+    if (lower.includes("washing")) return "/2.svg";
+    if (lower.includes("deep")) return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80";
+    if (lower.includes("bathroom")) return "/bathroom.png";
+    if (lower.includes("electric")) return "/electrician.png";
+    if (lower.includes("plumber")) return "/plumber.png";
+    if (lower.includes("cleaning")) return "/cleaningpackage.png";
+    if (lower.includes("geyser")) return "/7.svg";
+    if (lower.includes("chimney")) return "/6.svg";
+    if (lower.includes("refrigerator")) return "/8.svg";
+    if (lower.includes("microwave")) return "/5.svg";
+    if (lower.includes("tv")) return "/4.svg";
+
+    return "/10.svg";
+  };
+
 const finalAppliances: ApplianceItem[] =
   data.length > 0
     ? [
         ...data.map((item: any) => ({
-          image: item.image || item.icon || item.home_icon || "/10.svg",
+          id: item.id,
+          image:
+            item.image ||
+            item.icon ||
+            item.home_icon ||
+            getApplianceImage(item.name),
 
           label: item.name,
-          slug: item.slug,
+          slug: item.slug || "ac-repair",
         })),
         { image: "/see-all.png", label: "See All" },
       ]
@@ -122,14 +147,14 @@ const finalAppliances: ApplianceItem[] =
 
   return slug;
 };
+const handleCardClick = (item: ApplianceItem) => {
+  if (item.label === "See All") {
+    setIsModalOpen(true);
+    return;
+  }
 
-  const handleCardClick = (item: ApplianceItem) => {
-    if (item.label === "See All") {
-      setIsModalOpen(true);
-    } else if (item.slug) {
-    router.push(`/service/${getRouteSlug(item.slug)}`);
-    }
-  };
+  router.push(`/service/${getRouteSlug(item.slug)}?service_id=${item.id}`);
+};
   // Filter out "See All" for modal content
   // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
@@ -289,15 +314,12 @@ const finalAppliances: ApplianceItem[] =
                   <div
                     key={i}
                     onClick={() => {
-                      const routeSlug = getRouteSlug(item.slug);
+                      router.push(
+                        `/service/${getRouteSlug(item.slug)}?service_id=${item.id}${
+                          modalSource === "amc" ? "&source=amc" : ""
+                        }`,
+                      );
 
-                      if (routeSlug === "ac-repair" && modalSource === "amc") {
-                        router.push(
-                          `/service/${getRouteSlug(item.slug)}?source=amc`,
-                        );
-                      } else {
-                        router.push(`/service/${getRouteSlug(item.slug)}`);
-                      }
                       setIsModalOpen(false);
                     }}
                     className="flex flex-col items-center gap-1 cursor-pointer"

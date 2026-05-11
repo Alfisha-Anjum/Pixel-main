@@ -95,6 +95,34 @@ const apiService = serviceDetails?.data;
 const safeImage = (img?: string | null) => {
   return img && img.trim() !== "" ? img : "/10.svg";
 };
+const serviceId = searchParams?.get("service_id");
+
+useEffect(() => {
+  const fetchServiceDetails = async () => {
+    try {
+      const res = await fetch(
+        `https://taskpro.itmingo.com/api/service-details?service_id=${serviceId}&state_name=Chhattisgarh&city_name=Raipur`,
+        {
+          headers: {
+            accept: "application/json",
+          },
+        },
+      );
+
+      const data = await res.json();
+      console.log("SERVICE DETAILS API DATA:", data);
+
+      if (data?.status) {
+        setServiceDetails(data);
+        setActiveTab(String(data?.data?.subServices?.[0]?.sub_category_id));
+      }
+    } catch (error) {
+      console.log("SERVICE DETAILS API ERROR:", error);
+    }
+  };
+
+  if (serviceId) fetchServiceDetails();
+}, [serviceId]);
 
 useEffect(() => {
   const fetchServices = async () => {
@@ -338,7 +366,7 @@ useEffect(() => {
   // const currentServices = currentType?.subServices || [];
   // const { addToCart } = useBooking();
 const apiTabs =
-  apiService?.services?.map((cat: any) => ({
+  apiService?.subServices?.map((cat: any) => ({
     id: String(cat.sub_category_id),
     name: cat.sub_category_name,
     items: cat.items || [],
