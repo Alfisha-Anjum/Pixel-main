@@ -1315,14 +1315,7 @@ const getTotalPrice = () => {
           <h2 className="text-2xl font-semibold dark:text-white">
             AC Repair service in Raipur
           </h2>
-
-          <p className=" leading-relaxed text-justify">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomized words which don't look even slightly
-            believable. If you are going to use a passage of Lorem Ipsum, you
-            need to be sure there isn't anything embarrassing hidden in the
-            middle of text. All the Lorem Ipsum generators on the Internet tend
+          <p className="dark:text-gray-300">
             to repeat predefined chunks as necessary, making this the first true
             generator on the Internet. It uses a dictionary of over 200 Latin
             words, combined with a handful of model sentence structures, to
