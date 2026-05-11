@@ -14,7 +14,7 @@ const { user, logout } = useAuth();
   const [currentCity, setCurrentCity] = useState("Raipur");
 
 
-  const getProfileImage = (img?: string) => {
+const getProfileImage = (img?: string | null) => {
   if (!img) return "/profile.png";
 
   if (img.startsWith("http") || img.startsWith("/")) {

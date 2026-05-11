@@ -147,12 +147,12 @@ const CardDetailsPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       {/* <Header /> */}
 
-      <main className="  min-h-screen">
-        <div className="max-w-7xl mx-auto ">
-          <div className="grid grid-cols-2 gap-8">
+      <main className="  ">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 ">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="w-full">
               <h1 className="text-3xl font-bold mb-2">Add Card Details</h1>
               <p className="text-gray-500 mb-6">
@@ -221,7 +221,7 @@ const CardDetailsPage = () => {
 
             <div className="col-span-1 w-full">
               
-                <div className="bg-white p-6 rounded-2xl shadow h-fit max-w-md sticky top-24">
+                <div className="bg-white p-6 rounded-2xl shadow h-fit max-w-md ">
                   <h2 className="text-lg font-semibold mb-4">Amount Summary</h2>
 
                   <div className="space-y-2 text-gray-600">

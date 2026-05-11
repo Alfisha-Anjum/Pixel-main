@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import LayoutContainer from "./LayoutContainer";
+import SafeImage from "@/components/SafeImage";
 
 const majorServices = [
   {
@@ -102,7 +103,7 @@ const MajorServices = ({ data = [] }: { data?: any[] }) => {
                 className="flex-shrink-0 snap-center w-[260px] sm:w-[270px] lg:w-[285px] bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.12)] border border-gray-100"
               >
                 <div className="w-full h-[145px] overflow-hidden">
-                  <img
+                  <SafeImage
                     src={service.image}
                     alt={service.title || service.name}
                     className="w-full h-full object-cover"

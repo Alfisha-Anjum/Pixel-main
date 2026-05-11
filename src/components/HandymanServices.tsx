@@ -27,14 +27,28 @@ const handymanServices = [
 ];
 
 const HandymanServices = ({ data = [] }: { data?: any[] }) => {
-  const finalServices =
-    data.length > 0
-      ? data.map((item) => ({
-          label: item.name,
-          image: item.icon,
-          slug: item.slug,
-        }))
-      : handymanServices;
+  const router = useRouter();
+const getHandymanImage = (name: string) => {
+  const lower = name.toLowerCase();
+
+  if (lower.includes("electric")) return "/electrician.png";
+  if (lower.includes("carpenter")) return "/Carpenter.png";
+  if (lower.includes("plumber")) return "/plumber.png";
+  if (lower.includes("furniture")) return "/Furniture Assembly & Dismantle.png";
+  if (lower.includes("house")) return "/House Repairer.png";
+
+  return "/electrician.png";
+};
+
+const finalServices =
+  data.length > 0
+    ? data.map((item) => ({
+        id: item.id,
+        label: item.name,
+        image: getHandymanImage(item.name),
+        slug: item.slug,
+      }))
+    : handymanServices;
   return (
     <section className="py-5 max-w-[90%] mx-auto lg:px-8">
       <div className="">
@@ -44,7 +58,15 @@ const HandymanServices = ({ data = [] }: { data?: any[] }) => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {finalServices.map((service, index) => (
-            <div key={index} className="text-center group cursor-pointer">
+            <div
+              key={index}
+              onClick={() =>
+                router.push(
+                  `/service/${service.slug || service.label.toLowerCase().replace(/\s+/g, "-")}?service_id=${service.id}`,
+                )
+              }
+              className="text-center group cursor-pointer"
+            >
               {/* Image Card */}
               <div className="bg-gray-100 rounded-xl h-36 flex items-center justify-center overflow-hidden">
                 <img

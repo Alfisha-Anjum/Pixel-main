@@ -1,16 +1,18 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 
 interface PackageCardProps {
   title: string;
   subtitle: string;
-  image: string;
+  image: string | null;
   onBook: () => void;
 }
 
+
 const PackageCard = ({ title, subtitle, image, onBook }: PackageCardProps) => {
+
   return (
     <div 
       className="relative rounded-xl overflow-hidden group cursor-pointer shadow-md hover:shadow-lg transition-all duration-300"
@@ -21,7 +23,7 @@ const PackageCard = ({ title, subtitle, image, onBook }: PackageCardProps) => {
         position: 'relative'
       }}
     >
-      <Image
+      <SafeImage
         src={image}
         alt={title}
         fill

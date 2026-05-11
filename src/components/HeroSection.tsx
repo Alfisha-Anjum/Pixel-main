@@ -2,6 +2,12 @@
 
 import { useRouter } from "next/navigation";
 
+type HandymanItem = {
+  label: string;
+  image: string;
+  slug?: string;
+};
+
 const handymanServices = [
   {
     label: "Electrician",
@@ -28,14 +34,14 @@ const handymanServices = [
 const HandymanServices = ({ data = [] }: { data?: any[] }) => {
   const router = useRouter();
 
-  const finalServices =
-    data.length > 0
-      ? data.map((item) => ({
-          label: item.name,
-          image: item.icon,
-          slug: item.slug,
-        }))
-      : handymanServices;
+const finalServices: HandymanItem[] =
+  data.length > 0
+    ? data.map((item) => ({
+        label: item.name,
+        image: item.icon,
+        slug: item.slug,
+      }))
+    : handymanServices;
 
   return (
     <section className="py-5 max-w-[90%] mx-auto lg:px-8">
