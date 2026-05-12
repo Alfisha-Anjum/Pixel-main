@@ -26,6 +26,7 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [location, setLocation] = useState<any>(null);
   const [dashboardData, setDashboardData] = useState<any>(null);
+  const [servicesApiData, setServicesApiData] = useState<any[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -34,6 +35,31 @@ export default function Home() {
   useEffect(() => {
     fetchDashboardData("Chhattisgarh", "Raipur");
   }, []);
+
+  const fetchServicesApi = async () => {
+  try {
+    const res = await axios.get("https://taskpro.itmingo.com/api/services", {
+      params: {
+        state: "Chhattisgarh",
+        city: "Raipur",
+        state_name: "Chhattisgarh",
+        city_name: "Raipur",
+      },
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    setServicesApiData(res.data?.data || []);
+  } catch (error: any) {
+    console.log("SERVICES API ERROR:", error.response?.data || error);
+  }
+};
+
+useEffect(() => {
+  fetchDashboardData("Chhattisgarh", "Raipur");
+  fetchServicesApi();
+}, []);
 
   const fetchDashboardData = async (state: string, city: string) => {
   try {
@@ -189,7 +215,7 @@ console.log("dashboardData", dashboardData);
       <main>
         <ServiceSection
           data={dashboardData?.categories || []}
-          applianceData={dashboardData?.appliance_repair_services || []}
+          applianceData={servicesApiData}
         />
 
         {/* <ServiceSection /> */}
@@ -197,7 +223,8 @@ console.log("dashboardData", dashboardData);
         {/* <AMCServicePlan /> */}
         <AMCServicePlan data={dashboardData?.amc_services || []} />
 
-        <AppliancesGrid data={dashboardData?.appliance_repair_services || []} />
+        <AppliancesGrid data={servicesApiData} />
+        {/* <AppliancesGrid data={dashboardData?.appliance_repair_services || []} /> */}
         {/* <DeepCleaningServices /> */}
         <DeepCleaningServices
           data={dashboardData?.deep_cleaning_services || []}

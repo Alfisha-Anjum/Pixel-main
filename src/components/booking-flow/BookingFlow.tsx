@@ -141,6 +141,7 @@ export const BookingFlow: React.FC<BookingFlowProps> = ({
       <SelectAddressModal
         isOpen={currentStep === 4}
         onClose={onClose}
+        addresses={[]}
         onContinue={handleAddressSelect}
         onAddNew={handleAddNewAddress}
       />

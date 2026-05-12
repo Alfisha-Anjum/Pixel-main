@@ -33,6 +33,22 @@ const packages = [
   },
 ];
 
+const getPackageImage = (name: string) => {
+  const lower = name.toLowerCase().trim();
+
+  if (lower.includes("fridge") || lower.includes("refrigerator"))
+    return "/8.svg";
+  if (lower.includes("ac")) return "/10.svg";
+  if (lower.includes("electric")) return "/12.svg";
+  if (lower.includes("kitchen")) return "/6.svg";
+  if (lower.includes("bathroom")) return "/11.svg";
+  if (lower.includes("deep") || lower.includes("cleaning")) return "/10.svg";
+  if (lower.includes("washing")) return "/2.svg";
+  if (lower.includes("microwave")) return "/5.svg";
+  if (lower.includes("chimney")) return "/6.svg";
+
+  return "/10.svg";
+};
 const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
   const finalPackages = data.length > 0 ? data : packages;
   const router = useRouter();
@@ -52,14 +68,13 @@ const CleaningPackage = ({ data = [] }: { data?: any[] }) => {
       sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
-
 const checkScrollState = () => {
   const slider = sliderRef.current;
   if (!slider) return;
 
   const { scrollLeft, scrollWidth, clientWidth } = slider;
 
-  setCanScroll(scrollWidth > clientWidth);
+  setCanScroll(finalPackages.length > 1 && scrollWidth > clientWidth + 5);
   setAtStart(scrollLeft <= 5);
   setAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
 };
@@ -81,7 +96,7 @@ const checkScrollState = () => {
       }
       window.removeEventListener("resize", checkScrollState);
     };
-  }, []);
+  }, [finalPackages.length]);
  
   return (
     <LayoutContainer>
@@ -106,8 +121,12 @@ const checkScrollState = () => {
               <PackageCard
                 title={pkg.title || pkg.name}
                 subtitle={pkg.subtitle || "Best Value"}
-                image={pkg.image || pkg.icon}
-                onBook={() => router.push(`/service/${pkg.slug || "services"}`)}
+                image={getPackageImage(pkg.title || pkg.name)}
+                onBook={() =>
+                  router.push(
+                    `/service/${pkg.slug || "services"}?service_id=${pkg.id}`,
+                  )
+                }
               />
             </div>
           ))}

@@ -415,7 +415,7 @@ import Link from "next/link";
 const MySchedulePage = () => {
   const { user } = useAuth();
   const searchParams = useSearchParams();
-  const refresh = searchParams.get("refresh");
+  const refresh = searchParams?.get("refresh");
   const [activeTab, setActiveTab] = useState<
     "pending" | "rejected" | "completed"
   >("pending");

@@ -34,22 +34,29 @@ import ServicesSection from "@/components/ServicesSection";
 import { useSearchParams } from "next/navigation";
 // import { useBooking, CartItem } from "@/context/BookingContext";
 
-interface Service {
-  id: number;
+
+
+// interface CartItemService extends Service {
+//   quantity: number;
+// }
+
+
+
+type SubService = {
+  id: number | string;
   name: string;
-  description: string;
-  rating: number;
-  reviewCount: number;
-  duration: string;
-  price: number;
-  originalPrice?: number;
+  description?: string;
   image: string;
-}
+  rating: number;
+  reviews: number;
+  duration: string;
+  discountedPrice: number;
+  originalPrice: number;
+};
 
-interface CartItemService extends Service {
+type CartItemService = SubService & {
   quantity: number;
-}
-
+};
 // AC Repair Component
 const ACRepairLayout = () => {
   const [showCoupons, setShowCoupons] = useState(false);
@@ -78,6 +85,92 @@ const ACRepairLayout = () => {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
   const [activeScroll, setActiveScroll] = useState<"tabs" | "brands">("tabs");
+
+  
+  // const searchParams = useSearchParams();
+const subCategoryId = searchParams?.get("sub_category_id");
+const [serviceDetails, setServiceDetails] = useState<any>(null);
+const apiService = serviceDetails?.data;
+
+const safeImage = (img?: string | null) => {
+  return img && img.trim() !== "" ? img : "/10.svg";
+};
+const serviceId = searchParams?.get("service_id");
+
+useEffect(() => {
+  const fetchServiceDetails = async () => {
+    try {
+      const res = await fetch(
+        `https://taskpro.itmingo.com/api/service-details?service_id=${serviceId}&state_name=Chhattisgarh&city_name=Raipur`,
+        {
+          headers: {
+            accept: "application/json",
+          },
+        },
+      );
+
+      const data = await res.json();
+      console.log("SERVICE DETAILS API DATA:", data);
+
+      if (data?.status) {
+        setServiceDetails(data);
+        setActiveTab(String(data?.data?.subServices?.[0]?.sub_category_id));
+      }
+    } catch (error) {
+      console.log("SERVICE DETAILS API ERROR:", error);
+    }
+  };
+
+  if (serviceId) fetchServiceDetails();
+}, [serviceId]);
+
+useEffect(() => {
+  const fetchServices = async () => {
+    const res = await fetch(
+      `https://taskpro.itmingo.com/api/services?state=Chhattisgarh&city=Raipur&state_name=Chhattisgarh&city_name=Raipur&id=${subCategoryId}`,
+      {
+        headers: {
+          accept: "application/json",
+        },
+      }
+    );
+
+    const data = await res.json();
+    console.log("SUB CATEGORY API DATA:", data);
+  };
+
+  if (subCategoryId) {
+    fetchServices();
+  }
+}, [subCategoryId]);
+
+useEffect(() => {
+  const fetchServiceDetails = async () => {
+    try {
+      const res = await fetch(
+        `https://taskpro.itmingo.com/api/service-details?id=${subCategoryId}`,
+        {
+          headers: {
+            accept: "application/json",
+          },
+        },
+      );
+
+      const data = await res.json();
+      console.log("SERVICE DETAILS API DATA:", data);
+
+      if (data?.status) {
+        setServiceDetails(data);
+      }
+    } catch (error) {
+      console.log("SERVICE DETAILS API ERROR:", error);
+    }
+  };
+
+  if (subCategoryId) {
+    fetchServiceDetails();
+  }
+}, [subCategoryId]);
 
   const checkScrollState = (ref: React.RefObject<HTMLDivElement>) => {
     const slider = ref.current;
@@ -262,151 +355,90 @@ const ACRepairLayout = () => {
     },
   ];
 
-  // const servicesData: Record<string, Service[]> = {
-  //   split: [
-  //     {
-  //       id: 1,
-  //       title: "Split AC Service",
-  //       description: "Complete service including cleaning and maintenance",
-  //       rating: 4.9,
-  //       reviewCount: 856,
-  //       duration: "45 mins",
-  //       price: 2999,
-  //       originalPrice: 3999,
-  //       image:
-  //         "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop",
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "Split AC Repair",
-  //       description: "Repair for compressor, gas refill, electrical issues",
-  //       rating: 4.7,
-  //       reviewCount: 654,
-  //       duration: "1-2 hours",
-  //       price: 3499,
-  //       originalPrice: 4999,
-  //       image:
-  //         "https://images.unsplash.com/photo-1599423300746-b62533397364?q=80&w=2070&auto=format&fit=crop",
-  //     },
-  //     {
-  //       id: 3,
-  //       title: "Split AC Installation",
-  //       description: "Professional installation of new AC units",
-  //       rating: 4.8,
-  //       reviewCount: 432,
-  //       duration: "2-3 hours",
-  //       price: 1999,
-  //       originalPrice: 2999,
-  //       image:
-  //         "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2069&auto=format&fit=crop",
-  //     },
-  //   ],
-  //   window: [
-  //     {
-  //       id: 4,
-  //       title: "Window AC Service",
-  //       description: "Complete cleaning and maintenance service",
-  //       rating: 4.8,
-  //       reviewCount: 623,
-  //       duration: "40 mins",
-  //       price: 2499,
-  //       originalPrice: 3499,
-  //       image:
-  //         "https://images.unsplash.com/photo-1581092795856-3d5bba5c2b2e?q=80&w=2070&auto=format&fit=crop",
-  //     },
-  //     {
-  //       id: 5,
-  //       title: "Window AC Repair",
-  //       description: "Comprehensive repair for all window AC issues",
-  //       rating: 4.6,
-  //       reviewCount: 412,
-  //       duration: "1-2 hours",
-  //       price: 2999,
-  //       originalPrice: 4499,
-  //       image:
-  //         "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
-  //     },
-  //   ],
-  //   cassette: [
-  //     {
-  //       id: 6,
-  //       title: "Cassette AC Service",
-  //       description: "Professional service for cassette AC units",
-  //       rating: 4.9,
-  //       reviewCount: 287,
-  //       duration: "60 mins",
-  //       price: 3999,
-  //       originalPrice: 5499,
-  //       image:
-  //         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop",
-  //     },
-  //     {
-  //       id: 7,
-  //       title: "Cassette AC Installation",
-  //       description: "Expert installation for commercial spaces",
-  //       rating: 4.8,
-  //       reviewCount: 156,
-  //       duration: "3-4 hours",
-  //       price: 4999,
-  //       originalPrice: 6999,
-  //       image:
-  //         "https://images.unsplash.com/photo-1578945037312-59f1dd5d5332?q=80&w=2070&auto=format&fit=crop",
-  //     },
-  //   ],
-  // };
-
-  // const tabs = [
-  //   { id: "split", label: "Split AC" },
-  //   { id: "window", label: "Window AC" },
-  //   { id: "cassette", label: "Cassette AC" },
-  // ];
 
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const reviewsRef = useRef<HTMLDivElement | null>(null);
   const brandsRef = useRef<HTMLDivElement | null>(null);
 
-  const tabs = service?.types || [];
+  // const tabs = service?.types || [];
 
-  const currentType = service?.types.find((t) => t.id === activeTab);
-  const currentServices = currentType?.subServices || [];
+  // const currentType = service?.types.find((t) => t.id === activeTab);
+  // const currentServices = currentType?.subServices || [];
   // const { addToCart } = useBooking();
+const apiTabs =
+  apiService?.subServices?.map((cat: any) => ({
+    id: String(cat.sub_category_id),
+    name: cat.sub_category_name,
+    items: cat.items || [],
+  })) || [];
 
-  const addToCart = (service: SubService) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === service.id);
+const tabs = apiTabs.length > 0 ? apiTabs : service?.types || [];
 
-      if (existing) {
-        return prev.map((item) =>
-          item.id === service.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      }
+useEffect(() => {
+  if (apiTabs.length > 0 && !activeTab) {
+    setActiveTab(String(apiTabs[0].id));
+  }
+}, [apiTabs.length, activeTab]);
 
-      return [...prev, { ...service, quantity: 1 }];
-    });
-  };
+const currentType = tabs.find((t: any) => String(t.id) === String(activeTab));
 
-  const updateQuantity = (id: number, quantity: number) => {
-    if (quantity === 0) {
-      removeFromCart(id);
-    } else {
-      setCartItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
-      );
-    }
-  };
+const displayServices =
+  currentType?.items?.map((item: any) => ({
+    id: item.id,
+    name: item.name,
+    image: safeImage(item.image || item.icon),
+    rating: 0,
+    reviews: 0,
+    duration: `${item.duration_minutes || 30} min`,
+    discountedPrice: Number(item.final_price || 0),
+    originalPrice: Number(item.strike_price || item.base_price || 0),
+    warrantyDays: item.warranty_days,
+    packageTag: item.package_tag,
+  })) ||
+  currentType?.subServices ||
+  [];
 
-  const removeFromCart = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+ const addToCart = (service: SubService) => {
+   setCartItems((prev: CartItemService[]) => {
+     const existing = prev.find((item) => item.id === service.id);
 
-  const getTotalPrice = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    );
-  };
+     if (existing) {
+       return prev.map((item) =>
+         item.id === service.id
+           ? { ...item, quantity: item.quantity + 1 }
+           : item,
+       );
+     }
+
+     const newItem: CartItemService = {
+       ...service,
+       quantity: 1,
+     };
+
+     return [...prev, newItem];
+   });
+ };
+
+ const updateQuantity = (id: number | string, quantity: number) => {
+   if (quantity === 0) {
+     removeFromCart(id);
+   } else {
+     setCartItems((prev) =>
+       prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
+     );
+   }
+ };
+
+ const removeFromCart = (id: number | string) => {
+   setCartItems((prev) => prev.filter((item) => item.id !== id));
+ };
+
+const getTotalPrice = () => {
+  return cartItems.reduce(
+    (total, item) => total + item.discountedPrice * item.quantity,
+    0,
+  );
+};
 
   const totalSavings = cartItems.reduce(
     (acc, item) =>
@@ -429,6 +461,10 @@ const ACRepairLayout = () => {
       behavior: "smooth",
     });
   };
+
+ 
+
+// const displayServices = apiItems.length > 0 ? apiItems : currentServices;
 
   return (
     <>
@@ -470,7 +506,7 @@ const ACRepairLayout = () => {
             {/* LEFT CONTENT */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
               <h1 className="text-2xl font-semibold text-gray-900 dark:text-white leading-snug">
-                Best {service?.name} <br />
+                Best {apiService?.name || service?.name} <br />
                 Service in {service?.city || "Your City"}
               </h1>
 
@@ -541,8 +577,8 @@ const ACRepairLayout = () => {
             <div className="w-full lg:w-1/2 order-1 lg:order-2">
               <div className="relative w-full h-[300px] sm:h-[320px] md:h-[420px] lg:h-[500px] rounded-2xl overflow-hidden">
                 <Image
-                  src="/heroimage.jpg"
-                  alt="Hero"
+                  src={safeImage(apiService?.images?.header_image1)}
+                  alt={apiService?.name || "Service"}
                   fill
                   className="object-cover"
                   priority
@@ -593,9 +629,11 @@ const ACRepairLayout = () => {
                           setActiveTab(tab.id)
                         }
                       >
-                        <div className="mb-2 text-2xl sm:text-3xl">
-                          {tab.icon}
-                        </div>
+                        {tab.icon && (
+                          <div className="mb-2 text-2xl sm:text-3xl">
+                            {tab.icon}
+                          </div>
+                        )}
 
                         <div
                           className={`text-sm sm:text-base font-medium ${
@@ -633,7 +671,7 @@ const ACRepairLayout = () => {
             </div>
             <div className="lg:col-span-6 mt-14">
               <div className="">
-                {currentServices.map((subService) => (
+                {displayServices.map((subService) => (
                   <div
                     key={subService.id}
                     className="border-b py-2 sm:w-[80%] w-full lg:max-w-lg "
@@ -648,8 +686,8 @@ const ACRepairLayout = () => {
                       <div className="flex flex-col items-center">
                         <div className="relative w-28 h-28 rounded-lg overflow-hidden">
                           <Image
-                            src={subService.image}
-                            alt={subService.name}
+                            src={safeImage(subService.image)}
+                            alt={subService.name || "Service"}
                             fill
                             className="object-cover"
                           />
@@ -1149,7 +1187,7 @@ const ACRepairLayout = () => {
 
                 <div className="my-8 mb-0 md:mb-10 relative flex items-start justify-start">
                   <p className="inline-flex items-center text-[#FF6A00] font-medium">
-                    View All Reviews 
+                    View All Reviews
                     <svg
                       className=" h-4"
                       fill="none"
@@ -1346,7 +1384,7 @@ const ACRepairLayout = () => {
         </div>
       </div>
       <div className="my-10">
-      <DeepCleaningServices />
+        <DeepCleaningServices />
       </div>
       <ServicesSection />
 
@@ -1397,211 +1435,7 @@ const ACRepairLayout = () => {
   );
 };
 
-// export default function ServiceDetailPage() {
-//   const { addToCart } = useBooking();
-//   const params = useParams();
-//   const slug = params?.slug as string;
 
-//   const searchParams = useSearchParams();
-//   const source = searchParams?.get("source") || "";
-
-//   // If it's the AC repair service, use the new layout
-//   // if (slug === "ac-repair") {
-//   //   return <ACRepairLayout />;
-//   // }
-//   const service = SERVICES_DATA.find((s) => s.slug === slug);
-//   const [activeTab, setActiveTab] = useState(
-//     service?.types[0].id || "split-ac",
-//   );
-//   const [showCapacityModal, setShowCapacityModal] = useState(false);
-//   const [showAMCModal, setShowAMCModal] = useState(false);
-//   const [selectedService, setSelectedService] = useState<any>(null);
-//   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
-
-//   if (!service) {
-//     return (
-//       <div className="min-h-screen ">
-//         {/* <Header /> */}
-//         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-//           <h1 className="text-2xl font-bold text-gray-900">
-//             Service Not Found
-//           </h1>
-//         </div>
-//         {/* <Footer /> */}
-//       </div>
-//     );
-//   }
-
-//   const activeType = service.types.find((t) => t.id === activeTab);
-
-//   const handleAddService = (subService: any) => {
-//     setSelectedService(subService);
-//     setShowCapacityModal(true);
-//   };
-
-//   const handleCapacitySelected = (capacity: string) => {
-//     setSelectedCapacity(capacity);
-//     setShowCapacityModal(false);
-//   };
-
-//   const handleAMCDurationSelected = (duration: string) => {
-//     if (selectedService && selectedCapacity) {
-//       const cartItem: CartItem = {
-//         id: `${selectedService.id}-${selectedCapacity}-${duration}`,
-//         serviceId: `${service.id}-${selectedCapacity}-${duration}`,
-//         serviceName: service.name,
-//         subService: selectedService.name,
-//         capacity: selectedCapacity,
-//         amc: duration,
-//         price: selectedService.discountedPrice,
-//         image: selectedService.image,
-//         duration: selectedService.duration,
-//         rating: selectedService.rating,
-//         reviews: selectedService.reviews,
-//       };
-//       addToCart(cartItem);
-//       setShowAMCModal(false);
-//       setShowCapacityModal(false);
-//       setSelectedCapacity(null);
-//       setSelectedService(null);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen ">
-//       {/* <Header /> */}
-
-//       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-//         {/* Breadcrumb */}
-//         <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-//           <a href="/" className="hover:text-orange-600">
-//             Home
-//           </a>
-//           <ChevronRight className="w-4 h-4" />
-//           <a href="/services" className="hover:text-orange-600">
-//             {service.breadcrumb}
-//           </a>
-//           <ChevronRight className="w-4 h-4" />
-//           <span className="text-gray-900 font-semibold">{service.name}</span>
-//         </div>
-
-//         {/* Top Section: Image + Summary */}
-//         <div className="grid lg:grid-cols-3 gap-8 mb-8">
-//           {/* Left: Banner Image */}
-//           <div className="lg:col-span-2">
-//             <div className="relative w-full h-96 rounded-xl overflow-hidden ">
-//               <Image
-//                 src={service.image}
-//                 alt={service.name}
-//                 fill
-//                 className="object-cover"
-//               />
-//             </div>
-//           </div>
-
-//           {/* Right: Summary Card */}
-//           <ServiceSummaryCard
-//             rating={service.rating}
-//             reviews={service.reviews}
-//             price={service.price}
-//             duration={service.duration}
-//             warranty={service.warranty}
-//             service={service}
-//           />
-//         </div>
-
-//         {/* Service Type Tabs */}
-//         <div className="mb-8">
-//           <h2 className="text-lg font-bold text-gray-900 mb-4">
-//             Choose a Service Type
-//           </h2>
-//           <div className="flex gap-4 overflow-x-auto hide-scrollbar">
-//             {service.types.map((type) => (
-//               <div
-//                 key={type.id}
-//                 onClick={() => setActiveTab(type.id)}
-//                 className={`cursor-pointer rounded-xl p-4 text-center border ${
-//                   activeTab === type.id
-//                     ? "border-[#FF6A00] shadow-md"
-//                     : "border-gray-200"
-//                 }`}
-//               >
-//                 <div className="text-lg font-medium">{type.name}</div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Main Content Grid */}
-//         <div className="grid lg:grid-cols-3 gap-8">
-//           {/* Left: Sub Services List */}
-//           <div className="lg:col-span-2 space-y-4">
-//             {activeType?.subServices.map((service) => (
-//               <div key={service.id} className="border-b py-4">
-//                 <div className="flex gap-4">
-//                   {/* IMAGE + ADD */}
-//                   <div className="flex flex-col items-center">
-//                     <div className="relative w-28 h-28 rounded-lg overflow-hidden">
-//                       <Image
-//                         src={service.image}
-//                         alt={service.name}
-//                         fill
-//                         className="object-cover"
-//                       />
-//                     </div>
-
-//                     <button
-//                       onClick={() => handleAddService(service)}
-//                       className="-mt-4 border border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm bg-white"
-//                     >
-//                       Add
-//                     </button>
-//                   </div>
-
-//                   {/* CONTENT */}
-//                   <div className="flex-1">
-//                     <h4 className="font-semibold text-gray-900">
-//                       {service.name}
-//                     </h4>
-
-//                     <p className="text-xs text-gray-600 mt-1">
-//                       {service.description}
-//                     </p>
-
-//                     <div className="flex items-center gap-2 text-xs mt-2">
-//                       ⭐ {service.rating} ({service.reviews})
-//                     </div>
-
-//                     <div className="mt-2 flex justify-between items-center">
-//                       <span className="font-semibold">
-//                         ₹{service.discountedPrice}
-//                       </span>
-
-//                       {service.originalPrice && (
-//                         <span className="line-through text-xs text-gray-400">
-//                           ₹{service.originalPrice}
-//                         </span>
-//                       )}
-//                     </div>
-
-//                     <p className="text-xs text-gray-500 mt-1">
-//                       ⏱ {service.duration}
-//                     </p>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* Right: Cart Summary */}
-//           <CartSummaryCard />
-//         </div>
-//       </main>
-
-//       {/* <Footer /> */}
-//     </div>
-//   );
-// }
 export default function Page() {
   return <ACRepairLayout />;
 }

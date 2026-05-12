@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Star } from "lucide-react";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 
 interface ServiceCardProps {
   title: string;
@@ -45,8 +45,10 @@ const ServiceCard = ({
           borderRadius: "12px 12px 0 0",
         }}
       >
-        <Image
+        <SafeImage
           src={image}
+          width={287}
+          height={150}
           alt={title}
           fill
           className="object-cover"
