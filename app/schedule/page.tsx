@@ -588,7 +588,7 @@ const MySchedulePage = () => {
   return (
     <div className="min-h-screen dark:bg-gray-900">
       {/* <Header /> */}
-      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-3">
         {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-orange-500 cursor-pointer">
             Home
