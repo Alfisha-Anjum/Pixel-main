@@ -76,14 +76,14 @@ const LanguageSelectorPage: React.FC<Props> = ({ setActiveView }) => {
         {/* Back */}
         <button
           onClick={() => setActiveView("default")}
-          className="text-black font-medium flex items-center gap-2 hover:text-orange-500 transition"
+          className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
         >
           <ArrowLeft size={20} />
           Change Language
         </button>
       </div>
 
-      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] md:font-semibold md:mb-6">
+      <h2 className="hidden md:block md:text-[18px] md:text-[#1B1B1B] dark:text-white md:font-semibold md:mb-6">
         Change Language
       </h2>
 

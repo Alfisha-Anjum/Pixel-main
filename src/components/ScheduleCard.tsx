@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { Star } from "lucide-react";
 
@@ -27,7 +27,7 @@ const ScheduleCard = ({
   date,
   time,
   onClick,
-  isSelected = false
+  isSelected = false,
 }: ScheduleCardProps) => {
   const getStatusColor = () => {
     switch (status) {
@@ -66,13 +66,17 @@ const ScheduleCard = ({
 
           {/* Title and Subtitle */}
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-[#333]">{serviceTitle}</h3>
+            <h3 className="text-sm font-semibold text-[#333]">
+              {serviceTitle}
+            </h3>
             <p className="text-xs text-[#888]">{serviceSubtitle}</p>
           </div>
         </div>
 
         {/* Status Badge */}
-        <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold flex-shrink-0 ${getStatusColor()}`}>
+        <span
+          className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold flex-shrink-0 ${getStatusColor()}`}
+        >
           {status}
         </span>
       </div>

@@ -94,12 +94,12 @@ export default function AccountSidebar() {
   return (
     <div
       className="
-    hidden md:flex flex-col gap-3 lg:gap-4 xl:gap-5
+    hidden md:flex flex-col gap-1 lg:gap-2 xl:gap-3
     bg-white dark:bg-gray-100 rounded-2xl border border-gray-200
 
     md:w-[80px] lg:w-[250px]   // 👈 FIX
     md:px-3 lg:px-6
-    md:py-4 lg:py-6
+    md:py-2 lg:py-4
     h-fit
   "
     >

@@ -222,7 +222,7 @@ export default function ContactPage() {
         {/* CONTACT CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-2 mb-10 items-stretch">
           {/* CHAT CARD */}
-          <div className="h-full bg-white dark:bg-gray-800 p-5 sm:p-6 flex gap-4">
+          <div className="h-full p-5 sm:p-6 flex gap-4">
             {/* Icon */}
             <div className="min-w-10 w-10 h-10 rounded-xl bg-[#FEECE7] flex items-center justify-center">
               <img
@@ -249,7 +249,7 @@ export default function ContactPage() {
           </div>
 
           {/* PHONE CARD */}
-          <div className="h-full bg-white dark:bg-gray-800 p-5 sm:p-6 flex gap-4">
+          <div className="h-full p-5 sm:p-6 flex gap-4 dark:bg-gray-800 rounded-lg">
             {/* Icon */}
             <div className="min-w-10 w-10 h-10 rounded-xl bg-[#FEECE7] flex items-center justify-center">
               <img
@@ -277,7 +277,7 @@ export default function ContactPage() {
         </div>
 
         {/* SOCIAL SECTION */}
-        <div className="bg-white dark:bg-gray-800 p-5 sm:p-6">
+        <div className="p-5 sm:p-6">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Social Links
           </h2>
