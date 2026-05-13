@@ -131,7 +131,7 @@ export default function SavedPayments({ setActiveView }: Props) {
       </div>
 
       {/* FOOTER */}
-      <div className="bg-white shadow-inner">
+      <div className="shadow-inner">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row gap-3">
           <button className="w-full sm:w-1/2 border border-orange-500 text-orange-500 py-3 rounded-full font-medium">
             Remove Bank Account
