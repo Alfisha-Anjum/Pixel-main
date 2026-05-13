@@ -158,10 +158,24 @@ const handleCardClick = (item: ApplianceItem) => {
   // Filter out "See All" for modal content
   // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
+  const ResponsiveContainer = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <>
+        {/* Mobile */}
+        <div className="block sm:hidden w-full px-2">{children}</div>
+
+        {/* sm and above */}
+        <div className="hidden sm:block">
+          <LayoutContainer>{children}</LayoutContainer>
+        </div>
+      </>
+    );
+  };
+
   return (
     <section className="w-full py-15">
-      <LayoutContainer>
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-5">
+      <ResponsiveContainer>
+        <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
           Appliances Repair & Service
         </h2>
 
@@ -239,7 +253,7 @@ const handleCardClick = (item: ApplianceItem) => {
 
         {/* Mobile Layout - 2 cards per row */}
         <div className="md:hidden">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 justify-items-center">
+          <div className="grid grid-cols-3 gap-3 justify-items-center">
             {finalAppliances.map((item, index) => {
               const isAction = item.label === "See All";
               return (
@@ -251,7 +265,8 @@ const handleCardClick = (item: ApplianceItem) => {
                   <div
                     className="flex items-center justify-center w-full"
                     style={{
-                      height: "120px",
+                      width: "100%",
+                      height: "80px",
                       borderRadius: "12px",
                       backgroundColor: "#F3F4F6",
                       padding: "12px",
@@ -265,7 +280,7 @@ const handleCardClick = (item: ApplianceItem) => {
                       <SafeImage
                         src={item.image}
                         alt={item.label}
-                        width={80}
+                        width={50}
                         height={80}
                         className="object-contain"
                         style={{ objectFit: "contain" }}
@@ -282,7 +297,7 @@ const handleCardClick = (item: ApplianceItem) => {
             })}
           </div>
         </div>
-      </LayoutContainer>
+      </ResponsiveContainer>
 
       {/* Modal */}
       {isModalOpen && (

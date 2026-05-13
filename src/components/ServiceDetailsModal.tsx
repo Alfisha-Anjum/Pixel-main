@@ -61,6 +61,9 @@ export default function ServiceDetailsModal({
     setCartItems((prev) => [...prev, item]);
   };
 
+  const issueDetail = service?.issueMoreDetails?.[0];
+const apiVideoUrl = issueDetail?.video_url;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white w-full max-w-sm relative">
@@ -81,20 +84,18 @@ export default function ServiceDetailsModal({
           }}
         >
           <div className="relative h-48 w-full">
-            {service.video ? (
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              >
-                <source src={service.video} type="video/mp4" />
-              </video>
+            {apiVideoUrl ? (
+              <iframe
+                src={apiVideoUrl.replace("watch?v=", "embed/")}
+                title={service.title || service.name}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             ) : (
               <Image
                 src={service.image}
-                alt={service.title}
+                alt={service.title || service.name}
                 fill
                 className="object-cover"
               />
@@ -170,7 +171,8 @@ export default function ServiceDetailsModal({
 
             {/* Warranty */}
             <div className="text-green-600 text-sm font-medium px-6">
-              30 Days Warranty
+              {service.warrantyDescription ||
+                `${service.warrantyDays || 0} Days Warranty`}
             </div>
 
             {/* Badge */}
@@ -184,55 +186,51 @@ export default function ServiceDetailsModal({
             {/* How it works */}
             <div className="pt-3 px-6">
               <h3 className="font-semibold mb-4">How it Works?</h3>
-              <div className="space-y-4">
-                {[1, 2, 3].map((step) => (
-                  <div key={step} className="flex items-center gap-3">
-                    {/* Image */}
-                    <div className="relative w-10 h-10 rounded-md overflow-hidden flex-shrink-0">
-                      <Image
-                        src={service.image}
-                        alt={service.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
 
-                    {/* Text */}
-                    <p className="text-sm text-gray-600">
-                      Step {step}: Lorem ipsum dummy text
+              {service.issueMoreDetails?.map((detail: any, index: number) => (
+                <div key={index} className="space-y-4">
+                  <div className="px-4 sm:px-6">
+                    <h3 className="font-semibold text-sm sm:text-base mb-1">
+                      Service Inclusion
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                      {detail.inclusions || "No inclusion available."}
                     </p>
                   </div>
-                ))}
-              </div>
+
+                  <div className="px-4 sm:px-6">
+                    <h3 className="font-semibold text-sm sm:text-base mb-1">
+                      Service Exclusion
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                      {detail.exclusions || "No exclusion available."}
+                    </p>
+                  </div>
+
+                  <div className="px-4 sm:px-6">
+                    <h3 className="font-semibold text-sm sm:text-base mb-1">
+                      Important Note
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                      {detail.important_notes || "No important note available."}
+                    </p>
+                  </div>
+
+                  <div className="px-4 sm:px-6">
+                    <h3 className="font-semibold text-sm sm:text-base mb-1">
+                      Safety Notes
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                      {detail.safety_notes || "No safety note available."}
+                    </p>
+                  </div>
+
+                 
+                </div>
+              ))}
             </div>
 
             {/* Sections */}
-            <div className="px-4 sm:px-6">
-              <h3 className="font-semibold text-sm sm:text-base mb-1">
-                Service Inclusion
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                Lorem ipsum is dummy text used in printing industry.
-              </p>
-            </div>
-
-            <div className="px-4 sm:px-6 mt-4">
-              <h3 className="font-semibold text-sm sm:text-base mb-1">
-                Service Exclusion
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                Lorem ipsum is dummy text used in printing industry.
-              </p>
-            </div>
-
-            <div className="px-4 sm:px-6 mt-4">
-              <h3 className="font-semibold text-sm sm:text-base mb-1">
-                Important Note
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                Lorem ipsum is dummy text used in printing industry.
-              </p>
-            </div>
 
             <div className="pl-6">
               <h3 className="font-semibold mb-2">Frequently Added Together</h3>
@@ -261,7 +259,7 @@ export default function ServiceDetailsModal({
 
                     {/* Title */}
                     <p className="text-[10px] mt-2 line-clamp-2 px-2">
-                      {item.title}
+                      {service.title || service.name}
                     </p>
 
                     {/* Price */}

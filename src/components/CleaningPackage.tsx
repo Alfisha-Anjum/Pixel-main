@@ -98,10 +98,29 @@ const checkScrollState = () => {
     };
   }, [finalPackages.length]);
  
+   const ResponsiveContainer = ({
+     children,
+   }: {
+     children: React.ReactNode;
+   }) => {
+     return (
+       <>
+         {/* Mobile */}
+         <div className="block sm:hidden w-full px-2">{children}</div>
+
+         {/* sm and above */}
+         <div className="hidden sm:block">
+           <LayoutContainer>{children}</LayoutContainer>
+         </div>
+       </>
+     );
+   };
+
+
   return (
-    <LayoutContainer>
-      <div className="flex justify-between items-center my-5">
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
+    <ResponsiveContainer>
+      <div className="flex justify-between items-center mt-5 mb-2">
+        <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-gray-200">
           Cleaning Package
         </h2>
       </div>
@@ -150,7 +169,7 @@ const checkScrollState = () => {
           </button>
         )}
       </div>
-    </LayoutContainer>
+    </ResponsiveContainer>
   );
 };
 

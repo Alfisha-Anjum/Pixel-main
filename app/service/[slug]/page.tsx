@@ -35,13 +35,6 @@ import { useSearchParams } from "next/navigation";
 // import { useBooking, CartItem } from "@/context/BookingContext";
 
 
-
-// interface CartItemService extends Service {
-//   quantity: number;
-// }
-
-
-
 type SubService = {
   id: number | string;
   name: string;
@@ -78,7 +71,7 @@ const ACRepairLayout = () => {
   const [showModal, setShowModal] = useState(false);
   const [showAMCModal, setShowAMCModal] = useState(false);
   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
-
+const [showWarrantyModal, setShowWarrantyModal] = useState(false);
   const searchParams = useSearchParams();
   const source = searchParams?.get("source") || "";
   const [canScroll, setCanScroll] = useState(false);
@@ -250,78 +243,53 @@ useEffect(() => {
   };
 
   // Scroll left function
-
-  const faqData = [
-    {
-      question:
-        "There are many variation of passages of lorem ipsum available?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-    },
-    {
-      question:
-        "There are many variation of passages of lorem ipsum available?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-    },
-    {
-      question:
-        "There are many variation of passages of lorem ipsum available?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-    },
-    {
-      question:
-        "There are many variation of passages of lorem ipsum available?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut congue ligula.",
-    },
-  ];
+const fallbackBrands = [
+  {
+    name: "LG",
+    logo: "/lg.png",
+  },
+  {
+    name: "Samsung",
+    logo: "/sam.png",
+  },
+  {
+    name: "Whirlpool",
+    logo: "/whirl.png",
+  },
+  {
+    name: "VOLTAS",
+    logo: "/volt.png",
+  },
+  {
+    name: "DAIKIN",
+    logo: "/daikin.png",
+  },
+  {
+    name: "Blue Star",
+    logo: "/blueStar.png",
+  },
+  {
+    name: "HITACHI",
+    logo: "/hit.png",
+  },
+  {
+    name: "MITSUBISHI",
+    logo: "/mits.png",
+  },
+];
+ const faqData = apiService?.faqs || [];
   // Scroll right function
-  const brands = [
-    {
-      name: "VOLTAS",
-      logo: "/volt.png", // Replace with your actual image path
-      service: "Voltas AC Repair & Service",
-      width: 132,
-      height: 27,
-    },
-    {
-      name: "DAIKIN",
-      logo: "/daikin.png",
-      service: "Daikin AC Repair & Service",
-      width: 132,
-      height: 27,
-    },
-    {
-      name: "Samsung",
-      logo: "/sam.png",
-      service: "Samsung AC Repair & Service",
-      width: 132,
-      height: 27,
-    },
-    {
-      name: "Blue Star",
-      logo: "/blueStar.png",
-      service: "Blue Star AC Repair & Service",
-      width: 132,
-      height: 27,
-    },
-    {
-      name: "HITACHI",
-      logo: "/hit.png",
-      service: "Hitachi AC Repair & Service",
-      width: 132,
-      height: 27,
-    },
-    {
-      name: "MITSUBISHI",
-      logo: "/mits.png",
-      service: "Mitsubishi AC Repair & Service",
-      width: 132,
-      height: 27,
-    },
-  ];
+const brands =
+  apiService?.covered_brands?.map((brand: any) => {
+    const matchedFallback = fallbackBrands.find(
+      (item) => item.name.toLowerCase() === brand.name?.toLowerCase(),
+    );
+
+    return {
+      ...brand,
+      image: brand.image || matchedFallback?.logo || "/brand-placeholder.png",
+    };
+  }) || fallbackBrands;
 
   // Add scroll event listener
   useEffect(() => {
@@ -338,22 +306,7 @@ useEffect(() => {
   }, []);
   // Initial check
 
-  const reviews = [
-    {
-      id: 1,
-      name: "Tikesh Dewangan",
-      stars: 5,
-      timeAgo: "1m ago",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
-    },
-    {
-      id: 2,
-      name: "Tikesh Dewangan",
-      stars: 5,
-      timeAgo: "1m ago",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id nunc diam. Vestibulum ante ipsum primis in faucibus orci luctus.",
-    },
-  ];
+ const reviews = apiService?.reviews || [];
 
 
   const tabsRef = useRef<HTMLDivElement | null>(null);
@@ -386,14 +339,19 @@ const displayServices =
   currentType?.items?.map((item: any) => ({
     id: item.id,
     name: item.name,
+    title: item.name,
     image: safeImage(item.image || item.icon),
-    rating: 0,
-    reviews: 0,
+    rating: Number(item.rating || 0),
+    reviews: item.reviews || 0,
     duration: `${item.duration_minutes || 30} min`,
     discountedPrice: Number(item.final_price || 0),
     originalPrice: Number(item.strike_price || item.base_price || 0),
     warrantyDays: item.warranty_days,
+    warrantyDescription: item.warranty_description,
     packageTag: item.package_tag,
+
+    issueDescriptions: item.issue_descriptions || item.descriptions || [],
+    issueMoreDetails: item.issue_more_details || item.details || [],
   })) ||
   currentType?.subServices ||
   [];
@@ -462,15 +420,8 @@ const getTotalPrice = () => {
     });
   };
 
- 
-
-// const displayServices = apiItems.length > 0 ? apiItems : currentServices;
-
   return (
     <>
-      {/* <Header /> */}
-
-      {/* Hero Section */}
       <section className="">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-5">
           {/* Breadcrumb */}
@@ -478,19 +429,7 @@ const getTotalPrice = () => {
             <Link href="/" className="hover:text-[#FF6A00]">
               Home
             </Link>
-            {/* 
-            {service?.category && (
-              <>
-                <span className="mx-2">/</span>
-                <Link
-                  href={`/services/${service.categorySlug}`}
-                  className="hover:text-[#FF6A00]"
-                >
-                  {service.category}
-                </Link>
-              </>
-            )} */}
-
+         
             {service?.name && (
               <>
                 <span className="mx-2">/</span>
@@ -515,11 +454,11 @@ const getTotalPrice = () => {
                 <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
 
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  {service?.rating || 0}
+                  {displayServices?.[0]?.rating || 0}
                 </span>
 
                 <span className="text-gray-600 dark:text-gray-300">
-                  ({service?.reviews || 0} reviews)
+                  ({apiService?.reviews?.length || 0} reviews)
                 </span>
 
                 <span className="text-gray-400">|</span>
@@ -547,11 +486,14 @@ const getTotalPrice = () => {
 
                 {/* Items */}
                 <div className="mt-5 space-y-3">
-                  <div className="flex justify-between items-center border rounded-xl px-4 py-3">
+                  <div
+                    onClick={() => setShowWarrantyModal(true)}
+                    className="flex justify-between items-center border rounded-xl px-4 py-3 cursor-pointer hover:border-orange-500"
+                  >
                     <div className="flex gap-2 items-center">
                       <span>🏅</span>
                       <span className="text-sm text-gray-500">
-                        {service?.warranty || "No warranty info"}
+                        {displayServices?.[0]?.warrantyDays || 0} Days Warranty
                       </span>
                     </div>
                     <span>›</span>
@@ -712,7 +654,7 @@ const getTotalPrice = () => {
                       {/* RIGHT CONTENT */}
                       <div className="flex-1">
                         <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md">
-                          30 Days Warranty
+                          {subService.warrantyDays || 0} Days Warranty
                         </span>
                         <div className=" w-[60%] flex justify-between items-start sm:flex-row flex-col">
                           <div>
@@ -759,7 +701,7 @@ const getTotalPrice = () => {
                             </div>
 
                             <span className="text-green-600 text-xs font-medium">
-                              30% off
+                              {subService.packageTag || "Offer Available"}
                             </span>
                           </div>
                         </div>
@@ -1046,23 +988,8 @@ const getTotalPrice = () => {
                   </div>
                 )}
               </div>
-              {/* {cartItems.length > 0 && (
-              <div className="border-t mt-6 pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-lg font-bold text-gray-900">
-                    Total: ₹{getTotalPrice()}
-                  </span>
-                </div>
-                <button className="w-full bg-[#FF6A00] text-white py-3 rounded-lg font-semibold hover:opacity-95 transition-opacity">
-                  Proceed to Checkout
-                </button>
-              </div>
-            )} */}
             </div>
           </div>
-          {/* Middle Column - Service Cards */}
-
-          {/* Right Column - Cart */}
         </div>
         <div className=" w-full mx-auto mb-2">
           {/* Testimonial Card - Background filter isolated */}
@@ -1099,8 +1026,13 @@ const getTotalPrice = () => {
                     </svg>
                   ))}
                 </div>
-                <span className="text-lg font-semibold text-white">4.5</span>
-                <span className="text-sm text-white/80">(12M Reviews)</span>
+                <span className="text-lg font-semibold text-white">
+                  {displayServices?.[0]?.rating || 0}
+                </span>
+
+                <span className="text-sm text-white/80">
+                  ({apiService?.reviews?.length || 0} Reviews)
+                </span>
               </div>
               <div className="md:hidden flex items-center justify-start gap-2 mb-8">
                 <div className="flex text-yellow-400">
@@ -1149,7 +1081,7 @@ const getTotalPrice = () => {
                           {/* Stars */}
                           <div className="flex items-center mt-1.5 gap-0.5">
                             <div className="flex text-yellow-400 gap-0.5">
-                              {[...Array(review.stars)].map((_, i) => (
+                              {[...Array(review.rating || 0)].map((_, i) => (
                                 <svg
                                   key={i}
                                   className="w-4 h-4 fill-current"
@@ -1164,7 +1096,7 @@ const getTotalPrice = () => {
                           {/* Timestamp */}
                           <div className="mt-1.5 flex items-center">
                             <span className="text-white text-xs font-medium tracking-wide">
-                              {review.timeAgo}
+                              {review.time}
                             </span>
                           </div>
 
@@ -1174,13 +1106,6 @@ const getTotalPrice = () => {
                           </p>
                         </div>
                       </div>
-
-                      {/* Divider (except after last review) */}
-                      {/* {idx < reviews.length - 1 && (
-                      <div className="relative my-6 md:my-7">
-                        <div className="border-t border-white/10"></div>
-                      </div>
-                    )} */}
                     </div>
                   ))}
                 </div>
@@ -1218,31 +1143,7 @@ const getTotalPrice = () => {
                 </div>
               </div>
             </div>
-            {/* {canScroll && !atStart && (
-            <button
-              onClick={() => scroll(reviewsRef, "left")}
-              className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
-              aria-label="Previous reviews"
-            >
-              <ChevronLeft className="w-6 h-6 text-orange-600" />
-            </button>
- )} */}
-            {/* Right Chevron Button */}
-            {/* 
-{canScroll && !atEnd && (
-            <button
-              onClick={() => scroll(reviewsRef, "right")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full hidden items-center justify-center hover:bg-gray-50 transition-colors z-20  md:flex"
-              aria-label="Next reviews"
-            >
-              <ChevronRight className="w-6 h-6 text-orange-600" />
-            </button>
-)} */}
           </div>
-
-          {/* Global styles for hiding scrollbar */}
-
-          {/* View All Reviews Link */}
         </div>
         <div className="mx-auto relative w-full overflow-hidden">
           {/* Heading */}
@@ -1255,26 +1156,25 @@ const getTotalPrice = () => {
             ref={brandsRef}
             className="flex overflow-x-auto hide-scrollbar scroll-smooth gap-4 px-4 sm:px-6 md:px-10 pb-2"
           >
-            {brands.map((brand, index) => (
+            {brands.map((brand: any, index: number) => (
               <div
                 key={index}
-                className="flex-shrink-0 flex flex-col items-center "
+                className="flex-shrink-0 flex flex-col items-center"
               >
                 <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-full h-28">
                   <div className="relative h-[60px] w-full flex items-center justify-center">
                     <Image
-                      src={brand.logo}
-                      alt={`${brand.name} logo`}
-                      width={brand.width}
-                      height={brand.height}
+                      src={brand.image}
+                      alt={brand.name}
+                      width={120}
+                      height={40}
                       className="object-contain max-h-[60px]"
-                      priority={index < 4}
                     />
                   </div>
                 </div>
 
                 <p className="text-xs mt-2 dark:text-white text-center w-full line-clamp-2">
-                  {brand.service}
+                  {brand.name}
                 </p>
               </div>
             ))}
@@ -1311,44 +1211,25 @@ const getTotalPrice = () => {
           `}</style>
         </div>
 
-        <div className="flex flex-col gap-4 my-5">
+        <div className="flex flex-col gap-1 my-5">
           <h2 className="text-2xl font-semibold dark:text-white">
-            AC Repair service in Raipur
+            {apiService?.name} service in Raipur
           </h2>
-          <p className="dark:text-gray-300">
-            to repeat predefined chunks as necessary, making this the first true
-            generator on the Internet. It uses a dictionary of over 200 Latin
-            words, combined with a handful of model sentence structures, to
-            generate Lorem Ipsum which looks reasonable. The generated Lorem
-            Ipsum is therefore always free from repetition, injected humor, or
-            non-characteristic words etc. The standard chunk of Lorem Ipsum used
-            since the 1500s is reproduced below for those interested. Sections
-            1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero
-            are also reproduced in their exact original form, accompanied by
-            English versions from the 1914 translation by H. Rackham
-          </p>
+
+          <div
+            className="dark:text-gray-300 text-gray-700 leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: apiService?.description || "",
+            }}
+          />
         </div>
-        <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col gap-1">
           <h2 className="text-2xl font-semibold dark:text-white">
-            Hiring guide for AC Repair service in Raipur
+            Hiring guide for {apiService?.name} service in Raipur
           </h2>
-          <p>
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomized words which don't look even slightly
-            believable. If you are going to use a passage of Lorem Ipsum, you
-            need to be sure there isn't anything embarrassing hidden in the
-            middle of text. All the Lorem Ipsum generators on the Internet tend
-            to repeat predefined chunks as necessary, making this the first true
-            generator on the Internet. It uses a dictionary of over 200 Latin
-            words, combined with a handful of model sentence structures, to
-            generate Lorem Ipsum which looks reasonable. The generated Lorem
-            Ipsum is therefore always free from repetition, injected humor, or
-            non-characteristic words etc. The standard chunk of Lorem Ipsum used
-            since the 1500s is reproduced below for those interested. Sections
-            1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero
-            are also reproduced in their exact original form, accompanied by
-            English versions from the 1914 translation by H. Rackham
+
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+            {apiService?.hiring_guide || "No hiring guide available."}
           </p>
         </div>
         <div className=" mx-auto mt-5">
@@ -1357,7 +1238,7 @@ const getTotalPrice = () => {
           </h2>
 
           <div className="pt-2">
-            {faqData.map((faq, index) => (
+            {faqData.map((faq: any, index: number) => (
               <div key={index} className="border-b pb-2">
                 <button
                   onClick={() => toggleFAQ(index)}
@@ -1366,6 +1247,7 @@ const getTotalPrice = () => {
                   <span className="font-medium text-gray-800 dark:text-white">
                     {faq.question}
                   </span>
+
                   <ChevronDown
                     className={`transition-transform dark:text-white ${
                       openIndex === index ? "rotate-180" : ""
@@ -1387,7 +1269,117 @@ const getTotalPrice = () => {
         <DeepCleaningServices />
       </div>
       <ServicesSection />
+      {showWarrantyModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-5 relative max-h-[90vh] overflow-y-auto">
+            {/* Close */}
+            <button
+              onClick={() => setShowWarrantyModal(false)}
+              className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-black"
+            >
+              ×
+            </button>
 
+            {/* Title */}
+            <h2 className="text-2xl font-semibold mb-5 text-gray-900">
+              Warranty Details
+            </h2>
+
+            {apiService?.warranties?.length > 0 ? (
+              <div className="space-y-6">
+                {apiService.warranties.map((item: any) => (
+                  <div
+                    key={item.id}
+                    className="border rounded-2xl overflow-hidden"
+                  >
+                    {/* Warranty Image */}
+                    {item.warranty_terms_image && (
+                      <div className="relative w-full h-[250px] bg-gray-100">
+                        <Image
+                          src={`https://taskpro.itmingo.com/storage/services/${item.warranty_terms_image}`}
+                          alt="Warranty Terms"
+                          fill
+                          unoptimized
+                          className="object-contain rounded-t-2xl"
+                        />
+                      </div>
+                    )}
+
+                    {/* Warranty Info */}
+                    <div className="p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-500">
+                          Warranty ID
+                        </span>
+
+                        <span className="font-semibold text-gray-900">
+                          #{item.id}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-500">
+                          Service ID
+                        </span>
+
+                        <span className="font-semibold text-gray-900">
+                          {item.service_id}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-500">
+                          Category ID
+                        </span>
+
+                        <span className="font-semibold text-gray-900">
+                          {item.service_category_id}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-500">
+                          Status
+                        </span>
+
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            item.is_active
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {item.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+
+                      <div className="border-t pt-3">
+                        <p className="text-sm text-gray-500 mb-1">Created At</p>
+
+                        <p className="text-sm font-medium text-gray-800">
+                          {new Date(item.created_at).toLocaleString()}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-sm text-gray-500 mb-1">Updated At</p>
+
+                        <p className="text-sm font-medium text-gray-800">
+                          {new Date(item.updated_at).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500">No warranty details available</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <SelectCapacityModal
         isOpen={showCapacityModal}
         onClose={() => setShowCapacityModal(false)}
