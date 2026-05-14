@@ -1060,7 +1060,7 @@ const getTotalPrice = () => {
         </div>
         <div className=" w-full mx-auto mb-2">
           {/* Testimonial Card - Background filter isolated */}
-          <div className="relative max-w-7xl text-center  rounded-2xl p-0 sm:p-6 md:p-8 overflow-visible">
+          <div className="relative max-w-7xl text-center  rounded-2xl p-0 md:p-8 overflow-visible">
             {/* Background image layer with brightness filter only */}
             <div
               className="absolute inset-0 z-0 hidden md:block"
@@ -1079,7 +1079,7 @@ const getTotalPrice = () => {
               <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2">
                 What our Customers Say?
               </h2>
-              <h2 className="md:hidden block text-left ">Reviews</h2>
+              <h2 className="md:hidden block text-left pt-5 pb-2">Reviews</h2>
               {/* Rating Summary - text white */}
               <div className="hidden md:flex items-center justify-end gap-2 mb-8">
                 <div className="flex text-yellow-400">
@@ -1101,20 +1101,102 @@ const getTotalPrice = () => {
                   ({apiService?.reviews?.length || 0} Reviews)
                 </span>
               </div>
-              <div className="md:hidden flex items-center justify-start gap-2 mb-8">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-5 h-5 fill-current"
-                      viewBox="0 0 20 20"
+              <div className="md:hidden  bg-[#F7F8FA]">
+                <div className="bg-white rounded-xl mb-6 shadow-lg">
+                  <div className="flex items-center gap-6 px-5 py-5">
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {displayServices?.[0]?.rating || 0}
+                      </h3>
+
+                      <div className="flex justify-center mt-3 text-orange-500">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-5 h-5 ${
+                              i < Math.round(displayServices?.[0]?.rating || 0)
+                                ? "fill-orange-500 text-orange-500"
+                                : "fill-gray-300 text-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+
+                      <p className="text-gray-400 text-xs mt-2">
+                        {displayServices?.[0]?.reviews || 0} reviews
+                      </p>
+                    </div>
+
+                    <div className="flex-1 space-y-2">
+                      {[5, 4, 3, 2, 1].map((star) => {
+                        const percent =
+                          apiService?.ratings_distribution?.find(
+                            (item: any) => item.star === star,
+                          )?.percentage || 0;
+
+                        return (
+                          <div key={star} className="flex  gap-2">
+                            <span className="text-sm w-4">{star}</span>
+                            <Star className="w-4 h-4 fill-gray-400 text-gray-400" />
+                            <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full rounded-full ${
+                                  star >= 4
+                                    ? "bg-green-500"
+                                    : star === 3
+                                      ? "bg-yellow-400"
+                                      : "bg-red-500"
+                                }`}
+                                style={{ width: `${percent}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-5">
+                  {reviews.map((review: any, index: number) => (
+                    <div
+                      key={index}
+                      className="bg-white rounded-3xl p-5 shadow-sm"
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
+                      <div className="flex justify-between items-start">
+                        <div className="flex gap-2">
+                          <div>
+                            <div className="w-14 h-14 rounded-full bg-gray-100 overflow-hidden">
+                              {review.avtar ? (
+                                <img
+                                  src={review.avtar}
+                                  alt={review.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : null}
+                            </div>
+                            <p className="text-gray-600 text-sm text-left ">
+                              {review.text}
+                            </p>
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-gray-900 text-sm text-left">
+                              {review.name || "Anonymous"}
+                            </h3>
+                            <p className="text-gray-400 text-sm">
+                              {review.time}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="bg-orange-500 text-white rounded-full px-3 py-1 text-xs font-semibold flex items-center gap-1">
+                          {review.rating || 0}
+                          <Star className="w-3 h-3 fill-white text-white" />
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-                <span className="text-lg font-semibold ">4.5</span>
-                <span className="text-sm">(12M Reviews)</span>
               </div>
               <div className="flex flex-col max-w-4xl mx-auto">
                 <div
@@ -1124,7 +1206,7 @@ const getTotalPrice = () => {
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
                       {/* Review card */}
-                      <div className="flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
+                      <div className="hidden sm:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
                         {/* Avatar */}
                         <div className="flex">
                           <div className="relative w-20 h-20 rounded-full overflow-hidden -top-12 -left-6">
@@ -1177,7 +1259,7 @@ const getTotalPrice = () => {
                   ))}
                 </div>
 
-                <div className="my-8 mb-0 md:mb-10 relative flex items-start justify-start">
+                <div className="my-8 mb-0 md:mb-10 relative md:flex items-start justify-start hidden">
                   <p className="inline-flex items-center text-[#FF6A00] font-medium">
                     View All Reviews
                     <svg
@@ -1212,61 +1294,70 @@ const getTotalPrice = () => {
             </div>
           </div>
         </div>
-        <div className="mx-auto relative w-full overflow-hidden">
+        <div className="mx-auto relative w-full overflow-hidden sm:mt-10">
           {/* Heading */}
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800  mb-5 px-4 sm:px-0">
+          <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-5">
             We covered AC Brand
           </h2>
 
-          {/* Scrollable container */}
-          <div
-            ref={brandsRef}
-            className="flex overflow-x-auto hide-scrollbar scroll-smooth gap-4 px-4 sm:px-6 md:px-10 pb-2"
-          >
-            {brands.map((brand: any, index: number) => (
-              <div
-                key={index}
-                className="flex-shrink-0 flex flex-col items-center"
-              >
-                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-full h-28">
-                  <div className="relative h-[60px] w-full flex items-center justify-center">
-                    <Image
+          {/* MOBILE */}
+          <div className="sm:hidden">
+            <div className="flex gap-8 overflow-x-auto hide-scrollbar pb-3">
+              {brands.map((brand: any, index: number) => (
+                <div key={index} className="min-w-[70px] text-center">
+                  <div className="w-[68px] h-[68px] rounded-full border bg-white flex items-center justify-center">
+                    <img
                       src={brand.image}
                       alt={brand.name}
-                      width={120}
-                      height={40}
-                      className="object-contain max-h-[60px]"
+                      className="w-12 h-12 object-contain"
                     />
                   </div>
-                </div>
 
-                <p className="text-xs mt-2 dark:text-white text-center w-full line-clamp-2">
-                  {brand.name}
-                </p>
-              </div>
-            ))}
+                  <p className="text-xs sm:text-sm font-medium text-gray-600 mt-1 sm:mt-3">
+                    {brand.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-gray-400 text-xs sm:text-sm leading-5 mt-2 sm:mt-4 px-0 sm:px-5">
+              These trademarks and/or logos are used for illustration purposes
+              only and we disclaim any specific connection with the brand in
+              this regard.
+            </p>
           </div>
 
-          {/* Left Arrow */}
-          {activeScroll === "brands" && canScroll && !atStart && (
-            <button
-              onClick={() => scroll(brandsRef, "left")}
-              className="absolute left-1 md:left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
-              aria-label="Previous brands"
+          {/* DESKTOP */}
+          <div className="hidden sm:block">
+            <div
+              ref={brandsRef}
+              className="flex overflow-x-auto hide-scrollbar scroll-smooth gap-4 px-4 sm:px-6 md:px-10 pb-2"
             >
-              <ChevronLeft className="w-6 h-6 text-orange-600" />
-            </button>
-          )}
-          {/* Right Arrow */}
-          {activeScroll === "brands" && canScroll && !atStart && (
-            <button
-              onClick={() => scroll(brandsRef, "right")}
-              className="absolute right-1 md:right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-orange-600 shadow-lg rounded-full items-center justify-center hover:bg-gray-50 transition-colors z-20 hidden md:flex"
-              aria-label="Next brands"
-            >
-              <ChevronRight className="w-6 h-6 text-orange-600" />
-            </button>
-          )}
+              {brands.map((brand: any, index: number) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex flex-col items-center"
+                >
+                  <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center border w-full h-28">
+                    <div className="relative h-[60px] w-full flex items-center justify-center">
+                      <Image
+                        src={brand.image}
+                        alt={brand.name}
+                        width={120}
+                        height={40}
+                        className="object-contain max-h-[60px]"
+                      />
+                    </div>
+                  </div>
+
+                  <p className="text-xs mt-2 dark:text-white text-center w-full line-clamp-2">
+                    {brand.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <style jsx>{`
             .hide-scrollbar::-webkit-scrollbar {
               display: none;
@@ -1278,7 +1369,7 @@ const getTotalPrice = () => {
           `}</style>
         </div>
 
-        <div className="flex flex-col gap-1 my-5">
+        <div className="sm:flex flex-col gap-1 my-5 hidden">
           <h2 className="text-2xl font-semibold dark:text-white">
             {apiService?.name} service in Raipur
           </h2>
@@ -1290,7 +1381,7 @@ const getTotalPrice = () => {
             }}
           />
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="sm:flex flex-col gap-1 hidden">
           <h2 className="text-2xl font-semibold dark:text-white">
             Hiring guide for {apiService?.name} service in Raipur
           </h2>
@@ -1299,31 +1390,34 @@ const getTotalPrice = () => {
             {apiService?.hiring_guide || "No hiring guide available."}
           </p>
         </div>
-        <div className=" mx-auto mt-5">
-          <h2 className="text-2xl font-semibold dark:text-white">
-            Frequently Asked Questions (FAQ)?
+        <div className="mx-auto mt-10">
+          <h2 className="text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
+            Frequently Asked Questions (FAQ)
           </h2>
 
-          <div className="pt-2">
+          <div className="space-y-4  sm:pt-2">
             {faqData.map((faq: any, index: number) => (
-              <div key={index} className="border-b pb-2">
+              <div
+                key={index}
+                className=" border rounded-2xl sm:rounded-none px-5 py-3 gap-4"
+              >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full flex justify-between items-center text-left"
+                  className="w-full flex justify-between items-center text-left gap-4"
                 >
-                  <span className="font-medium text-gray-800 dark:text-white">
+                  <span className="font-semibold sm:font-medium text-gray-900 dark:text-white text-sm sm:text-base">
                     {faq.question}
                   </span>
 
                   <ChevronDown
-                    className={`transition-transform dark:text-white ${
+                    className={`w-5 h-5 text-orange-500 sm:text-gray-700 dark:sm:text-white transition-transform ${
                       openIndex === index ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {openIndex === index && (
-                  <p className="text-gray-500 mt-3 leading-relaxed">
+                  <p className="text-gray-500 mt-4 sm:mt-3 leading-6 sm:leading-relaxed text-sm sm:text-base">
                     {faq.answer}
                   </p>
                 )}
