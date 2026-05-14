@@ -410,6 +410,7 @@ import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeMod
 import Breadcrumb from "@/components/account/Breadcrumb";
 import { AccountSidebar } from "@/components/account";
 import Link from "next/link";
+import LayoutContainer from "@/components/LayoutContainer";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 const MySchedulePage = () => {
@@ -567,6 +568,20 @@ const MySchedulePage = () => {
     }
   };
 
+  const ResponsiveContainer = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <>
+        {/* Mobile */}
+        <div className="block sm:hidden w-full">{children}</div>
+
+        {/* sm and above */}
+        <div className="hidden sm:block">
+          <LayoutContainer>{children}</LayoutContainer>
+        </div>
+      </>
+    );
+  };
+
   if (!user) {
     return (
       <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
@@ -587,9 +602,10 @@ const MySchedulePage = () => {
 
   return (
     <div className="min-h-screen dark:bg-gray-900">
-      {/* <Header /> */}
-      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-3">
-        {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
+      <ResponsiveContainer>
+        {/* <Header /> */}
+        <div className="max-w-7xl mx-auto md:px-4 lg:px-8 py-3">
+          {/* <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-orange-500 cursor-pointer">
             Home
           </Link>
@@ -598,12 +614,12 @@ const MySchedulePage = () => {
         
           |<span className="text-orange-500 font-medium">Profile</span>
         </div> */}
-        <Breadcrumb
-          items={[{ label: "Home", href: "/" }, { label: "My Schedule" }]}
-        />
-        <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
-          {/* Sidebar */}
-          {/* <div
+          <Breadcrumb
+            items={[{ label: "Home", href: "/" }, { label: "My Schedule" }]}
+          />
+          <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
+            {/* Sidebar */}
+            {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
           >
             <div className="bg-white rounded-xl shadow-xl p-6">
@@ -639,306 +655,308 @@ const MySchedulePage = () => {
               </nav>
             </div>
           </div> */}
-          <AccountSidebar />
+            <AccountSidebar />
 
-          {!showBookingDetailsPage && (
-            <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">
-              {schedules.map((schedule) => (
-                <BookingCard
-                  key={schedule.id}
-                  service={schedule.service}
-                  subtitle={`Booking ID: ${schedule.id} | ₹${schedule.itemTotal}`}
-                  rating={schedule.rating}
-                  reviews={schedule.reviews || 0}
-                  date={schedule.date}
-                  time={schedule.time}
-                  status={
-                    schedule.status as "Pending" | "Completed" | "Cancelled"
-                  }
-                  // onChat={() => handleOpenChat(schedule)}
-                  onViewDetails={() => {
-                    setSelectedBooking(schedule);
-                    setShowBookingDetailsPage(true);
-                  }}
-                  // onReschedule={() => {
-                  //   setSelectedBooking(schedule);
-                  //   setShowRescheduleModal(true);
-                  // }}
-                />
-              ))}
-            </div>
-          )}
+            {!showBookingDetailsPage && (
+              <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">
+                {schedules.map((schedule) => (
+                  <BookingCard
+                    key={schedule.id}
+                    service={schedule.service}
+                    subtitle={`Booking ID: ${schedule.id} | ₹${schedule.itemTotal}`}
+                    rating={schedule.rating}
+                    reviews={schedule.reviews || 0}
+                    date={schedule.date}
+                    time={schedule.time}
+                    status={
+                      schedule.status as "Pending" | "Completed" | "Cancelled"
+                    }
+                    // onChat={() => handleOpenChat(schedule)}
+                    onViewDetails={() => {
+                      setSelectedBooking(schedule);
+                      setShowBookingDetailsPage(true);
+                    }}
+                    // onReschedule={() => {
+                    //   setSelectedBooking(schedule);
+                    //   setShowRescheduleModal(true);
+                    // }}
+                  />
+                ))}
+              </div>
+            )}
 
-          {/* Main Content */}
+            {/* Main Content */}
 
-          {showBookingDetailsPage && selectedBooking && (
-            <div className="bg-[#f6f7f9] min-h-screen mx-auto w-[90%] rounded-2xl">
-              {/* Back */}
-              {/* <button
+            {showBookingDetailsPage && selectedBooking && (
+              <div className="bg-[#f6f7f9] min-h-screen mx-auto w-[90%] rounded-2xl">
+                {/* Back */}
+                {/* <button
                 onClick={() => setShowBookingDetailsPage(false)}
                 className="mb-4 text-orange-600 font-medium"
               >
                 ← Back
               </button> */}
 
-              <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-6 lg:gap-10">
-                {/* LEFT SECTION */}
-                <div className="w-full lg:w-[75%] space-y-6">
-                  {/* SERVICE CARD */}
-                  <div className="bg-white flex flex-col w-full justify-between border shadow-sm rounded-xl p-3 md:p-5">
-                    <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-3">
-                      <div className="flex gap-4 w-full">
-                        <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                          <img
-                            src={selectedBooking.serviceImage}
-                            alt={selectedBooking.service}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src =
-                                "/service-ac.jpg";
-                            }}
-                          />
-                        </div>
+                <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-6 lg:gap-10">
+                  {/* LEFT SECTION */}
+                  <div className="w-full lg:w-[75%] space-y-6">
+                    {/* SERVICE CARD */}
+                    <div className="bg-white flex flex-col w-full justify-between border shadow-sm rounded-xl p-3 md:p-5">
+                      <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-3">
+                        <div className="flex gap-4 w-full">
+                          <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                            <img
+                              src={selectedBooking.serviceImage}
+                              alt={selectedBooking.service}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src =
+                                  "/service-ac.jpg";
+                              }}
+                            />
+                          </div>
 
-                        <div className="flex flex-col sm:items-end items-start w-full sm:w-auto mt-2 sm:mt-0">
-                          <h3 className="text-sm font-semibold text-gray-900 leading-tight">
-                            {selectedBooking.service}
-                          </h3>
-                          <p className="text-xs text-gray-500 mt-1">
-                            {selectedBooking.type}
-                          </p>
+                          <div className="flex flex-col sm:items-end items-start w-full sm:w-auto mt-2 sm:mt-0">
+                            <h3 className="text-sm font-semibold text-gray-900 leading-tight">
+                              {selectedBooking.service}
+                            </h3>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {selectedBooking.type}
+                            </p>
 
-                          <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
-                            <Star className="w-3 h-3 fill-orange-400 text-orange-400" />
-                            <span>{selectedBooking.rating}</span>
-                            <span className="text-gray-400 whitespace-nowrap">
-                              | {selectedBooking.reviews} reviews
-                            </span>
+                            <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
+                              <Star className="w-3 h-3 fill-orange-400 text-orange-400" />
+                              <span>{selectedBooking.rating}</span>
+                              <span className="text-gray-400 whitespace-nowrap">
+                                | {selectedBooking.reviews} reviews
+                              </span>
+                            </div>
                           </div>
                         </div>
+
+                        <div className="flex flex-col items-end gap-2">
+                          <span className="bg-orange-100 text-orange-600 text-xs px-3 py-1 rounded-md font-medium">
+                            {selectedBooking.status}
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="flex flex-col items-end gap-2">
-                        <span className="bg-orange-100 text-orange-600 text-xs px-3 py-1 rounded-md font-medium">
-                          {selectedBooking.status}
-                        </span>
+                      <div className="py-2">
+                        <div className="border-t border-gray-100 my-4"></div>
+
+                        <div className="flex justify-between text-[clamp(11px,1vw,13px)] text-gray-600">
+                          <span className="text-gray-400 whitespace-nowrap">
+                            Date & Time
+                          </span>
+                          <span className="font-medium text-gray-800 text-right whitespace-nowrap">
+                            {selectedBooking.date} | {selectedBooking.time}
+                          </span>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="py-2">
-                      <div className="border-t border-gray-100 my-4"></div>
+                    {/* COUPONS */}
+                    <div className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center">
+                      <span className="text-gray-600 font-medium cursor-pointer">
+                        Coupons & Offers
+                      </span>
+                      <span className="text-sm text-orange-500">
+                        3 Offers {">"}
+                      </span>
+                    </div>
 
-                      <div className="flex justify-between text-[clamp(11px,1vw,13px)] text-gray-600">
-                        <span className="text-gray-400 whitespace-nowrap">
-                          Date & Time
-                        </span>
-                        <span className="font-medium text-gray-800 text-right whitespace-nowrap">
-                          {selectedBooking.date} | {selectedBooking.time}
-                        </span>
+                    {/* CUSTOMER DETAILS */}
+                    <div className="bg-white rounded-xl p-5 shadow-sm border relative">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="font-semibold">Customer Details</h3>
+
+                        <button
+                          onClick={() => setShowSelectAddressModal(true)}
+                          className="text-orange-500 hover:text-orange-600 transition"
+                        >
+                          <Pencil className="w-4 h-4 fill-orange-500 stroke-orange-500" />
+                        </button>
                       </div>
+
+                      <p className="font-medium">
+                        {selectedBooking.customerName || "Tikesh Dewangan"}
+                      </p>
+
+                      <p className="text-sm text-gray-600 leading-6 mt-2">
+                        {selectedBooking.address}
+                      </p>
+
+                      <p className="text-sm text-gray-600 mt-3">
+                        C.N. :{" "}
+                        {selectedBooking.customerPhone || "+91 9876543210"}
+                      </p>
+
+                      {/* <div className="mt-4 flex gap-3">
+                        <input
+                          placeholder="Apply Coupon"
+                          className="bg-white border rounded-lg px-3 py-2 w-full"
+                        />
+                        <button className="bg-orange-500 text-white px-4 rounded-lg">
+                          Apply
+                        </button>
+                      </div> */}
                     </div>
-                  </div>
+                    {/* SERVICE PROVIDER */}
 
-                  {/* COUPONS */}
-                  <div className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center">
-                    <span className="text-gray-600 font-medium cursor-pointer">
-                      Coupons & Offers
-                    </span>
-                    <span className="text-sm text-orange-500">
-                      3 Offers {">"}
-                    </span>
-                  </div>
+                    {/* ADVANCE SUMMARY */}
 
-                  {/* CUSTOMER DETAILS */}
-                  <div className="bg-white rounded-xl p-5 shadow-sm border relative">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="font-semibold">Customer Details</h3>
+                    {/* SUPPORT */}
+                    <div className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex flex-col  cursor-pointer hover:shadow-md transition-all">
+                      <p>Contact Support</p>
+                      <div className="flex justify-between items-center gap-3">
+                        {/* Icon */}
+                        <div className="flex items-center gap-2 py-2">
+                          <div className="w-9 h-9 bg-orange-50 rounded-full flex items-center justify-center">
+                            <span className="text-orange-500 text-sm">🏠</span>
+                          </div>
 
-                      <button
-                        onClick={() => setShowSelectAddressModal(true)}
-                        className="text-orange-500 hover:text-orange-600 transition"
-                      >
-                        <Pencil className="w-4 h-4 fill-orange-500 stroke-orange-500" />
-                      </button>
-                    </div>
-
-                    <p className="font-medium">
-                      {selectedBooking.customerName || "Tikesh Dewangan"}
-                    </p>
-
-                    <p className="text-sm text-gray-600 leading-6 mt-2">
-                      {selectedBooking.address}
-                    </p>
-
-                    <p className="text-sm text-gray-600 mt-3">
-                      C.N. : {selectedBooking.customerPhone || "+91 9876543210"}
-                    </p>
-
-                    <div className="mt-4 flex gap-3">
-                      <input
-                        placeholder="Apply Coupon"
-                        className="bg-white border rounded-lg px-3 py-2 w-full"
-                      />
-                      <button className="bg-orange-500 text-white px-4 rounded-lg">
-                        Apply
-                      </button>
-                    </div>
-                  </div>
-                  {/* SERVICE PROVIDER */}
-
-                  {/* ADVANCE SUMMARY */}
-
-                  {/* SUPPORT */}
-                  <div className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex flex-col  cursor-pointer hover:shadow-md transition-all">
-                    <p>Contact Support</p>
-                    <div className="flex justify-between items-center gap-3">
-                      {/* Icon */}
-                      <div className="flex items-center gap-2 py-2">
-                        <div className="w-9 h-9 bg-orange-50 rounded-full flex items-center justify-center">
-                          <span className="text-orange-500 text-sm">🏠</span>
+                          {/* Text */}
+                          <span className="text-gray-800 font-medium">
+                            Help Center
+                          </span>
                         </div>
 
-                        {/* Text */}
-                        <span className="text-gray-800 font-medium">
-                          Help Center
-                        </span>
+                        <span className="text-orange-500 text-lg">›</span>
                       </div>
 
-                      <span className="text-orange-500 text-lg">›</span>
+                      {/* Arrow */}
                     </div>
 
-                    {/* Arrow */}
+                    {/* WORK STATUS */}
+                    <div className="bg-white rounded-xl p-5 shadow-sm border">
+                      <h3 className="font-semibold mb-3">Work Status</h3>
+
+                      <ul className="space-y-3 text-sm">
+                        <li className="text-green-600">✔ Order Confirmed</li>
+                        <li className="text-gray-400">○ Shipped</li>
+                        <li className="text-gray-400">○ Out for Delivery</li>
+                      </ul>
+                    </div>
+                    <button
+                      onClick={() => setShowRescheduleModal(true)}
+                      className="w-full mt-5 border bg-orange-500 text-white py-2 rounded-full"
+                    >
+                      Reschedule
+                    </button>
                   </div>
 
-                  {/* WORK STATUS */}
-                  <div className="bg-white rounded-xl p-5 shadow-sm border">
-                    <h3 className="font-semibold mb-3">Work Status</h3>
+                  {/* RIGHT SECTION */}
+                  <div className="shadow-sm h-fit w-full lg:w-[25%] lg:sticky lg:top-24 order-2 lg:order-none">
+                    <h3 className="font-semibold mb-4 dark:text-white">
+                      Payment Summary
+                    </h3>
 
-                    <ul className="space-y-3 text-sm">
-                      <li className="text-green-600">✔ Order Confirmed</li>
-                      <li className="text-gray-400">○ Shipped</li>
-                      <li className="text-gray-400">○ Out for Delivery</li>
-                    </ul>
+                    <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
+                      <div className="flex justify-between border-b pb-3">
+                        <span>Item Total</span>
+                        <span>₹{selectedBooking.amount}</span>
+                      </div>
+
+                      <div className="flex justify-between border-b pb-3 text-gray-500">
+                        <span>Item Discount</span>
+                        <span>-₹200</span>
+                      </div>
+
+                      <div className="flex justify-between">
+                        <span>Taxes and Fees</span>
+                        <span>₹49</span>
+                      </div>
+
+                      <div className="flex justify-between font-bold border-t pt-2">
+                        <span>Total</span>
+                        <span>₹548</span>
+                      </div>
+                    </div>
+
+                    {/* BUTTONS */}
                   </div>
-                  <button
-                    onClick={() => setShowRescheduleModal(true)}
-                    className="w-full mt-5 border bg-orange-500 text-white py-2 rounded-full"
-                  >
-                    Reschedule
-                  </button>
-                </div>
-
-                {/* RIGHT SECTION */}
-                <div className="shadow-sm h-fit w-full lg:w-[25%] lg:sticky lg:top-24 order-2 lg:order-none">
-                  <h3 className="font-semibold mb-4 dark:text-white">
-                    Payment Summary
-                  </h3>
-
-                  <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
-                    <div className="flex justify-between border-b pb-3">
-                      <span>Item Total</span>
-                      <span>₹{selectedBooking.amount}</span>
-                    </div>
-
-                    <div className="flex justify-between border-b pb-3 text-gray-500">
-                      <span>Item Discount</span>
-                      <span>-₹200</span>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <span>Taxes and Fees</span>
-                      <span>₹49</span>
-                    </div>
-
-                    <div className="flex justify-between font-bold border-t pt-2">
-                      <span>Total</span>
-                      <span>₹548</span>
-                    </div>
-                  </div>
-
-                  {/* BUTTONS */}
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-      <SelectDateTimeModal
-        isOpen={showRescheduleModal}
-        onClose={() => setShowRescheduleModal(false)}
-        onContinue={handleRescheduleContinue}
-        showLocation={true}
-        location={selectedBooking?.address}
-      />
+        <SelectDateTimeModal
+          isOpen={showRescheduleModal}
+          onClose={() => setShowRescheduleModal(false)}
+          onContinue={handleRescheduleContinue}
+          showLocation={true}
+          location={selectedBooking?.address}
+        />
 
-      {showSelectAddressModal && (
-        <SelectAddressModal
-          isOpen={showSelectAddressModal}
-          onClose={() => setShowSelectAddressModal(false)}
-          onContinue={(address) => {
-            // setSelectedAddress(address);
-            setShowSelectAddressModal(false);
+        {showSelectAddressModal && (
+          <SelectAddressModal
+            isOpen={showSelectAddressModal}
+            onClose={() => setShowSelectAddressModal(false)}
+            onContinue={(address) => {
+              // setSelectedAddress(address);
+              setShowSelectAddressModal(false);
+              // setShowTCModal(true);
+            }}
+            onAddNew={() => {
+              setShowSelectAddressModal(false); // close current
+              setShowAddNewAddressModal(true); // open new one
+            }}
+            addresses={[]}
+          />
+        )}
+
+        <AddNewAddressModal
+          isOpen={showAddNewAddressModal}
+          onClose={() => setShowAddNewAddressModal(false)}
+          onSave={(newAddress) => {
+            console.log(newAddress);
+
+            // optional: save selected address
+            // setShoSelectedAddress(newAddress);
+
+            // close add address modal
+            setShowAddNewAddressModal(false);
+
+            // ✅ directly open Terms & Conditions
             // setShowTCModal(true);
           }}
-          onAddNew={() => {
-            setShowSelectAddressModal(false); // close current
-            setShowAddNewAddressModal(true); // open new one
-          }}
-          addresses={[]}
         />
-      )}
 
-      <AddNewAddressModal
-        isOpen={showAddNewAddressModal}
-        onClose={() => setShowAddNewAddressModal(false)}
-        onSave={(newAddress) => {
-          console.log(newAddress);
+        {showCancelModal && selectedBooking && (
+          <CancelBookingModal
+            booking={selectedBooking}
+            onClose={() => setShowCancelModal(false)}
+            onConfirm={(data) => {
+              console.log("Cancel data:", data);
 
-          // optional: save selected address
-          // setShoSelectedAddress(newAddress);
+              setShowCancelModal(false);
+              successBookingCancel();
+            }}
+          />
+        )}
 
-          // close add address modal
-          setShowAddNewAddressModal(false);
+        {showCancelledSuccess && (
+          <BookingCancelledModal
+            // booking={selectedBooking}
+            onClose={() => {
+              setShowCancelledSuccess(false);
+              setShowBookingDetailsPage(false);
+            }}
+          />
+        )}
 
-          // ✅ directly open Terms & Conditions
-          // setShowTCModal(true);
-        }}
-      />
-
-      {showCancelModal && selectedBooking && (
-        <CancelBookingModal
-          booking={selectedBooking}
-          onClose={() => setShowCancelModal(false)}
-          onConfirm={(data) => {
-            console.log("Cancel data:", data);
-
-            setShowCancelModal(false);
-            successBookingCancel();
-          }}
+        <SplitACModal
+          isOpen={showSplitModal}
+          onClose={() => setShowSplitModal(false)}
         />
-      )}
+        {/* Modals */}
 
-      {showCancelledSuccess && (
-        <BookingCancelledModal
-          // booking={selectedBooking}
-          onClose={() => {
-            setShowCancelledSuccess(false);
-            setShowBookingDetailsPage(false);
-          }}
-        />
-      )}
+        {/* MODAL 1: Equipment Details */}
 
-      <SplitACModal
-        isOpen={showSplitModal}
-        onClose={() => setShowSplitModal(false)}
-      />
-      {/* Modals */}
+        {/* MODAL 2: Raise Complaint */}
 
-      {/* MODAL 1: Equipment Details */}
-
-      {/* MODAL 2: Raise Complaint */}
-
-      {/* <Footer /> */}
+        {/* <Footer /> */}
+      </ResponsiveContainer>
     </div>
   );
 };
