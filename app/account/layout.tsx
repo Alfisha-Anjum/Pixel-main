@@ -8,7 +8,7 @@ export default function AccountLayout({
 }) {
   return (
     <div className="min-h-screen dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto sm:px-2 md:px-4 lg:px-8 py-3">
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "Profile" }]}
         />
