@@ -2,17 +2,17 @@
 
 const DownloadApp = () => {
   return (
-    <section className="pb-10 px-4">
+    <section className="sm:pb-10 px-0 sm:px-4">
       <div className="max-w-7xl mx-auto">
         <div className="w-full rounded-[20px] overflow-hidden bg-gradient-to-r from-black to-[#1a1a1a]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-[360px] lg:h-[400px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
             {/* Left Content */}
-            <div className="p-6 sm:p-10">
-              <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4 leading-tight">
+            <div className="p-5 sm:p-10">
+              <h2 className="text-white sm:text-2xl text-lg font-bold mb-2 sm:mb-4 leading-tight">
                 Download This App
               </h2>
 
-              <p className="text-gray-400 text-sm leading-relaxed max-w-[420px] mb-6">
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-[420px] mb-4 sm:mb-6">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Praesent egestas id erat a ornare. Donec bibendum venenatis
                 mollis. Aliquam id libero at mi bibendum venenatis at ac purus.

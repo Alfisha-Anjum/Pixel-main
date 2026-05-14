@@ -85,10 +85,29 @@ const MajorServices = ({ data = [] }: { data?: any[] }) => {
     router.push(`/service/${serviceTitle.toLowerCase().replace(/\s+/g, "-")}`);
   };
 
+   const ResponsiveContainer = ({
+     children,
+   }: {
+     children: React.ReactNode;
+   }) => {
+     return (
+       <>
+         {/* Mobile */}
+         <div className="block sm:hidden w-full px-2">{children}</div>
+
+         {/* sm and above */}
+         <div className="hidden sm:block">
+           <LayoutContainer>{children}</LayoutContainer>
+         </div>
+       </>
+     );
+   };
+
+
   return (
     <section className="py-5 bg-white dark:bg-gray-900">
-      <LayoutContainer>
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-5">
+      <ResponsiveContainer>
+        <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-2">
           Major Services
         </h2>
 
@@ -164,7 +183,7 @@ const MajorServices = ({ data = [] }: { data?: any[] }) => {
             </button>
           )}
         </div>
-      </LayoutContainer>
+      </ResponsiveContainer>
     </section>
   );
 };
