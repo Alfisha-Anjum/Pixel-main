@@ -78,6 +78,10 @@ const MyBookingPage = () => {
     "billingStatus",
   ]);
 
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [review, setReview] = useState("");
+
   const [amcBookings, setAmcBookings] = useState([
     {
       id: "AMC-001",
@@ -276,6 +280,17 @@ const MyBookingPage = () => {
         review: "Good service, completed on time.",
       } as CompletedBooking,
     ],
+  };
+
+  const handleSubmitReview = () => {
+    const data = {
+      rating,
+      review,
+    };
+
+    console.log(data);
+
+    // API call yaha kar sakte ho
   };
 
   const getStatusColor = (status: string) => {
@@ -724,7 +739,7 @@ const MyBookingPage = () => {
                           {selectedBooking.customerPhone || "+91 9876543210"}
                         </p>
 
-                        <div className="mt-4 flex gap-3">
+                        {/* <div className="mt-4 flex gap-3">
                           <input
                             placeholder="Apply Coupon"
                             className="bg-white border rounded-lg px-3 py-2 flex-1 min-w-0"
@@ -732,59 +747,124 @@ const MyBookingPage = () => {
                           <button className="bg-orange-500 text-white px-4 py-2 rounded-xl whitespace-nowrap">
                             Apply
                           </button>
+                        </div> */}
+                      </div>
+                      <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border relative">
+                        <h2 className="text-lg sm:text-xl font-bold text-start">
+                          Rate Your Experience
+                        </h2>
+
+                        {/* Stars */}
+                        <div className="flex justify-center gap-2 mt-5">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setRating(star)}
+                              className="transition hover:scale-110"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill={star <= rating ? "#f97316" : "none"}
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke={star <= rating ? "#f97316" : "#d4d4d8"}
+                                className="w-8 h-8"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.386a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.98 20.562a.562.562 0 01-.84-.61l1.285-5.386a.563.563 0 00-.182-.557L3.04 10.407a.562.562 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.111z"
+                                />
+                              </svg>
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Review Box */}
+                        <textarea
+                          placeholder="Write your feedback here..."
+                          value={review}
+                          onChange={(e) => setReview(e.target.value)}
+                          rows={3}
+                          className="w-full mt-5 rounded-xl border border-gray-300 p-3 text-sm outline-none resize-none focus:ring-2 focus:ring-orange-400"
+                        />
+
+                        {/* Button */}
+                        <button
+                          onClick={handleSubmitReview}
+                          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-full transition"
+                        >
+                          Submit Review
+                        </button>
+                      </div>
+
+                      <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border mt-4">
+                        <h2 className="text-lg font-bold text-gray-900">
+                          GST Details
+                        </h2>
+
+                        <div className="mt-4 space-y-3">
+                          <div className="flex text-sm justify-between">
+                            <span className="text-sm text-gray-500">
+                              GST Number
+                            </span>
+
+                            <span className="text-gray-900 text-end text-sm">
+                              22AAAAA0000A1Z5
+                            </span>
+                          </div>
+
+                          <div className="flex justify-between">
+                            <span className="text-sm text-gray-500"></span>
+
+                            <span className="text-gray-900 text-end text-sm">
+                              Tikesh Dewangan
+                            </span>
+                          </div>
                         </div>
                       </div>
                       {/* SERVICE PROVIDER */}
 
-                      {/* ADVANCE SUMMARY */}
-                      <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
-                        {/* Header */}
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="font-semibold text-gray-800">
-                            Advance Payment Summary
-                          </h3>
-                          <span className="text-orange-500 text-lg">🧾</span>
-                        </div>
-
-                        {/* Card */}
-                        <div className="bg-[#fafafa] rounded-xl p-4 space-y-4">
-                          <div className="flex justify-between text-sm text-gray-600">
+                      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                        <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
+                          <div className="flex justify-between border-b pb-3">
                             <span>Item Total</span>
-                            <span className="font-medium text-gray-800">
-                              ₹{selectedBooking.amount}.00
-                            </span>
+                            <span>₹{selectedBooking.amount}</span>
                           </div>
 
-                          <div className="flex justify-between text-sm text-gray-600">
+                          <div className="flex justify-between border-b pb-3 text-gray-500">
                             <span>Item Discount</span>
-                            <span className="font-medium text-gray-800">
-                              -₹100.00
-                            </span>
+                            <span>-₹200</span>
                           </div>
 
-                          <div className="border-t border-gray-200"></div>
-
-                          <div className="flex justify-between text-sm text-gray-600">
+                          <div className="flex justify-between">
                             <span>Taxes and Fees</span>
-                            <span className="font-medium text-gray-800">
-                              ₹49.00
-                            </span>
+                            <span>₹49</span>
                           </div>
 
-                          <div className="border-t border-gray-200"></div>
-
-                          <div className="flex justify-between font-semibold text-gray-900">
+                          <div className="flex justify-between font-bold border-t pt-2">
                             <span>Total</span>
-                            <span>₹548.00</span>
-                          </div>
-
-                          <div className="flex justify-between text-sm text-gray-600">
-                            <span>Advance Payment</span>
-                            <span className="font-medium text-gray-800">
-                              ₹148.00
-                            </span>
+                            <span>₹548</span>
                           </div>
                         </div>
+
+                        {/* BUTTONS */}
+                        <button
+                          onClick={() => setShowRescheduleModal(true)}
+                          className="hidden md:block w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
+                        >
+                          Reschedule
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setShowCancelModal(true);
+                          }}
+                          className="hidden md:block w-full mt-3 bg-orange-500 text-white py-3 rounded-full shadow-md"
+                        >
+                          Cancel Booking
+                        </button>
                       </div>
 
                       {/* SUPPORT */}
@@ -812,7 +892,7 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* WORK STATUS */}
-                      <div className="bg-white rounded-xl p-5 shadow-sm border">
+                      <div className="hidden md:block bg-white rounded-xl p-5 shadow-sm border">
                         <h3 className="font-semibold mb-3">Work Status</h3>
 
                         <ul className="space-y-3 text-sm">
@@ -824,45 +904,55 @@ const MyBookingPage = () => {
                     </div>
 
                     {/* RIGHT SECTION */}
+
                     <div className="shadow-sm h-fit w-full lg:flex-1 min-w-0 lg:sticky lg:top-24 sm:px-0">
-                      <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
-                        <div className="flex justify-between border-b pb-3">
-                          <span>Item Total</span>
-                          <span>₹{selectedBooking.amount}</span>
-                        </div>
-
-                        <div className="flex justify-between border-b pb-3 text-gray-500">
-                          <span>Item Discount</span>
-                          <span>-₹200</span>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <span>Taxes and Fees</span>
-                          <span>₹49</span>
-                        </div>
-
-                        <div className="flex justify-between font-bold border-t pt-2">
-                          <span>Total</span>
-                          <span>₹548</span>
-                        </div>
+                      {/* Header */}
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-semibold text-gray-800">
+                          Advance Payment Summary
+                        </h3>
+                        <span className="text-orange-500 text-lg">🧾</span>
                       </div>
 
-                      {/* BUTTONS */}
-                      <button
-                        onClick={() => setShowRescheduleModal(true)}
-                        className="w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
-                      >
-                        Reschedule
-                      </button>
+                      {/* Card */}
+                      <div className="bg-[#fafafa] rounded-xl space-y-4">
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>Item Total</span>
+                          <span className="font-medium text-gray-800">
+                            ₹{selectedBooking.amount}.00
+                          </span>
+                        </div>
 
-                      <button
-                        onClick={() => {
-                          setShowCancelModal(true);
-                        }}
-                        className="w-full mt-3 bg-orange-500 text-white py-3 rounded-full shadow-md"
-                      >
-                        Cancel Booking
-                      </button>
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>Item Discount</span>
+                          <span className="font-medium text-gray-800">
+                            -₹100.00
+                          </span>
+                        </div>
+
+                        <div className="border-t border-gray-200"></div>
+
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>Taxes and Fees</span>
+                          <span className="font-medium text-gray-800">
+                            ₹49.00
+                          </span>
+                        </div>
+
+                        <div className="border-t border-gray-200"></div>
+
+                        <div className="flex justify-between font-semibold text-gray-900">
+                          <span>Total</span>
+                          <span>₹548.00</span>
+                        </div>
+
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>Advance Payment</span>
+                          <span className="font-medium text-gray-800">
+                            ₹148.00
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
