@@ -166,7 +166,7 @@ const AMCServicePlan = ({ data = [] }: { data?: any[] }) => {
   return (
     <section className="w-full bg-white dark:bg-gray-900 py-5">
       <LayoutContainer className="relative">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-5">
+        <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-2">
           AMC Service Plan
         </h2>
 

@@ -210,50 +210,60 @@ const features = [
       "We provide various choices in order to satisfy the customer and to meet their demand at the standard they want.",
   },
 ];
+const iconMap: Record<string, string> = {
+  "thumb-up": "/satis.png",
+  visibility: "/trans.png",
+  "check-circle": "/one.png",
+  "verified-user": "/quality.png",
+  "attach-money": "/best.png",
+  dashboard: "/wide.png",
+};
 const WhyChooseUs = ({ data = [] }: { data?: any[] }) => {
-  const finalFeatures =
-    data.length > 0
-      ? data.map((item) => ({
-          image: "/satis.png",
-          title: item.title,
-          description: item.description,
-        }))
-      : features;
+const finalFeatures =
+  data.length > 0
+    ? data.map((item) => ({
+        image: iconMap[item.icon] || "/satis.png",
+
+        title: item.title,
+        description: item.description,
+        color: item.color,
+      }))
+    : features;
 
   return (
     <section className="py-5 ">
-      <div className="container-custom">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-2xl font-bold text-foreground dark:text-gray-200 mb-3">
+      <div className="container-custom py-4 shadow-xl sm:shadow-none rounded-xl">
+        <div className="text-center mb-5 sm:mb-10">
+          <h2 className="text-lg sm:text-2xl font-bold text-foreground dark:text-gray-200 mb-3">
             Why Choose Us
           </h2>
-          <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-xs sm:text-sm max-w-2xl mx-auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
             egestas id erat a ornare. Donec bibendum venenatis mollis. Aliquam
             id libero at mi bibendum venenatis at ac purus.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {finalFeatures.map((feature, index) => (
             <div
               key={index}
               className="flex gap-4 xl:p-5 hover:shadow-card-hover transition-all duration-200"
             >
               <div className="flex-shrink-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-light flex items-center justify-center">
+                
                   <img
                     src={feature.image}
                     alt={feature.title}
-                    className="w-5 h-5 sm:w-10 sm:h-10 object-contain"
+                    className="w-5 h-5 sm:w-8 sm:h-8 object-contain"
                   />
-                </div>
+            
               </div>
               <div>
-                <h3 className="font-semibold text-foreground dark:text-gray-200 mb-1">
+                <h3 className="font-semibold text-foreground text-xs sm:text-base dark:text-gray-200 mb-1">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-[10px] sm:text-sm text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
               </div>

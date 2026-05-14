@@ -164,27 +164,46 @@ const checkScrollState = () => {
     return () => clearInterval(interval);
   }, [isAutoScrolling]);
 
-  const handleBookService = (serviceTitle: string) => {
-   router.push(
-     `/service/${
-       service.slug ||
-       (service.title || service.name).toLowerCase().replace(/\s+/g, "-")
-     }?service_id=${service.id}`,
-   );
-  };
+  // const handleBookService = (serviceTitle: string) => {
+  //  router.push(
+  //    `/service/${
+  //      service.slug ||
+  //      (service.title || service.name).toLowerCase().replace(/\s+/g, "-")
+  //    }?service_id=${service.id}`,
+  //  );
+  // };
+
+   const ResponsiveContainer = ({
+     children,
+   }: {
+     children: React.ReactNode;
+   }) => {
+     return (
+       <>
+         {/* Mobile */}
+         <div className="block sm:hidden w-full px-2">{children}</div>
+
+         {/* sm and above */}
+         <div className="hidden sm:block">
+           <LayoutContainer>{children}</LayoutContainer>
+         </div>
+       </>
+     );
+   };
+
 
   return (
-    <section className="pt-5 bg-white dark:bg-gray-900">
-      <LayoutContainer>
+    <div className="pt-5 bg-white dark:bg-gray-900">
+    <ResponsiveContainer>
         <div className=" mx-auto">
           {/* Updated Heading */}
           <h2
-            className="text-gray-900 dark:text-gray-200 font-semibold mb-5"
+            className="text-gray-900 dark:text-gray-200 font-semibold mb-2 text-lg sm:text-2xl"
             style={{
-              fontSize: "24px",
+              // fontSize: "24px",
               fontWeight: "600",
               textAlign: "left",
-              marginBottom: "20px",
+           
             }}
           >
             {title}
@@ -242,8 +261,8 @@ const checkScrollState = () => {
             )}
           </div>
         </div>
-      </LayoutContainer>
-    </section>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

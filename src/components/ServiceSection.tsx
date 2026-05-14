@@ -54,25 +54,47 @@ const services = [
   },
 ];
 
-const getColorClasses = (color: string) => {
-  const colors: Record<string, { card: string; icon: string }> = {
-    purple: {
-      card: "bg-purple-50 hover:bg-purple-100",
-      icon: "text-purple-600",
+const getColorClasses = (index: number) => {
+  const colors = [
+    {
+      card: "bg-[#E9D5FF]",
+      icon: "text-[#7E22CE]",
     },
-    blue: { card: "bg-blue-50 hover:bg-blue-100", icon: "text-blue-600" },
-    yellow: {
-      card: "bg-yellow-50 hover:bg-yellow-100",
-      icon: "text-yellow-600",
+    {
+      card: "bg-[#DBEAFE]",
+      icon: "text-[#0284C7]",
     },
-    orange: {
-      card: "bg-orange-50 hover:bg-orange-100",
-      icon: "text-orange-600",
+    {
+      card: "bg-[#FEF3C7]",
+      icon: "text-[#F59E0B]",
     },
-    green: { card: "bg-green-50 hover:bg-green-100", icon: "text-green-600" },
-    gray: { card: "bg-gray-50 hover:bg-gray-100", icon: "text-gray-600" },
-  };
-  return colors[color] || colors.gray;
+    {
+      card: "bg-[#FFE4E6]",
+      icon: "text-[#F97316]",
+    },
+    {
+      card: "bg-[#DCFCE7]",
+      icon: "text-[#16A34A]",
+    },
+    {
+      card: "bg-[#E0F2FE]",
+      icon: "text-[#0EA5E9]",
+    },
+    {
+      card: "bg-[#FCE7F3]",
+      icon: "text-[#DB2777]",
+    },
+    {
+      card: "bg-[#F3E8FF]",
+      icon: "text-[#9333EA]",
+    },
+    {
+      card: "bg-[#FEF9C3]",
+      icon: "text-[#CA8A04]",
+    },
+  ];
+
+  return colors[index % colors.length];
 };
 
 
@@ -119,20 +141,20 @@ const fetchCategoryServices = async (service: any) => {
   const finalServices = data.length > 0 ? data : services;
 
   return (
-    <section className="w-full pb-10 px-5">
+    <section className="w-full pb-10 px-2 sm:px-5">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[40%] xl:w-[35%] flex flex-col">
-            <h2 className="text-2xl md:text-4xl lg:text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-5 leading-[1.2] text-left max-w-[580px]">
+            <h2 className="text-lg lg:text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-5 leading-[1.2] text-left max-w-[580px]">
               How can we serve you
               <br />
               today?
             </h2>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-14 xl:pb-0 pb-10">
+            <div className="grid grid-cols-3 gap-x-3 gap-y-5 xl:pb-0 pb-10">
               {finalServices.map((service, index) => {
-                const { card, icon } = getColorClasses(service.color || "blue");
+               const { card, icon } = getColorClasses(index);
                 const Icon = services[index]?.icon || Snowflake;
 
                 return (
@@ -143,17 +165,17 @@ const fetchCategoryServices = async (service: any) => {
                       if (service.name === "Appliances Repair & Service") {
                         setShowApplianceModal(true);
                       } else {
-                       fetchCategoryServices(service);
+                        fetchCategoryServices(service);
                       }
                     }}
                   >
                     <div
-                      className={`${card} w-32 h-24 sm:w-32 sm:h-24 rounded-3xl flex items-center justify-center`}
+                      className={`${card} w-full h-16 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-all duration-300`}
                     >
-                      <Icon className={`w-12 h-12 ${icon}`} />
+                      <Icon className={`w-8 h-8 sm:w-12 sm:h-12 ${icon}`} />
                     </div>
 
-                    <p className="mt-4 text-sm font-semibold text-gray-800 dark:text-gray-300 text-center">
+                    <p className="mt-2 text-[12px] sm:text-sm font-medium text-gray-800 dark:text-gray-300 text-center leading-tight">
                       {service.name || service.title}
                     </p>
                   </div>
@@ -163,22 +185,14 @@ const fetchCategoryServices = async (service: any) => {
           </div>
 
           {/* Right Side - Hero Image Banner */}
-            <div className="w-full lg:w-[60%] relative h-[300px] lg:h-[450px] rounded-3xl overflow-hidden shadow-xl group lg:ml-8">
-              <Image
-                src="/heroimage.jpg"
+          <div className="w-full lg:w-[60%] relative h-[300px] lg:h-[450px] rounded-3xl overflow-hidden shadow-xl group lg:ml-8">
+            <Image
+              src="/heroimage.jpg"
               alt="Home Services"
               fill
               className="object-cover w-full h-full"
               priority
             />
-
-            {/* Slider Navigation Buttons */}
-            {/* <button className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 duration-300">
-              <ChevronLeft className="w-6 h-6 text-gray-800" />
-            </button>
-            <button className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 duration-300">
-              <ChevronRight className="w-6 h-6 text-gray-800" />
-            </button> */}
           </div>
         </div>
       </div>
