@@ -12,7 +12,7 @@ export default function CustomerDetails({
 }: CustomerDetailsProps) {
   const [isAlternateModalOpen, setIsAlternateModalOpen] = useState(false);
   return (
-    <div className="w-full my-6 bg-white border border-[#E1E1E1] rounded-xl p-5 mb-4">
+    <div className="w-full my-6 bg-white border border-[#E1E1E1] rounded-xl p-3 md:p-5 mb-4">
       <div className="flex items-start sm:flex-row flex-col justify-between gap-4">
         <div>
           <h3 className="text-base lg:text-lg font-semibold text-[#1B1B1B]">

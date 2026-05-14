@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useBooking } from "@/context/BookingContext";
 import { TermsConditionsModal } from "@/components/TermsConditionsModal";
-import { Trash2, Plus, ChevronDown } from "lucide-react";
+import { Trash2, Plus, ChevronDown, ArrowLeft } from "lucide-react";
 import { SelectDateTimeModal } from "@/components/booking-flow/SelectDateTimeModal";
 import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal";
 import AddNewAddressModal from "@/components/AddNewAddressModal";
@@ -35,7 +35,7 @@ export default function CartPage() {
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const [addresses, setAddresses] = useState<any[]>([]);
   const displayAddress = selectedAddress || addresses[0];
-    const [showCoupons, setShowCoupons] = useState(false);
+  const [showCoupons, setShowCoupons] = useState(false);
   // const [token, setToken] = useState<string | null>(null);
 
   const token = localStorage.getItem("token");
@@ -236,16 +236,28 @@ export default function CartPage() {
       <div className="min-h-screen dark:bg-gray-900">
         {/* <Header /> */}
 
-        <main className="max-w-7xl mx-auto px-5">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-5">
+        <main className="max-w-7xl mx-auto px:3 md:px-5">
+          <h1 className="hidden md:block text-2xl font-bold text-gray-900 dark:text-white mb-5">
             Cart Summary
           </h1>
+          <div className="w-full flex items-center gap-10 md:hidden">
+            {/* Back */}
+            <button
+              onClick={() => router.back()}
+              className="text-black dark:text-white font-medium flex hover:text-orange-500 transition"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-xl font-bold justify-content pl-10 text-gray-900 dark:text-white">
+              Cart View
+            </h1>
+          </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left: Order Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Details */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-5">
+              <div className="hidden md:block bg-white rounded-2xl border border-gray-200 p-5">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Customer Details
                 </h2>
@@ -382,7 +394,7 @@ export default function CartPage() {
             {/* Right: Amount Summary */}
 
             <div className="lg:col-span-1 gap-5 flex flex-col  sticky top-6">
-              <div className=" border border-orange-500 rounded-xl px-4 py-3">
+              <div className="hidden md:block border border-orange-500 rounded-xl px-4 py-3">
                 {/* Header */}
                 <button
                   onClick={() => setShowCoupons(!showCoupons)}
@@ -462,7 +474,7 @@ export default function CartPage() {
               </div>
               <div className="bg-white rounded-2xl border border-gray-200 p-5">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                  Amount Summary
+                  Payment Summary
                 </h2>
 
                 <div className="space-y-3 text-sm mb-4">
@@ -529,7 +541,7 @@ export default function CartPage() {
           onContinue={(address) => {
             setSelectedAddress(address);
             setShowAddressModal(false);
-            setShowTCModal(true)
+            setShowTCModal(true);
           }}
           onAddNew={() => {
             setEditingAddress(null);

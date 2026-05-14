@@ -117,7 +117,7 @@ export default function OrderConfirmation() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <main className="w-full">
-        <div className="w-full max-w-7xl justify-between mx-auto flex flex-col gap-10 lg:flex-row px-5 xl:px-8">
+        <div className="w-full max-w-7xl justify-between mx-auto flex flex-col gap-10 lg:flex-row px-2 md:px-5 xl:px-8">
           <div className="flex flex-col">
             <div className="max-w-full sm:text-left text-center">
               <h1 className="text-xl md:text-2xl font-semibold mb-3 text-[#1B1B1B] dark:text-white">
@@ -161,7 +161,7 @@ export default function OrderConfirmation() {
             <CouponCard />
             <AmountSummary />
 
-            <div className="flex justify-center mt-6">
+            <div className="hidden md:block flex justify-center mt-6">
               <Link href="/" className="w-full">
                 <GradientButton2
                   text="Back to Home"
@@ -174,6 +174,15 @@ export default function OrderConfirmation() {
         </div>
 
         <DeepCleaningServices title="You might be also interested in" />
+        <div className="block md:hidden flex justify-center mt-6">
+          <Link href="/" className="w-full">
+            <GradientButton2
+              text="Back to Home"
+              width="w-full"
+              className="text-base lg:text-lg font-medium"
+            />
+          </Link>
+        </div>
       </main>
 
       <SelectAddressModal
