@@ -84,7 +84,9 @@ const [showWarrantyModal, setShowWarrantyModal] = useState(false);
 const subCategoryId = searchParams?.get("sub_category_id");
 const [serviceDetails, setServiceDetails] = useState<any>(null);
 const apiService = serviceDetails?.data;
-
+const galleryImages = Array.isArray(apiService?.gallery_images)
+  ? apiService.gallery_images
+  : [];
 const safeImage = (img?: string | null) => {
   return img && img.trim() !== "" ? img : "/10.svg";
 };
@@ -423,13 +425,13 @@ const getTotalPrice = () => {
   return (
     <>
       <section className="">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-5">
+        <div className="w-full max-w-7xl mx-auto  sm:px-5 ">
           {/* Breadcrumb */}
-          <div className="text-sm sm:text-base md:text-lg text-gray-600 py-4">
+          <div className="text-sm sm:text-base md:text-lg text-gray-600 py-4 sm:block hidden">
             <Link href="/" className="hover:text-[#FF6A00]">
               Home
             </Link>
-         
+
             {service?.name && (
               <>
                 <span className="mx-2">/</span>
@@ -441,16 +443,16 @@ const getTotalPrice = () => {
           </div>
 
           {/* Responsive Hero Layout */}
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
+          <div className="flex flex-col-reverse lg:flex-row gap-4 sm:gap-8 items-start">
             {/* LEFT CONTENT */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white leading-snug">
+              <h1 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-white leading-snug">
                 Best {apiService?.name || service?.name} <br />
                 Service in {service?.city || "Your City"}
               </h1>
 
               {/* Rating */}
-              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm sm:text-base">
+              <div className="mt-2 sm:mt-4 flex flex-wrap items-center gap-2 text-xs sm:text-base">
                 <Star className="w-5 h-5 fill-orange-500 text-orange-500" />
 
                 <span className="font-semibold text-gray-900 dark:text-white">
@@ -473,7 +475,7 @@ const getTotalPrice = () => {
               </div>
 
               {/* Cover Card */}
-              <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl p-4 mt-6 relative max-w-lg">
+              <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl p-4 mt-6 relative max-w-lg sm:block hidden">
                 {/* Badge */}
                 <div className="absolute -top-3 left-5 bg-white px-3 py-1 border rounded-lg flex items-center gap-2">
                   <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
@@ -532,8 +534,8 @@ const getTotalPrice = () => {
       </section>
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl pt-5 xl:px-2 px-5 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-5">
+      <div className="w-full max-w-7xl pt-5 xl:px-2 sm:px-5 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:py-5">
           {/* Left Column - Categories */}
           <div className="">
             <div className="rounded-xl ">
@@ -559,7 +561,7 @@ const getTotalPrice = () => {
                     <div key={tab.id} className="flex-shrink-0 w-1/2 ">
                       <div
                         onClick={() => setActiveTab(tab.id)}
-                        className={`cursor-pointer rounded-xl p-4 text-center transition-all duration-200 border ${
+                        className={`cursor-pointer rounded-full sm:rounded-xl p-2 sm:p-4 text-center transition-all duration-200 border ${
                           activeTab === tab.id
                             ? "border-[#FF6A00] shadow-md"
                             : "border-gray-200 hover:shadow-sm hover:border-gray-300"
@@ -616,121 +618,122 @@ const getTotalPrice = () => {
                 {displayServices.map((subService) => (
                   <div
                     key={subService.id}
-                    className="border-b py-2 sm:w-[80%] w-full lg:max-w-lg "
+                    className="border- sm:w-[80%] w-full lg:max-w-lg "
                   >
                     {/* Category Title (Split AC etc) */}
-                    <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-3">
-                      {currentType?.name}
+                    <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white sm:mb-3">
+                      Service
                     </h3>
+                    <div className="sm:shadow-none shadow-lg rounded-xl p-4 mb-6">
+                      <div className="flex gap-4">
+                        {/* LEFT IMAGE + ADD */}
+                        <div className="flex flex-col items-center">
+                          <div className="relative w-28 h-28 rounded-lg overflow-hidden">
+                            <Image
+                              src={safeImage(subService.image)}
+                              alt={subService.name || "Service"}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
 
-                    <div className="flex gap-4">
-                      {/* LEFT IMAGE + ADD */}
-                      <div className="flex flex-col items-center">
-                        <div className="relative w-28 h-28 rounded-lg overflow-hidden">
-                          <Image
-                            src={safeImage(subService.image)}
-                            alt={subService.name || "Service"}
-                            fill
-                            className="object-cover"
-                          />
+                          <button
+                            // onClick={() => addToCart(service)}
+                            onClick={() => {
+                              if (source === "amc") {
+                                setSelectedService(subService);
+                                setShowCapacityModal(true);
+                              } else {
+                                addToCart(subService);
+                              }
+                            }}
+                            className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
+                          >
+                            Add
+                          </button>
                         </div>
 
-                        <button
-                          // onClick={() => addToCart(service)}
-                          onClick={() => {
-                            if (source === "amc") {
-                              setSelectedService(subService);
-                              setShowCapacityModal(true);
-                            } else {
-                              addToCart(subService);
-                            }
-                          }}
-                          className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
-                        >
-                          Add
-                        </button>
-                      </div>
+                        {/* RIGHT CONTENT */}
+                        <div className="flex-1">
+                          <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md">
+                            {subService.warrantyDays || 0} Days Warranty
+                          </span>
+                          <div className=" w-[60%] flex justify-between items-start sm:flex-row flex-col">
+                            <div>
+                              {/* Title */}
+                              <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
+                                {subService.name}
+                              </h4>
 
-                      {/* RIGHT CONTENT */}
-                      <div className="flex-1">
-                        <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md">
-                          {subService.warrantyDays || 0} Days Warranty
-                        </span>
-                        <div className=" w-[60%] flex justify-between items-start sm:flex-row flex-col">
-                          <div>
-                            {/* Title */}
-                            <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
-                              {subService.name}
-                            </h4>
-
-                            {/* Rating + Time */}
-                            <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
-                              <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
-                              <span>
-                                {typeof subService.rating === "number"
-                                  ? subService.rating.toFixed(1)
-                                  : "0.0"}
-                              </span>
-                              <span>
-                                ({Math.round(subService.reviews / 1000)}m
-                                reviews)
-                              </span>
-                            </div>
-                            <div className=" flex gap-2 py-2">
-                              {" "}
-                              <Clock className="w-4 h-4" />
-                              <p className="text-xs text-gray-700">
-                                {" "}
-                                {subService.duration} approx
-                              </p>
-                            </div>
-                          </div>
-                          {/* Warranty Badge */}
-
-                          {/* Price Row */}
-                          <div className="flex  flex-col mt-2">
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold text-gray-900 dark:text-white">
-                                ₹{subService.discountedPrice}
-                              </span>
-                              {subService.originalPrice && (
-                                <span className="text-xs text-gray-400 line-through">
-                                  ₹{subService.originalPrice}
+                              {/* Rating + Time */}
+                              <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
+                                <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
+                                <span>
+                                  {typeof subService.rating === "number"
+                                    ? subService.rating.toFixed(1)
+                                    : "0.0"}
                                 </span>
-                              )}
+                                <span>
+                                  ({Math.round(subService.reviews / 1000)}m
+                                  reviews)
+                                </span>
+                              </div>
+                              <div className=" flex gap-2 py-2">
+                                {" "}
+                                <Clock className="w-4 h-4" />
+                                <p className="text-xs text-gray-700">
+                                  {" "}
+                                  {subService.duration} approx
+                                </p>
+                              </div>
                             </div>
+                            {/* Warranty Badge */}
 
-                            <span className="text-green-600 text-xs font-medium">
-                              {subService.packageTag || "Offer Available"}
-                            </span>
+                            {/* Price Row */}
+                            <div className="flex  flex-col mt-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-gray-900 dark:text-white">
+                                  ₹{subService.discountedPrice}
+                                </span>
+                                {subService.originalPrice && (
+                                  <span className="text-xs text-gray-400 line-through">
+                                    ₹{subService.originalPrice}
+                                  </span>
+                                )}
+                              </div>
+
+                              <span className="text-green-600 text-xs font-medium">
+                                {subService.packageTag || "Offer Available"}
+                              </span>
+                            </div>
                           </div>
+
+                          {/* Description Points */}
                         </div>
-
-                        {/* Description Points */}
                       </div>
-                    </div>
 
-                    <div>
-                      <ul className="text-xs text-gray-500 mt-2 space-y-1">
-                        <li>
-                          • Get 2X deeper dust removal with Foam + PowerJet
-                          technology
-                        </li>
-                        <li>
-                          • Intense cleaning of both indoor & outdoor units
-                        </li>
-                      </ul>
+                      <div>
+                        <ul className="text-xs text-gray-500 mt-2 space-y-1">
+                          <li>
+                            • Get 2X deeper dust removal with Foam + PowerJet
+                            technology
+                          </li>
+                          <li>
+                            • Intense cleaning of both indoor & outdoor units
+                          </li>
+                        </ul>
 
-                      {/* More Details */}
-                      <p
-                        onClick={() => {
-                          setSelectedService(subService);
-                          setShowModal(true);
-                        }}
-                        className="text-blue-600 text-xs mt-2 cursor-pointer"
-                      >
-                        More Details {">>"}
-                      </p>
+                        {/* More Details */}
+                        <p
+                          onClick={() => {
+                            setSelectedService(subService);
+                            setShowModal(true);
+                          }}
+                          className="text-blue-600 text-xs mt-2 cursor-pointer"
+                        >
+                          More Details {">>"}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -739,7 +742,7 @@ const getTotalPrice = () => {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-24 space-y-0 sm:space-y-6">
               <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
                 {cartItems.length === 0 ? (
                   <div className="text-center">
@@ -840,7 +843,71 @@ const getTotalPrice = () => {
                 )}
               </div>
 
-              <div className="border rounded-xl p-5 mb-6">
+              {/* Mobile Description + Photos */}
+              <div className="sm:hidden mt-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-2">
+                  Description
+                </h2>
+
+                <div
+                  className="text-gray-500 text-sm leading-8 mb-8"
+                  dangerouslySetInnerHTML={{
+                    __html: apiService?.description || "",
+                  }}
+                />
+
+                <button className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8">
+                  Standard Rate Card
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+
+                <div className="sm:hidden mt-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-5">
+                    Photos
+                  </h2>
+
+                  <div className="grid grid-cols-2 gap-5 items-start">
+                    {/* LEFT COLUMN */}
+                    <div className="flex flex-col gap-5">
+                      {galleryImages
+                        .filter((_, i) => i % 2 === 0)
+                        .map((img, index) => (
+                          <div
+                            key={index}
+                            className={`overflow-hidden rounded-[28px] bg-gray-100 ${
+                              index === 0 ? "h-[360px]" : "h-[140px]"
+                            }`}
+                          >
+                            <img
+                              src={img}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                    </div>
+
+                    {/* RIGHT COLUMN */}
+                    <div className="flex flex-col gap-5">
+                      {galleryImages
+                        .filter((_, i) => i % 2 !== 0)
+                        .map((img, index) => (
+                          <div
+                            key={index}
+                            className={`overflow-hidden rounded-[28px] bg-gray-100 ${
+                              index === 2 ? "h-[360px]" : "h-[140px]"
+                            }`}
+                          >
+                            <img
+                              src={img}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border rounded-xl p-5 mb-6 sm:block hidden">
                 <h4 className="font-semibold text-sm text-gray-900 dark:text-white mb-3">
                   Why TASPro Company
                 </h4>
@@ -910,7 +977,7 @@ const getTotalPrice = () => {
                   </div>
                 </div>
               </div>
-              <div className="mb-6 border border-orange-500 rounded-xl px-4 py-3">
+              <div className="mb-6 border border-orange-500 rounded-xl px-4 py-3 sm:block hidden">
                 {/* Header */}
                 <button
                   onClick={() => setShowCoupons(!showCoupons)}

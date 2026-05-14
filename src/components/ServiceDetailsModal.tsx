@@ -61,8 +61,15 @@ export default function ServiceDetailsModal({
     setCartItems((prev) => [...prev, item]);
   };
 
-  const issueDetail = service?.issueMoreDetails?.[0];
-const apiVideoUrl = issueDetail?.video_url;
+ const issueMoreDetails = Array.isArray(service?.issueMoreDetails)
+   ? service.issueMoreDetails
+   : service?.issueMoreDetails
+     ? [service.issueMoreDetails]
+     : [];
+
+ const apiVideoUrl = issueMoreDetails.find(
+   (item: any) => item.video_url,
+ )?.video_url;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -187,7 +194,7 @@ const apiVideoUrl = issueDetail?.video_url;
             <div className="pt-3 px-6">
               <h3 className="font-semibold mb-4">How it Works?</h3>
 
-              {service.issueMoreDetails?.map((detail: any, index: number) => (
+              {issueMoreDetails.map((detail: any, index: number) => (
                 <div key={index} className="space-y-4">
                   <div className="px-4 sm:px-6">
                     <h3 className="font-semibold text-sm sm:text-base mb-1">
@@ -224,8 +231,6 @@ const apiVideoUrl = issueDetail?.video_url;
                       {detail.safety_notes || "No safety note available."}
                     </p>
                   </div>
-
-                 
                 </div>
               ))}
             </div>
