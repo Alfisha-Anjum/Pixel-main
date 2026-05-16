@@ -86,7 +86,7 @@ const finalAppliances: ApplianceItem[] =
   data.length > 0
     ? [
         ...data.map((item: any) => ({
-          id: item.id,
+          id: item.id || item.service_id || item.service_category_id,
           image:
             item.image ||
             item.icon ||
@@ -150,6 +150,11 @@ const finalAppliances: ApplianceItem[] =
 const handleCardClick = (item: ApplianceItem) => {
   if (item.label === "See All") {
     setIsModalOpen(true);
+    return;
+  }
+
+  if (!item.id) {
+    console.log("SERVICE ID MISSING:", item);
     return;
   }
 
