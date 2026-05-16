@@ -18,6 +18,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import ServiceReels from "@/components/ServiceReels";
 
 export default function Home() {
   const router = useRouter();
@@ -242,6 +243,7 @@ console.log("dashboardData", dashboardData);
         {/* <WhyChooseUs /> */}
         <WhyChooseUs data={dashboardData?.why_choose_us || []} />
         <DownloadApp />
+        <ServiceReels data={dashboardData?.reels || []} />
         <ServicesSection />
       </main>
     </div>
