@@ -132,7 +132,9 @@ const fetchCategoryServices = async (service: any) => {
       console.log("SUB CATEGORIES:", data.data);
     }
 
-    router.push(`/service/${service.slug}`);
+   router.push(
+     `/service/${service.slug}?service_id=${service.service_id || service.id}`,
+   );
   } catch (error) {
     console.log("SERVICES API ERROR:", error);
   }

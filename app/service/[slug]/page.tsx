@@ -91,7 +91,7 @@ const safeImage = (img?: string | null) => {
   return img && img.trim() !== "" ? img : "/10.svg";
 };
 const serviceId = searchParams?.get("service_id");
-
+const offers = apiService?.offers || [];
 useEffect(() => {
   const fetchServiceDetails = async () => {
     try {
@@ -436,7 +436,7 @@ const getTotalPrice = () => {
               <>
                 <span className="mx-2">/</span>
                 <span className="text-gray-900 dark:text-white font-semibold">
-                  {service.name}
+                  {apiService?.name}
                 </span>
               </>
             )}
@@ -505,7 +505,7 @@ const getTotalPrice = () => {
                     <div className="flex gap-2 items-center">
                       <span>💳</span>
                       <Link
-                        href="/rate-card"
+                        href={`/rate-card?service_id=${serviceId}`}
                         className="text-sm text-gray-500 hover:text-orange-600"
                       >
                         Standard rate card no hidden charges
@@ -542,7 +542,25 @@ const getTotalPrice = () => {
               {/* <h3 className="text-lg font-bold text-gray-900 mb-4">
                 AC Service Categories
               </h3> */}
-              <div className="relative w-full flex items-center mb-5">
+              {offers.length > 0 && (
+                <div className="sm:hidden mb-5">
+                  <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+                    {offers.map((offer: any) => (
+                      <div
+                        key={offer.id}
+                        className="flex-shrink-0 border border-gray-400 rounded-full px-4 py-2 flex items-center gap-2 bg-white"
+                      >
+                        <span className="text-gray-500 text-sm">🎁</span>
+
+                        <p className="text-xs font-medium text-gray-500 whitespace-nowrap">
+                          {offer.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div className="relative w-full flex items-center mb-5 overflow-x-auto">
                 {/* Left Button */}
                 {activeScroll === "tabs" && canScroll && !atStart && (
                   <button
@@ -553,37 +571,35 @@ const getTotalPrice = () => {
                   </button>
                 )}
                 {/* Scroll Container */}
+
                 <div
                   ref={tabsRef}
-                  className="flex gap-4 md:gap-6 overflow-x-auto scroll-smooth hide-scrollbar px-1 sm:px-12 w-full"
+                  className="flex gap-4 md:gap-6 sm:flex-nowrap overflow-x-auto hide-scrollbar px-1 w-full"
                 >
                   {tabs.map((tab) => (
                     <div key={tab.id} className="flex-shrink-0 w-1/2 ">
                       <div
                         onClick={() => setActiveTab(tab.id)}
-                        className={`cursor-pointer rounded-full sm:rounded-xl p-2 sm:p-4 text-center transition-all duration-200 border ${
-                          activeTab === tab.id
-                            ? "border-[#FF6A00] shadow-md"
-                            : "border-gray-200 hover:shadow-sm hover:border-gray-300"
-                        }`}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) =>
-                          (e.key === "Enter" || e.key === " ") &&
-                          setActiveTab(tab.id)
-                        }
+                        className={`cursor-pointer text-center transition-all duration-200 border
+    rounded-full p-2
+    sm:rounded-lg sm:p-3 sm:flex sm:flex-col sm:items-center sm:justify-center
+    ${
+      activeTab === tab.id
+        ? "border-[#FF6A00] shadow-sm"
+        : "border-gray-200 hover:shadow-sm hover:border-gray-300"
+    }`}
                       >
-                        {tab.icon && (
-                          <div className="mb-2 text-2xl sm:text-3xl">
-                            {tab.icon}
-                          </div>
-                        )}
+                        <img
+                          src="/10.svg"
+                          alt={tab.name}
+                          className="hidden sm:block w-10 h-8 object-contain mb-2"
+                        />
 
                         <div
-                          className={`text-sm sm:text-base font-medium ${
+                          className={`text-sm sm:text-[12px] font-semibold ${
                             activeTab === tab.id
                               ? "text-[#FF6A00]"
-                              : "text-gray-700"
+                              : "text-gray-800"
                           }`}
                         >
                           {tab.name}
@@ -602,15 +618,6 @@ const getTotalPrice = () => {
                     <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#FF6A00]" />
                   </button>
                 )}
-                <style jsx>{`
-                  .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                  }
-                  .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                  }
-                `}</style>
               </div>
             </div>
             <div className="lg:col-span-6 mt-14">
@@ -856,56 +863,13 @@ const getTotalPrice = () => {
                   }}
                 />
 
-                <button className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8">
+                <Link
+                  href={`/rate-card?service_id=${serviceId}`}
+                  className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8"
+                >
                   Standard Rate Card
                   <ChevronRight className="w-6 h-6" />
-                </button>
-
-                <div className="sm:hidden mt-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-5">
-                    Photos
-                  </h2>
-
-                  <div className="grid grid-cols-2 gap-5 items-start">
-                    {/* LEFT COLUMN */}
-                    <div className="flex flex-col gap-5">
-                      {galleryImages
-                        .filter((_, i) => i % 2 === 0)
-                        .map((img, index) => (
-                          <div
-                            key={index}
-                            className={`overflow-hidden rounded-[28px] bg-gray-100 ${
-                              index === 0 ? "h-[360px]" : "h-[140px]"
-                            }`}
-                          >
-                            <img
-                              src={img}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ))}
-                    </div>
-
-                    {/* RIGHT COLUMN */}
-                    <div className="flex flex-col gap-5">
-                      {galleryImages
-                        .filter((_, i) => i % 2 !== 0)
-                        .map((img, index) => (
-                          <div
-                            key={index}
-                            className={`overflow-hidden rounded-[28px] bg-gray-100 ${
-                              index === 2 ? "h-[360px]" : "h-[140px]"
-                            }`}
-                          >
-                            <img
-                              src={img}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
+                </Link>
               </div>
               <div className="border rounded-xl p-5 mb-6 sm:block hidden">
                 <h4 className="font-semibold text-sm text-gray-900 dark:text-white mb-3">
@@ -1063,7 +1027,7 @@ const getTotalPrice = () => {
           <div className="relative max-w-7xl text-center  rounded-2xl p-0 md:p-8 overflow-visible">
             {/* Background image layer with brightness filter only */}
             <div
-              className="absolute inset-0 z-0 hidden md:block"
+              className="absolute inset-0 z-0 hidden md:block mt-5"
               style={{
                 backgroundImage: "url('/wht.png')",
                 backgroundSize: "auto 518px",
@@ -1076,7 +1040,7 @@ const getTotalPrice = () => {
 
             {/* Content layer - all text now white */}
             <div className="relative z-10">
-              <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2">
+              <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2 pt-4">
                 What our Customers Say?
               </h2>
               <h2 className="md:hidden block text-left pt-5 pb-2">Reviews</h2>
@@ -1206,7 +1170,7 @@ const getTotalPrice = () => {
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
                       {/* Review card */}
-                      <div className="hidden sm:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
+                      <div className="hidden md:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
                         {/* Avatar */}
                         <div className="flex">
                           <div className="relative w-20 h-20 rounded-full overflow-hidden -top-12 -left-6">
@@ -1390,8 +1354,8 @@ const getTotalPrice = () => {
             {apiService?.hiring_guide || "No hiring guide available."}
           </p>
         </div>
-        <div className="mx-auto mt-10">
-          <h2 className="text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
+        <div className="mx-auto mt-5 sm:mt-10">
+          <h2 className="text-lg sm:text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
             Frequently Asked Questions (FAQ)
           </h2>
 
@@ -1426,9 +1390,92 @@ const getTotalPrice = () => {
           </div>
         </div>
       </div>
-      <div className="my-10">
+      <div className="my-10 overflow-x-auto">
         <DeepCleaningServices />
       </div>
+      <div className="max-w-7xl mx-auto mt-6 lg:px-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-5">Photos</h2>
+
+        {/* MOBILE DESIGN */}
+        <div className="grid grid-cols-2 gap-5 items-start sm:hidden">
+          {/* LEFT COLUMN */}
+          <div className="flex flex-col gap-5">
+            {galleryImages
+              .filter((_, i) => i % 2 === 0)
+              .map((img, index) => (
+                <div
+                  key={index}
+                  className={`overflow-hidden rounded-[28px] bg-gray-100 ${
+                    index === 0 ? "h-[360px]" : "h-[140px]"
+                  }`}
+                >
+                  <img src={img} className="w-full h-full object-cover" />
+                </div>
+              ))}
+          </div>
+
+          {/* RIGHT COLUMN */}
+          <div className="flex flex-col gap-5">
+            {galleryImages
+              .filter((_, i) => i % 2 !== 0)
+              .map((img, index) => (
+                <div
+                  key={index}
+                  className={`overflow-hidden rounded-[28px] bg-gray-100 ${
+                    index === 1 ? "h-[360px]" : "h-[140px]"
+                  }`}
+                >
+                  <img src={img} className="w-full h-full object-cover" />
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* DESKTOP / LARGE SCREEN */}
+        <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+          {galleryImages.map((img: string, index: number) => (
+            <div
+              key={index}
+              className="rounded-2xl overflow-hidden bg-gray-100 h-[220px]"
+            >
+              <img
+                src={img}
+                alt={`Gallery ${index}`}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* NEED FROM YOU - MOBILE ONLY */}
+      {apiService?.need_from_you?.length > 0 && (
+        <div className="max-w-7xl mx-auto mt-10">
+          <h2 className="text-xl font-bold text-gray-900 mb-5">
+            What we will need from you
+          </h2>
+
+          <div className="grid grid-cols-3 gap-4">
+            {apiService.need_from_you.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="bg-background rounded-2xl p-4 flex flex-col items-center justify-center shadow-sm border border-gray-100"
+              >
+                <div className="w-10 h-10 flex items-center justify-center mb-2">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                <p className="text-xs font-medium text-gray-800 text-center">
+                  {item.title}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <ServicesSection />
       {showWarrantyModal && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
