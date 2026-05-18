@@ -92,6 +92,7 @@ const safeImage = (img?: string | null) => {
 };
 const serviceId = searchParams?.get("service_id");
 const offers = apiService?.offers || [];
+const offers = apiService?.offers || [];
 useEffect(() => {
   const fetchServiceDetails = async () => {
     try {
@@ -437,6 +438,7 @@ const getTotalPrice = () => {
                 <span className="mx-2">/</span>
                 <span className="text-gray-900 dark:text-white font-semibold">
                   {apiService?.name}
+                  {apiService?.name}
                 </span>
               </>
             )}
@@ -494,17 +496,18 @@ const getTotalPrice = () => {
                   >
                     <div className="flex gap-2 items-center">
                       <span>🏅</span>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-500 hover:text-orange-600">
                         {displayServices?.[0]?.warrantyDays || 0} Days Warranty
                       </span>
                     </div>
                     <span>›</span>
                   </div>
 
-                  <div className="flex justify-between items-center border rounded-xl px-4 py-3">
-                    <div className="flex gap-2 items-center">
+                  <div className="flex justify-between items-center border rounded-xl px-4 py-3 hover:border-orange-500">
+                    <div className="flex gap-2 items-center ">
                       <span>💳</span>
                       <Link
+                        href={`/rate-card?service_id=${serviceId}`}
                         href={`/rate-card?service_id=${serviceId}`}
                         className="text-sm text-gray-500 hover:text-orange-600"
                       >
@@ -561,6 +564,25 @@ const getTotalPrice = () => {
                 </div>
               )}
               <div className="relative w-full flex items-center mb-5 overflow-x-auto">
+              {offers.length > 0 && (
+                <div className="sm:hidden mb-5">
+                  <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+                    {offers.map((offer: any) => (
+                      <div
+                        key={offer.id}
+                        className="flex-shrink-0 border border-gray-400 rounded-full px-4 py-2 flex items-center gap-2 bg-white"
+                      >
+                        <span className="text-gray-500 text-sm">🎁</span>
+
+                        <p className="text-xs font-medium text-gray-500 whitespace-nowrap">
+                          {offer.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div className="relative w-full flex items-center mb-5 overflow-x-auto">
                 {/* Left Button */}
                 {activeScroll === "tabs" && canScroll && !atStart && (
                   <button
@@ -572,8 +594,10 @@ const getTotalPrice = () => {
                 )}
                 {/* Scroll Container */}
 
+
                 <div
                   ref={tabsRef}
+                  className="flex gap-4 md:gap-6 sm:flex-nowrap overflow-x-auto hide-scrollbar px-1 w-full"
                   className="flex gap-4 md:gap-6 sm:flex-nowrap overflow-x-auto hide-scrollbar px-1 w-full"
                 >
                   {tabs.map((tab) => (
@@ -594,11 +618,27 @@ const getTotalPrice = () => {
                           alt={tab.name}
                           className="hidden sm:block w-10 h-8 object-contain mb-2"
                         />
+                        className={`cursor-pointer text-center transition-all duration-200 border
+    rounded-full p-2
+    sm:rounded-lg sm:p-3 sm:flex sm:flex-col sm:items-center sm:justify-center
+    ${
+      activeTab === tab.id
+        ? "border-[#FF6A00] shadow-sm"
+        : "border-gray-200 hover:shadow-sm hover:border-gray-300"
+    }`}
+                      >
+                        <img
+                          src="/10.svg"
+                          alt={tab.name}
+                          className="hidden sm:block w-10 h-8 object-contain mb-2"
+                        />
 
                         <div
                           className={`text-sm sm:text-[12px] font-semibold ${
+                          className={`text-sm sm:text-[12px] font-semibold ${
                             activeTab === tab.id
                               ? "text-[#FF6A00]"
+                              : "text-gray-800"
                               : "text-gray-800"
                           }`}
                         >
@@ -867,8 +907,13 @@ const getTotalPrice = () => {
                   href={`/rate-card?service_id=${serviceId}`}
                   className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8"
                 >
+                <Link
+                  href={`/rate-card?service_id=${serviceId}`}
+                  className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8"
+                >
                   Standard Rate Card
                   <ChevronRight className="w-6 h-6" />
+                </Link>
                 </Link>
               </div>
               <div className="border rounded-xl p-5 mb-6 sm:block hidden">
@@ -1028,6 +1073,7 @@ const getTotalPrice = () => {
             {/* Background image layer with brightness filter only */}
             <div
               className="absolute inset-0 z-0 hidden md:block mt-5"
+              className="absolute inset-0 z-0 hidden md:block mt-5"
               style={{
                 backgroundImage: "url('/wht.png')",
                 backgroundSize: "auto 518px",
@@ -1040,6 +1086,7 @@ const getTotalPrice = () => {
 
             {/* Content layer - all text now white */}
             <div className="relative z-10">
+              <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2 pt-4">
               <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2 pt-4">
                 What our Customers Say?
               </h2>
@@ -1170,6 +1217,7 @@ const getTotalPrice = () => {
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
                       {/* Review card */}
+                      <div className="hidden md:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
                       <div className="hidden md:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
                         {/* Avatar */}
                         <div className="flex">
@@ -1356,6 +1404,8 @@ const getTotalPrice = () => {
         </div>
         <div className="mx-auto mt-5 sm:mt-10">
           <h2 className="text-lg sm:text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
+        <div className="mx-auto mt-5 sm:mt-10">
+          <h2 className="text-lg sm:text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
             Frequently Asked Questions (FAQ)
           </h2>
 
@@ -1391,9 +1441,10 @@ const getTotalPrice = () => {
         </div>
       </div>
       <div className="my-10 overflow-x-auto">
+      <div className="my-10 overflow-x-auto">
         <DeepCleaningServices />
       </div>
-      <div className="max-w-7xl mx-auto mt-6 lg:px-8">
+      <div className="max-w-7xl mx-auto mt-6 sm:px-5 sm:hidden">
         <h2 className="text-xl font-bold text-gray-900 mb-5">Photos</h2>
 
         {/* MOBILE DESIGN */}
@@ -1449,12 +1500,12 @@ const getTotalPrice = () => {
       </div>
       {/* NEED FROM YOU - MOBILE ONLY */}
       {apiService?.need_from_you?.length > 0 && (
-        <div className="max-w-7xl mx-auto mt-10">
+        <div className="max-w-7xl mx-auto mb-10 mt-10 sm:px-5 sm:hidden">
           <h2 className="text-xl font-bold text-gray-900 mb-5">
             What we will need from you
           </h2>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4  ">
             {apiService.need_from_you.map((item: any, index: number) => (
               <div
                 key={index}
@@ -1477,10 +1528,10 @@ const getTotalPrice = () => {
         </div>
       )}
       <ServicesSection />
-      {showWarrantyModal && (
+      {/* {showWarrantyModal && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-5 relative max-h-[90vh] overflow-y-auto">
-            {/* Close */}
+            
             <button
               onClick={() => setShowWarrantyModal(false)}
               className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-black"
@@ -1488,7 +1539,6 @@ const getTotalPrice = () => {
               ×
             </button>
 
-            {/* Title */}
             <h2 className="text-2xl font-semibold mb-5 text-gray-900">
               Warranty Details
             </h2>
@@ -1500,7 +1550,7 @@ const getTotalPrice = () => {
                     key={item.id}
                     className="border rounded-2xl overflow-hidden"
                   >
-                    {/* Warranty Image */}
+                   
                     {item.warranty_terms_image && (
                       <div className="relative w-full h-[250px] bg-gray-100">
                         <Image
@@ -1513,7 +1563,6 @@ const getTotalPrice = () => {
                       </div>
                     )}
 
-                    {/* Warranty Info */}
                     <div className="p-4 space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="font-medium text-gray-500">
@@ -1585,6 +1634,63 @@ const getTotalPrice = () => {
                 <p className="text-gray-500">No warranty details available</p>
               </div>
             )}
+          </div>
+        </div>
+      )} */}
+      {showWarrantyModal && (
+        <div className="fixed inset-0 z-20 bg-black/60 flex items-center justify-center px-4">
+          <div className="relative bg-white rounded-[32px] w-full max-w-md p-6 pt-8 shadow-2xl">
+            {/* CLOSE BUTTON */}
+            <button
+              onClick={() => setShowWarrantyModal(false)}
+              className="absolute top-5 right-5 text-black"
+            >
+              ✕
+            </button>
+
+            {/* ICON */}
+            <div className="flex justify-center">
+              <div className="w-28 h-28 rounded-full flex items-center justify-center">
+                <img
+                  src="https://img.freepik.com/premium-vector/green-verified-badge_78370-6058.jpg?semt=ais_hybrid&w=740&q=80"
+                  alt="verified"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+
+            {/* TITLE */}
+            <div className="text-center mt-2">
+              <h2 className="text-xl font-bold text-black">Service Warranty</h2>
+
+              <p className="text-[#FF8A00] text-lg font-bold mt-1">
+                {displayServices?.[0]?.warrantyDays || 30} Days Warranty
+              </p>
+            </div>
+
+            {/* COVERED BOX */}
+            <div className="bg-orange-300 rounded-2xl p-5 mt-2">
+              <h3 className="text-lg font-bold text-black mb-2">
+                What&apos;s Covered?
+              </h3>
+
+              <ul className="space-y-1 text-gray-500 text-sm leading-relaxed">
+                <li>• Free re-work for the same issue.</li>
+                <li>• Quality assurance on all spare parts.</li>
+                <li>• Genuine service by verified experts.</li>
+                <li>• Priority support for warranty claims.</li>
+              </ul>
+            </div>
+
+            {/* BUTTON */}
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={() => setShowWarrantyModal(false)}
+                className="bg-orange-500 text-white text-xl font-bold px-10 py-3 rounded-full shadow-lg"
+              >
+                Got it
+              </button>
+            </div>
           </div>
         </div>
       )}
