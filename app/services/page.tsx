@@ -1,6 +1,17 @@
 "use client";
 
-import { Star, Check, Shield, Clock, Phone, ChevronDown, ChevronRight, ShoppingCart, Wrench, Calendar } from "lucide-react";
+import {
+  Star,
+  Check,
+  Shield,
+  Clock,
+  Phone,
+  ChevronDown,
+  ChevronRight,
+  ShoppingCart,
+  Wrench,
+  Calendar,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ApplianceRepair from "@/components/ApplianceRepair";
@@ -12,13 +23,15 @@ import MajorServices from "@/components/MajorServices";
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      {/* <Header /> */}
 
       <main>
         {/* Breadcrumb */}
         <div className="container-custom py-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <a href="/" className="hover:text-primary">Home</a>
+            <a href="/" className="hover:text-primary">
+              Home
+            </a>
             <ChevronRight className="w-4 h-4" />
             <span className="text-foreground">Services</span>
           </div>
@@ -30,7 +43,8 @@ export default function ServicesPage() {
               Our <span className="text-[#FF6A00]">Services</span>
             </h1>
             <p className="text-[16px] text-[#6B7280] text-center max-w-[600px] mx-auto mt-[10px]">
-              Professional home services at your doorstep with guaranteed quality and satisfaction
+              Professional home services at your doorstep with guaranteed
+              quality and satisfaction
             </p>
           </div>
         </div>
@@ -42,7 +56,8 @@ export default function ServicesPage() {
               Expert <span className="text-[#FF6A00]">Appliance Repair</span>
             </h2>
             <p className="text-[16px] text-[#6B7280] text-center max-w-[600px] mx-auto mt-[8px]">
-              Professional repair services for all major home appliances with guaranteed quality work
+              Professional repair services for all major home appliances with
+              guaranteed quality work
             </p>
           </div>
           <ApplianceRepair />
@@ -77,7 +92,7 @@ export default function ServicesPage() {
         </section>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

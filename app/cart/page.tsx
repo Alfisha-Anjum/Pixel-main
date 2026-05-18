@@ -240,17 +240,15 @@ export default function CartPage() {
           <h1 className="hidden md:block text-2xl font-bold text-gray-900 dark:text-white mb-5">
             Cart Summary
           </h1>
-          <div className="w-full flex items-center gap-10 md:hidden">
+          <div className="w-full flex justify-between items-center mb-6 md:hidden">
             {/* Back */}
             <button
               onClick={() => router.back()}
-              className="text-black dark:text-white font-medium flex hover:text-orange-500 transition"
+              className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
             >
               <ArrowLeft size={20} />
+              View Cart
             </button>
-            <h1 className="text-xl font-bold justify-content pl-10 text-gray-900 dark:text-white">
-              Cart View
-            </h1>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -307,41 +305,32 @@ export default function CartPage() {
                 </h2>
 
                 <div className="space-y-4">
-                  {cartItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="grid grid-cols-3 items-center"
-                    >
-                      {/* Title */}
-                      <div>
-                        <p className="text-sm text-gray-600">
-                          {item.subService}
-                        </p>
-                        <p className="text-xs text-gray-400">
-                          {item.serviceName}
-                        </p>
-                      </div>
+                  {cartItems?.length > 0 ? (
+                    cartItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="grid grid-cols-3 items-center"
+                      >
+                        <div>
+                          <p className="text-sm text-gray-600">
+                            {item.subService}
+                          </p>
 
-                      {/* Qty */}
-                      <div className="flex justify-center">
-                        <div className="flex items-center border border-orange-400 rounded-md px-2 gap-2 h-7">
-                          <button>-</button>
-                          {/* <span>{item?.quantity || 1}</span> */}
-                          <button>+</button>
+                          <p className="text-xs text-gray-400">
+                            {item.serviceName}
+                          </p>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="font-semibold text-gray-900">
+                            ₹{item.price}
+                          </p>
                         </div>
                       </div>
-
-                      {/* Price */}
-                      <div className="text-right">
-                        <p className="font-semibold text-gray-900">
-                          ₹{item.price}
-                        </p>
-                        <p className="text-xs text-gray-400 line-through">
-                          ₹{Math.round(item.price * 1.2)}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p className="text-gray-500 text-sm">No items in cart</p>
+                  )}
                 </div>
               </div>
 

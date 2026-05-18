@@ -18,8 +18,10 @@ import {
   Search,
   Info,
   X,
+  ArrowLeft,
 } from "lucide-react";
 import { Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
 // import SelectAddressModal from "@/components/SelectAddressModal";
 import BookingDetailsModal from "@/components/BookingDetailsModal";
 import RescheduleModal from "@/components/RescheduleModal";
@@ -81,6 +83,8 @@ const MyBookingPage = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
+
+  const router = useRouter();
 
   const [amcBookings, setAmcBookings] = useState([
     {
@@ -337,7 +341,7 @@ const MyBookingPage = () => {
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "My Booking" }]}
         />
-        <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
+        <div className="flex flex-col md:flex-row gap-5 md:gap-10 w-full mx-auto">
           {/* Sidebar */}
           {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
@@ -376,7 +380,16 @@ const MyBookingPage = () => {
             </div>
           </div> */}
           <AccountSidebar />
-
+          <div className="w-full flex justify-between items-center md:hidden">
+            {/* Back */}
+            <button
+              onClick={() => router.back()}
+              className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
+            >
+              <ArrowLeft size={20} />
+              My Bookings
+            </button>
+          </div>
           {/* Main Content */}
           {showChatBot ? (
             <div className="flex-1 flex justify-center items-start  ">
@@ -608,7 +621,7 @@ const MyBookingPage = () => {
                               </div>
 
                               {/* Buttons */}
-                              <div className="flex flex-col sm:flex-row gap-3 mt-3 sm:mt-4">
+                              <div className="flex sm:flex-row gap-3 mt-3 sm:mt-4">
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
