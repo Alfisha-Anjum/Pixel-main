@@ -388,7 +388,9 @@ import {
   Search,
   Info,
   X,
+  ArrowLeft,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Pencil } from "lucide-react";
@@ -411,10 +413,12 @@ import Breadcrumb from "@/components/account/Breadcrumb";
 import { AccountSidebar } from "@/components/account";
 import Link from "next/link";
 import LayoutContainer from "@/components/LayoutContainer";
+import router from "next/dist/shared/lib/router/router";
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 const MySchedulePage = () => {
   const { user } = useAuth();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const refresh = searchParams?.get("refresh");
   const [activeTab, setActiveTab] = useState<
@@ -617,7 +621,7 @@ const MySchedulePage = () => {
           <Breadcrumb
             items={[{ label: "Home", href: "/" }, { label: "My Schedule" }]}
           />
-          <div className="flex flex-col md:flex-row gap-10 w-full mx-auto">
+          <div className="flex flex-col md:flex-row gap-5 md:gap-10 w-full mx-auto">
             {/* Sidebar */}
             {/* <div
             className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-64`}
@@ -656,6 +660,16 @@ const MySchedulePage = () => {
             </div>
           </div> */}
             <AccountSidebar />
+            <div className="w-full flex justify-between items-center md:hidden">
+              {/* Back */}
+              <button
+                onClick={() => router.back()}
+                className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
+              >
+                <ArrowLeft size={20} />
+                My Schedule
+              </button>
+            </div>
 
             {!showBookingDetailsPage && (
               <div className="grid grid-cols-1 md:grid-cols-2 max-w-3xl gap-6">

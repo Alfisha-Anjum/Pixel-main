@@ -92,6 +92,7 @@ const safeImage = (img?: string | null) => {
 };
 const serviceId = searchParams?.get("service_id");
 const offers = apiService?.offers || [];
+const offers = apiService?.offers || [];
 useEffect(() => {
   const fetchServiceDetails = async () => {
     try {
@@ -437,6 +438,7 @@ const getTotalPrice = () => {
                 <span className="mx-2">/</span>
                 <span className="text-gray-900 dark:text-white font-semibold">
                   {apiService?.name}
+                  {apiService?.name}
                 </span>
               </>
             )}
@@ -506,6 +508,7 @@ const getTotalPrice = () => {
                       <span>💳</span>
                       <Link
                         href={`/rate-card?service_id=${serviceId}`}
+                        href={`/rate-card?service_id=${serviceId}`}
                         className="text-sm text-gray-500 hover:text-orange-600"
                       >
                         Standard rate card no hidden charges
@@ -561,6 +564,25 @@ const getTotalPrice = () => {
                 </div>
               )}
               <div className="relative w-full flex items-center mb-5 overflow-x-auto">
+              {offers.length > 0 && (
+                <div className="sm:hidden mb-5">
+                  <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+                    {offers.map((offer: any) => (
+                      <div
+                        key={offer.id}
+                        className="flex-shrink-0 border border-gray-400 rounded-full px-4 py-2 flex items-center gap-2 bg-white"
+                      >
+                        <span className="text-gray-500 text-sm">🎁</span>
+
+                        <p className="text-xs font-medium text-gray-500 whitespace-nowrap">
+                          {offer.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div className="relative w-full flex items-center mb-5 overflow-x-auto">
                 {/* Left Button */}
                 {activeScroll === "tabs" && canScroll && !atStart && (
                   <button
@@ -572,8 +594,10 @@ const getTotalPrice = () => {
                 )}
                 {/* Scroll Container */}
 
+
                 <div
                   ref={tabsRef}
+                  className="flex gap-4 md:gap-6 sm:flex-nowrap overflow-x-auto hide-scrollbar px-1 w-full"
                   className="flex gap-4 md:gap-6 sm:flex-nowrap overflow-x-auto hide-scrollbar px-1 w-full"
                 >
                   {tabs.map((tab) => (
@@ -594,11 +618,27 @@ const getTotalPrice = () => {
                           alt={tab.name}
                           className="hidden sm:block w-10 h-8 object-contain mb-2"
                         />
+                        className={`cursor-pointer text-center transition-all duration-200 border
+    rounded-full p-2
+    sm:rounded-lg sm:p-3 sm:flex sm:flex-col sm:items-center sm:justify-center
+    ${
+      activeTab === tab.id
+        ? "border-[#FF6A00] shadow-sm"
+        : "border-gray-200 hover:shadow-sm hover:border-gray-300"
+    }`}
+                      >
+                        <img
+                          src="/10.svg"
+                          alt={tab.name}
+                          className="hidden sm:block w-10 h-8 object-contain mb-2"
+                        />
 
                         <div
                           className={`text-sm sm:text-[12px] font-semibold ${
+                          className={`text-sm sm:text-[12px] font-semibold ${
                             activeTab === tab.id
                               ? "text-[#FF6A00]"
+                              : "text-gray-800"
                               : "text-gray-800"
                           }`}
                         >
@@ -867,8 +907,13 @@ const getTotalPrice = () => {
                   href={`/rate-card?service_id=${serviceId}`}
                   className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8"
                 >
+                <Link
+                  href={`/rate-card?service_id=${serviceId}`}
+                  className="w-full border border-orange-500 text-orange-500 rounded-2xl px-5 py-2 flex items-center justify-between font-semibold text-sm mb-8"
+                >
                   Standard Rate Card
                   <ChevronRight className="w-6 h-6" />
+                </Link>
                 </Link>
               </div>
               <div className="border rounded-xl p-5 mb-6 sm:block hidden">
@@ -1028,6 +1073,7 @@ const getTotalPrice = () => {
             {/* Background image layer with brightness filter only */}
             <div
               className="absolute inset-0 z-0 hidden md:block mt-5"
+              className="absolute inset-0 z-0 hidden md:block mt-5"
               style={{
                 backgroundImage: "url('/wht.png')",
                 backgroundSize: "auto 518px",
@@ -1040,6 +1086,7 @@ const getTotalPrice = () => {
 
             {/* Content layer - all text now white */}
             <div className="relative z-10">
+              <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2 pt-4">
               <h2 className="text-lg md:block hidden md:text-2xl font-semibold text-white text-right mb-2 pt-4">
                 What our Customers Say?
               </h2>
@@ -1170,6 +1217,7 @@ const getTotalPrice = () => {
                   {reviews.map((review, idx) => (
                     <div key={review.id}>
                       {/* Review card */}
+                      <div className="hidden md:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
                       <div className="hidden md:flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 ">
                         {/* Avatar */}
                         <div className="flex">
@@ -1356,6 +1404,8 @@ const getTotalPrice = () => {
         </div>
         <div className="mx-auto mt-5 sm:mt-10">
           <h2 className="text-lg sm:text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
+        <div className="mx-auto mt-5 sm:mt-10">
+          <h2 className="text-lg sm:text-2xl font-bold sm:font-semibold text-gray-900 dark:text-white mb-2">
             Frequently Asked Questions (FAQ)
           </h2>
 
@@ -1390,6 +1440,7 @@ const getTotalPrice = () => {
           </div>
         </div>
       </div>
+      <div className="my-10 overflow-x-auto">
       <div className="my-10 overflow-x-auto">
         <DeepCleaningServices />
       </div>
