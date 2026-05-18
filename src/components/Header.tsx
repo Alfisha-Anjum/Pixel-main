@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Search, MapPin, User, ChevronDown, Phone, Mic, CircleUserRound } from "lucide-react";
+import { Search, MapPin, User, ChevronDown, Phone, Mic, CircleUserRound, Bell, Heart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -86,18 +86,58 @@ console.log("USER:", user);
 
   return (
     <header className="bg-[#fafafa] border-b border-gray-200">
-      <div className="w-full xl:w-[90%] mx-auto px-2 sm:px-5">
-        <div className="flex items-center justify-between h-20 gap-6">
+      <div className="w-full xl:w-[90%] mx-auto px-4 sm:px-5">
+        {/* MOBILE HEADER */}
+        <div className="md:hidden py-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">
+                Hey! {user?.firstName || "User"}
+              </h2>
+
+              <div className="flex items-center gap-1 mt-1 text-sm">
+                <MapPin className="w-5 h-5 text-orange-500 fill-orange-500" />
+                <span className="text-gray-700">{currentCity}</span>
+                <span className="text-gray-400">,</span>
+                <ChevronDown className="w-4 h-4 text-gray-500" />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-5">
+              <Link href="/wishlist">
+                <Heart className="w-5 h-5 sm:w-8 sm:h-8 text-black" />
+              </Link>
+
+              <Link href="/notifications" className="relative">
+                <Bell className="w-5 h-5 sm:w-8 sm:h-8 text-black fill-black" />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  15
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-2 border border-orange-500 rounded-xl px-4 py-2 flex items-center gap-3 bg-white">
+            <Search className="w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder='Search for "AC Repair"'
+              className="flex-1 outline-none bg-transparent text-sm placeholder:text-gray-400"
+            />
+          </div>
+        </div>
+
+        {/* DESKTOP HEADER */}
+        <div className="hidden md:flex items-center justify-between h-20 gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2 w-40">
             <Link href="/">
-              <img src="/tas.logo.png" alt="TAS Company" className="" />
+              <img src="/tas.logo.png" alt="TAS Company" />
             </Link>
           </div>
 
-          {/* Location */}
+          {/* Location + Search */}
           <div className="flex justify-between items-center lg:px-0 px-3 border rounded-full overflow-hidden bg-gray-50 w-full md:max-w-sm lg:max-w-xl">
-            {/* LOCATION - hide on small screens */}
             <div className="flex items-center gap-2 px-4 py-2 md:border-r text-sm">
               <MapPin className="w-4 h-4 text-orange-500" />
               <span className="text-gray-700 truncate max-w-[90px]">
@@ -106,30 +146,33 @@ console.log("USER:", user);
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
 
-            {/* SEARCH */}
             <div className="hidden lg:flex items-center flex-1 px-4">
-              {/* Left search icon (only on large screens) */}
-              <Search className="hidden lg:block w-4 h-4 text-gray-400 mr-2" />
-
+              <Search className="w-4 h-4 text-gray-400 mr-2" />
               <input
                 type="text"
                 placeholder='Search for "AC Repair"...'
-                className="flex-1 bg-transparent outline-none text-sm px-2 
-                 placeholder:hidden lg:placeholder:block"
+                className="flex-1 bg-transparent outline-none text-xs px-2"
               />
-
-              {/* Right search icon (only on small screens) */}
-
-              {/* Mic icon (only on large screens) */}
-              <Mic className="hidden lg:block w-4 h-4 text-gray-600 cursor-pointer" />
+              <Mic className="w-4 h-4 text-gray-600 cursor-pointer" />
             </div>
-            <Search className="flex items-center justify-center lg:hidden w-4 h-4 text-gray-600 mr-2 cursor-pointer  " />
           </div>
 
-          {/* Phone */}
           <div className="xl:flex items-center gap-2 hidden">
             <Phone className="w-4 h-4 text-orange-500" />
             <span className="text-gray-700 font-medium">7447-0000-45</span>
+          </div>
+
+          <div className="flex items-center gap-5">
+            <Link href="/wishlist">
+              <Heart className="w-6 h-6 text-black" />
+            </Link>
+
+            <Link href="/notifications" className="relative">
+              <Bell className="w-6 h-6 text-black" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                15
+              </span>
+            </Link>
           </div>
 
           {/* Login */}
