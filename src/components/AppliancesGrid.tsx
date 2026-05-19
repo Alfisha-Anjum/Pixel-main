@@ -68,7 +68,8 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
 
     if (lower.includes("ac")) return "/10.svg";
     if (lower.includes("washing")) return "/2.svg";
-    if (lower.includes("deep")) return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80";
+    if (lower.includes("deep"))
+      return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop&q=80";
     if (lower.includes("bathroom")) return "/bathroom.png";
     if (lower.includes("electric")) return "/electrician.png";
     if (lower.includes("plumber")) return "/plumber.png";
@@ -82,24 +83,24 @@ const AppliancesGrid = ({ data = [] }: { data?: any[] }) => {
     return "/10.svg";
   };
 
-const finalAppliances: ApplianceItem[] =
-  data.length > 0
-    ? [
-        ...data.map((item: any) => ({
-          id: item.id || item.service_id || item.service_category_id,
-          image:
-            item.image ||
-            item.icon ||
-            item.home_icon ||
-            getApplianceImage(item.name),
+  const finalAppliances: ApplianceItem[] =
+    data.length > 0
+      ? [
+          ...data.map((item: any) => ({
+            id: item.id || item.service_id || item.service_category_id,
+            image:
+              item.image ||
+              item.icon ||
+              item.home_icon ||
+              getApplianceImage(item.name),
 
-          label: item.name,
-          slug: item.slug || "ac-repair",
-        })),
-        { image: "/see-all.png", label: "See All" },
-      ]
-    : appliances;
-    // console.log("APPLIANCE DATA", data);
+            label: item.name,
+            slug: item.slug || "ac-repair",
+          })),
+          { image: "/see-all.png", label: "See All" },
+        ]
+      : appliances;
+  // console.log("APPLIANCE DATA", data);
   const router = useRouter();
   const [modalSource, setModalSource] = useState<"default" | "amc">("default");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -139,27 +140,27 @@ const finalAppliances: ApplianceItem[] =
   }, [isModalOpen]);
 
   const getRouteSlug = (slug?: string) => {
-  if (!slug) return "";
+    if (!slug) return "";
 
-  if (slug.startsWith("ac-repair")) return "ac-repair";
-  if (slug.startsWith("washing-repair")) return "washing-repair";
-  if (slug.startsWith("carpenter")) return "carpenter";
+    if (slug.startsWith("ac-repair")) return "ac-repair";
+    if (slug.startsWith("washing-repair")) return "washing-repair";
+    if (slug.startsWith("carpenter")) return "carpenter";
 
-  return slug;
-};
-const handleCardClick = (item: ApplianceItem) => {
-  if (item.label === "See All") {
-    setIsModalOpen(true);
-    return;
-  }
+    return slug;
+  };
+  const handleCardClick = (item: ApplianceItem) => {
+    if (item.label === "See All") {
+      setIsModalOpen(true);
+      return;
+    }
 
-  if (!item.id) {
-    console.log("SERVICE ID MISSING:", item);
-    return;
-  }
+    if (!item.id) {
+      console.log("SERVICE ID MISSING:", item);
+      return;
+    }
 
-  router.push(`/service/${getRouteSlug(item.slug)}?service_id=${item.id}`);
-};
+    router.push(`/service/${getRouteSlug(item.slug)}?service_id=${item.id}`);
+  };
   // Filter out "See All" for modal content
   // const modalAppliances = appliances.filter((item) => item.label !== "See All");
 
@@ -293,7 +294,7 @@ const handleCardClick = (item: ApplianceItem) => {
                     )}
                   </div>
                   <p
-                    className={`${isAction ? "text-orange-500" : "text-gray-800"} mt-2 text-xs font-medium`}
+                    className={`${isAction ? "text-orange-500" : "text-gray-800 dark:text-gray-300"} mt-2 text-xs font-medium`}
                   >
                     {item.label}
                   </p>
