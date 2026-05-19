@@ -15,15 +15,19 @@ export default function WishlistPage() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(
-        "https://taskpro.itmingo.com/api/customers/wish-lists",
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+     const response = await axios.get(
+       "https://taskpro.itmingo.com/api/customers/wish-lists",
+       {
+         params: {
+           state_name: "Chhattisgarh",
+           city_name: "Raipur",
+         },
+         headers: {
+           Accept: "application/json",
+           Authorization: `Bearer ${token}`,
+         },
+       },
+     );
 
       setWishlist(response.data?.data || []);
     } catch (error) {
@@ -59,7 +63,7 @@ export default function WishlistPage() {
             </div>
             <div className="flex justify-between items-center mb-4 w-full">
               <span className="text-sm inline-block bg-orange-50 text-orange-500 font-bold px-3 py-2 rounded-lg">
-                {item.badge || "30 Days Warranty"}
+                {item.warranty ? "30 Days Warranty" : "Service Warranty"}
               </span>
               <Heart className=" w-7 h-7 fill-red-500 text-red-500 text-right" />
             </div>
@@ -91,18 +95,15 @@ export default function WishlistPage() {
               </div>
             </div>
 
-            <ul className="text-gray-500 mt-4 space-y-1">
-              {(item.points || item.features || []).map(
-                (point: any, idx: number) => (
-                  <li key={idx}>• {point}</li>
-                ),
-              )}
-            </ul>
+            <div
+              className="text-gray-500 mt-4 text-sm wishlist-desc"
+              dangerouslySetInnerHTML={{
+                __html: item.description || "",
+              }}
+            />
 
             <div className="flex items-center justify-between mt-4">
-              <button className="text-blue-500 text-sm">
-                More Details
-              </button>
+              <button className="text-blue-500 text-sm">More Details</button>
 
               <button className="border border-orange-500 text-orange-500 rounded-full px-5 py-1 font-bold">
                 Add
