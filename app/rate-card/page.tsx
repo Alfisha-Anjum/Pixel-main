@@ -10,8 +10,8 @@ const RateCardPage = () => {
   const serviceId = searchParams.get("service_id");
 
   const [rateData, setRateData] = useState<any[]>([]);
-const [openElectrical, setOpenElectrical] = useState(true);
-const [openSpare, setOpenSpare] = useState(true);
+  const [openElectrical, setOpenElectrical] = useState(true);
+  const [openSpare, setOpenSpare] = useState(true);
 
   useEffect(() => {
     const fetchRateCard = async () => {
@@ -35,9 +35,9 @@ const [openSpare, setOpenSpare] = useState(true);
   const spareParts = rateData.flatMap((item) => item.spare_parts || []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <div className="max-w-3xl mx-auto sm:px-4">
-        <div className="flex items-center justify-center relative mb-5">
+        <div className="flex items-center justify-center relative mb-5 dark:text-gray-300">
           <button onClick={() => router.back()} className="absolute left-0">
             <ArrowLeft size={24} />
           </button>

@@ -51,7 +51,7 @@ const MyBookingPage = () => {
   const [activeTab, setActiveTab] = useState<
     "pending" | "rejected" | "completed"
   >("pending");
-  const [bookingType, setBookingType] = useState<"home" | "amc">("home");
+  const bookingType = (searchParams.get("tab") as "home" | "amc") || "home";
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSplitModal, setShowSplitModal] = useState(false);
   const [showAMCDetailsPage, setShowAMCDetailsPage] = useState(false);
@@ -413,7 +413,7 @@ const MyBookingPage = () => {
                     <div className="">
                       <nav className="flex">
                         <button
-                          onClick={() => setBookingType("home")}
+                          onClick={() => router.push("/my-booking?tab=home")}
                           className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
                             bookingType === "home"
                               ? "border-[#FF6A00] dark:border-gray-600 text-[#FF6A00]"
@@ -423,7 +423,7 @@ const MyBookingPage = () => {
                           Home Services
                         </button>
                         <button
-                          onClick={() => setBookingType("amc")}
+                          onClick={() => router.push("/my-booking?tab=amc")}
                           className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 dark:border-gray-600 transition-colors ${
                             bookingType === "amc"
                               ? "border-[#FF6A00] dark:border-gray-600 text-[#FF6A00]"
