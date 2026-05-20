@@ -28,27 +28,28 @@ const handymanServices = [
 
 const HandymanServices = ({ data = [] }: { data?: any[] }) => {
   const router = useRouter();
-const getHandymanImage = (name: string) => {
-  const lower = name.toLowerCase();
+  const getHandymanImage = (name: string) => {
+    const lower = name.toLowerCase();
 
-  if (lower.includes("electric")) return "/electrician.png";
-  if (lower.includes("carpenter")) return "/Carpenter.png";
-  if (lower.includes("plumber")) return "/plumber.png";
-  if (lower.includes("furniture")) return "/Furniture Assembly & Dismantle.png";
-  if (lower.includes("house")) return "/House Repairer.png";
+    if (lower.includes("electric")) return "/electrician.png";
+    if (lower.includes("carpenter")) return "/Carpenter.png";
+    if (lower.includes("plumber")) return "/plumber.png";
+    if (lower.includes("furniture"))
+      return "/Furniture Assembly & Dismantle.png";
+    if (lower.includes("house")) return "/House Repairer.png";
 
-  return "/electrician.png";
-};
+    return "/electrician.png";
+  };
 
-const finalServices =
-  data.length > 0
-    ? data.map((item) => ({
-        id: item.id,
-        label: item.name,
-        image: getHandymanImage(item.name),
-        slug: item.slug,
-      }))
-    : handymanServices;
+  const finalServices =
+    data.length > 0
+      ? data.map((item) => ({
+          id: item.id,
+          label: item.name,
+          image: getHandymanImage(item.name),
+          slug: item.slug,
+        }))
+      : handymanServices;
   return (
     <section className="pt-5 w-full sm:max-w-[90%] mx-auto px-2 sm:px-0 lg:px-8">
       <div className="">
@@ -76,7 +77,7 @@ const finalServices =
                   />
                 </div>
 
-                <p className="mt-2 text-xs sm:text-sm font-medium text-gray-900 leading-tight">
+                <p className="mt-2 text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-200 leading-tight">
                   {service.label.split(" ")[0]}
                 </p>
               </div>
@@ -104,7 +105,7 @@ const finalServices =
                 />
               </div>
 
-              <p className="mt-2 text-xs sm:text-sm font-medium text-gray-900 leading-tight">
+              <p className="mt-2 text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-200 leading-tight">
                 {service.label.split(" ")[0]}
               </p>
             </div>

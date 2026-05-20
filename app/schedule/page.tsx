@@ -441,6 +441,7 @@ const MySchedulePage = () => {
   const [showBookingDetailsPage, setShowBookingDetailsPage] = useState(false);
   const [showSelectAddressModal, setShowSelectAddressModal] = useState(false);
   const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
+  const [showOffers, setShowOffers] = useState(false);
 
   const successBookingCancel = () => {
     setShowCancelledSuccess(true);
@@ -770,14 +771,44 @@ const MySchedulePage = () => {
                     </div>
 
                     {/* COUPONS */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center">
-                      <span className="text-gray-600 font-medium cursor-pointer">
+                    <div
+                      onClick={() => setShowOffers(!showOffers)}
+                      className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center cursor-pointer"
+                    >
+                      <span className="text-gray-600 font-medium">
                         Coupons & Offers
                       </span>
+
                       <span className="text-sm text-orange-500">
-                        3 Offers {">"}
+                        {showOffers ? "Hide Offers <" : "3 Offers >"}
                       </span>
                     </div>
+
+                    {/* Offers List */}
+                    {showOffers && (
+                      <div className="bg-white border rounded-xl p-4 shadow-sm space-y-3">
+                        <div className="border rounded-lg p-3">
+                          <p className="font-semibold text-sm">SAVE20</p>
+                          <p className="text-xs text-gray-500">
+                            Get 20% off on first order
+                          </p>
+                        </div>
+
+                        <div className="border rounded-lg p-3">
+                          <p className="font-semibold text-sm">FREESHIP</p>
+                          <p className="text-xs text-gray-500">
+                            Free delivery on orders above ₹999
+                          </p>
+                        </div>
+
+                        <div className="border rounded-lg p-3">
+                          <p className="font-semibold text-sm">WELCOME10</p>
+                          <p className="text-xs text-gray-500">
+                            Extra ₹100 off for new users
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
                     {/* CUSTOMER DETAILS */}
                     <div className="bg-white rounded-xl p-5 shadow-sm border relative">

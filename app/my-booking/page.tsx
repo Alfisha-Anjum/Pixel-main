@@ -51,7 +51,7 @@ const MyBookingPage = () => {
   const [activeTab, setActiveTab] = useState<
     "pending" | "rejected" | "completed"
   >("pending");
-  const [bookingType, setBookingType] = useState<"home" | "amc">("home");
+  const bookingType = (searchParams.get("tab") as "home" | "amc") || "home";
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSplitModal, setShowSplitModal] = useState(false);
   const [showAMCDetailsPage, setShowAMCDetailsPage] = useState(false);
@@ -83,6 +83,8 @@ const MyBookingPage = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
+
+  const [showOffers, setShowOffers] = useState(false);
 
   const router = useRouter();
 
@@ -411,7 +413,7 @@ const MyBookingPage = () => {
                     <div className="">
                       <nav className="flex">
                         <button
-                          onClick={() => setBookingType("home")}
+                          onClick={() => router.push("/my-booking?tab=home")}
                           className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
                             bookingType === "home"
                               ? "border-[#FF6A00] dark:border-gray-600 text-[#FF6A00]"
@@ -421,7 +423,7 @@ const MyBookingPage = () => {
                           Home Services
                         </button>
                         <button
-                          onClick={() => setBookingType("amc")}
+                          onClick={() => router.push("/my-booking?tab=amc")}
                           className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 dark:border-gray-600 transition-colors ${
                             bookingType === "amc"
                               ? "border-[#FF6A00] dark:border-gray-600 text-[#FF6A00]"
@@ -717,19 +719,51 @@ const MyBookingPage = () => {
                       </div>
 
                       {/* COUPONS */}
-                      <div className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center">
-                        <span className="text-gray-600 font-medium cursor-pointer">
+                      <div
+                        onClick={() => setShowOffers(!showOffers)}
+                        className="bg-white rounded-xl p-5 shadow-sm border flex justify-between items-center cursor-pointer"
+                      >
+                        <span className="text-gray-600 font-medium text-[clamp(14px,1.5vw,18px)]">
                           Coupons & Offers
                         </span>
+
                         <span className="text-sm text-orange-500">
-                          3 Offers {">"}
+                          {showOffers ? "Hide Offers <" : "3 Offers >"}
                         </span>
                       </div>
+
+                      {/* Offers List */}
+                      {showOffers && (
+                        <div className="bg-white border rounded-xl p-4 shadow-sm space-y-3">
+                          <div className="border rounded-lg p-3">
+                            <p className="font-semibold text-sm">SAVE20</p>
+                            <p className="text-xs text-gray-500">
+                              Get 20% off on first order
+                            </p>
+                          </div>
+
+                          <div className="border rounded-lg p-3">
+                            <p className="font-semibold text-sm">FREESHIP</p>
+                            <p className="text-xs text-gray-500">
+                              Free delivery on orders above ₹999
+                            </p>
+                          </div>
+
+                          <div className="border rounded-lg p-3">
+                            <p className="font-semibold text-sm">WELCOME10</p>
+                            <p className="text-xs text-gray-500">
+                              Extra ₹100 off for new users
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
                       {/* CUSTOMER DETAILS */}
                       <div className="bg-white rounded-xl p-5 shadow-sm border relative">
                         <div className="flex items-start justify-between mb-3">
-                          <h3 className="font-semibold">Customer Details</h3>
+                          <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)]">
+                            Customer Details
+                          </h3>
 
                           <button
                             onClick={() => setShowSelectAddressModal(true)}
@@ -763,7 +797,7 @@ const MyBookingPage = () => {
                         </div> */}
                       </div>
                       <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border relative">
-                        <h2 className="text-lg sm:text-xl font-bold text-start">
+                        <h2 className="text-[clamp(14px,1.5vw,18px)] font-bold text-start">
                           Rate Your Experience
                         </h2>
 
@@ -806,14 +840,14 @@ const MyBookingPage = () => {
                         {/* Button */}
                         <button
                           onClick={handleSubmitReview}
-                          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-full transition"
+                          className="w-full text-[clamp(14px,1.5vw,18px)] mt-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-full transition"
                         >
                           Submit Review
                         </button>
                       </div>
 
                       <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border mt-4">
-                        <h2 className="text-lg font-bold text-gray-900">
+                        <h2 className="text-[clamp(14px,1.5vw,18px)] font-bold text-gray-900">
                           GST Details
                         </h2>
 
@@ -839,7 +873,10 @@ const MyBookingPage = () => {
                       </div>
                       {/* SERVICE PROVIDER */}
 
-                      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-4 sm:p-5 md:p-6">
+                        <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] p-3">
+                          Payment Details
+                        </h3>
                         <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
                           <div className="flex justify-between border-b pb-3">
                             <span>Item Total</span>
@@ -880,8 +917,58 @@ const MyBookingPage = () => {
                         </button>
                       </div>
 
+                      <div className="bg-white text-[clamp(14px,1.5vw,18px)] rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border">
+                        <h3>Payment Method</h3>
+                        <p>Online Payment (UPI)</p>
+                      </div>
+
+                      <div className="bg-white rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border">
+                        {/* Heading */}
+                        <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] text-gray-800 mb-4">
+                          Service Provider
+                        </h3>
+
+                        {/* Provider Row */}
+                        <div className="flex items-center justify-between">
+                          {/* Left Side */}
+                          <div className="flex items-center gap-3">
+                            <img
+                              src="/provider.jpg"
+                              alt="provider"
+                              className="w-12 h-12 rounded-full object-cover border"
+                            />
+
+                            <div>
+                              <p className="font-medium text-[clamp(14px,1.5vw,18px)] text-gray-800">
+                                Rahul Sharma
+                              </p>
+                              <p className="text-xs text-gray-500 flex items-center gap-1">
+                                <MapPin size={14} />
+                                Raipur, Chhattisgarh
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Right Side Icons */}
+                          <div className="flex gap-2 sm:gap-3 sm:justify-center p-1 sm:p-2 flex-shrink-0">
+                            <img
+                              src="/chat.png"
+                              alt="chat"
+                              className="w-5 h-5 cursor-pointer"
+                              onClick={() => handleOpenChat(selectedBooking)}
+                            />
+                            <img
+                              src="/call.png"
+                              alt="call"
+                              className="w-5 h-5 cursor-pointer"
+                              // onClick={onCall}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
                       {/* SUPPORT */}
-                      <div className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex flex-col  cursor-pointer hover:shadow-md transition-all">
+                      <div className="bg-white text-[clamp(14px,1.5vw,18px)] rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex flex-col  cursor-pointer hover:shadow-md transition-all">
                         <p>Contact Support</p>
                         <div className="flex justify-between items-center gap-3">
                           {/* Icon */}
@@ -921,14 +1008,14 @@ const MyBookingPage = () => {
                     <div className="shadow-sm h-fit w-full lg:flex-1 min-w-0 lg:sticky lg:top-24 sm:px-0">
                       {/* Header */}
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-semibold text-gray-800">
+                        <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] text-gray-800 dark:text-gray-200 text-lg">
                           Advance Payment Summary
                         </h3>
                         <span className="text-orange-500 text-lg">🧾</span>
                       </div>
 
                       {/* Card */}
-                      <div className="bg-[#fafafa] rounded-xl space-y-4">
+                      <div className="bg-[#fafafa] rounded-xl space-y-4 p-4 sm:p-5">
                         <div className="flex justify-between text-sm text-gray-600">
                           <span>Item Total</span>
                           <span className="font-medium text-gray-800">

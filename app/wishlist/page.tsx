@@ -15,6 +15,7 @@ export default function WishlistPage() {
     try {
       const token = localStorage.getItem("token");
 
+
      const response = await axios.get(
        "https://taskpro.itmingo.com/api/customers/wish-lists",
        {
@@ -45,7 +46,7 @@ export default function WishlistPage() {
 
   return (
     <div className=" max-w-7xl mx-auto">
-      <div className="relative flex items-center justify-center sm:mb-10">
+      <div className="relative flex items-center justify-center sm:mb-10 dark:text-gray-300">
         <button onClick={() => router.back()} className="absolute left-0">
           <ArrowLeft className="w-7 h-7" />
         </button>
