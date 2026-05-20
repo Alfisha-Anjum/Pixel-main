@@ -1,88 +1,101 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Search, MapPin, User, ChevronDown, Phone, Mic, CircleUserRound, Bell, Heart } from "lucide-react";
+import {
+  Search,
+  MapPin,
+  User,
+  ChevronDown,
+  Phone,
+  Mic,
+  CircleUserRound,
+  Bell,
+  Heart,
+  House,
+  ClipboardList,
+  Wrench,
+  UserRound,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const Header = () => {
-const { user, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [isClient, setIsClient] = useState(false);
   const [currentCity, setCurrentCity] = useState("Raipur");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab");
 
+  const getProfileImage = (img?: string | null) => {
+    if (!img) return "/profile.png";
 
-const getProfileImage = (img?: string | null) => {
-  if (!img) return "/profile.png";
+    if (img.startsWith("http") || img.startsWith("/")) {
+      return img;
+    }
 
-  if (img.startsWith("http") || img.startsWith("/")) {
-    return img;
-  }
-
-  return `https://taskpro.itmingo.com/storage/customers/${img}`;
-};
-console.log("USER:", user);
+    return `https://taskpro.itmingo.com/storage/customers/${img}`;
+  };
+  console.log("USER:", user);
   useEffect(() => {
-  const savedLocation = localStorage.getItem("user_location");
+    const savedLocation = localStorage.getItem("user_location");
 
-  if (savedLocation) {
-    const parsed = JSON.parse(savedLocation);
-    setCurrentCity(parsed.city || parsed.state || "Raipur");
-  }
-
-  const handleLocationUpdate = () => {
-    const updatedLocation = localStorage.getItem("user_location");
-
-    if (updatedLocation) {
-      const parsed = JSON.parse(updatedLocation);
+    if (savedLocation) {
+      const parsed = JSON.parse(savedLocation);
       setCurrentCity(parsed.city || parsed.state || "Raipur");
     }
-  };
 
-  window.addEventListener("location-updated", handleLocationUpdate);
+    const handleLocationUpdate = () => {
+      const updatedLocation = localStorage.getItem("user_location");
 
-  return () => {
-    window.removeEventListener("location-updated", handleLocationUpdate);
-  };
-}, []);
+      if (updatedLocation) {
+        const parsed = JSON.parse(updatedLocation);
+        setCurrentCity(parsed.city || parsed.state || "Raipur");
+      }
+    };
+
+    window.addEventListener("location-updated", handleLocationUpdate);
+
+    return () => {
+      window.removeEventListener("location-updated", handleLocationUpdate);
+    };
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
   const handleLogout = async () => {
-  try {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    if (token) {
-      await axios.get(
-        "https://taskpro.itmingo.com/api/customers/logout",
-        {
+      if (token) {
+        await axios.get("https://taskpro.itmingo.com/api/customers/logout", {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
           },
-        }
-      );
+        });
+      }
+    } catch (error) {
+      console.error("Logout API failed:", error);
+    } finally {
+      // ✅ Clear everything no matter what
+      localStorage.removeItem("token");
+      localStorage.removeItem("customer_id");
+
+      // If you stored user object
+      localStorage.removeItem("user");
+
+      // ✅ Clear context (VERY IMPORTANT)
+      // login(null); // or logout() if you have it
+
+      // ✅ Redirect
+      window.location.href = "/login";
     }
-  } catch (error) {
-    console.error("Logout API failed:", error);
-  } finally {
-    // ✅ Clear everything no matter what
-    localStorage.removeItem("token");
-    localStorage.removeItem("customer_id");
-
-    // If you stored user object
-    localStorage.removeItem("user");
-
-    // ✅ Clear context (VERY IMPORTANT)
-    // login(null); // or logout() if you have it
-
-    // ✅ Redirect
-    window.location.href = "/login";
-  }
-};
+  };
 
   return (
     <header className="bg-[#fafafa] border-b border-gray-200">
@@ -116,7 +129,6 @@ console.log("USER:", user);
               </Link>
             </div>
           </div>
-
           <div className="mt-2 border border-orange-500 rounded-xl px-4 py-2 flex items-center gap-3 bg-white">
             <Search className="w-4 h-4 text-gray-400" />
             <input
@@ -124,6 +136,56 @@ console.log("USER:", user);
               placeholder='Search for "AC Repair"'
               className="flex-1 outline-none bg-transparent text-sm placeholder:text-gray-400"
             />
+          </div>
+          {/* MOBILE BOTTOM NAV */}
+          <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-md z-50 md:hidden">
+            <div className="grid grid-cols-4 h-16">
+              <Link
+                href="/"
+                className={`flex flex-col items-center justify-center ${
+                  pathname === "/" ? "text-orange-500" : "text-gray-500"
+                }`}
+              >
+                <House className="w-5 h-5" />
+                <span className="text-[11px] mt-1 font-medium">Home</span>
+              </Link>
+
+              <Link
+                href="/my-booking?tab=amc"
+                className={`flex flex-col items-center justify-center ${
+                  pathname.startsWith("/my-booking") && activeTab === "amc"
+                    ? "text-orange-500"
+                    : "text-gray-500"
+                }`}
+              >
+                <Wrench className="w-5 h-5" />
+                <span className="text-[11px] mt-1 font-medium">
+                  AMC Services
+                </span>
+              </Link>
+
+              <Link
+                href="/my-booking?tab=home"
+                className={`flex flex-col items-center justify-center ${
+                  pathname.startsWith("/my-booking") && activeTab !== "amc"
+                    ? "text-orange-500"
+                    : "text-gray-500"
+                }`}
+              >
+                <ClipboardList className="w-5 h-5" />
+                <span className="text-[11px] mt-1 font-medium">Booking</span>
+              </Link>
+
+              <Link
+                href="/account"
+                className={`flex flex-col items-center justify-center ${
+                  pathname === "/account" ? "text-orange-500" : "text-gray-500"
+                }`}
+              >
+                <UserRound className="w-5 h-5" />
+                <span className="text-[11px] mt-1 font-medium">Account</span>
+              </Link>
+            </div>
           </div>
         </div>
 
