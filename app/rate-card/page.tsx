@@ -53,19 +53,12 @@ const [openSpare, setOpenSpare] = useState(true);
             onClick={() => setOpenElectrical(!openElectrical)}
             className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
           >
-          <button
-            onClick={() => setOpenElectrical(!openElectrical)}
-            className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
-          >
             <h2 className="text-xl font-semibold">Electrical Parts</h2>
             <ChevronDown
               className={`transition-transform ${openElectrical ? "rotate-180" : ""}`}
             />
           </button>
-            <ChevronDown
-              className={`transition-transform ${openElectrical ? "rotate-180" : ""}`}
-            />
-          </button>
+          
 
           {openElectrical && (
             <table className="w-full text-sm">
@@ -120,10 +113,7 @@ const [openSpare, setOpenSpare] = useState(true);
 
         {/* Spare Parts */}
         <div className="border rounded-2xl overflow-hidden">
-          <button
-            onClick={() => setOpenSpare(!openSpare)}
-            className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
-          >
+     
           <button
             onClick={() => setOpenSpare(!openSpare)}
             className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
@@ -132,10 +122,7 @@ const [openSpare, setOpenSpare] = useState(true);
             <ChevronDown
               className={`transition-transform ${openSpare ? "rotate-180" : ""}`}
             />
-          </button>
-            <ChevronDown
-              className={`transition-transform ${openSpare ? "rotate-180" : ""}`}
-            />
+       
           </button>
 
           {openSpare && (
@@ -147,20 +134,9 @@ const [openSpare, setOpenSpare] = useState(true);
                   <th className="text-left px-4 py-4">Warranty</th>
                 </tr>
               </thead>
-          {openSpare && (
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="text-left px-4 py-4">Part Name</th>
-                  <th className="text-left px-4 py-4">Price</th>
-                  <th className="text-left px-4 py-4">Warranty</th>
-                </tr>
-              </thead>
+       
 
-              <tbody>
-                {spareParts.map((item: any, index: number) => (
-                  <tr key={index} className="border-t">
-                    <td className="px-4 py-5">{item.description}</td>
+             
               <tbody>
                 {spareParts.map((item: any, index: number) => (
                   <tr key={index} className="border-t">
@@ -185,12 +161,8 @@ const [openSpare, setOpenSpare] = useState(true);
               </tbody>
             </table>
           )}
-                    <td className="px-4 py-5">{item.warranty}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                  
+          
         </div>
       </div>
     </div>
