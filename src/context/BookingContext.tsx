@@ -36,13 +36,47 @@ export const BookingProvider: React.FC<{ children: ReactNode }> = ({
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [acceptedTC, setAcceptedTC] = useState(false);
 
-  const addToCart = (item: CartItem) => {
-    setCartItems([...cartItems, item]);
-  };
+ const addToCart = (service: any) => {
+   setCartItems((prev: any[]) => {
+     const existingItem = prev.find((item) => item.id === service.id);
 
-  const removeFromCart = (id: string) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
+     // IF ITEM ALREADY EXISTS -> increase quantity
+     if (existingItem) {
+       return prev.map((item) =>
+         item.id === service.id
+           ? {
+               ...item,
+               quantity: item.quantity + 1,
+             }
+           : item,
+       );
+     }
+
+     // NEW ITEM
+     return [
+       ...prev,
+       {
+         ...service,
+         quantity: 1,
+       },
+     ];
+   });
+ };
+
+const removeFromCart = (id: number | string) => {
+  setCartItems((prev: any[]) =>
+    prev
+      .map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: item.quantity - 1,
+            }
+          : item,
+      )
+      .filter((item) => item.quantity > 0),
+  );
+};
 
   const clearCart = () => {
     setCartItems([]);

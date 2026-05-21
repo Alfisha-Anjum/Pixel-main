@@ -21,24 +21,95 @@ interface Address {
 
 export default function CartPage() {
   const router = useRouter();
-  const { cartItems, removeFromCart, selectedAddress, setSelectedAddress } =
-    useBooking();
+const {
+  cartItems,
+  addToCart,
+  removeFromCart,
+  selectedAddress,
+  setSelectedAddress,
+} = useBooking();
+    // const [cartItems, setCartItems] = useState<CartItemService[]>([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
   const [showDateTimeModal, setShowDateTimeModal] = useState(false);
   const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
-  const totalMRP = cartItems.reduce((sum, item) => sum + item.price * 1.2, 0);
-  const totalDiscount =
-    totalMRP - cartItems.reduce((sum, item) => sum + item.price, 0);
-  const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
+const totalMRP = cartItems.reduce(
+  (sum, item: any) =>
+    sum +
+    (item.originalPrice || item.price || item.discountedPrice || 0) *
+      (item.quantity || 1),
+  0,
+);
+
+const totalAmount = cartItems.reduce(
+  (sum, item: any) =>
+    sum + (item.price || item.discountedPrice || 0) * (item.quantity || 1),
+  0,
+);
+
+const totalDiscount = totalMRP - totalAmount;
+
+
   const [addresses, setAddresses] = useState<any[]>([]);
   const displayAddress = selectedAddress || addresses[0];
   const [showCoupons, setShowCoupons] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
   // const [token, setToken] = useState<string | null>(null);
 
+
+  const createCustomerCart = async () => {
+  if (!cartItems.length) return alert("Cart is empty");
+
+  try {
+    setCartLoading(true);
+
+   const payload = {
+     service_category_id: cartItems[0]?.service_category_id || "",
+     service_id: cartItems[0]?.service_id || "",
+     carts: cartItems.map((item: any) => ({
+       service_sub_category_id: Number(item.service_sub_category_id),
+       service_issue_id: Number(item.service_issue_id),
+       quantity: item.quantity || 1,
+     })),
+   };
+    const res = await axios.post(
+      "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
+      payload,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      }
+    );
+
+    console.log("CART API RESPONSE:", res.data);
+
+    if (res.data?.status) {
+      setShowDateTimeModal(true);
+    }
+  } catch (error: any) {
+    console.log("CART API ERROR:", error?.response?.data || error);
+  } finally {
+    setCartLoading(false);
+  }
+};
+
   const token = localStorage.getItem("token");
+
+  const updateQuantity = (item: any, type: "increase" | "decrease") => {
+  if (type === "increase") {
+    addToCart({
+      ...item,
+      quantity: 1,
+    });
+  } else {
+    removeFromCart(item.id);
+  }
+};
 
   const getCustomerAddresses = async (token: string) => {
     const res = await axios.get(
@@ -218,9 +289,10 @@ export default function CartPage() {
     },
   ];
 
-  const handleContinue = () => {
-    setShowDateTimeModal(true); // 👈 open date modal instead
-  };
+const handleContinue = () => {
+  createCustomerCart();
+};
+
   const handleDateTimeContinue = (
     date: string,
     time: string,
@@ -299,41 +371,80 @@ export default function CartPage() {
               </div>
 
               {/* Order Summary */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-5">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              {/* Order Summary */}
+              <div className="bg-white rounded-[22px] border border-gray-200 px-6 py-7">
+                <h2 className="text-[22px] font-medium text-[#555] mb-7">
                   Order Summary
                 </h2>
 
-                <div className="space-y-4">
+                <div className="space-y-7">
                   {cartItems?.length > 0 ? (
-                    cartItems.map((item) => (
-                      <div
-                        key={item.id}
-                        className="grid grid-cols-3 items-center"
-                      >
-                        <div>
-                          <p className="text-sm text-gray-600">
-                            {item.subService}
-                          </p>
+                    cartItems.map((item: any) => {
+                      const qty = item.quantity || 1;
+                      const price = item.price || item.discountedPrice || 0;
+                      const originalPrice = item.originalPrice || 0;
 
-                          <p className="text-xs text-gray-400">
-                            {item.serviceName}
-                          </p>
-                        </div>
+                      return (
+                        <div
+                          key={item.id}
+                          className="grid grid-cols-[1fr_78px_80px_28px] items-center gap-8"
+                        >
+                          {/* Name */}
+                          <div>
+                            <p className="text-[19px] leading-7 text-[#707070] font-light">
+                              {item.subService || item.name}
+                            </p>
+                            <p className="text-[19px] leading-7 text-[#707070] font-light">
+                              ({item.serviceName || "Split AC"})
+                            </p>
+                          </div>
 
-                        <div className="text-right">
-                          <p className="font-semibold text-gray-900">
-                            ₹{item.price}
-                          </p>
+                          {/* Quantity */}
+                          <div className="flex items-center justify-center h-7 border border-[#FF6A00] rounded-md shadow-[0_3px_8px_rgba(255,106,0,0.18)] overflow-hidden">
+                            <button
+                              onClick={() => updateQuantity(item, "decrease")}
+                              className="px-2 text-[#FF6A00] text-sm"
+                            >
+                              −
+                            </button>
+
+                            <span className="px-2 text-sm text-black">
+                              {qty}
+                            </span>
+
+                            <button
+                              onClick={() => updateQuantity(item, "increase")}
+                              className="px-2 text-[#FF6A00] text-sm"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          {/* Price */}
+                          <div className="text-left">
+                            <p className="text-[17px] font-bold text-black leading-5">
+                              ₹{price * qty}
+                            </p>
+                            <p className="text-[14px] text-gray-400 line-through mt-1">
+                              ₹{originalPrice * qty}
+                            </p>
+                          </div>
+
+                          {/* Delete */}
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-red-500 flex justify-end"
+                          >
+                            <Trash2 size={22} strokeWidth={2} />
+                          </button>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   ) : (
                     <p className="text-gray-500 text-sm">No items in cart</p>
                   )}
                 </div>
               </div>
-
               {/* Frequently Added Together */}
               {/* <div className="bg-white rounded-xl shadow-md p-6">
               <button
@@ -489,10 +600,11 @@ export default function CartPage() {
                 </div>
 
                 <button
-                  className="w-full py-3 rounded-full text-white font-semibold bg-orange-600 hover:bg-orange-700 transition-colors"
+                  className="w-full py-3 rounded-full text-white font-semibold bg-orange-600 hover:bg-orange-700 transition-colors disabled:opacity-60"
                   onClick={handleContinue}
+                  disabled={cartLoading}
                 >
-                  Continue
+                  {cartLoading ? "Creating Cart..." : "Continue"}
                 </button>
 
                 <div className="flex items-center gap-3">
@@ -513,8 +625,7 @@ export default function CartPage() {
                   className="w-8 h-6"
                 />
                 <p className="text-sm font-bold text-[#666666] w-3/4">
-                  Easy Cancellation/Returns, Background Verified Service
-                  Provide.
+                  Easy Cancellation/Returns, BackgroundVerified Service Provide.
                 </p>
               </div>
             </div>
