@@ -120,25 +120,23 @@ const {
 
       const data = await response.json();
 
-      if (data?.status) {
-        setWishlistItems((prev) => {
-          let updatedWishlist: number[];
+     if (data?.status) {
+       const currentId = parseInt(String(serviceId));
 
-          if (prev.includes(Number(serviceId))) {
-            updatedWishlist = prev.filter((id) => id !== Number(serviceId));
-          } else {
-            updatedWishlist = [...prev, Number(serviceId)];
-          }
+       setWishlistItems((prev) => {
+         let updatedWishlist: number[];
 
-          // SAVE TO LOCALSTORAGE
-          localStorage.setItem(
-            "wishlistItems",
-            JSON.stringify(updatedWishlist),
-          );
+         if (prev.includes(currentId)) {
+           updatedWishlist = prev.filter((id) => id !== currentId);
+         } else {
+           updatedWishlist = [...prev, currentId];
+         }
 
-          return updatedWishlist;
-        });
-      }
+         localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+
+         return updatedWishlist;
+       });
+     }
 
       console.log(data);
     } catch (error) {
@@ -668,9 +666,12 @@ const updateQuantity = (
                           >
                             <Heart
                               className={`w-6 h-6 transition-all duration-300 ${
-                                wishlistItems.includes(Number(subService.id))
-                                  ? "text-red-500 fill-red-500"
-                                  : "text-gray-400"
+                                wishlistItems.includes(
+                                  parseInt(String(subService.id)),
+                                )
+                                  ? "text-gray-400"
+                                  : "text-red-500 fill-red-500"
+                                  
                               }`}
                               strokeWidth={2}
                             />

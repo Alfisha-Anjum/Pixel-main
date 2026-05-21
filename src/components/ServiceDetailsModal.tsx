@@ -52,6 +52,16 @@ export default function ServiceDetailsModal({
   if (!isOpen || !service) return null;
   const [quantity, setQuantity] = useState(1);
 
+  const cleanHtml = (html?: string) => {
+    if (!html) return "";
+    return html
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p>/gi, "\n")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim();
+  };
+
   const updateQuantity = (value: number) => {
     if (value < 1) return;
     setQuantity(value);
@@ -60,6 +70,28 @@ export default function ServiceDetailsModal({
   const handleAddItem = (item: any) => {
     setCartItems((prev) => [...prev, item]);
   };
+
+  const getEmbedUrl = (url: string) => {
+  if (!url) return "";
+
+  // youtube watch url
+  if (url.includes("watch?v=")) {
+    return url.replace("watch?v=", "embed/");
+  }
+
+  // youtu.be short url
+  if (url.includes("youtu.be/")) {
+    const videoId = url.split("youtu.be/")[1]?.split("?")[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  // already embed url
+  if (url.includes("/embed/")) {
+    return url;
+  }
+
+  return url;
+};
 
  const issueMoreDetails = Array.isArray(service?.issueMoreDetails)
    ? service.issueMoreDetails
@@ -79,7 +111,7 @@ export default function ServiceDetailsModal({
           onClick={onClose}
           className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md z-10"
         >
-          <X className="w-5 h-5"/>
+          <X className="w-5 h-5" />
         </button>
 
         {/* Top Image */}
@@ -93,7 +125,7 @@ export default function ServiceDetailsModal({
           <div className="relative h-48 w-full">
             {apiVideoUrl ? (
               <iframe
-                src={apiVideoUrl.replace("watch?v=", "embed/")}
+                src={getEmbedUrl(apiVideoUrl)}
                 title={service.title || service.name}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -177,9 +209,11 @@ export default function ServiceDetailsModal({
             </div>
 
             {/* Warranty */}
-            <div className="text-green-600 text-sm font-medium px-6">
-              {service.warrantyDescription ||
-                `${service.warrantyDays || 0} Days Warranty`}
+            <div className="text-green-600 text-sm font-medium px-6 whitespace-pre-line">
+              {cleanHtml(
+                service.warrantyDescription ||
+                  `${service.warrantyDays || 0} Days Warranty`,
+              )}
             </div>
 
             {/* Badge */}
@@ -200,8 +234,9 @@ export default function ServiceDetailsModal({
                     <h3 className="font-semibold text-sm sm:text-base mb-1">
                       Service Inclusion
                     </h3>
-                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                      {detail.inclusions || "No inclusion available."}
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                      {cleanHtml(detail.inclusions) ||
+                        "No inclusion available."}
                     </p>
                   </div>
 
