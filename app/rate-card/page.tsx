@@ -10,8 +10,8 @@ const RateCardPage = () => {
   const serviceId = searchParams.get("service_id");
 
   const [rateData, setRateData] = useState<any[]>([]);
-  const [openElectrical, setOpenElectrical] = useState(true);
-  const [openSpare, setOpenSpare] = useState(true);
+const [openElectrical, setOpenElectrical] = useState(true);
+const [openSpare, setOpenSpare] = useState(true);
 
   useEffect(() => {
     const fetchRateCard = async () => {
@@ -47,7 +47,12 @@ const RateCardPage = () => {
 
         {/* Electrical Parts */}
         {/* Electrical Parts */}
+        {/* Electrical Parts */}
         <div className="border rounded-2xl overflow-hidden mb-8">
+          <button
+            onClick={() => setOpenElectrical(!openElectrical)}
+            className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
+          >
           <button
             onClick={() => setOpenElectrical(!openElectrical)}
             className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
@@ -57,7 +62,24 @@ const RateCardPage = () => {
               className={`transition-transform ${openElectrical ? "rotate-180" : ""}`}
             />
           </button>
+            <ChevronDown
+              className={`transition-transform ${openElectrical ? "rotate-180" : ""}`}
+            />
+          </button>
 
+          {openElectrical && (
+            <table className="w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="text-left px-4 py-4">Description</th>
+                  <th className="text-left px-4 py-4">Service Charge</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {rateCart.map((item: any, index: number) => (
+                  <tr key={index} className="border-t">
+                    <td className="px-4 py-5">{item.description}</td>
           {openElectrical && (
             <table className="w-full text-sm">
               <thead className="bg-gray-100">
@@ -83,6 +105,17 @@ const RateCardPage = () => {
               </tbody>
             </table>
           )}
+                    <td className="px-4 py-5">
+                      <p className="text-gray-400 line-through">
+                        {item.originalService}
+                      </p>
+                      <p>{item.service}</p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* Spare Parts */}
@@ -91,7 +124,15 @@ const RateCardPage = () => {
             onClick={() => setOpenSpare(!openSpare)}
             className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
           >
+          <button
+            onClick={() => setOpenSpare(!openSpare)}
+            className="w-full bg-black text-white px-5 py-4 flex justify-between items-center"
+          >
             <h2 className="text-xl font-semibold">Spare Parts</h2>
+            <ChevronDown
+              className={`transition-transform ${openSpare ? "rotate-180" : ""}`}
+            />
+          </button>
             <ChevronDown
               className={`transition-transform ${openSpare ? "rotate-180" : ""}`}
             />
@@ -106,7 +147,20 @@ const RateCardPage = () => {
                   <th className="text-left px-4 py-4">Warranty</th>
                 </tr>
               </thead>
+          {openSpare && (
+            <table className="w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="text-left px-4 py-4">Part Name</th>
+                  <th className="text-left px-4 py-4">Price</th>
+                  <th className="text-left px-4 py-4">Warranty</th>
+                </tr>
+              </thead>
 
+              <tbody>
+                {spareParts.map((item: any, index: number) => (
+                  <tr key={index} className="border-t">
+                    <td className="px-4 py-5">{item.description}</td>
               <tbody>
                 {spareParts.map((item: any, index: number) => (
                   <tr key={index} className="border-t">
@@ -118,7 +172,19 @@ const RateCardPage = () => {
                       </p>
                       <p>{item.price}</p>
                     </td>
+                    <td className="px-4 py-5">
+                      <p className="text-gray-400 line-through">
+                        {item.originalPrice}
+                      </p>
+                      <p>{item.price}</p>
+                    </td>
 
+                    <td className="px-4 py-5">{item.warranty}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
                     <td className="px-4 py-5">{item.warranty}</td>
                   </tr>
                 ))}

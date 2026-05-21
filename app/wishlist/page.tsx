@@ -15,19 +15,20 @@ export default function WishlistPage() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(
-        "https://taskpro.itmingo.com/api/customers/wish-lists",
-        {
-          params: {
-            state_name: "Chhattisgarh",
-            city_name: "Raipur",
-          },
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+
+     const response = await axios.get(
+       "https://taskpro.itmingo.com/api/customers/wish-lists",
+       {
+         params: {
+           state_name: "Chhattisgarh",
+           city_name: "Raipur",
+         },
+         headers: {
+           Accept: "application/json",
+           Authorization: `Bearer ${token}`,
+         },
+       },
+     );
 
       setWishlist(response.data?.data || []);
     } catch (error) {
