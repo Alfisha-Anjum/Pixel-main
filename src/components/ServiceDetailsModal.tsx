@@ -79,7 +79,7 @@ export default function ServiceDetailsModal({
           onClick={onClose}
           className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md z-10"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5"/>
         </button>
 
         {/* Top Image */}
