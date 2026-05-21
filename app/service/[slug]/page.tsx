@@ -19,6 +19,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ServiceDetailsModal from "@/components/ServiceDetailsModal";
 import { SelectCapacityModal } from "@/components/booking-flow/SelectCapacityModal";
 import { AMCDurationModal } from "@/components/AMCDurationModal";
+import { Heart } from "lucide-react";
 
 type SubService = {
   id: number | string;
@@ -55,7 +56,7 @@ const ACRepairLayout = () => {
   const serviceId = searchParams?.get("service_id");
   const subCategoryId = searchParams?.get("sub_category_id");
   const source = searchParams?.get("source") || "";
-
+const [wishlistItems, setWishlistItems] = useState<number[]>([]);
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const brandsRef = useRef<HTMLDivElement | null>(null);
 
@@ -101,6 +102,81 @@ const {
   const safeImage = (img?: string | null) => {
     return img && img.trim() !== "" ? img : "/10.svg";
   };
+
+  const handleWishlist = async (serviceId: number | string) => {
+    try {
+      const token = "6|AWYRfA6bOXIwSw90KYhTKLJjlikrYembbuDFB3PO1473b837";
+
+      const response = await fetch(
+        `https://taskpro.itmingo.com/api/customers/wish-lists/${serviceId}`,
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (data?.status) {
+        setWishlistItems((prev) => {
+          let updatedWishlist: number[];
+
+          if (prev.includes(Number(serviceId))) {
+            updatedWishlist = prev.filter((id) => id !== Number(serviceId));
+          } else {
+            updatedWishlist = [...prev, Number(serviceId)];
+          }
+
+          // SAVE TO LOCALSTORAGE
+          localStorage.setItem(
+            "wishlistItems",
+            JSON.stringify(updatedWishlist),
+          );
+
+          return updatedWishlist;
+        });
+      }
+
+      console.log(data);
+    } catch (error) {
+      console.log("Wishlist Error:", error);
+    }
+  };
+
+useEffect(() => {
+  const storedWishlist = localStorage.getItem("wishlistItems");
+
+  if (storedWishlist) {
+    setWishlistItems(JSON.parse(storedWishlist));
+  }
+}, []);
+  const banners =
+    apiService?.banners?.length > 0
+      ? apiService.banners
+      : [safeImage(apiService?.images?.header_image1)];
+
+  const [currentBanner, setCurrentBanner] = useState(0);
+
+  const nextBanner = () => {
+    setCurrentBanner((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevBanner = () => {
+    setCurrentBanner((prev) => (prev === 0 ? banners.length - 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    if (banners.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentBanner((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [banners]);
 
   useEffect(() => {
     const fetchServiceDetails = async () => {
@@ -398,12 +474,50 @@ const updateQuantity = (
             </div>
 
             <div className="w-full lg:w-1/2 order-1 lg:order-2">
-              <div className="relative w-full rounded-2xl overflow-hidden">
+              <div className="relative w-full rounded-[24px] overflow-hidden group">
+                {/* Banner Image */}
                 <img
-                  src={safeImage(apiService?.images?.header_image1)}
-                  alt={apiService?.name || "Service"}
-                  className="w-full object-cover"
+                  src={banners[currentBanner]}
+                  alt="banner"
+                  className="w-full h-[300px]  object-cover transition-all duration-500"
                 />
+
+                {/* Left Button */}
+                {banners.length > 1 && (
+                  <button
+                    onClick={prevBanner}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 border border-orange-500  h-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-orange-500" />
+                  </button>
+                )}
+
+                {/* Right Button */}
+                {banners.length > 1 && (
+                  <button
+                    onClick={nextBanner}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-orange-500 bg-white/90 shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                  >
+                    <ChevronRight className="w-5 h-5 text-orange-500" />
+                  </button>
+                )}
+
+                {/* Dots */}
+                {banners.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    {banners.map((_: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentBanner(index)}
+                        className={`h-2 rounded-full transition-all ${
+                          currentBanner === index
+                            ? "w-6 bg-white"
+                            : "w-2 bg-white/60"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -443,33 +557,35 @@ const updateQuantity = (
 
               <div
                 ref={tabsRef}
-                className="flex gap-4 md:gap-6 sm:flex-nowrap overflow-x-auto hide-scrollbar px-1 w-full"
+                className="flex gap-5 overflow-x-auto hide-scrollbar w-full px-2 py-2"
               >
                 {tabs.map((tab: any) => (
-                  <div key={tab.id} className="flex-shrink-0 w-1/2 ">
+                  <div key={tab.id} className="flex-shrink-0">
                     <div
                       onClick={() => setActiveTab(String(tab.id))}
-                      className={`cursor-pointer text-center transition-all duration-200 border rounded-full p-2 sm:rounded-lg sm:p-3 sm:flex sm:flex-col sm:items-center sm:justify-center ${
+                      className={`w-40 h-[105px] p-2 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${
                         activeTab === String(tab.id)
-                          ? "border-[#FF6A00] shadow-sm"
-                          : "border-gray-200 hover:shadow-sm hover:border-gray-300"
+                          ? "border-[#FF6A00] shadow-[0_4px_12px_rgba(255,106,0,0.18)]"
+                          : "border-gray-200 bg-white"
                       }`}
                     >
+                      {/* IMAGE */}
                       <img
                         src="/10.svg"
                         alt={tab.name}
-                        className="hidden sm:block w-10 h-8 object-contain mb-2"
+                        className=" hidden sm:block w-14 h-10 object-contain mb-3"
                       />
 
-                      <div
+                      {/* TEXT */}
+                      <p
                         className={`text-sm sm:text-[12px] font-semibold ${
                           activeTab === String(tab.id)
                             ? "text-[#FF6A00]"
-                            : "text-gray-800"
+                            : "text-[#222]"
                         }`}
                       >
-                        {tab.name}
-                      </div>
+                        {tab.name?.replace(/repair/gi, "").trim()}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -494,7 +610,7 @@ const updateQuantity = (
                   key={subService.id}
                   className="sm:w-[80%] w-full lg:max-w-lg"
                 >
-                  <div className="sm:shadow-none shadow-lg rounded-xl py-4">
+                  <div className="sm:shadow-none shadow-lg rounded-xl py-4 sm:px-0 px-4">
                     <div className="flex gap-4">
                       <div className="flex flex-col items-center">
                         <div className="relative w-28 h-28 rounded-lg overflow-hidden bg-gray-100">
@@ -538,13 +654,28 @@ const updateQuantity = (
                       </div>
 
                       <div className="flex-1">
-                        <span
-                          onClick={() => setShowWarrantyModal(true)}
-                          className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
-                        >
-                          {subService.warrantyDays || 0} Days Warranty
-                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span
+                            onClick={() => setShowWarrantyModal(true)}
+                            className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
+                          >
+                            {subService.warrantyDays || 0} Days Warranty
+                          </span>
 
+                          <button
+                            onClick={() => handleWishlist(subService.id)}
+                            className="flex-shrink-0"
+                          >
+                            <Heart
+                              className={`w-6 h-6 transition-all duration-300 ${
+                                wishlistItems.includes(Number(subService.id))
+                                  ? "text-red-500 fill-red-500"
+                                  : "text-gray-400"
+                              }`}
+                              strokeWidth={2}
+                            />
+                          </button>
+                        </div>
                         <div className=" flex justify-between items-start sm:flex-row flex-col">
                           <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
@@ -572,9 +703,12 @@ const updateQuantity = (
                             </div>
                           </div>
 
-                          <div className="flex flex-col mt-2">
+                          <div className="flex flex-col mt-2 items-end">
+                            {/* Wishlist Heart */}
+
+                            {/* Price */}
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-gray-900 dark:text-white">
+                              <span className="font-semibold text-gray-900 dark:text-white text-lg">
                                 ₹{subService.discountedPrice}
                               </span>
 
@@ -585,7 +719,8 @@ const updateQuantity = (
                               ) : null}
                             </div>
 
-                            <span className="text-green-600 text-xs font-medium">
+                            {/* Offer Text */}
+                            <span className="text-green-600 text-xs font-medium mt-1">
                               {subService.packageTag || "Offer Available"}
                             </span>
                           </div>

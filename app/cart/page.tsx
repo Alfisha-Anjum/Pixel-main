@@ -372,12 +372,12 @@ const handleContinue = () => {
 
               {/* Order Summary */}
               {/* Order Summary */}
-              <div className="bg-white rounded-[22px] border border-gray-200 px-6 py-7">
-                <h2 className="text-[22px] font-medium text-[#555] mb-7">
+              <div className="bg-white rounded-[30px] border border-[#E5E5E5] px-8 py-8 shadow-sm">
+                <h2 className="text-[38px] font-medium text-[#5A5A5A] mb-10">
                   Order Summary
                 </h2>
 
-                <div className="space-y-7">
+                <div className="space-y-10">
                   {cartItems?.length > 0 ? (
                     cartItems.map((item: any) => {
                       const qty = item.quantity || 1;
@@ -387,45 +387,47 @@ const handleContinue = () => {
                       return (
                         <div
                           key={item.id}
-                          className="grid grid-cols-[1fr_78px_80px_28px] items-center gap-8"
+                          className="grid grid-cols-4 items-center gap-10"
                         >
-                          {/* Name */}
-                          <div>
-                            <p className="text-[19px] leading-7 text-[#707070] font-light">
+                    
+                          
+                           <p className="text-[22px] leading-[34px] text-[#6E6E6E] font-light">
                               {item.subService || item.name}
                             </p>
-                            <p className="text-[19px] leading-7 text-[#707070] font-light">
+
+                            <p className="text-[22px] leading-[34px] text-[#6E6E6E] font-light">
                               ({item.serviceName || "Split AC"})
                             </p>
-                          </div>
+                          
 
-                          {/* Quantity */}
-                          <div className="flex items-center justify-center h-7 border border-[#FF6A00] rounded-md shadow-[0_3px_8px_rgba(255,106,0,0.18)] overflow-hidden">
+                          {/* Quantity Box */}
+                          <div className="flex items-center justify-between h-[42px] w-[105px] border border-[#FF6A00] rounded-[10px] shadow-[0_3px_10px_rgba(255,106,0,0.18)] px-3">
                             <button
                               onClick={() => updateQuantity(item, "decrease")}
-                              className="px-2 text-[#FF6A00] text-sm"
+                              className="text-[#FF6A00] text-[24px] leading-none font-medium"
                             >
                               −
                             </button>
 
-                            <span className="px-2 text-sm text-black">
+                            <span className="text-[18px] text-black font-normal">
                               {qty}
                             </span>
 
                             <button
                               onClick={() => updateQuantity(item, "increase")}
-                              className="px-2 text-[#FF6A00] text-sm"
+                              className="text-[#FF6A00] text-[24px] leading-none font-medium"
                             >
                               +
                             </button>
                           </div>
 
                           {/* Price */}
-                          <div className="text-left">
-                            <p className="text-[17px] font-bold text-black leading-5">
+                          <div>
+                            <p className="text-[28px] font-semibold text-black leading-none">
                               ₹{price * qty}
                             </p>
-                            <p className="text-[14px] text-gray-400 line-through mt-1">
+
+                            <p className="text-[22px] text-[#A0A0A0] line-through mt-3">
                               ₹{originalPrice * qty}
                             </p>
                           </div>
@@ -433,9 +435,9 @@ const handleContinue = () => {
                           {/* Delete */}
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="text-red-500 flex justify-end"
+                            className="flex justify-end text-[#FF3B30]"
                           >
-                            <Trash2 size={22} strokeWidth={2} />
+                            <Trash2 size={30} strokeWidth={2} />
                           </button>
                         </div>
                       );
