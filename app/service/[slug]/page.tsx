@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronDown,
   Clock,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { SERVICES_DATA } from "@/data/services";
@@ -76,7 +77,7 @@ const [wishlistItems, setWishlistItems] = useState<number[]>([]);
   const [showCapacityModal, setShowCapacityModal] = useState(false);
   const [showAMCModal, setShowAMCModal] = useState(false);
   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
-
+const [selectedWarrantyDays, setSelectedWarrantyDays] = useState<number>(30);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [canScroll, setCanScroll] = useState(false);
   const [atStart, setAtStart] = useState(true);
@@ -691,7 +692,12 @@ const updateQuantity = (
                       <div className="flex-1">
                         <div className="flex items-center justify-between gap-2">
                           <span
-                            onClick={() => setShowWarrantyModal(true)}
+                            onClick={() => {
+                              setSelectedWarrantyDays(
+                                subService.warrantyDays || 30,
+                              );
+                              setShowWarrantyModal(true);
+                            }}
                             className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
                           >
                             {subService.warrantyDays || 0} Days Warranty
@@ -1050,7 +1056,7 @@ const updateQuantity = (
 
       {showWarrantyModal && (
         <WarrantyModal
-          warrantyDays={displayServices?.[0]?.warrantyDays || 30}
+          warrantyDays={selectedWarrantyDays}
           onClose={() => setShowWarrantyModal(false)}
         />
       )}
@@ -1441,8 +1447,11 @@ const WarrantyModal = ({
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
       <div className="relative bg-white rounded-[32px] w-full max-w-md p-6 pt-8 shadow-2xl">
-        <button onClick={onClose} className="absolute top-5 right-5 text-black">
-          ✕
+        <button
+          onClick={onClose}
+          className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md z-10"
+        >
+          <X className="w-5 h-5" />
         </button>
 
         <div className="flex justify-center">
