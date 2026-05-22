@@ -728,7 +728,7 @@ const MyBookingPage = () => {
                         </span>
 
                         <span className="text-sm text-orange-500">
-                          {showOffers ? "Hide Offers <" : "3 Offers >"}
+                          {showOffers ? "▲" : "▼"}
                         </span>
                       </div>
 
@@ -796,7 +796,7 @@ const MyBookingPage = () => {
                           </button>
                         </div> */}
                       </div>
-                      <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border relative">
+                      <div className="md:hidden bg-white rounded-xl p-4 sm:p-5 shadow-sm border relative">
                         <h2 className="text-[clamp(14px,1.5vw,18px)] font-bold text-start">
                           Rate Your Experience
                         </h2>
@@ -847,11 +847,11 @@ const MyBookingPage = () => {
                       </div>
 
                       <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border mt-4">
-                        <h2 className="text-[clamp(14px,1.5vw,18px)] font-bold text-gray-900">
+                        <h2 className="text-[clamp(14px,1.5vw,18px)] font-semibold text-gray-900">
                           GST Details
                         </h2>
 
-                        <div className="mt-4 space-y-3">
+                        <div className="mt-4 space-y-2">
                           <div className="flex text-sm justify-between">
                             <span className="text-sm text-gray-500">
                               GST Number
@@ -873,7 +873,7 @@ const MyBookingPage = () => {
                       </div>
                       {/* SERVICE PROVIDER */}
 
-                      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-4 sm:p-5 md:p-6">
+                      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
                         <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] p-3">
                           Payment Details
                         </h3>
@@ -917,12 +917,16 @@ const MyBookingPage = () => {
                         </button>
                       </div>
 
-                      <div className="bg-white text-[clamp(14px,1.5vw,18px)] rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border">
-                        <h3>Payment Method</h3>
-                        <p>Online Payment (UPI)</p>
+                      <div className="bg-white rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border">
+                        <h3 className="text-[clamp(14px,1.5vw,18px)] font-semibold">
+                          Payment Method
+                        </h3>
+                        <p className="text-[clamp(12px,1.2vw,16px)]">
+                          Online Payment (UPI)
+                        </p>
                       </div>
 
-                      <div className="bg-white rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border">
+                      <div className="bg-white rounded-xl font-bold p-4 sm:p-5 md:p-6 shadow-sm border">
                         {/* Heading */}
                         <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] text-gray-800 mb-4">
                           Service Provider
@@ -966,9 +970,63 @@ const MyBookingPage = () => {
                           </div>
                         </div>
                       </div>
+                    </div>
+
+                    {/* RIGHT SECTION */}
+
+                    <div className="shadow-sm h-fit w-full lg:flex-1 min-w-0 lg:sticky lg:top-24 sm:px-0 gap-5">
+                      <div className="mb-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] text-gray-800 dark:text-gray-200 text-lg">
+                            Advance Payment Summary
+                          </h3>
+                          <span className="text-orange-500 text-lg">🧾</span>
+                        </div>
+
+                        {/* Card */}
+                        <div className="bg-[#fafafa] rounded-xl space-y-4 p-4 sm:p-5">
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>Item Total</span>
+                            <span className="font-medium text-gray-800">
+                              ₹{selectedBooking.amount}.00
+                            </span>
+                          </div>
+
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>Item Discount</span>
+                            <span className="font-medium text-gray-800">
+                              -₹100.00
+                            </span>
+                          </div>
+
+                          <div className="border-t border-gray-200"></div>
+
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>Taxes and Fees</span>
+                            <span className="font-medium text-gray-800">
+                              ₹49.00
+                            </span>
+                          </div>
+
+                          <div className="border-t border-gray-200"></div>
+
+                          <div className="flex justify-between font-semibold text-gray-900">
+                            <span>Total</span>
+                            <span>₹548.00</span>
+                          </div>
+
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>Advance Payment</span>
+                            <span className="font-medium text-gray-800">
+                              ₹148.00
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Header */}
 
                       {/* SUPPORT */}
-                      <div className="bg-white text-[clamp(14px,1.5vw,18px)] rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex flex-col  cursor-pointer hover:shadow-md transition-all">
+                      <div className="bg-white text-[clamp(14px,1.5vw,18px)] rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-red flex flex-col mb-4 cursor-pointer hover:shadow-md transition-all">
                         <p>Contact Support</p>
                         <div className="flex justify-between items-center gap-3">
                           {/* Icon */}
@@ -987,11 +1045,8 @@ const MyBookingPage = () => {
 
                           <span className="text-orange-500 text-lg">›</span>
                         </div>
-
-                        {/* Arrow */}
                       </div>
 
-                      {/* WORK STATUS */}
                       <div className="hidden md:block bg-white rounded-xl p-5 shadow-sm border">
                         <h3 className="font-semibold mb-3">Work Status</h3>
 
@@ -1000,58 +1055,6 @@ const MyBookingPage = () => {
                           <li className="text-gray-400">○ Shipped</li>
                           <li className="text-gray-400">○ Out for Delivery</li>
                         </ul>
-                      </div>
-                    </div>
-
-                    {/* RIGHT SECTION */}
-
-                    <div className="shadow-sm h-fit w-full lg:flex-1 min-w-0 lg:sticky lg:top-24 sm:px-0">
-                      {/* Header */}
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-semibold text-[clamp(14px,1.5vw,18px)] text-gray-800 dark:text-gray-200 text-lg">
-                          Advance Payment Summary
-                        </h3>
-                        <span className="text-orange-500 text-lg">🧾</span>
-                      </div>
-
-                      {/* Card */}
-                      <div className="bg-[#fafafa] rounded-xl space-y-4 p-4 sm:p-5">
-                        <div className="flex justify-between text-sm text-gray-600">
-                          <span>Item Total</span>
-                          <span className="font-medium text-gray-800">
-                            ₹{selectedBooking.amount}.00
-                          </span>
-                        </div>
-
-                        <div className="flex justify-between text-sm text-gray-600">
-                          <span>Item Discount</span>
-                          <span className="font-medium text-gray-800">
-                            -₹100.00
-                          </span>
-                        </div>
-
-                        <div className="border-t border-gray-200"></div>
-
-                        <div className="flex justify-between text-sm text-gray-600">
-                          <span>Taxes and Fees</span>
-                          <span className="font-medium text-gray-800">
-                            ₹49.00
-                          </span>
-                        </div>
-
-                        <div className="border-t border-gray-200"></div>
-
-                        <div className="flex justify-between font-semibold text-gray-900">
-                          <span>Total</span>
-                          <span>₹548.00</span>
-                        </div>
-
-                        <div className="flex justify-between text-sm text-gray-600">
-                          <span>Advance Payment</span>
-                          <span className="font-medium text-gray-800">
-                            ₹148.00
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>

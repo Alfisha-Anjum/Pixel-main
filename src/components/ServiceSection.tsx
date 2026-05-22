@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ApplianceModal from "./ApplianceModal";
 import { useState } from "react";
+import LayoutContainer from "./LayoutContainer";
 
 const services = [
   {
@@ -97,7 +98,6 @@ const getColorClasses = (index: number) => {
   return colors[index % colors.length];
 };
 
-
 export default function ServiceSection({
   data = [],
   applianceData = [],
@@ -108,43 +108,43 @@ export default function ServiceSection({
   const router = useRouter();
   const [showApplianceModal, setShowApplianceModal] = useState(false);
 
-const fetchCategoryServices = async (service: any) => {
-  try {
-    console.log("CLICKED SERVICE:", service);
+  const fetchCategoryServices = async (service: any) => {
+    try {
+      console.log("CLICKED SERVICE:", service);
 
-    const url = `https://taskpro.itmingo.com/api/services?state=Chhattisgarh&city=Raipur&state_id=1&service_category_id=${service.id}&service_category_name=${encodeURIComponent(service.name)}&state_name=Chhattisgarh&city_name=Raipur`;
+      const url = `https://taskpro.itmingo.com/api/services?state=Chhattisgarh&city=Raipur&state_id=1&service_category_id=${service.id}&service_category_name=${encodeURIComponent(service.name)}&state_name=Chhattisgarh&city_name=Raipur`;
 
-    console.log("API URL:", url);
+      console.log("API URL:", url);
 
-    const res = await fetch(url, {
-      headers: {
-        accept: "application/json",
-      },
-    });
+      const res = await fetch(url, {
+        headers: {
+          accept: "application/json",
+        },
+      });
 
-    console.log("STATUS:", res.status);
+      console.log("STATUS:", res.status);
 
-    const data = await res.json();
+      const data = await res.json();
 
-    console.log("SERVICES API RESPONSE:", data);
+      console.log("SERVICES API RESPONSE:", data);
 
-    if (data?.status) {
-      console.log("SUB CATEGORIES:", data.data);
+      if (data?.status) {
+        console.log("SUB CATEGORIES:", data.data);
+      }
+
+      router.push(
+        `/service/${service.slug}?service_id=${service.service_id || service.id}`,
+      );
+    } catch (error) {
+      console.log("SERVICES API ERROR:", error);
     }
-
-   router.push(
-     `/service/${service.slug}?service_id=${service.service_id || service.id}`,
-   );
-  } catch (error) {
-    console.log("SERVICES API ERROR:", error);
-  }
-};
+  };
 
   const finalServices = data.length > 0 ? data : services;
 
   return (
     <section className="w-full pb-10 px-2 sm:px-5">
-      <div className="max-w-7xl mx-auto">
+      <LayoutContainer className="relative">
         <div className="flex flex-col lg:flex-row justify-between items-start">
           {/* Left Side - Service Cards */}
           <div className="w-full lg:w-[40%] xl:w-[35%] flex flex-col">
@@ -154,9 +154,15 @@ const fetchCategoryServices = async (service: any) => {
               today?
             </h2>
 
-            <div className="grid grid-cols-3 gap-x-3 gap-y-5 xl:pb-0 pb-10">
+            <div
+              className={`grid grid-cols-3 gap-x-3 gap-y-5 xl:pb-0 pb-10 ${
+                finalServices.length > 6
+                  ? "max-h-[320px] overflow-y-auto pr-2"
+                  : ""
+              }`}
+            >
               {finalServices.map((service, index) => {
-               const { card, icon } = getColorClasses(index);
+                const { card, icon } = getColorClasses(index);
                 const Icon = services[index]?.icon || Snowflake;
 
                 return (
@@ -197,12 +203,12 @@ const fetchCategoryServices = async (service: any) => {
             />
           </div>
         </div>
-      </div>
-      <ApplianceModal
-        isOpen={showApplianceModal}
-        onClose={() => setShowApplianceModal(false)}
-        data={applianceData}
-      />
+        <ApplianceModal
+          isOpen={showApplianceModal}
+          onClose={() => setShowApplianceModal(false)}
+          data={applianceData}
+        />
+      </LayoutContainer>
     </section>
   );
 }

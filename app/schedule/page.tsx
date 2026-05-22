@@ -780,7 +780,7 @@ const MySchedulePage = () => {
                       </span>
 
                       <span className="text-sm text-orange-500">
-                        {showOffers ? "Hide Offers <" : "3 Offers >"}
+                        {showOffers ? "▲" : "▼"}
                       </span>
                     </div>
 
