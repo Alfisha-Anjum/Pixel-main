@@ -638,156 +638,166 @@ const updateQuantity = (
             </div>
 
             <div className="lg:col-span-6 mt-14">
-              <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white sm:mb-3">
-                Service
-              </h3>
-              {displayServices.map((subService) => (
-                <div
-                  key={subService.id}
-                  className="sm:w-[80%] w-full lg:max-w-lg"
-                >
-                  <div className="sm:shadow-none shadow-lg rounded-xl py-4 sm:px-0 px-4">
-                    <div className="flex gap-4">
-                      <div className="flex flex-col items-center">
-                        <div className="relative w-28 h-28 rounded-lg overflow-hidden bg-gray-100">
-                          <img
-                            src={safeImage(subService.image)}
-                            alt={subService.name || "Service"}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-
-                        <button
-                          onClick={() => {
-                            if (source === "amc") {
-                              setSelectedService(subService);
-                              setShowCapacityModal(true);
-                            } else {
-                              addToCart({
-                                id: subService.id,
-                                name: subService.name,
-                                subService: subService.name,
-                                serviceName: apiService?.name,
-
-                                price: subService.discountedPrice,
-                                discountedPrice: subService.discountedPrice,
-                                originalPrice: subService.originalPrice,
-                                quantity: 1,
-
-                                service_id: Number(serviceId),
-                                service_category_id:
-                                  apiService?.service_category_id ||
-                                  apiService?.id,
-                                service_sub_category_id: activeTab,
-                                service_issue_id: subService.id,
-                              } as any);
-                            }
-                          }}
-                          className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
-                        >
-                          Add
-                        </button>
-                      </div>
-
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            onClick={() => {
-                              setSelectedWarrantyDays(
-                                subService.warrantyDays || 30,
-                              );
-                              setShowWarrantyModal(true);
-                            }}
-                            className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
-                          >
-                            {subService.warrantyDays || 0} Days Warranty
-                          </span>
+              <div
+                className={`${
+                  displayServices.length > 2
+                    ? "max-h-[900px] overflow-y-auto pr-2 custom-scrollbar"
+                    : ""
+                }`}
+              >
+                <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white sm:mb-3">
+                  Service
+                </h3>
+                {displayServices.map((subService) => (
+                  <div
+                    key={subService.id}
+                    className="sm:w-[80%] w-full lg:max-w-lg"
+                  >
+                    <div className="sm:shadow-none shadow-lg rounded-xl py-4 sm:px-0 px-4">
+                      <div className="flex gap-4">
+                        <div className="flex flex-col items-center">
+                          <div className="relative w-28 h-28 rounded-lg overflow-hidden bg-gray-100">
+                            <img
+                              src={safeImage(subService.image)}
+                              alt={subService.name || "Service"}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
 
                           <button
-                            onClick={() => handleWishlist(subService.id)}
-                            className="flex-shrink-0"
+                            onClick={() => {
+                              if (source === "amc") {
+                                setSelectedService(subService);
+                                setShowCapacityModal(true);
+                              } else {
+                                addToCart({
+                                  id: subService.id,
+                                  name: subService.name,
+                                  subService: subService.name,
+                                  serviceName: apiService?.name,
+
+                                  price: subService.discountedPrice,
+                                  discountedPrice: subService.discountedPrice,
+                                  originalPrice: subService.originalPrice,
+                                  quantity: 1,
+
+                                  service_id: Number(serviceId),
+                                  service_category_id:
+                                    apiService?.service_category_id ||
+                                    apiService?.id,
+                                  service_sub_category_id: activeTab,
+                                  service_issue_id: subService.id,
+                                } as any);
+                              }
+                            }}
+                            className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
                           >
-                            <Heart
-                              className={`w-6 h-6 transition-all duration-300 ${
-                                wishlistItems.includes(Number(subService.id))
-                                  ? "text-red-500 fill-red-500"
-                                  : "text-gray-400"
-                              }`}
-                            />
+                            Add
                           </button>
                         </div>
-                        <div className=" flex justify-between items-start sm:flex-row flex-col">
-                          <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
-                              {subService.name}
-                            </h4>
 
-                            <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
-                              <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
-                              <span>
-                                {typeof subService.rating === "number"
-                                  ? subService.rating.toFixed(1)
-                                  : "0.0"}
-                              </span>
-                              <span>
-                                ({Math.round(subService.reviews / 1000)}m
-                                reviews)
-                              </span>
-                            </div>
-
-                            <div className="flex gap-2 py-2">
-                              <Clock className="w-4 h-4" />
-                              <p className="text-xs text-gray-700">
-                                {subService.duration} approx
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col mt-2 items-end">
-                            {/* Wishlist Heart */}
-
-                            {/* Price */}
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold text-gray-900 dark:text-white text-lg">
-                                ₹{subService.discountedPrice}
-                              </span>
-
-                              {subService.originalPrice ? (
-                                <span className="text-xs text-gray-400 line-through">
-                                  ₹{subService.originalPrice}
-                                </span>
-                              ) : null}
-                            </div>
-
-                            {/* Offer Text */}
-                            <span className="text-green-600 text-xs font-medium mt-1">
-                              {subService.packageTag || "Offer Available"}
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <span
+                              onClick={() => {
+                                setSelectedWarrantyDays(
+                                  subService.warrantyDays || 30,
+                                );
+                                setShowWarrantyModal(true);
+                              }}
+                              className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
+                            >
+                              {subService.warrantyDays || 0} Days Warranty
                             </span>
+
+                            <button
+                              onClick={() => handleWishlist(subService.id)}
+                              className="flex-shrink-0"
+                            >
+                              <Heart
+                                className={`w-6 h-6 transition-all duration-300 ${
+                                  wishlistItems.includes(Number(subService.id))
+                                    ? "text-red-500 fill-red-500"
+                                    : "text-gray-400"
+                                }`}
+                              />
+                            </button>
+                          </div>
+                          <div className=" flex justify-between items-start sm:flex-row flex-col">
+                            <div>
+                              <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
+                                {subService.name}
+                              </h4>
+
+                              <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
+                                <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
+                                <span>
+                                  {typeof subService.rating === "number"
+                                    ? subService.rating.toFixed(1)
+                                    : "0.0"}
+                                </span>
+                                <span>
+                                  ({Math.round(subService.reviews / 1000)}m
+                                  reviews)
+                                </span>
+                              </div>
+
+                              <div className="flex gap-2 py-2">
+                                <Clock className="w-4 h-4" />
+                                <p className="text-xs text-gray-700">
+                                  {subService.duration} approx
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-col mt-2 items-end">
+                              {/* Wishlist Heart */}
+
+                              {/* Price */}
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-gray-900 dark:text-white text-lg">
+                                  ₹{subService.discountedPrice}
+                                </span>
+
+                                {subService.originalPrice ? (
+                                  <span className="text-xs text-gray-400 line-through">
+                                    ₹{subService.originalPrice}
+                                  </span>
+                                ) : null}
+                              </div>
+
+                              {/* Offer Text */}
+                              <span className="text-green-600 text-xs font-medium mt-1">
+                                {subService.packageTag || "Offer Available"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
+
+                      <ul className="text-xs text-gray-500 mt-2 space-y-1">
+                        <li>
+                          • Get 2X deeper dust removal with Foam + PowerJet
+                          technology
+                        </li>
+                        <li>
+                          • Intense cleaning of both indoor & outdoor units
+                        </li>
+                      </ul>
+
+                      <p
+                        onClick={() => {
+                          setSelectedService(subService);
+                          setShowModal(true);
+                        }}
+                        className="text-blue-600 text-xs mt-2 cursor-pointer"
+                      >
+                        More Details {">>"}
+                      </p>
                     </div>
-
-                    <ul className="text-xs text-gray-500 mt-2 space-y-1">
-                      <li>
-                        • Get 2X deeper dust removal with Foam + PowerJet
-                        technology
-                      </li>
-                      <li>• Intense cleaning of both indoor & outdoor units</li>
-                    </ul>
-
-                    <p
-                      onClick={() => {
-                        setSelectedService(subService);
-                        setShowModal(true);
-                      }}
-                      className="text-blue-600 text-xs mt-2 cursor-pointer"
-                    >
-                      More Details {">>"}
-                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
@@ -814,48 +824,70 @@ const updateQuantity = (
                       Cart
                     </h3>
 
-                    <div className="space-y-4 mb-4">
-                      {cartItems.map((item) => (
-                        <div
-                          key={item.id}
-                          className="grid grid-cols-3 items-center gap-2"
-                        >
-                          <div className="truncate">
-                            <p className="text-sm text-gray-400 truncate">
-                              {item.name}
-                            </p>
-                          </div>
+                    <div
+                      className={`cart-scroll mb-4 ${
+                        cartItems.length > 3
+                          ? "max-h-[190px] overflow-y-auto pr-2"
+                          : ""
+                      }`}
+                    >
+                      <style jsx>{`
+                        .cart-scroll {
+                          scrollbar-width: none;
+                          -ms-overflow-style: none;
+                        }
 
-                          <div className="flex justify-end">
-                            <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
-                              <button
-                                onClick={() => updateQuantity(item, "decrease")}
-                                className="text-orange-500"
-                              >
-                                -
-                              </button>
+                        .cart-scroll::-webkit-scrollbar {
+                          display: none;
+                        }
+                      `}</style>
+                      <div className="space-y-4">
+                        {cartItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="grid grid-cols-3 items-center gap-2"
+                          >
+                            <div className="truncate">
+                              <p className="text-sm text-gray-400 truncate">
+                                {item.name}
+                              </p>
+                            </div>
 
-                              <span className="text-sm">{item.quantity}</span>
+                            <div className="flex justify-end">
+                              <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(item, "decrease")
+                                  }
+                                  className="text-orange-500"
+                                >
+                                  -
+                                </button>
 
-                              <button
-                                onClick={() => updateQuantity(item, "increase")}
-                                className="text-orange-500"
-                              >
-                                +
-                              </button>
+                                <span className="text-sm">{item.quantity}</span>
+
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(item, "increase")
+                                  }
+                                  className="text-orange-500"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="text-right">
+                              <p className="text-sm font-semibold text-gray-900">
+                                ₹{item.discountedPrice * item.quantity}
+                              </p>
+                              <p className="text-xs text-gray-400 line-through">
+                                ₹{item.originalPrice + 50}
+                              </p>
                             </div>
                           </div>
-
-                          <div className="text-right">
-                            <p className="text-sm font-semibold text-gray-900">
-                              ₹{item.discountedPrice * item.quantity}
-                            </p>
-                            <p className="text-xs text-gray-400 line-through">
-                              ₹{item.originalPrice + 50}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
 
                     <div className="pt-4 flex justify-between items-center">
