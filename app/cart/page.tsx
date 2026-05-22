@@ -308,11 +308,11 @@ const handleContinue = () => {
       <div className="min-h-screen dark:bg-gray-900">
         {/* <Header /> */}
 
-        <main className="max-w-7xl mx-auto px:3 md:px-5">
+        <main className="max-w-7xl mx-auto px:3 md:px-5 lg:px-8">
           <h1 className="hidden md:block text-2xl font-bold text-gray-900 dark:text-white mb-5">
             Cart Summary
           </h1>
-          <div className="w-full flex justify-between items-center mb-6 md:hidden">
+          <div className="w-full flex justify-between items-center md:hidden">
             {/* Back */}
             <button
               onClick={() => router.back()}
@@ -323,7 +323,7 @@ const handleContinue = () => {
             </button>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-10">
             {/* Left: Order Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Details */}

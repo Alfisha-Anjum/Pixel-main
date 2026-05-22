@@ -134,14 +134,14 @@ export default function SettingsList({ setActiveView }: Props) {
 
   return (
     <div className="w-full max-w-[390px] mx-auto lg:ml-12 px-4 lg:px-0">
-      <h2 className="text-[20px] font-semibold text-[#1B1B1B] dark:text-white mb-4">
+      <h2 className="text-[16px] md:text-[20px] font-semibold text-[#1B1B1B] dark:text-white mb-4">
         Account Settings
       </h2>
 
       <div>
         <Item
           icon={
-            <User className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <User className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Edit Profile"
           onClick={() => setActiveView("editProfile")}
@@ -151,7 +151,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Item
           icon={
-            <MapPin className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <MapPin className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Saved Address"
           onClick={handleSavedAddressClick}
@@ -161,7 +161,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Item
           icon={
-            <Wallet className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <Wallet className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="My Wallet"
           onClick={() => setActiveView("wallet")}
@@ -171,7 +171,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Item
           icon={
-            <CreditCard className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <CreditCard className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Saved Payment Methods"
           onClick={() => setActiveView("payment")}
@@ -181,7 +181,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Item
           icon={
-            <Globe className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <Globe className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Change Language"
           onClick={() => setActiveView("language")}
@@ -191,7 +191,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Toggle
           icon={
-            <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <Bell className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Notification Setting"
           state={notify}
@@ -202,7 +202,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Toggle
           icon={
-            <Moon className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <Moon className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Dark Mode"
           state={dark}
@@ -210,14 +210,14 @@ export default function SettingsList({ setActiveView }: Props) {
         />
       </div>
 
-      <h3 className="text-[20px] font-semibold text-[#1B1B1B] dark:text-white mt-8 mb-4">
+      <h3 className="text-[16px] md:text-[20px] font-semibold text-[#1B1B1B] dark:text-white mt-8 mb-4">
         My Activity
       </h3>
 
       <div>
         <Item
           icon={
-            <StarIcon className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <StarIcon className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="My Rating & Reviews"
           onClick={() => setActiveView("reviews")}
@@ -227,7 +227,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Item
           icon={
-            <Ticket className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <Ticket className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="My Coupons"
           onClick={() => setActiveView("coupon")}
@@ -237,7 +237,7 @@ export default function SettingsList({ setActiveView }: Props) {
 
         <Item
           icon={
-            <Gift className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
+            <Gift className="w-4 md:w-5 h-4 md:h-5 text-gray-600 dark:text-gray-300 group-hover:text-orange-500 transition" />
           }
           text="Refer & Earn"
           onClick={() => setActiveView("refer")}
@@ -283,7 +283,7 @@ function Item({ icon, text, onClick }: ItemProps) {
     >
       <div className="flex items-center gap-3">
         <div
-          className="w-8 h-8 rounded-full flex items-center justify-center 
+          className="w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center 
           bg-gray-100 dark:bg-gray-700 
           group-hover:bg-orange-100
           transition"
@@ -292,7 +292,7 @@ function Item({ icon, text, onClick }: ItemProps) {
         </div>
 
         <span
-          className="text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium 
+          className="text-[14px] md:text-[16px] text-[#1B1B1B] dark:text-gray-200 font-medium 
           group-hover:text-orange-500 transition"
         >
           {text}
