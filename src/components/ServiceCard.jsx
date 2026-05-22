@@ -2,20 +2,20 @@ import React from 'react';
 import SafeImage from "@/components/SafeImage";
 import { Star, Clock, ShieldCheck } from 'lucide-react';
 
-const ServiceCard = ({ 
-  title, 
-  description, 
-  rating, 
-  reviews, 
-  duration, 
-  price, 
-  originalPrice, 
-  discount, 
-  image, 
-  onAdd 
+const ServiceCard = ({
+  title,
+  description,
+  rating,
+  reviews,
+  duration,
+  price,
+  originalPrice,
+  discount,
+  image,
+  warrantyDays,
+  onWarrantyClick,
+  onAdd,
 }) => {
-
-
   return (
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-6 hover:shadow-md transition-all duration-200 group">
       {/* Left side - Service icon/image */}
@@ -28,6 +28,12 @@ const ServiceCard = ({
           height={112}
           className="relative z-10 rounded-xl object-cover h-full w-full p-2"
         />
+        <span
+          onClick={onWarrantyClick}
+          className="inline-block cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md mb-2"
+        >
+          {warrantyDays || 0} Days Warranty
+        </span>
         <div className="absolute -top-2 -left-2 bg-white p-1.5 rounded-lg shadow-sm z-20 border border-gray-50">
           <ShieldCheck size={14} className="text-green-500" />
         </div>
