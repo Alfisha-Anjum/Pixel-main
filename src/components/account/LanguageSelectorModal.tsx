@@ -71,7 +71,7 @@ const LanguageSelectorPage: React.FC<Props> = ({ setActiveView }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen px-4 py-6">
+    <div className="min-h-screen">
       <div className="w-full flex justify-between items-center mb-6 md:hidden">
         {/* Back */}
         <button

@@ -168,29 +168,29 @@ export default function EditProfile({
         </div>
 
         <div>
-          <label className="text-[16px] font-semibold text-black dark:text-white">
+          <label className="text-[14px] md:text-[16px] font-semibold text-black dark:text-white">
             First Name
           </label>
           <input
             name="firstName"
             defaultValue={profile?.first_name || ""}
-            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none p-2 text-black dark:text-gray-700 dark:rounded-lg"
+            className="w-full text-[14px] md:text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none p-2 text-black dark:text-gray-700 dark:rounded-lg"
           />
         </div>
 
         <div>
-          <label className="text-[16px] font-semibold text-black dark:text-white">
+          <label className="text-[14px] md:text-[16px] font-semibold text-black dark:text-white">
             Last Name
           </label>
           <input
             name="lastName"
             defaultValue={profile?.last_name || ""}
-            className="w-full border-b border-orange-400 bg-white dark:bg-gray-100 outline-none p-2 text-black dark:text-gray-700 dark:rounded-lg"
+            className="w-full text-[14px] md:text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none p-2 text-black dark:text-gray-700 dark:rounded-lg"
           />
         </div>
 
         <div>
-          <p className="text-[16px] font-semibold mb-2 text-black dark:text-white">
+          <p className="text-[14px] md:text-[16px] font-semibold mb-2 text-black dark:text-white">
             Select gender
           </p>
 
@@ -198,7 +198,7 @@ export default function EditProfile({
             {["Male", "Female", "Other"].map((g) => (
               <label
                 key={g}
-                className="flex items-center gap-3 cursor-pointer group"
+                className="flex items-center gap-3 text-[14px] md:text-[16px] cursor-pointer group"
               >
                 <input
                   type="radio"
@@ -236,13 +236,13 @@ export default function EditProfile({
         </div>
 
         <div>
-          <label className="text-[16px] font-semibold text-black dark:text-white">
+          <label className="text-[14px] md:text-[16px] font-semibold text-black dark:text-white">
             Phone Number
           </label>
           <input
             name="phone"
             defaultValue={profile?.mobile || ""}
-            className="w-full text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none p-2 text-black dark:text-gray-700 mb-4 dark:rounded-lg"
+            className="w-full text-[14px] md:text-[16px] border-b border-orange-400 bg-white dark:bg-gray-100 outline-none p-2 text-black dark:text-gray-700 mb-4 dark:rounded-lg"
           />
         </div>
 
