@@ -11,6 +11,37 @@ export default function WishlistPage() {
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+   const toggleWishlist = async (item: any) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const id = item.id || item.service_issue_id || item.service_id;
+
+    const response = await axios.post(
+      `https://taskpro.itmingo.com/api/customers/wish-lists/${id}`,
+      {},
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.data?.status) {
+      setWishlist((prev) =>
+        prev.filter((wish) => {
+          const wishId = wish.id || wish.service_issue_id || wish.service_id;
+          return wishId !== id;
+        })
+      );
+    }
+  } catch (error) {
+    console.log("Remove Wishlist Error:", error);
+  }
+};
+
+
   const fetchWishlist = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -44,6 +75,7 @@ export default function WishlistPage() {
 
   if (loading) return <div className="p-6">Loading...</div>;
 
+ 
   return (
     <div className=" max-w-7xl mx-auto">
       <div className="relative flex items-center justify-center sm:mb-10 dark:text-gray-300">
@@ -66,7 +98,9 @@ export default function WishlistPage() {
               <span className="text-sm inline-block bg-orange-50 text-orange-500 font-bold px-3 py-2 rounded-lg">
                 {item.warranty ? "30 Days Warranty" : "Service Warranty"}
               </span>
-              <Heart className=" w-7 h-7 fill-red-500 text-red-500 text-right" />
+              <button onClick={() => toggleWishlist(item)}>
+                <Heart className="w-7 h-7 fill-red-500 text-red-500" />
+              </button>
             </div>
             <div className="flex gap-4">
               <img
