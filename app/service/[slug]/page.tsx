@@ -102,55 +102,92 @@ const {
   const safeImage = (img?: string | null) => {
     return img && img.trim() !== "" ? img : "/10.svg";
   };
+const handleWishlist = async (serviceIssueId: number | string) => {
+  const id = Number(serviceIssueId);
+  const oldWishlist = [...wishlistItems];
 
-  const handleWishlist = async (serviceId: number | string) => {
+  const updatedWishlist = oldWishlist.includes(id)
+    ? oldWishlist.filter((itemId) => itemId !== id)
+    : [...oldWishlist, id];
+
+  // instant UI
+  setWishlistItems(updatedWishlist);
+  localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `https://taskpro.itmingo.com/api/customers/wish-lists/${id}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data?.status) {
+      setWishlistItems(oldWishlist);
+      localStorage.setItem("wishlistItems", JSON.stringify(oldWishlist));
+    }
+  } catch (error) {
+    setWishlistItems(oldWishlist);
+    localStorage.setItem("wishlistItems", JSON.stringify(oldWishlist));
+    console.log("Wishlist Error:", error);
+  }
+};
+const getWishId = (item: any) =>
+  Number(
+    item.service_issue_id ||
+      item.issue_id ||
+      item.service_issue?.id ||
+      item.issue?.id ||
+      item.id,
+  );
+
+useEffect(() => {
+  const fetchWishlistIds = async () => {
     try {
-      const token = "6|AWYRfA6bOXIwSw90KYhTKLJjlikrYembbuDFB3PO1473b837";
+      const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        `https://taskpro.itmingo.com/api/customers/wish-lists/${serviceId}`,
+      const res = await fetch(
+        "https://taskpro.itmingo.com/api/customers/wish-lists?state_name=Chhattisgarh&city_name=Raipur",
         {
-          method: "POST",
           headers: {
-            accept: "application/json",
+            Accept: "application/json",
             Authorization: `Bearer ${token}`,
           },
         },
       );
 
-      const data = await response.json();
+      const data = await res.json();
 
-     if (data?.status) {
-       const currentId = parseInt(String(serviceId));
+     const ids = (data?.data || [])
+       .map((item: any) => getWishId(item))
+       .filter(Boolean);
 
-       setWishlistItems((prev) => {
-         let updatedWishlist: number[];
-
-         if (prev.includes(currentId)) {
-           updatedWishlist = prev.filter((id) => id !== currentId);
-         } else {
-           updatedWishlist = [...prev, currentId];
-         }
-
-         localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
-
-         return updatedWishlist;
-       });
-     }
-
-      console.log(data);
+     setWishlistItems(ids);
+     localStorage.setItem("wishlistItems", JSON.stringify(ids));
     } catch (error) {
-      console.log("Wishlist Error:", error);
+      console.log("Fetch wishlist ids error:", error);
     }
   };
 
-useEffect(() => {
-  const storedWishlist = localStorage.getItem("wishlistItems");
+  fetchWishlistIds();
 
-  if (storedWishlist) {
-    setWishlistItems(JSON.parse(storedWishlist));
-  }
+  window.addEventListener("focus", fetchWishlistIds);
+  window.addEventListener("wishlistUpdated", fetchWishlistIds);
+
+  return () => {
+    window.removeEventListener("focus", fetchWishlistIds);
+    window.removeEventListener("wishlistUpdated", fetchWishlistIds);
+  };
 }, []);
+
   const banners =
     apiService?.banners?.length > 0
       ? apiService.banners
@@ -666,14 +703,10 @@ const updateQuantity = (
                           >
                             <Heart
                               className={`w-6 h-6 transition-all duration-300 ${
-                                wishlistItems.includes(
-                                  parseInt(String(subService.id)),
-                                )
-                                  ? "text-gray-400"
-                                  : "text-red-500 fill-red-500"
-                                  
+                                wishlistItems.includes(Number(subService.id))
+                                  ? "text-red-500 fill-red-500"
+                                  : "text-gray-400"
                               }`}
-                              strokeWidth={2}
                             />
                           </button>
                         </div>

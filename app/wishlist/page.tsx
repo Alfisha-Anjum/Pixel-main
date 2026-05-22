@@ -11,11 +11,33 @@ export default function WishlistPage() {
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-   const toggleWishlist = async (item: any) => {
+const getWishId = (item: any) =>
+  Number(
+    item.service_issue_id ||
+      item.issue_id ||
+      item.service_issue?.id ||
+      item.issue?.id ||
+      item.id,
+  );
+
+
+const toggleWishlist = async (item: any) => {
+  const id = getWishId(item);
+
+  // instant UI remove
+  setWishlist((prev) => prev.filter((wish) => getWishId(wish) !== id));
+
+  
+  // localStorage update for slug page
+  const stored = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+  const updatedStored = stored.filter((wishId: any) => Number(wishId) !== id);
+  localStorage.setItem("wishlistItems", JSON.stringify(updatedStored));
+
+  // notify other pages
+  window.dispatchEvent(new Event("wishlistUpdated"));
+
   try {
     const token = localStorage.getItem("token");
-
-    const id = item.id || item.service_issue_id || item.service_id;
 
     const response = await axios.post(
       `https://taskpro.itmingo.com/api/customers/wish-lists/${id}`,
@@ -25,19 +47,15 @@ export default function WishlistPage() {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
-    if (response.data?.status) {
-      setWishlist((prev) =>
-        prev.filter((wish) => {
-          const wishId = wish.id || wish.service_issue_id || wish.service_id;
-          return wishId !== id;
-        })
-      );
+    if (!response.data?.status) {
+      fetchWishlist();
     }
-  } catch (error) {
-    console.log("Remove Wishlist Error:", error);
+  } catch (error: any) {
+    console.log("Remove Wishlist Error:", error?.response?.data || error);
+    fetchWishlist();
   }
 };
 
@@ -60,6 +78,18 @@ export default function WishlistPage() {
          },
        },
      );
+
+     
+const apiWishlist = response.data?.data || [];
+setWishlist(apiWishlist);
+
+const wishlistIds = apiWishlist.map((item: any) =>
+  Number(item.service_issue_id || item.id),
+);
+
+localStorage.setItem("wishlistItems", JSON.stringify(wishlistIds));
+window.dispatchEvent(new Event("wishlistUpdated"));
+
 
       setWishlist(response.data?.data || []);
     } catch (error) {
