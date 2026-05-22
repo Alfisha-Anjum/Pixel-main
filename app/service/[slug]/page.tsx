@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronDown,
   Clock,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { SERVICES_DATA } from "@/data/services";
@@ -76,7 +77,7 @@ const [wishlistItems, setWishlistItems] = useState<number[]>([]);
   const [showCapacityModal, setShowCapacityModal] = useState(false);
   const [showAMCModal, setShowAMCModal] = useState(false);
   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
-
+const [selectedWarrantyDays, setSelectedWarrantyDays] = useState<number>(30);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [canScroll, setCanScroll] = useState(false);
   const [atStart, setAtStart] = useState(true);
@@ -102,55 +103,92 @@ const {
   const safeImage = (img?: string | null) => {
     return img && img.trim() !== "" ? img : "/10.svg";
   };
+const handleWishlist = async (serviceIssueId: number | string) => {
+  const id = Number(serviceIssueId);
+  const oldWishlist = [...wishlistItems];
 
-  const handleWishlist = async (serviceId: number | string) => {
+  const updatedWishlist = oldWishlist.includes(id)
+    ? oldWishlist.filter((itemId) => itemId !== id)
+    : [...oldWishlist, id];
+
+  // instant UI
+  setWishlistItems(updatedWishlist);
+  localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `https://taskpro.itmingo.com/api/customers/wish-lists/${id}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data?.status) {
+      setWishlistItems(oldWishlist);
+      localStorage.setItem("wishlistItems", JSON.stringify(oldWishlist));
+    }
+  } catch (error) {
+    setWishlistItems(oldWishlist);
+    localStorage.setItem("wishlistItems", JSON.stringify(oldWishlist));
+    console.log("Wishlist Error:", error);
+  }
+};
+const getWishId = (item: any) =>
+  Number(
+    item.service_issue_id ||
+      item.issue_id ||
+      item.service_issue?.id ||
+      item.issue?.id ||
+      item.id,
+  );
+
+useEffect(() => {
+  const fetchWishlistIds = async () => {
     try {
-      const token = "6|AWYRfA6bOXIwSw90KYhTKLJjlikrYembbuDFB3PO1473b837";
+      const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        `https://taskpro.itmingo.com/api/customers/wish-lists/${serviceId}`,
+      const res = await fetch(
+        "https://taskpro.itmingo.com/api/customers/wish-lists?state_name=Chhattisgarh&city_name=Raipur",
         {
-          method: "POST",
           headers: {
-            accept: "application/json",
+            Accept: "application/json",
             Authorization: `Bearer ${token}`,
           },
         },
       );
 
-      const data = await response.json();
+      const data = await res.json();
 
-     if (data?.status) {
-       const currentId = parseInt(String(serviceId));
+     const ids = (data?.data || [])
+       .map((item: any) => getWishId(item))
+       .filter(Boolean);
 
-       setWishlistItems((prev) => {
-         let updatedWishlist: number[];
-
-         if (prev.includes(currentId)) {
-           updatedWishlist = prev.filter((id) => id !== currentId);
-         } else {
-           updatedWishlist = [...prev, currentId];
-         }
-
-         localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
-
-         return updatedWishlist;
-       });
-     }
-
-      console.log(data);
+     setWishlistItems(ids);
+     localStorage.setItem("wishlistItems", JSON.stringify(ids));
     } catch (error) {
-      console.log("Wishlist Error:", error);
+      console.log("Fetch wishlist ids error:", error);
     }
   };
 
-useEffect(() => {
-  const storedWishlist = localStorage.getItem("wishlistItems");
+  fetchWishlistIds();
 
-  if (storedWishlist) {
-    setWishlistItems(JSON.parse(storedWishlist));
-  }
+  window.addEventListener("focus", fetchWishlistIds);
+  window.addEventListener("wishlistUpdated", fetchWishlistIds);
+
+  return () => {
+    window.removeEventListener("focus", fetchWishlistIds);
+    window.removeEventListener("wishlistUpdated", fetchWishlistIds);
+  };
 }, []);
+
   const banners =
     apiService?.banners?.length > 0
       ? apiService.banners
@@ -600,155 +638,166 @@ const updateQuantity = (
             </div>
 
             <div className="lg:col-span-6 mt-14">
-              <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white sm:mb-3">
-                Service
-              </h3>
-              {displayServices.map((subService) => (
-                <div
-                  key={subService.id}
-                  className="sm:w-[80%] w-full lg:max-w-lg"
-                >
-                  <div className="sm:shadow-none shadow-lg rounded-xl py-4 sm:px-0 px-4">
-                    <div className="flex gap-4">
-                      <div className="flex flex-col items-center">
-                        <div className="relative w-28 h-28 rounded-lg overflow-hidden bg-gray-100">
-                          <img
-                            src={safeImage(subService.image)}
-                            alt={subService.name || "Service"}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-
-                        <button
-                          onClick={() => {
-                            if (source === "amc") {
-                              setSelectedService(subService);
-                              setShowCapacityModal(true);
-                            } else {
-                              addToCart({
-                                id: subService.id,
-                                name: subService.name,
-                                subService: subService.name,
-                                serviceName: apiService?.name,
-
-                                price: subService.discountedPrice,
-                                discountedPrice: subService.discountedPrice,
-                                originalPrice: subService.originalPrice,
-                                quantity: 1,
-
-                                service_id: Number(serviceId),
-                                service_category_id:
-                                  apiService?.service_category_id ||
-                                  apiService?.id,
-                                service_sub_category_id: activeTab,
-                                service_issue_id: subService.id,
-                              } as any);
-                            }
-                          }}
-                          className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
-                        >
-                          Add
-                        </button>
-                      </div>
-
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            onClick={() => setShowWarrantyModal(true)}
-                            className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
-                          >
-                            {subService.warrantyDays || 0} Days Warranty
-                          </span>
+              <div
+                className={`${
+                  displayServices.length > 2
+                    ? "max-h-[900px] overflow-y-auto pr-2 custom-scrollbar"
+                    : ""
+                }`}
+              >
+                <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white sm:mb-3">
+                  Service
+                </h3>
+                {displayServices.map((subService) => (
+                  <div
+                    key={subService.id}
+                    className="sm:w-[80%] w-full lg:max-w-lg"
+                  >
+                    <div className="sm:shadow-none shadow-lg rounded-xl py-4 sm:px-0 px-4">
+                      <div className="flex gap-4">
+                        <div className="flex flex-col items-center">
+                          <div className="relative w-28 h-28 rounded-lg overflow-hidden bg-gray-100">
+                            <img
+                              src={safeImage(subService.image)}
+                              alt={subService.name || "Service"}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
 
                           <button
-                            onClick={() => handleWishlist(subService.id)}
-                            className="flex-shrink-0"
+                            onClick={() => {
+                              if (source === "amc") {
+                                setSelectedService(subService);
+                                setShowCapacityModal(true);
+                              } else {
+                                addToCart({
+                                  id: subService.id,
+                                  name: subService.name,
+                                  subService: subService.name,
+                                  serviceName: apiService?.name,
+
+                                  price: subService.discountedPrice,
+                                  discountedPrice: subService.discountedPrice,
+                                  originalPrice: subService.originalPrice,
+                                  quantity: 1,
+
+                                  service_id: Number(serviceId),
+                                  service_category_id:
+                                    apiService?.service_category_id ||
+                                    apiService?.id,
+                                  service_sub_category_id: activeTab,
+                                  service_issue_id: subService.id,
+                                } as any);
+                              }
+                            }}
+                            className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
                           >
-                            <Heart
-                              className={`w-6 h-6 transition-all duration-300 ${
-                                wishlistItems.includes(
-                                  parseInt(String(subService.id)),
-                                )
-                                  ? "text-gray-400"
-                                  : "text-red-500 fill-red-500"
-                                  
-                              }`}
-                              strokeWidth={2}
-                            />
+                            Add
                           </button>
                         </div>
-                        <div className=" flex justify-between items-start sm:flex-row flex-col">
-                          <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
-                              {subService.name}
-                            </h4>
 
-                            <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
-                              <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
-                              <span>
-                                {typeof subService.rating === "number"
-                                  ? subService.rating.toFixed(1)
-                                  : "0.0"}
-                              </span>
-                              <span>
-                                ({Math.round(subService.reviews / 1000)}m
-                                reviews)
-                              </span>
-                            </div>
-
-                            <div className="flex gap-2 py-2">
-                              <Clock className="w-4 h-4" />
-                              <p className="text-xs text-gray-700">
-                                {subService.duration} approx
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col mt-2 items-end">
-                            {/* Wishlist Heart */}
-
-                            {/* Price */}
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold text-gray-900 dark:text-white text-lg">
-                                ₹{subService.discountedPrice}
-                              </span>
-
-                              {subService.originalPrice ? (
-                                <span className="text-xs text-gray-400 line-through">
-                                  ₹{subService.originalPrice}
-                                </span>
-                              ) : null}
-                            </div>
-
-                            {/* Offer Text */}
-                            <span className="text-green-600 text-xs font-medium mt-1">
-                              {subService.packageTag || "Offer Available"}
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <span
+                              onClick={() => {
+                                setSelectedWarrantyDays(
+                                  subService.warrantyDays || 30,
+                                );
+                                setShowWarrantyModal(true);
+                              }}
+                              className="cursor-pointer text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-md"
+                            >
+                              {subService.warrantyDays || 0} Days Warranty
                             </span>
+
+                            <button
+                              onClick={() => handleWishlist(subService.id)}
+                              className="flex-shrink-0"
+                            >
+                              <Heart
+                                className={`w-6 h-6 transition-all duration-300 ${
+                                  wishlistItems.includes(Number(subService.id))
+                                    ? "text-red-500 fill-red-500"
+                                    : "text-gray-400"
+                                }`}
+                              />
+                            </button>
+                          </div>
+                          <div className=" flex justify-between items-start sm:flex-row flex-col">
+                            <div>
+                              <h4 className="font-semibold text-gray-900 dark:text-white mt-1">
+                                {subService.name}
+                              </h4>
+
+                              <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
+                                <Star className="w-3 h-3 fill-orange-500 text-orange-500" />
+                                <span>
+                                  {typeof subService.rating === "number"
+                                    ? subService.rating.toFixed(1)
+                                    : "0.0"}
+                                </span>
+                                <span>
+                                  ({Math.round(subService.reviews / 1000)}m
+                                  reviews)
+                                </span>
+                              </div>
+
+                              <div className="flex gap-2 py-2">
+                                <Clock className="w-4 h-4" />
+                                <p className="text-xs text-gray-700">
+                                  {subService.duration} approx
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-col mt-2 items-end">
+                              {/* Wishlist Heart */}
+
+                              {/* Price */}
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-gray-900 dark:text-white text-lg">
+                                  ₹{subService.discountedPrice}
+                                </span>
+
+                                {subService.originalPrice ? (
+                                  <span className="text-xs text-gray-400 line-through">
+                                    ₹{subService.originalPrice}
+                                  </span>
+                                ) : null}
+                              </div>
+
+                              {/* Offer Text */}
+                              <span className="text-green-600 text-xs font-medium mt-1">
+                                {subService.packageTag || "Offer Available"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
+
+                      <ul className="text-xs text-gray-500 mt-2 space-y-1">
+                        <li>
+                          • Get 2X deeper dust removal with Foam + PowerJet
+                          technology
+                        </li>
+                        <li>
+                          • Intense cleaning of both indoor & outdoor units
+                        </li>
+                      </ul>
+
+                      <p
+                        onClick={() => {
+                          setSelectedService(subService);
+                          setShowModal(true);
+                        }}
+                        className="text-blue-600 text-xs mt-2 cursor-pointer"
+                      >
+                        More Details {">>"}
+                      </p>
                     </div>
-
-                    <ul className="text-xs text-gray-500 mt-2 space-y-1">
-                      <li>
-                        • Get 2X deeper dust removal with Foam + PowerJet
-                        technology
-                      </li>
-                      <li>• Intense cleaning of both indoor & outdoor units</li>
-                    </ul>
-
-                    <p
-                      onClick={() => {
-                        setSelectedService(subService);
-                        setShowModal(true);
-                      }}
-                      className="text-blue-600 text-xs mt-2 cursor-pointer"
-                    >
-                      More Details {">>"}
-                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
@@ -775,48 +824,70 @@ const updateQuantity = (
                       Cart
                     </h3>
 
-                    <div className="space-y-4 mb-4">
-                      {cartItems.map((item) => (
-                        <div
-                          key={item.id}
-                          className="grid grid-cols-3 items-center gap-2"
-                        >
-                          <div className="truncate">
-                            <p className="text-sm text-gray-400 truncate">
-                              {item.name}
-                            </p>
-                          </div>
+                    <div
+                      className={`cart-scroll mb-4 ${
+                        cartItems.length > 3
+                          ? "max-h-[190px] overflow-y-auto pr-2"
+                          : ""
+                      }`}
+                    >
+                      <style jsx>{`
+                        .cart-scroll {
+                          scrollbar-width: none;
+                          -ms-overflow-style: none;
+                        }
 
-                          <div className="flex justify-end">
-                            <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
-                              <button
-                                onClick={() => updateQuantity(item, "decrease")}
-                                className="text-orange-500"
-                              >
-                                -
-                              </button>
+                        .cart-scroll::-webkit-scrollbar {
+                          display: none;
+                        }
+                      `}</style>
+                      <div className="space-y-4">
+                        {cartItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="grid grid-cols-3 items-center gap-2"
+                          >
+                            <div className="truncate">
+                              <p className="text-sm text-gray-400 truncate">
+                                {item.name}
+                              </p>
+                            </div>
 
-                              <span className="text-sm">{item.quantity}</span>
+                            <div className="flex justify-end">
+                              <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(item, "decrease")
+                                  }
+                                  className="text-orange-500"
+                                >
+                                  -
+                                </button>
 
-                              <button
-                                onClick={() => updateQuantity(item, "increase")}
-                                className="text-orange-500"
-                              >
-                                +
-                              </button>
+                                <span className="text-sm">{item.quantity}</span>
+
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(item, "increase")
+                                  }
+                                  className="text-orange-500"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="text-right">
+                              <p className="text-sm font-semibold text-gray-900">
+                                ₹{item.discountedPrice * item.quantity}
+                              </p>
+                              <p className="text-xs text-gray-400 line-through">
+                                ₹{item.originalPrice + 50}
+                              </p>
                             </div>
                           </div>
-
-                          <div className="text-right">
-                            <p className="text-sm font-semibold text-gray-900">
-                              ₹{item.discountedPrice * item.quantity}
-                            </p>
-                            <p className="text-xs text-gray-400 line-through">
-                              ₹{item.originalPrice + 50}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
 
                     <div className="pt-4 flex justify-between items-center">
@@ -1017,7 +1088,7 @@ const updateQuantity = (
 
       {showWarrantyModal && (
         <WarrantyModal
-          warrantyDays={displayServices?.[0]?.warrantyDays || 30}
+          warrantyDays={selectedWarrantyDays}
           onClose={() => setShowWarrantyModal(false)}
         />
       )}
@@ -1408,8 +1479,11 @@ const WarrantyModal = ({
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
       <div className="relative bg-white rounded-[32px] w-full max-w-md p-6 pt-8 shadow-2xl">
-        <button onClick={onClose} className="absolute top-5 right-5 text-black">
-          ✕
+        <button
+          onClick={onClose}
+          className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md z-10"
+        >
+          <X className="w-5 h-5" />
         </button>
 
         <div className="flex justify-center">

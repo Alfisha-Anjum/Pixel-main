@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useEffect } from "react";
 
 export interface CartItem {
   id: string;
@@ -14,6 +14,7 @@ export interface CartItem {
   duration: string;
   rating: number;
   reviews: number;
+  quantity?: number;
 }
 
 export interface BookingContextType {
@@ -35,6 +36,24 @@ export const BookingProvider: React.FC<{ children: ReactNode }> = ({
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [acceptedTC, setAcceptedTC] = useState(false);
+
+  // const [cartItems, setCartItems] = useState<any[]>([]);
+const [cartLoaded, setCartLoaded] = useState(false);
+useEffect(() => {
+  const savedCart = localStorage.getItem("cartItems");
+
+  if (savedCart) {
+    setCartItems(JSON.parse(savedCart));
+  }
+
+  setCartLoaded(true);
+}, []);
+
+useEffect(() => {
+  if (cartLoaded) {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }
+}, [cartItems, cartLoaded]);
 
  const addToCart = (service: any) => {
    setCartItems((prev: any[]) => {
