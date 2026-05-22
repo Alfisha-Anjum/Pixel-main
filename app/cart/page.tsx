@@ -21,36 +21,35 @@ interface Address {
 
 export default function CartPage() {
   const router = useRouter();
-const {
-  cartItems,
-  addToCart,
-  removeFromCart,
-  selectedAddress,
-  setSelectedAddress,
-} = useBooking();
-    // const [cartItems, setCartItems] = useState<CartItemService[]>([]);
+  const {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    selectedAddress,
+    setSelectedAddress,
+  } = useBooking();
+  // const [cartItems, setCartItems] = useState<CartItemService[]>([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
   const [showDateTimeModal, setShowDateTimeModal] = useState(false);
   const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
-const totalMRP = cartItems.reduce(
-  (sum, item: any) =>
-    sum +
-    (item.originalPrice || item.price || item.discountedPrice || 0) *
-      (item.quantity || 1),
-  0,
-);
+  const totalMRP = cartItems.reduce(
+    (sum, item: any) =>
+      sum +
+      (item.originalPrice || item.price || item.discountedPrice || 0) *
+        (item.quantity || 1),
+    0,
+  );
 
-const totalAmount = cartItems.reduce(
-  (sum, item: any) =>
-    sum + (item.price || item.discountedPrice || 0) * (item.quantity || 1),
-  0,
-);
+  const totalAmount = cartItems.reduce(
+    (sum, item: any) =>
+      sum + (item.price || item.discountedPrice || 0) * (item.quantity || 1),
+    0,
+  );
 
-const totalDiscount = totalMRP - totalAmount;
-
+  const totalDiscount = totalMRP - totalAmount;
 
   const [addresses, setAddresses] = useState<any[]>([]);
   const displayAddress = selectedAddress || addresses[0];
@@ -58,58 +57,57 @@ const totalDiscount = totalMRP - totalAmount;
   const [cartLoading, setCartLoading] = useState(false);
   // const [token, setToken] = useState<string | null>(null);
 
-
   const createCustomerCart = async () => {
-  if (!cartItems.length) return alert("Cart is empty");
+    if (!cartItems.length) return alert("Cart is empty");
 
-  try {
-    setCartLoading(true);
+    try {
+      setCartLoading(true);
 
-   const payload = {
-     service_category_id: cartItems[0]?.service_category_id || "",
-     service_id: cartItems[0]?.service_id || "",
-     carts: cartItems.map((item: any) => ({
-       service_sub_category_id: Number(item.service_sub_category_id),
-       service_issue_id: Number(item.service_issue_id),
-       quantity: item.quantity || 1,
-     })),
-   };
-    const res = await axios.post(
-      "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
-      payload,
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
+      const payload = {
+        service_category_id: cartItems[0]?.service_category_id || "",
+        service_id: cartItems[0]?.service_id || "",
+        carts: cartItems.map((item: any) => ({
+          service_sub_category_id: Number(item.service_sub_category_id),
+          service_issue_id: Number(item.service_issue_id),
+          quantity: item.quantity || 1,
+        })),
+      };
+      const res = await axios.post(
+        "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
+        payload,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
         },
+      );
+
+      console.log("CART API RESPONSE:", res.data);
+
+      if (res.data?.status) {
+        setShowDateTimeModal(true);
       }
-    );
-
-    console.log("CART API RESPONSE:", res.data);
-
-    if (res.data?.status) {
-      setShowDateTimeModal(true);
+    } catch (error: any) {
+      console.log("CART API ERROR:", error?.response?.data || error);
+    } finally {
+      setCartLoading(false);
     }
-  } catch (error: any) {
-    console.log("CART API ERROR:", error?.response?.data || error);
-  } finally {
-    setCartLoading(false);
-  }
-};
+  };
 
   const token = localStorage.getItem("token");
 
   const updateQuantity = (item: any, type: "increase" | "decrease") => {
-  if (type === "increase") {
-    addToCart({
-      ...item,
-      quantity: 1,
-    });
-  } else {
-    removeFromCart(item.id);
-  }
-};
+    if (type === "increase") {
+      addToCart({
+        ...item,
+        quantity: 1,
+      });
+    } else {
+      removeFromCart(item.id);
+    }
+  };
 
   const getCustomerAddresses = async (token: string) => {
     const res = await axios.get(
@@ -289,9 +287,9 @@ const totalDiscount = totalMRP - totalAmount;
     },
   ];
 
-const handleContinue = () => {
-  createCustomerCart();
-};
+  const handleContinue = () => {
+    createCustomerCart();
+  };
 
   const handleDateTimeContinue = (
     date: string,
@@ -372,12 +370,12 @@ const handleContinue = () => {
 
               {/* Order Summary */}
               {/* Order Summary */}
-              <div className="bg-white rounded-[30px] border border-[#E5E5E5] px-8 py-8 shadow-sm">
-                <h2 className="text-[38px] font-medium text-[#5A5A5A] mb-10">
+              <div className="bg-white rounded-[30px] border border-[#E5E5E5] p-5 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900 mb-5">
                   Order Summary
                 </h2>
 
-                <div className="space-y-10">
+                <div className="space-y-6">
                   {cartItems?.length > 0 ? (
                     cartItems.map((item: any) => {
                       const qty = item.quantity || 1;
@@ -387,35 +385,34 @@ const handleContinue = () => {
                       return (
                         <div
                           key={item.id}
-                          className="grid grid-cols-4 items-center gap-10"
+                          className="flex items-center justify-between"
                         >
-                    
-                          
-                           <p className="text-[22px] leading-[34px] text-[#6E6E6E] font-light">
+                          <div>
+                            <p className="text-sm md:text-md leading-[34px] text-gray-600 font-light">
                               {item.subService || item.name}
                             </p>
 
-                            <p className="text-[22px] leading-[34px] text-[#6E6E6E] font-light">
+                            <p className="text-sm md:text-md leading-[34px] text-gray-600 font-light">
                               ({item.serviceName || "Split AC"})
                             </p>
-                          
+                          </div>
 
                           {/* Quantity Box */}
-                          <div className="flex items-center justify-between h-[42px] w-[105px] border border-[#FF6A00] rounded-[10px] shadow-[0_3px_10px_rgba(255,106,0,0.18)] px-3">
+                          <div className="flex flex-shrink-0 items-center justify-between h-full w-[75px] md:w-[150px] border border-[#FF6A00] rounded-[10px] shadow-[0_3px_10px_rgba(255,106,0,0.18)] px-2 md:px-5 gap-2 md:gap-5">
                             <button
                               onClick={() => updateQuantity(item, "decrease")}
-                              className="text-[#FF6A00] text-[24px] leading-none font-medium"
+                              className="text-[#FF6A00] text-[18px] md:text-[24px] leading-none font-medium"
                             >
                               −
                             </button>
 
-                            <span className="text-[18px] text-black font-normal">
+                            <span className="text-sm md:text-md text-black font-normal">
                               {qty}
                             </span>
 
                             <button
                               onClick={() => updateQuantity(item, "increase")}
-                              className="text-[#FF6A00] text-[24px] leading-none font-medium"
+                              className="text-[#FF6A00] text-[18px] md:text-[24px] leading-none font-medium"
                             >
                               +
                             </button>
@@ -423,11 +420,11 @@ const handleContinue = () => {
 
                           {/* Price */}
                           <div>
-                            <p className="text-[28px] font-semibold text-black leading-none">
+                            <p className="text-sm md:text-md font-semibold text-black leading-none">
                               ₹{price * qty}
                             </p>
 
-                            <p className="text-[22px] text-[#A0A0A0] line-through mt-3">
+                            <p className="text-sm md:text-md text-[#A0A0A0] line-through">
                               ₹{originalPrice * qty}
                             </p>
                           </div>
@@ -435,9 +432,9 @@ const handleContinue = () => {
                           {/* Delete */}
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="flex justify-end text-[#FF3B30]"
+                            className="flex justify-end text-[#FF3B30] w-5 h-5 md:w-6 md:h-6"
                           >
-                            <Trash2 size={30} strokeWidth={2} />
+                            <Trash2 size={30} strokeWidth={1} color="red" />
                           </button>
                         </div>
                       );

@@ -67,7 +67,7 @@ export default function SavedPayments({ setActiveView }: Props) {
       </div>
 
       {/* MAIN WRAPPER */}
-      <div className="flex-1 w-full max-w-6xl mx-auto">
+      <div className="w-full max-w-6xl mx-auto">
         {/* SAVED CARDS */}
         <div className="lg:px-8 py-4">
           <h2 className="text-gray-700 dark:text-gray-200 font-medium mb-3 text-sm sm:text-base">

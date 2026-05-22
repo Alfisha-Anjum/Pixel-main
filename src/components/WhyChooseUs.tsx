@@ -171,6 +171,7 @@
 // export default WhyChooseUs;
 
 import { Shield, Eye, CheckCircle, Award, Wallet, Layers } from "lucide-react";
+import LayoutContainer from "./LayoutContainer";
 
 const features = [
   {
@@ -219,20 +220,21 @@ const iconMap: Record<string, string> = {
   dashboard: "/wide.png",
 };
 const WhyChooseUs = ({ data = [] }: { data?: any[] }) => {
-const finalFeatures =
-  data.length > 0
-    ? data.map((item) => ({
-        image: iconMap[item.icon] || "/satis.png",
+  const finalFeatures =
+    data.length > 0
+      ? data.map((item) => ({
+          image: iconMap[item.icon] || "/satis.png",
 
-        title: item.title,
-        description: item.description,
-        color: item.color,
-      }))
-    : features;
+          title: item.title,
+          description: item.description,
+          color: item.color,
+        }))
+      : features;
 
   return (
     <section className="py-5 ">
-      <div className="container-custom py-4 shadow-xl sm:shadow-none rounded-xl">
+      <LayoutContainer className="relative">
+        {/* <div className="container-custom py-4 shadow-xl sm:shadow-none rounded-xl"> */}
         <div className="text-center mb-5 sm:mb-10">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground dark:text-gray-200 mb-3">
             Why Choose Us
@@ -251,13 +253,11 @@ const finalFeatures =
               className="flex gap-4 xl:p-5 hover:shadow-card-hover transition-all duration-200"
             >
               <div className="flex-shrink-0">
-                
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-5 h-5 sm:w-8 sm:h-8 object-contain"
-                  />
-            
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-5 h-5 sm:w-8 sm:h-8 object-contain"
+                />
               </div>
               <div>
                 <h3 className="font-semibold text-foreground text-xs sm:text-base dark:text-gray-200 mb-1">
@@ -270,7 +270,8 @@ const finalFeatures =
             </div>
           ))}
         </div>
-      </div>
+        {/* </div> */}
+      </LayoutContainer>
     </section>
   );
 };

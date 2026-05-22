@@ -1,9 +1,11 @@
 "use client";
 
+import LayoutContainer from "./LayoutContainer";
+
 const DownloadApp = () => {
   return (
     <section className="sm:pb-10 px-0 sm:px-4">
-      <div className="max-w-7xl mx-auto">
+      <LayoutContainer className="relative">
         <div className="w-full rounded-[20px] overflow-hidden bg-gradient-to-r from-black to-[#1a1a1a]">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
             {/* Left Content */}
@@ -60,7 +62,7 @@ const DownloadApp = () => {
             </div>
           </div>
         </div>
-      </div>
+      </LayoutContainer>
     </section>
   );
 };
