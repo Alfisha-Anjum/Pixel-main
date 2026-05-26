@@ -825,9 +825,9 @@ const updateQuantity = (
                     </h3>
 
                     <div
-                      className={`cart-scroll mb-4 ${
+                      className={`cart-scroll mb-4 space-y-4 ${
                         cartItems.length > 3
-                          ? "max-h-[190px] overflow-y-auto pr-2"
+                          ? "h-[110px] overflow-y-auto overscroll-contain pr-2"
                           : ""
                       }`}
                     >
@@ -841,53 +841,48 @@ const updateQuantity = (
                           display: none;
                         }
                       `}</style>
-                      <div className="space-y-4">
-                        {cartItems.map((item) => (
-                          <div
-                            key={item.id}
-                            className="grid grid-cols-3 items-center gap-2"
-                          >
-                            <div className="truncate">
-                              <p className="text-sm text-gray-400 truncate">
-                                {item.name}
-                              </p>
-                            </div>
 
-                            <div className="flex justify-end">
-                              <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
-                                <button
-                                  onClick={() =>
-                                    updateQuantity(item, "decrease")
-                                  }
-                                  className="text-orange-500"
-                                >
-                                  -
-                                </button>
+                      {cartItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="grid grid-cols-3 items-center gap-2"
+                        >
+                          <div className="truncate">
+                            <p className="text-sm text-gray-400 truncate">
+                              {item.name}
+                            </p>
+                          </div>
 
-                                <span className="text-sm">{item.quantity}</span>
+                          <div className="flex justify-end">
+                            <div className="flex items-center border border-orange-500 h-6 gap-3 px-2 rounded-md">
+                              <button
+                                onClick={() => updateQuantity(item, "decrease")}
+                                className="text-orange-500"
+                              >
+                                -
+                              </button>
 
-                                <button
-                                  onClick={() =>
-                                    updateQuantity(item, "increase")
-                                  }
-                                  className="text-orange-500"
-                                >
-                                  +
-                                </button>
-                              </div>
-                            </div>
+                              <span className="text-sm">{item.quantity}</span>
 
-                            <div className="text-right">
-                              <p className="text-sm font-semibold text-gray-900">
-                                ₹{item.discountedPrice * item.quantity}
-                              </p>
-                              <p className="text-xs text-gray-400 line-through">
-                                ₹{item.originalPrice + 50}
-                              </p>
+                              <button
+                                onClick={() => updateQuantity(item, "increase")}
+                                className="text-orange-500"
+                              >
+                                +
+                              </button>
                             </div>
                           </div>
-                        ))}
-                      </div>
+
+                          <div className="text-right">
+                            <p className="text-sm font-semibold text-gray-900">
+                              ₹{item.discountedPrice * item.quantity}
+                            </p>
+                            <p className="text-xs text-gray-400 line-through">
+                              ₹{item.originalPrice + 50}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
 
                     <div className="pt-4 flex justify-between items-center">

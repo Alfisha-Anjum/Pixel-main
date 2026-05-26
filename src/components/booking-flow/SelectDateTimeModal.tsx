@@ -125,8 +125,10 @@
 "use client";
 
 import { CalendarDays, MapPin, X } from "lucide-react";
-import { useState } from "react";
+// import { useState } from "react";
 import { Clock } from "lucide-react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 // import DatePicker from "react-datepicker";
 import DatePicker from "react-datepicker";
@@ -140,6 +142,7 @@ interface SelectDateTimeModalProps {
   onContinue: (date: string, time: string, notes: string) => void;
   showLocation?: boolean;
   location?: string;
+  serviceId?: number | string;
 }
 
 const timeSlots = [
@@ -160,21 +163,35 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
   onContinue,
   showLocation = false,
   location = "",
+  serviceId = 1,
 }) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [notes, setNotes] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
-const [dateObj, setDateObj] = useState<Date | null>(null);
-  if (!isOpen) return null;
+  const [dateObj, setDateObj] = useState<Date | null>(null);
+  // if (!isOpen) return null;
+const [timeSlots, setTimeSlots] = useState<any[]>([]);
+const [slotLoading, setSlotLoading] = useState(false);
 
-  const handleContinue = () => {
-    if (selectedDate && selectedTime) {
-      onContinue(selectedDate, selectedTime, notes);
-    }
+useEffect(() => {
+  if (!isOpen) return;
+
+  const fetchSlots = async () => {
+    // your slots api
   };
 
-  
+  fetchSlots();
+}, [isOpen, serviceId]);
+
+if (!isOpen) return null;
+
+const handleContinue = () => {
+  if (selectedDate && selectedTime) {
+    onContinue(selectedDate, selectedTime, notes);
+  }
+};
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-[28px] w-full max-w-md p-6 relative">
@@ -229,24 +246,40 @@ const [dateObj, setDateObj] = useState<Date | null>(null);
         )}
         <div className="mb-6">
           <div className="grid grid-cols-3 gap-3">
-            {timeSlots.map((slot) => {
-              const isActive = selectedTime === slot;
+            {slotLoading ? (
+              <p className="col-span-3 text-sm text-gray-500">
+                Loading slots...
+              </p>
+            ) : timeSlots.length > 0 ? (
+              timeSlots.map((slot: any) => {
+                const slotText =
+                  slot.time ||
+                  slot.slot ||
+                  slot.name ||
+                  `${slot.start_time || ""} ${slot.end_time ? `- ${slot.end_time}` : ""}`;
 
-              return (
-                <button
-                  key={slot}
-                  type="button"
-                  onClick={() => setSelectedTime(slot)}
-                  className={`py-3 rounded-full border text-[10px] font-medium transition-all ${
-                    isActive
-                      ? "border-orange-500 bg-orange-50 text-orange-600"
-                      : "border-gray-200 bg-white text-[#2B2B2B]"
-                  }`}
-                >
-                  {slot}
-                </button>
-              );
-            })}
+                const isActive = selectedTime === slotText;
+
+                return (
+                  <button
+                    key={slot.id || slotText}
+                    type="button"
+                    onClick={() => setSelectedTime(slotText)}
+                    className={`py-3 rounded-full border text-[10px] font-medium transition-all ${
+                      isActive
+                        ? "border-orange-500 bg-orange-50 text-orange-600"
+                        : "border-gray-200 bg-white text-[#2B2B2B]"
+                    }`}
+                  >
+                    {slotText}
+                  </button>
+                );
+              })
+            ) : (
+              <p className="col-span-3 text-sm text-gray-500">
+                No slots available
+              </p>
+            )}
           </div>
         </div>
 
