@@ -1,126 +1,3 @@
-// "use client";
-
-// import { X } from "lucide-react";
-// import { useState } from "react";
-
-// interface SelectDateTimeModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   onContinue: (date: string, time: string, notes: string) => void;
-// }
-
-// const timeSlots = [
-//   "9:00 AM - 12:00 PM",
-//   "12:00 PM - 3:00 PM",
-//   "3:00 PM - 6:00 PM",
-//   "6:00 PM - 9:00 PM",
-// ];
-
-// export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
-//   isOpen,
-//   onClose,
-//   onContinue,
-// }) => {
-//   const [selectedDate, setSelectedDate] = useState("");
-//   const [selectedTime, setSelectedTime] = useState("");
-//   const [notes, setNotes] = useState("");
-
-//   if (!isOpen) return null;
-
-//   const handleContinue = () => {
-//     if (selectedDate && selectedTime) {
-//       onContinue(selectedDate, selectedTime, notes);
-//     }
-//   };
-
-//   return (
-//     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-//       <div className="bg-white rounded-[28px] w-full max-w-md p-6 relative">
-//         {/* Close Button */}
-//         <button
-//           onClick={onClose}
-//           className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md"
-//         >
-//           <X className="w-5 h-5" />
-//         </button>
-
-//         {/* Title */}
-//         <h2 className="text-xl font-semibold text-gray-900 mb-6">
-//           Select Date
-//         </h2>
-
-//         {/* Date Input */}
-//         <div className="relative mb-5">
-//           <input
-//             type="date"
-//             value={selectedDate}
-//             onChange={(e) => setSelectedDate(e.target.value)}
-//             className="w-full bg-gray-100 px-4 py-3 rounded-xl outline-none"
-//           />
-//           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500">
-//             📅
-//           </span>
-//         </div>
-
-//         {/* Time */}
-//         <h2 className="text-lg font-semibold text-gray-900 mb-3">
-//           Select Time Slot
-//         </h2>
-
-//         <div className="relative mb-6">
-//           <select
-//             value={selectedTime}
-//             onChange={(e) => setSelectedTime(e.target.value)}
-//             className="w-full bg-gray-100 px-4 py-3 rounded-xl outline-none appearance-none"
-//           >
-//             <option value="">Time</option>
-//             {timeSlots.map((slot) => (
-//               <option key={slot} value={slot}>
-//                 {slot}
-//               </option>
-//             ))}
-//           </select>
-
-//           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500">
-//             🕒
-//           </span>
-//         </div>
-
-//         {/* Notes */}
-//         <h2 className="text-lg font-semibold text-gray-900 mb-3">
-//           Special Notes
-//         </h2>
-
-//         <textarea
-//           value={notes}
-//           onChange={(e) => setNotes(e.target.value)}
-//           placeholder="Write Here"
-//           className="w-full bg-gray-100 px-4 py-4 rounded-xl outline-none resize-none mb-6 h-32"
-//         />
-
-//         {/* Button */}
-//         <button
-//           onClick={handleContinue}
-//           disabled={!selectedDate || !selectedTime}
-//           className="w-full py-3 rounded-full text-white font-semibold"
-//           style={{
-//             background:
-//               selectedDate && selectedTime
-//                 ? "linear-gradient(90deg, #FF6B00, #FFA500)"
-//                 : "#D1D5DB",
-//           }}
-//         >
-//           Continue
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-
-
-
 
 "use client";
 
@@ -134,12 +11,15 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
-
 interface SelectDateTimeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onContinue: (date: string, time: string, notes: string) => void;
+  onContinue: (
+    date: string,
+    time: string,
+    notes: string,
+    slotId?: number,
+  ) => void;
   showLocation?: boolean;
   location?: string;
   serviceId?: number | string;
@@ -173,32 +53,82 @@ export const SelectDateTimeModal: React.FC<SelectDateTimeModalProps> = ({
   // if (!isOpen) return null;
 const [timeSlots, setTimeSlots] = useState<any[]>([]);
 const [slotLoading, setSlotLoading] = useState(false);
+ // ✅ add this
+
+const formatDate = (date: Date) => {
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const y = date.getFullYear();
+  return `${d}-${m}-${y}`;
+};
 
 useEffect(() => {
-  if (!isOpen) return;
+  if (!isOpen || !selectedDate) return;
 
   const fetchSlots = async () => {
-    // your slots api
+    try {
+      setSlotLoading(true);
+
+      const res = await axios.get("https://taskpro.itmingo.com/api/slots", {
+        params: {
+          service_id: serviceId,
+          date: selectedDate,
+          state_name: "Chhattisgarh",
+          city_name: "Raipur",
+        },
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      console.log("SLOT RESPONSE:", res.data);
+
+      setTimeSlots(res.data?.data || []);
+    } catch (error: any) {
+      console.log("SLOTS API ERROR:", error?.response?.data || error);
+      setTimeSlots([]);
+    } finally {
+      setSlotLoading(false);
+    }
   };
 
   fetchSlots();
-}, [isOpen, serviceId]);
+}, [isOpen, selectedDate, serviceId]);
 
-if (!isOpen) return null;
+// if (!isOpen) return null;
+
+const handleClose = () => {
+  setSelectedDate("");
+  setSelectedTime("");
+  setNotes("");
+  setShowCalendar(false);
+  setTimeSlots([]);
+  onClose();
+};
 
 const handleContinue = () => {
-  if (selectedDate && selectedTime) {
-    onContinue(selectedDate, selectedTime, notes);
-  }
+  if (!selectedDate) return;
+
+  const slotId = localStorage.getItem("selectedSlotId");
+
+  onContinue(
+    selectedDate,
+    selectedTime || "No Slot Available",
+    notes,
+    slotId ? Number(slotId) : undefined,
+  );
 };
+
+if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-[28px] w-full max-w-md p-6 relative">
         {/* Close Button */}
         <button
-          onClick={onClose}
-          className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md"
+          type="button"
+          onClick={handleClose}
+          className="absolute -top-3 -right-3 w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-md z-[9999]"
         >
           <X className="w-5 h-5" />
         </button>
@@ -235,7 +165,8 @@ const handleContinue = () => {
               onChange={(date: Date | null) => {
                 if (date) {
                   setDateObj(date);
-                  setSelectedDate(date.toLocaleDateString());
+                  setSelectedDate(formatDate(date)); // 26-05-2026 format
+                  setSelectedTime("");
                 }
                 setShowCalendar(false);
               }}
@@ -251,33 +182,26 @@ const handleContinue = () => {
                 Loading slots...
               </p>
             ) : timeSlots.length > 0 ? (
-              timeSlots.map((slot: any) => {
-                const slotText =
-                  slot.time ||
-                  slot.slot ||
-                  slot.name ||
-                  `${slot.start_time || ""} ${slot.end_time ? `- ${slot.end_time}` : ""}`;
-
-                const isActive = selectedTime === slotText;
-
-                return (
-                  <button
-                    key={slot.id || slotText}
-                    type="button"
-                    onClick={() => setSelectedTime(slotText)}
-                    className={`py-3 rounded-full border text-[10px] font-medium transition-all ${
-                      isActive
-                        ? "border-orange-500 bg-orange-50 text-orange-600"
-                        : "border-gray-200 bg-white text-[#2B2B2B]"
-                    }`}
-                  >
-                    {slotText}
-                  </button>
-                );
-              })
+              timeSlots.map((slot: any) => (
+                <button
+                  key={slot.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedTime(slot.slot_time);
+                    localStorage.setItem("selectedSlotId", String(slot.id));
+                  }}
+                  className={`py-3 rounded-full border text-[10px] font-medium ${
+                    selectedTime === slot.slot_time
+                      ? "border-orange-500 bg-orange-50 text-orange-600"
+                      : "border-gray-200 bg-white text-[#2B2B2B]"
+                  }`}
+                >
+                  {slot.slot_time}
+                </button>
+              ))
             ) : (
               <p className="col-span-3 text-sm text-gray-500">
-                No slots available
+                Select date to view slots
               </p>
             )}
           </div>
@@ -316,13 +240,12 @@ const handleContinue = () => {
         {/* Button */}
         <button
           onClick={handleContinue}
-          disabled={!selectedDate || !selectedTime}
+          disabled={!selectedDate}
           className="w-full py-3 rounded-full text-white font-semibold"
           style={{
-            background:
-              selectedDate && selectedTime
-                ? "linear-gradient(90deg, #FF6B00, #FFA500)"
-                : "#D1D5DB",
+            background: selectedDate
+              ? "linear-gradient(90deg, #FF6B00, #FFA500)"
+              : "#D1D5DB",
           }}
         >
           Continue

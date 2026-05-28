@@ -30,6 +30,7 @@ export default function CartPage() {
   } = useBooking();
   // const [cartItems, setCartItems] = useState<CartItemService[]>([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [bookingDateTime, setBookingDateTime] = useState<any>(null);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
@@ -108,7 +109,6 @@ const createCustomerCart = async () => {
     setCartLoading(false);
   }
 };
-
   // const token = localStorage.getItem("token");
 
   const updateQuantity = (item: any, type: "increase" | "decrease") => {
@@ -118,7 +118,7 @@ const createCustomerCart = async () => {
         quantity: 1,
       });
     } else {
-      removeFromCart(item.id);
+      removeFromCart(item.id);  
     }
   };
 
@@ -303,16 +303,32 @@ const createCustomerCart = async () => {
     createCustomerCart();
   };
 
-  const handleDateTimeContinue = (
-    date: string,
-    time: string,
-    notes: string,
-  ) => {
-    console.log(date, time, notes);
+ const handleDateTimeContinue = (
+   date: string,
+   time: string,
+   notes: string,
+   slotId?: number,
+ ) => {
+   setBookingDateTime({
+     date,
+     time,
+     notes,
+     slotId,
+   });
 
-    setShowDateTimeModal(false); // close date modal
-    setShowAddressModal(true); // ✅ OPEN ADDRESS MODAL
-  };
+   localStorage.setItem(
+     "bookingDateTime",
+     JSON.stringify({
+       date,
+       time,
+       notes,
+       slotId,
+     }),
+   );
+
+   setShowDateTimeModal(false);
+   setShowAddressModal(true);
+ };
   return (
     <>
       <div className="min-h-screen dark:bg-gray-900">

@@ -306,6 +306,7 @@ import Footer from "@/components/Footer";
 import { useBooking } from "@/context/BookingContext";
 import { OTPVerificationModal } from "@/components/OTPVerificationModal";
 import { CreditCard, Smartphone, Banknote, Lock } from "lucide-react";
+import axios from "axios";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -355,22 +356,67 @@ export default function PaymentPage() {
    },
  ];
 
-  const handlePayNow = () => {
-    if (selectedPayment === "card") {
-      if (
-        cardDetails.name &&
-        cardDetails.number &&
-        cardDetails.expiry &&
-        cardDetails.cvv
-      ) {
-        setShowOTPModal(true);
-      } else {
-        alert("Please fill all card details");
-      }
-    } else {
-      setShowOTPModal(true);
-    }
-  };
+ const createBooking = async () => {
+   try {
+     const token = localStorage.getItem("token");
+     const bookingDateTime = JSON.parse(
+       localStorage.getItem("bookingDateTime") || "{}",
+     );
+     const selectedAddress = JSON.parse(
+       localStorage.getItem("selectedAddress") || "{}",
+     );
+
+     const payload = {
+       date: bookingDateTime.date,
+       slot_id: bookingDateTime.slotId || 1,
+       customer_notes: bookingDateTime.notes || "",
+       address_id: String(selectedAddress?.id || 1),
+       payment_type: selectedPayment === "cod" ? "COD" : "ONLINE",
+       gst_no: "22AAAAA0000A1Z5",
+       pan_no: "ABCDE1234F",
+       service_category_id: Number(
+         cartItems[0]?.service_category_id ||
+           cartItems[0]?.serviceCategoryId ||
+           1,
+       ),
+       service_id: Number(
+         cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
+       ),
+       razorpay_payment_id: "",
+       state_name: "Chhattisgarh",
+       city_name: "Raipur",
+     };
+
+     const res = await axios.post(
+       "https://taskpro.itmingo.com/api/customers/customer-bookings",
+       payload,
+       {
+         headers: {
+           Accept: "*/*",
+           "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`,
+         },
+       },
+     );
+
+     if (res.data?.status) {
+       alert("Booking Created Successfully!");
+       router.push("/booking-confirmation");
+     }
+   } catch (error: any) {
+     console.log("BOOKING API ERROR:", error?.response?.data || error);
+     alert("Booking failed");
+   }
+ };
+
+ const handlePayNow = () => {
+   if (!selectedPayment) {
+     alert("Please select payment method");
+     return;
+   }
+
+   createBooking();
+ };
 
   const handleOTPVerify = (otp: string) => {
     alert("Payment successful! Booking confirmed.");
