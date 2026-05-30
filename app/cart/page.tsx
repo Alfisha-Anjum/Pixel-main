@@ -353,7 +353,7 @@ const createCustomerCart = async () => {
             {/* Left: Order Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Details */}
-              <div className="hidden md:block bg-white rounded-2xl border border-gray-200 p-5">
+              <div className="hidden md:block bg-white rounded-xl border border-gray-200 p-5">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Customer Details
                 </h2>
@@ -397,8 +397,7 @@ const createCustomerCart = async () => {
               </div>
 
               {/* Order Summary */}
-              {/* Order Summary */}
-              <div className="bg-white rounded-[30px] border border-[#E5E5E5] p-5 shadow-sm">
+              <div className="bg-white rounded-xl border border-[#E5E5E5] p-5 shadow-sm">
                 <h2 className="text-lg font-semibold text-gray-900 mb-5">
                   Order Summary
                 </h2>
