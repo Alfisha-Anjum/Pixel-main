@@ -101,7 +101,7 @@ const {
     : [];
 
   const safeImage = (img?: string | null) => {
-    return img && img.trim() !== "" ? img : "/10.svg";
+    return img && img.trim() !== "" ? img : "/tas.logo.png";
   };
 const handleWishlist = async (serviceIssueId: number | string) => {
   const id = Number(serviceIssueId);
