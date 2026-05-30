@@ -30,6 +30,7 @@ export default function CartPage() {
   } = useBooking();
   // const [cartItems, setCartItems] = useState<CartItemService[]>([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [bookingDateTime, setBookingDateTime] = useState<any>(null);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
@@ -57,46 +58,58 @@ export default function CartPage() {
   const [cartLoading, setCartLoading] = useState(false);
   // const [token, setToken] = useState<string | null>(null);
 
-  const createCustomerCart = async () => {
-    if (!cartItems.length) return alert("Cart is empty");
+const createCustomerCart = async () => {
+  if (!cartItems.length) return alert("Cart is empty");
 
-    try {
-      setCartLoading(true);
+  try {
+    setCartLoading(true);
 
-      const payload = {
-        service_category_id: cartItems[0]?.service_category_id || "",
-        service_id: cartItems[0]?.service_id || "",
-        carts: cartItems.map((item: any) => ({
-          service_sub_category_id: Number(item.service_sub_category_id),
-          service_issue_id: Number(item.service_issue_id),
-          quantity: item.quantity || 1,
-        })),
-      };
-      const res = await axios.post(
-        "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
-        payload,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
+    const token = localStorage.getItem("token");
+
+    const payload = {
+      service_category_id: Number(
+        cartItems[0]?.service_category_id ||
+          cartItems[0]?.serviceCategoryId ||
+          1,
+      ),
+      service_id: Number(
+        cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
+      ),
+      carts: cartItems.map((item: any) => ({
+        service_sub_category_id: Number(
+          item.service_sub_category_id ||
+            item.serviceSubCategoryId ||
+            item.sub_category_id ||
+            1,
+        ),
+        service_issue_id: Number(item.service_issue_id || item.id),
+        quantity: Number(item.quantity || 1),
+      })),
+    };
+
+    const res = await axios.post(
+      "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
+      payload,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+      },
+    );
 
-      console.log("CART API RESPONSE:", res.data);
-
-      if (res.data?.status) {
-        setShowDateTimeModal(true);
-      }
-    } catch (error: any) {
-      console.log("CART API ERROR:", error?.response?.data || error);
-    } finally {
-      setCartLoading(false);
+    if (res.data?.status) {
+      setShowDateTimeModal(true);
     }
-  };
-
-  const token = localStorage.getItem("token");
+  } catch (error: any) {
+    console.log("CART API ERROR:", error?.response?.data || error);
+    setShowDateTimeModal(true);
+  } finally {
+    setCartLoading(false);
+  }
+};
+  // const token = localStorage.getItem("token");
 
   const updateQuantity = (item: any, type: "increase" | "decrease") => {
     if (type === "increase") {
@@ -105,7 +118,7 @@ export default function CartPage() {
         quantity: 1,
       });
     } else {
-      removeFromCart(item.id);
+      removeFromCart(item.id);  
     }
   };
 
@@ -138,31 +151,27 @@ export default function CartPage() {
       .replace(/^91/, "")
       .replace(/^0/, "");
 
-    const payload: any = {
-      full_name: formData.fullName || formData.name || "",
-      contact_number: cleanPhone(
-        formData.contactNumber || formData.phone || "",
+  const payload = {
+    service_category_id: Number(
+      cartItems[0]?.service_category_id || cartItems[0]?.serviceCategoryId || 1,
+    ),
+
+    service_id: Number(
+      cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
+    ),
+
+    carts: cartItems.map((item: any) => ({
+      service_sub_category_id: Number(
+        item.service_sub_category_id ||
+          item.serviceSubCategoryId ||
+          item.sub_category_id,
       ),
-      postal_code: formData.postalCode || formData.pincode || "",
 
-      latitude: formData.latitude || 21.2514,
-      longitude: formData.longitude || 81.6296,
+      service_issue_id: Number(item.service_issue_id || item.id),
 
-      country_id: 1,
-
-      state_id: 1,
-
-      state_name: formData.state_name || formData.state || "Chhattisgarh",
-      city_name: formData.city_name || formData.city || "Raipur", // ✅ ADD THIS
-
-      city_id: 1,
-
-      house_number: formData.houseNo || "",
-      street: formData.street || formData.location || formData.address || "",
-
-      type: "Home",
-      is_active: 1,
-    };
+      quantity: Number(item.quantity || 1),
+    })),
+  };
 
     payload.alt_contact_number =
       altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
@@ -251,20 +260,23 @@ export default function CartPage() {
     setAddresses(res.data || []);
   };
 
-  useEffect(() => {
-    fetchAddresses();
-  }, [token]);
 
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      if (!token) return;
+ useEffect(() => {
+   const fetchAddressesData = async () => {
+     const token = localStorage.getItem("token");
 
-      const res = await getCustomerAddresses(token);
-      setAddresses(res.data);
-    };
+     if (!token) return;
 
-    fetchAddresses();
-  }, [token]);
+     try {
+       const res = await getCustomerAddresses(token);
+       setAddresses(res.data || []);
+     } catch (error) {
+       console.log("ADDRESS ERROR:", error);
+     }
+   };
+
+   fetchAddressesData();
+ }, []);
 
   const frequentlyAdded = [
     {
@@ -291,16 +303,32 @@ export default function CartPage() {
     createCustomerCart();
   };
 
-  const handleDateTimeContinue = (
-    date: string,
-    time: string,
-    notes: string,
-  ) => {
-    console.log(date, time, notes);
+ const handleDateTimeContinue = (
+   date: string,
+   time: string,
+   notes: string,
+   slotId?: number,
+ ) => {
+   setBookingDateTime({
+     date,
+     time,
+     notes,
+     slotId,
+   });
 
-    setShowDateTimeModal(false); // close date modal
-    setShowAddressModal(true); // ✅ OPEN ADDRESS MODAL
-  };
+   localStorage.setItem(
+     "bookingDateTime",
+     JSON.stringify({
+       date,
+       time,
+       notes,
+       slotId,
+     }),
+   );
+
+   setShowDateTimeModal(false);
+   setShowAddressModal(true);
+ };
   return (
     <>
       <div className="min-h-screen dark:bg-gray-900">
@@ -325,7 +353,7 @@ export default function CartPage() {
             {/* Left: Order Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Details */}
-              <div className="hidden md:block bg-white rounded-2xl border border-gray-200 p-5">
+              <div className="hidden md:block bg-white rounded-xl border border-gray-200 p-5">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Customer Details
                 </h2>
@@ -369,8 +397,7 @@ export default function CartPage() {
               </div>
 
               {/* Order Summary */}
-              {/* Order Summary */}
-              <div className="bg-white rounded-[30px] border border-[#E5E5E5] p-5 shadow-sm">
+              <div className="bg-white rounded-xl border border-[#E5E5E5] p-5 shadow-sm">
                 <h2 className="text-lg font-semibold text-gray-900 mb-5">
                   Order Summary
                 </h2>
@@ -385,57 +412,62 @@ export default function CartPage() {
                       return (
                         <div
                           key={item.id}
-                          className="flex items-center justify-between"
+                          className="grid grid-cols-4 items-center py-2"
                         >
-                          <div>
-                            <p className="text-sm md:text-md leading-[34px] text-gray-600 font-light">
+                          {/* Service Name */}
+                          <div className="min-w-0">
+                            <p className="text-[13px] md:text-sm text-gray-700 leading-5 font-medium truncate">
                               {item.subService || item.name}
                             </p>
 
-                            <p className="text-sm md:text-md leading-[34px] text-gray-600 font-light">
+                            <p className="text-[12px] text-gray-400 leading-5 truncate">
                               ({item.serviceName || "Split AC"})
                             </p>
                           </div>
 
-                          {/* Quantity Box */}
-                          <div className="flex flex-shrink-0 items-center justify-between h-full w-[75px] md:w-[150px] border border-[#FF6A00] rounded-[10px] shadow-[0_3px_10px_rgba(255,106,0,0.18)] px-2 md:px-5 gap-2 md:gap-5">
-                            <button
-                              onClick={() => updateQuantity(item, "decrease")}
-                              className="text-[#FF6A00] text-[18px] md:text-[24px] leading-none font-medium"
-                            >
-                              −
-                            </button>
+                          {/* Quantity */}
+                          <div className="flex justify-center">
+                            <div className="flex items-center justify-between w-[90px] h-[28px] border border-[#FF6A00] rounded-[8px] px-5 py-1 shadow-[0_2px_8px_rgba(255,106,0,0.15)]">
+                              <button
+                                onClick={() => updateQuantity(item, "decrease")}
+                                className="text-[#FF6A00] text-[16px] leading-none"
+                              >
+                                −
+                              </button>
 
-                            <span className="text-sm md:text-md text-black font-normal">
-                              {qty}
-                            </span>
+                              <span className="text-[13px] text-black">
+                                {qty}
+                              </span>
 
-                            <button
-                              onClick={() => updateQuantity(item, "increase")}
-                              className="text-[#FF6A00] text-[18px] md:text-[24px] leading-none font-medium"
-                            >
-                              +
-                            </button>
+                              <button
+                                onClick={() => updateQuantity(item, "increase")}
+                                className="text-[#FF6A00] text-[16px] leading-none"
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
 
                           {/* Price */}
-                          <div>
-                            <p className="text-sm md:text-md font-semibold text-black leading-none">
+                          <div className="text-right">
+                            <p className="text-[13px] font-semibold text-black leading-4">
                               ₹{price * qty}
                             </p>
 
-                            <p className="text-sm md:text-md text-[#A0A0A0] line-through">
+                            <p className="text-[11px] text-[#A0A0A0] line-through mt-1">
                               ₹{originalPrice * qty}
                             </p>
                           </div>
 
                           {/* Delete */}
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="flex justify-end text-[#FF3B30] w-5 h-5 md:w-6 md:h-6"
-                          >
-                            <Trash2 size={30} strokeWidth={1} color="red" />
-                          </button>
+                          <div className="flex justify-end">
+                            <button
+                              onClick={() => removeFromCart(item.id)}
+                              className="text-[#FF3B30]"
+                            >
+                              <Trash2 size={18} strokeWidth={1.7} />
+                            </button>
+                          </div>
                         </div>
                       );
                     })
@@ -492,7 +524,7 @@ export default function CartPage() {
 
             {/* Right: Amount Summary */}
 
-            <div className="lg:col-span-1 gap-5 flex flex-col  sticky top-6">
+            <div className="lg:col-span-1 gap-5 flex flex-col sticky top-6">
               <div className="hidden md:block border border-orange-500 rounded-xl px-4 py-3">
                 {/* Header */}
                 <button
@@ -653,6 +685,9 @@ export default function CartPage() {
           isOpen={showDateTimeModal}
           onClose={() => setShowDateTimeModal(false)}
           onContinue={handleDateTimeContinue}
+          serviceId={
+            cartItems?.[0]?.service_id || cartItems?.[0]?.serviceId || 1
+          }
         />
         <AddNewAddressModal
           isOpen={showAddNewAddressModal}

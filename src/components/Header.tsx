@@ -98,7 +98,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-[#fafafa] border-b border-gray-200">
+    <header className="sticky top-0 z-20 bg-[#fafafa] border-b border-gray-200">
       <div className="w-full xl:w-[90%] mx-auto px-4 sm:px-5">
         {/* MOBILE HEADER */}
         <div className="md:hidden py-4">

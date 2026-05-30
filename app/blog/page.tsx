@@ -1,400 +1,4 @@
-// "use client";
 
-// import { useEffect } from "react";
-// import { Calendar, User, Tag, ArrowRight } from "lucide-react";
-// import Header from "@/components/Header";
-// import Footer from "@/components/Footer";
-
-// const BlogPage = () => {
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, []);
-
-//   const blogPosts = [
-//     {
-//       id: 1,
-//       title: "10 Essential Home Maintenance Tips for Every Season",
-//       excerpt: "Learn how to keep your home in perfect condition year-round with these professional maintenance tips from our expert service providers.",
-//       author: "Sarah Johnson",
-//       date: "February 5, 2026",
-//       category: "Home Maintenance",
-//       readTime: "5 min read",
-//       image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 2,
-//       title: "The Ultimate Guide to Choosing the Right AC Service Provider",
-//       excerpt: "Not all AC service providers are created equal. Here's what to look for when selecting a professional service for your air conditioning needs.",
-//       author: "Michael Chen",
-//       date: "February 3, 2026",
-//       category: "AC Services",
-//       readTime: "7 min read",
-//       image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 3,
-//       title: "DIY vs Professional Cleaning: What You Need to Know",
-//       excerpt: "Discover when it makes sense to tackle cleaning projects yourself and when it's better to call in the professionals for optimal results.",
-//       author: "Priya Sharma",
-//       date: "January 30, 2026",
-//       category: "Cleaning Services",
-//       readTime: "6 min read",
-//       image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 4,
-//       title: "Understanding Electrical Safety in Your Home",
-//       excerpt: "Essential electrical safety tips every homeowner should know to prevent accidents and maintain a safe living environment.",
-//       author: "David Wilson",
-//       date: "January 25, 2026",
-//       category: "Electrical Services",
-//       readTime: "4 min read",
-//       image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 5,
-//       title: "Plumbing Problems: Early Signs and Prevention Strategies",
-//       excerpt: "Learn to recognize early warning signs of plumbing issues and discover preventive measures to avoid costly repairs.",
-//       author: "Anita Patel",
-//       date: "January 20, 2026",
-//       category: "Plumbing Services",
-//       readTime: "5 min read",
-//       image: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 6,
-//       title: "Maximizing Your Home's Energy Efficiency",
-//       excerpt: "Simple yet effective ways to reduce energy consumption and lower your utility bills while maintaining comfort.",
-//       author: "Robert Kumar",
-//       date: "January 15, 2026",
-//       category: "Energy Solutions",
-//       readTime: "8 min read",
-//       image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&h=400&fit=crop"
-//     }
-//   ];
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <Header />
-
-//       <main className="flex-grow">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-//           {/* Hero Section */}
-//           <div className="text-center mb-16">
-//             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-//               TAS PRO Blog
-//             </h1>
-//             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-//               Expert tips, industry insights, and helpful guides to make your home maintenance easier and more efficient.
-//             </p>
-//           </div>
-
-//           {/* Featured Post */}
-//           <div className="mb-16">
-//             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-//               <div className="md:flex">
-//                 <div className="md:w-1/2">
-//                   <img
-//                     src={blogPosts[0].image}
-//                     alt={blogPosts[0].title}
-//                     className="w-full h-64 md:h-full object-cover"
-//                   />
-//                 </div>
-//                 <div className="p-8 md:w-1/2">
-//                   <div className="flex items-center gap-4 mb-4">
-//                     <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
-//                       {blogPosts[0].category}
-//                     </span>
-//                     <span className="text-gray-500 text-sm">{blogPosts[0].readTime}</span>
-//                   </div>
-//                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-//                     {blogPosts[0].title}
-//                   </h2>
-//                   <p className="text-gray-600 mb-6">
-//                     {blogPosts[0].excerpt}
-//                   </p>
-//                   <div className="flex items-center justify-between">
-//                     <div className="flex items-center gap-4 text-sm text-gray-500">
-//                       <div className="flex items-center gap-1">
-//                         <User className="w-4 h-4" />
-//                         <span>{blogPosts[0].author}</span>
-//                       </div>
-//                       <div className="flex items-center gap-1">
-//                         <Calendar className="w-4 h-4" />
-//                         <span>{blogPosts[0].date}</span>
-//                       </div>
-//                     </div>
-//                     <button className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium">
-//                       Read More
-//                       <ArrowRight className="w-4 h-4" />
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Blog Posts Grid */}
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//             {blogPosts.slice(1).map((post) => (
-//               <div key={post.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-//                 <img
-//                   src={post.image}
-//                   alt={post.title}
-//                   className="w-full h-48 object-cover"
-//                 />
-//                 <div className="p-6">
-//                   <div className="flex items-center gap-3 mb-3">
-//                     <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
-//                       {post.category}
-//                     </span>
-//                     <span className="text-gray-500 text-xs">{post.readTime}</span>
-//                   </div>
-//                   <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-//                     {post.title}
-//                   </h3>
-//                   <p className="text-gray-600 mb-4 line-clamp-3">
-//                     {post.excerpt}
-//                   </p>
-//                   <div className="flex items-center justify-between">
-//                     <div className="flex items-center gap-2 text-sm text-gray-500">
-//                       <User className="w-4 h-4" />
-//                       <span>{post.author}</span>
-//                     </div>
-//                     <button className="text-orange-600 hover:text-orange-700 font-medium text-sm">
-//                       Read More
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* Newsletter Signup */}
-//           <div className="mt-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 md:p-12 text-center text-white">
-//             <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-//             <p className="text-xl mb-8 opacity-90">
-//               Subscribe to our newsletter for the latest tips and industry insights
-//             </p>
-//             <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
-//               <input
-//                 type="email"
-//                 placeholder="Enter your email"
-//                 className="flex-grow px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-//               />
-//               <button className="px-6 py-3 bg-white text-orange-600 font-medium rounded-lg hover:bg-gray-100 transition-colors">
-//                 Subscribe
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </main>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default BlogPage;
-
-// "use client";
-
-// import { useEffect } from "react";
-// import { Calendar, User, Tag, ArrowRight } from "lucide-react";
-// import Header from "@/components/Header";
-// import Footer from "@/components/Footer";
-
-// const BlogPage = () => {
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, []);
-
-//   const blogPosts = [
-//     {
-//       id: 1,
-//       title: "10 Essential Home Maintenance Tips for Every Season",
-//       excerpt: "Learn how to keep your home in perfect condition year-round with these professional maintenance tips from our expert service providers.",
-//       author: "Sarah Johnson",
-//       date: "February 5, 2026",
-//       category: "Home Maintenance",
-//       readTime: "5 min read",
-//       image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 2,
-//       title: "The Ultimate Guide to Choosing the Right AC Service Provider",
-//       excerpt: "Not all AC service providers are created equal. Here's what to look for when selecting a professional service for your air conditioning needs.",
-//       author: "Michael Chen",
-//       date: "February 3, 2026",
-//       category: "AC Services",
-//       readTime: "7 min read",
-//       image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 3,
-//       title: "DIY vs Professional Cleaning: What You Need to Know",
-//       excerpt: "Discover when it makes sense to tackle cleaning projects yourself and when it's better to call in the professionals for optimal results.",
-//       author: "Priya Sharma",
-//       date: "January 30, 2026",
-//       category: "Cleaning Services",
-//       readTime: "6 min read",
-//       image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 4,
-//       title: "Understanding Electrical Safety in Your Home",
-//       excerpt: "Essential electrical safety tips every homeowner should know to prevent accidents and maintain a safe living environment.",
-//       author: "David Wilson",
-//       date: "January 25, 2026",
-//       category: "Electrical Services",
-//       readTime: "4 min read",
-//       image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 5,
-//       title: "Plumbing Problems: Early Signs and Prevention Strategies",
-//       excerpt: "Learn to recognize early warning signs of plumbing issues and discover preventive measures to avoid costly repairs.",
-//       author: "Anita Patel",
-//       date: "January 20, 2026",
-//       category: "Plumbing Services",
-//       readTime: "5 min read",
-//       image: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&h=400&fit=crop"
-//     },
-//     {
-//       id: 6,
-//       title: "Maximizing Your Home's Energy Efficiency",
-//       excerpt: "Simple yet effective ways to reduce energy consumption and lower your utility bills while maintaining comfort.",
-//       author: "Robert Kumar",
-//       date: "January 15, 2026",
-//       category: "Energy Solutions",
-//       readTime: "8 min read",
-//       image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&h=400&fit=crop"
-//     }
-//   ];
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <Header />
-
-//       <main className="flex-grow">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-//           {/* Hero Section */}
-//           <div className="text-center mb-16">
-//             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-//               TAS PRO Blog
-//             </h1>
-//             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-//               Expert tips, industry insights, and helpful guides to make your home maintenance easier and more efficient.
-//             </p>
-//           </div>
-
-//           {/* Featured Post */}
-//           <div className="mb-16">
-//             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-//               <div className="md:flex">
-//                 <div className="md:w-1/2">
-//                   <img
-//                     src={blogPosts[0].image}
-//                     alt={blogPosts[0].title}
-//                     className="w-full h-64 md:h-full object-cover"
-//                   />
-//                 </div>
-//                 <div className="p-8 md:w-1/2">
-//                   <div className="flex items-center gap-4 mb-4">
-//                     <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
-//                       {blogPosts[0].category}
-//                     </span>
-//                     <span className="text-gray-500 text-sm">{blogPosts[0].readTime}</span>
-//                   </div>
-//                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-//                     {blogPosts[0].title}
-//                   </h2>
-//                   <p className="text-gray-600 mb-6">
-//                     {blogPosts[0].excerpt}
-//                   </p>
-//                   <div className="flex items-center justify-between">
-//                     <div className="flex items-center gap-4 text-sm text-gray-500">
-//                       <div className="flex items-center gap-1">
-//                         <User className="w-4 h-4" />
-//                         <span>{blogPosts[0].author}</span>
-//                       </div>
-//                       <div className="flex items-center gap-1">
-//                         <Calendar className="w-4 h-4" />
-//                         <span>{blogPosts[0].date}</span>
-//                       </div>
-//                     </div>
-//                     <button className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium">
-//                       Read More
-//                       <ArrowRight className="w-4 h-4" />
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Blog Posts Grid */}
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//             {blogPosts.slice(1).map((post) => (
-//               <div key={post.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-//                 <img
-//                   src={post.image}
-//                   alt={post.title}
-//                   className="w-full h-48 object-cover"
-//                 />
-//                 <div className="p-6">
-//                   <div className="flex items-center gap-3 mb-3">
-//                     <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
-//                       {post.category}
-//                     </span>
-//                     <span className="text-gray-500 text-xs">{post.readTime}</span>
-//                   </div>
-//                   <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-//                     {post.title}
-//                   </h3>
-//                   <p className="text-gray-600 mb-4 line-clamp-3">
-//                     {post.excerpt}
-//                   </p>
-//                   <div className="flex items-center justify-between">
-//                     <div className="flex items-center gap-2 text-sm text-gray-500">
-//                       <User className="w-4 h-4" />
-//                       <span>{post.author}</span>
-//                     </div>
-//                     <button className="text-orange-600 hover:text-orange-700 font-medium text-sm">
-//                       Read More
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* Newsletter Signup */}
-//           <div className="mt-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 md:p-12 text-center text-white">
-//             <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-//             <p className="text-xl mb-8 opacity-90">
-//               Subscribe to our newsletter for the latest tips and industry insights
-//             </p>
-//             <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
-//               <input
-//                 type="email"
-//                 placeholder="Enter your email"
-//                 className="flex-grow px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-//               />
-//               <button className="px-6 py-3 bg-white text-orange-600 font-medium rounded-lg hover:bg-gray-100 transition-colors">
-//                 Subscribe
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </main>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default BlogPage;
 
 "use client";
 import SidebarCard from "@/components/ui/SidebarCard";
@@ -404,6 +8,7 @@ import { useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCards";
 import BlogDetail from "@/components/BlogDetail";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 type SidebarCardProps = {
   title: string;
@@ -428,8 +33,79 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(2);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
-
+const [blogData, setBlogData] = useState<Blog[]>([]);
+const [blogLoading, setBlogLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+  const fetchBlogs = async () => {
+    try {
+      setBlogLoading(true);
+
+      const res = await axios.get(
+        `https://taskpro.itmingo.com/api/blogs?page=${currentPage}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
+      console.log("BLOG API:", res.data);
+
+      if (res.data?.status) {
+        const apiBlogs = res.data.data.data.map((item: any) => ({
+          id: item.id,
+          category: item.blog_category?.name || "Uncategorized",
+          title: item.title,
+          description: item.description?.replace(/<[^>]*>/g, "") || "",
+          date: item.date,
+          image: item.image_url || "/img/officeview.png",
+        }));
+
+        setBlogData(apiBlogs);
+      }
+    } catch (error: any) {
+      console.log("BLOG API ERROR:", error?.response?.data || error);
+    } finally {
+      setBlogLoading(false);
+    }
+  };
+
+  fetchBlogs();
+}, [currentPage]);
+
+  useEffect(() => {
+  const fetchBlogCategories = async () => {
+    try {
+      const res = await axios.get(
+        "https://taskpro.itmingo.com/api/blog-categories",
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
+      console.log("BLOG CATEGORY API:", res.data);
+
+      if (res.data?.status) {
+        const apiCategories = res.data.data.map(
+          (item: any) => item.name
+        );
+
+        setCategories(["All", ...apiCategories.slice(0, 5)]);
+      }
+    } catch (error: any) {
+      console.log(
+        "BLOG CATEGORY ERROR:",
+        error?.response?.data || error
+      );
+    }
+  };
+
+  fetchBlogCategories();
+}, []);
 
   const sidebarData: SidebarCardProps[] = [
     {
@@ -452,131 +128,122 @@ export default function BlogPage() {
     },
   ];
 
-  const blogData: Blog[] = [
-    {
-      category: "Education",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Learn",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Learn",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Interview",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Speaking",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Speaking",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Learn",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Education",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
+  // const blogData: Blog[] = [
+  //   {
+  //     category: "Education",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Learn",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Learn",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Interview",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Speaking",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Speaking",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Learn",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Education",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
 
-    {
-      category: "Education",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Education",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Education",
-      title: "Another Blog Post",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Education",
-      title: "What is Salary Range?",
-      description:
-        "There are many variations of passages of Lorem Ipsum available...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-    {
-      category: "Education",
-      title: "Another Blog Post",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
-      date: "27, Oct, 2024",
-      image: "/img/officeview.png",
-    },
-  ];
+  //   {
+  //     category: "Education",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Education",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Education",
+  //     title: "Another Blog Post",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Education",
+  //     title: "What is Salary Range?",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  //   {
+  //     category: "Education",
+  //     title: "Another Blog Post",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form variations ...",
+  //     date: "27, Oct, 2024",
+  //     image: "/img/officeview.png",
+  //   },
+  // ];
 
-  const categories = ["All", ...new Set(blogData.map((blog) => blog.category))];
+const [categories, setCategories] = useState<string[]>(["All"]);
 
-  const blogsPerPage = 5;
+const selectedBlogs =
+  selectedCategory === "All"
+    ? blogData
+    : blogData.filter((blog) => blog.category === selectedCategory);
 
-  const filteredBlogs =
-    selectedCategory === "All"
-      ? blogData
-      : blogData.filter((blog) => blog.category === selectedCategory);
-
-  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
-
-  const startIndex = (currentPage - 1) * blogsPerPage;
-
-  const selectedBlogs = filteredBlogs.slice(
-    startIndex,
-    startIndex + blogsPerPage,
-  );
+const totalPages = 1;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -617,14 +284,7 @@ export default function BlogPage() {
                 </>
               ) : (
                 <>
-                  <div className="m-6">
-                    <h3 className="text-[28px] font-semibold dark:text-gray-200">
-                      Our Blogs
-                    </h3>
-                    <p className="text-gray-600 text-[18px] mt-2 dark:text-gray-400">
-                      There are many variations of passages of Lorem Ipsum
-                    </p>
-                  </div>
+                 
 
                   {selectedBlogs.map((card, i) => (
                     <BlogCard
@@ -680,7 +340,7 @@ export default function BlogPage() {
                 </h3>
 
                 <ul className="space-y-2 text-sm text-gray-600">
-                  {categories.map((item) => (
+                  {categories.map((item, index) => (
                     <li
                       key={item}
                       onClick={() => {
