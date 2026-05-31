@@ -31,6 +31,7 @@ export default function CartPage() {
   // const [cartItems, setCartItems] = useState<CartItemService[]>([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [bookingDateTime, setBookingDateTime] = useState<any>(null);
+  const [bookingDateTime, setBookingDateTime] = useState<any>(null);
   const [showTCModal, setShowTCModal] = useState(false);
   const [frequentlyAddedOpen, setFrequentlyAddedOpen] = useState(true);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
@@ -61,6 +62,10 @@ export default function CartPage() {
 const createCustomerCart = async () => {
   if (!cartItems.length) return alert("Cart is empty");
 
+  try {
+    setCartLoading(true);
+
+    const token = localStorage.getItem("token");
   try {
     setCartLoading(true);
 
@@ -151,6 +156,27 @@ const createCustomerCart = async () => {
       .replace(/^91/, "")
       .replace(/^0/, "");
 
+  const payload = {
+    service_category_id: Number(
+      cartItems[0]?.service_category_id || cartItems[0]?.serviceCategoryId || 1,
+    ),
+
+    service_id: Number(
+      cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
+    ),
+
+    carts: cartItems.map((item: any) => ({
+      service_sub_category_id: Number(
+        item.service_sub_category_id ||
+          item.serviceSubCategoryId ||
+          item.sub_category_id,
+      ),
+
+      service_issue_id: Number(item.service_issue_id || item.id),
+
+      quantity: Number(item.quantity || 1),
+    })),
+  };
   const payload = {
     service_category_id: Number(
       cartItems[0]?.service_category_id || cartItems[0]?.serviceCategoryId || 1,
@@ -266,6 +292,11 @@ const createCustomerCart = async () => {
      const token = localStorage.getItem("token");
 
      if (!token) return;
+ useEffect(() => {
+   const fetchAddressesData = async () => {
+     const token = localStorage.getItem("token");
+
+     if (!token) return;
 
      try {
        const res = await getCustomerAddresses(token);
@@ -274,7 +305,16 @@ const createCustomerCart = async () => {
        console.log("ADDRESS ERROR:", error);
      }
    };
+     try {
+       const res = await getCustomerAddresses(token);
+       setAddresses(res.data || []);
+     } catch (error) {
+       console.log("ADDRESS ERROR:", error);
+     }
+   };
 
+   fetchAddressesData();
+ }, []);
    fetchAddressesData();
  }, []);
 
@@ -327,6 +367,32 @@ const createCustomerCart = async () => {
      }),
    );
 
+ const handleDateTimeContinue = (
+   date: string,
+   time: string,
+   notes: string,
+   slotId?: number,
+ ) => {
+   setBookingDateTime({
+     date,
+     time,
+     notes,
+     slotId,
+   });
+
+   localStorage.setItem(
+     "bookingDateTime",
+     JSON.stringify({
+       date,
+       time,
+       notes,
+       slotId,
+     }),
+   );
+
+   setShowDateTimeModal(false);
+   setShowAddressModal(true);
+ };
    setShowDateTimeModal(false);
    setShowAddressModal(true);
  };
@@ -354,6 +420,7 @@ const createCustomerCart = async () => {
             {/* Left: Order Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Details */}
+              <div className="hidden md:block bg-white rounded-xl border border-gray-200 p-5">
               <div className="hidden md:block bg-white rounded-xl border border-gray-200 p-5">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Customer Details
@@ -399,6 +466,7 @@ const createCustomerCart = async () => {
 
               {/* Order Summary */}
               <div className="bg-white rounded-xl border border-[#E5E5E5] p-5 shadow-sm">
+              <div className="bg-white rounded-xl border border-[#E5E5E5] p-5 shadow-sm">
                 <h2 className="text-lg font-semibold text-gray-900 mb-5">
                   Order Summary
                 </h2>
@@ -414,13 +482,18 @@ const createCustomerCart = async () => {
                         <div
                           key={item.id}
                           className="grid grid-cols-4 items-center py-2"
+                          className="grid grid-cols-4 items-center py-2"
                         >
+                          {/* Service Name */}
+                          <div className="min-w-0">
+                            <p className="text-[13px] md:text-sm text-gray-700 leading-5 font-medium truncate">
                           {/* Service Name */}
                           <div className="min-w-0">
                             <p className="text-[13px] md:text-sm text-gray-700 leading-5 font-medium truncate">
                               {item.subService || item.name}
                             </p>
 
+                            <p className="text-[12px] text-gray-400 leading-5 truncate">
                             <p className="text-[12px] text-gray-400 leading-5 truncate">
                               ({item.serviceName || "Split AC"})
                             </p>
@@ -435,11 +508,30 @@ const createCustomerCart = async () => {
                               >
                                 −
                               </button>
+                          {/* Quantity */}
+                          <div className="flex justify-center">
+                            <div className="flex items-center justify-between w-[90px] h-[28px] border border-[#FF6A00] rounded-[8px] px-5 py-1 shadow-[0_2px_8px_rgba(255,106,0,0.15)]">
+                              <button
+                                onClick={() => updateQuantity(item, "decrease")}
+                                className="text-[#FF6A00] text-[16px] leading-none"
+                              >
+                                −
+                              </button>
 
                               <span className="text-[13px] text-black">
                                 {qty}
                               </span>
+                              <span className="text-[13px] text-black">
+                                {qty}
+                              </span>
 
+                              <button
+                                onClick={() => updateQuantity(item, "increase")}
+                                className="text-[#FF6A00] text-[16px] leading-none"
+                              >
+                                +
+                              </button>
+                            </div>
                               <button
                                 onClick={() => updateQuantity(item, "increase")}
                                 className="text-[#FF6A00] text-[16px] leading-none"
@@ -452,15 +544,26 @@ const createCustomerCart = async () => {
                           {/* Price */}
                           <div className="text-right">
                             <p className="text-[13px] font-semibold text-black leading-4">
+                          <div className="text-right">
+                            <p className="text-[13px] font-semibold text-black leading-4">
                               ₹{price * qty}
                             </p>
 
+                            <p className="text-[11px] text-[#A0A0A0] line-through mt-1">
                             <p className="text-[11px] text-[#A0A0A0] line-through mt-1">
                               ₹{originalPrice * qty}
                             </p>
                           </div>
 
                           {/* Delete */}
+                          <div className="flex justify-end">
+                            <button
+                              onClick={() => removeFromCart(item.id)}
+                              className="text-[#FF3B30]"
+                            >
+                              <Trash2 size={18} strokeWidth={1.7} />
+                            </button>
+                          </div>
                           <div className="flex justify-end">
                             <button
                               onClick={() => removeFromCart(item.id)}
@@ -525,6 +628,7 @@ const createCustomerCart = async () => {
 
             {/* Right: Amount Summary */}
 
+            <div className="lg:col-span-1 gap-5 flex flex-col sticky top-6">
             <div className="lg:col-span-1 gap-5 flex flex-col sticky top-6">
               <div className="hidden md:block border border-orange-500 rounded-xl px-4 py-3">
                 {/* Header */}
@@ -686,6 +790,9 @@ const createCustomerCart = async () => {
           isOpen={showDateTimeModal}
           onClose={() => setShowDateTimeModal(false)}
           onContinue={handleDateTimeContinue}
+          serviceId={
+            cartItems?.[0]?.service_id || cartItems?.[0]?.serviceId || 1
+          }
           serviceId={
             cartItems?.[0]?.service_id || cartItems?.[0]?.serviceId || 1
           }
