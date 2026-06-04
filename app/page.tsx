@@ -33,36 +33,64 @@ export default function Home() {
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
-    fetchDashboardData("Chhattisgarh", "Raipur");
-  }, []);
+ useEffect(() => {
+   const savedLocation = localStorage.getItem("selected_location");
 
-  const fetchServicesApi = async () => {
-  try {
-    const res = await axios.get("https://taskpro.itmingo.com/api/services", {
-      params: {
-        state: "Chhattisgarh",
-        city: "Raipur",
-        state_name: "Chhattisgarh",
-        city_name: "Raipur",
-      },
-      headers: {
-        Accept: "application/json",
-      },
-    });
+   if (savedLocation) {
+     const location = JSON.parse(savedLocation);
 
-    setServicesApiData(res.data?.data || []);
-  } catch (error: any) {
-    console.log("SERVICES API ERROR:", error.response?.data || error);
-  }
-};
+     fetchDashboardData(location.state, location.city);
+
+     fetchServicesApi(location.state, location.city);
+   } else {
+     fetchDashboardData("Chhattisgarh", "Raipur");
+
+     fetchServicesApi("Chhattisgarh", "Raipur");
+   }
+ }, []);
+
+ const fetchServicesApi = async (state: string, city: string) => {
+   try {
+     const res = await axios.get("https://taskpro.itmingo.com/api/services", {
+       params: {
+         state_name: state,
+         city_name: city,
+       },
+     });
+
+     setServicesApiData(res.data?.data || []);
+   } catch (error) {
+     console.log(error);
+   }
+ };
+
+ useEffect(() => {
+   const handleLocationChange = (e: any) => {
+     const location = e.detail;
+
+     fetchDashboardData(location.state, location.city);
+
+     fetchServicesApi(location.state, location.city);
+   };
+
+   window.addEventListener("location-changed", handleLocationChange);
+
+   return () => {
+     window.removeEventListener("location-changed", handleLocationChange);
+   };
+ }, []);
 
 useEffect(() => {
   fetchDashboardData("Chhattisgarh", "Raipur");
   fetchServicesApi();
 }, []);
 
-  const fetchDashboardData = async (state: string, city: string) => {
+const fetchDashboardData = async (
+  state: string,
+  city: string,
+  stateId?: number,
+  cityId?: number,
+) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -70,6 +98,10 @@ useEffect(() => {
       "https://taskpro.itmingo.com/api/customers/dashboard",
       {
         params: {
+          state,
+          city,
+          state_id: stateId,
+          city_id: cityId,
           state_name: state,
           city_name: city,
         },
@@ -77,15 +109,15 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-      }
+      },
     );
 
-    console.log("DASHBOARD DATA:", res.data);
-    setDashboardData(res.data?.data || res.data);
-  } catch (error: any) {
-    console.log("DASHBOARD API ERROR:", error.response?.data || error);
+    setDashboardData(res.data?.data);
+  } catch (error) {
+    console.log(error);
   }
 };
+
 
   useEffect(() => {
     if (user && !user.profileCompleted) {
@@ -208,6 +240,56 @@ useEffect(() => {
   }
 };
 console.log("dashboardData", dashboardData);
+
+useEffect(() => {
+  const loadDashboard = () => {
+    const savedLocation =
+      localStorage.getItem("selected_location");
+
+    if (savedLocation) {
+      const location = JSON.parse(savedLocation);
+
+    fetchDashboardData(
+      location.state,
+      location.city,
+      location.state_id,
+      location.city_id,
+    );
+    } else {
+      fetchDashboardData(
+        "Chhattisgarh",
+        "Raipur"
+      );
+    }
+  };
+
+  loadDashboard();
+
+  const handleLocationChange = (e: any) => {
+    const location = e.detail;
+
+    fetchDashboardData(
+      location.state,
+      location.city,
+      location.state_id,
+      location.city_id,
+    );
+
+    fetchServicesApi(location.state, location.city);
+  };
+
+  window.addEventListener(
+    "location-changed",
+    handleLocationChange
+  );
+
+  return () => {
+    window.removeEventListener(
+      "location-changed",
+      handleLocationChange
+    );
+  };
+}, []);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">

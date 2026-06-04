@@ -65,6 +65,12 @@ const formatDate = (date: Date) => {
 useEffect(() => {
   if (!isOpen || !selectedDate) return;
 
+  const locationData =
+  typeof window !== "undefined"
+    ? JSON.parse(
+        localStorage.getItem("selected_location") || "{}"
+      )
+    : {};
   const fetchSlots = async () => {
     try {
       setSlotLoading(true);
@@ -73,8 +79,8 @@ useEffect(() => {
         params: {
           service_id: serviceId,
           date: selectedDate,
-          state_name: "Chhattisgarh",
-          city_name: "Raipur",
+          state_name: locationData.state || "",
+          city_name: locationData.city || "",
         },
         headers: {
           Accept: "application/json",

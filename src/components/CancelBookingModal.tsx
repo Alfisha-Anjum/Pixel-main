@@ -7,13 +7,15 @@ interface Props {
   booking: any;
   onClose: () => void;
   onConfirm: (data?: { reason: string; description: string }) => void;
+  loading?: boolean;
 }
+
 
 const CancelBookingModal = ({
   booking,
   onClose,
   onConfirm,
-  // successBookingCancel,
+  loading = false,
 }: Props) => {
   const [reason, setReason] = useState("Cancellation Reason");
   const [description, setDescription] = useState("");
@@ -103,17 +105,18 @@ const CancelBookingModal = ({
 
         {/* Submit Button */}
         <div className="flex justify-center">
-         <button
-  onClick={() =>
-    onConfirm({
-      reason,
-      description,
-    })
-  }
-  className="h-[40px] min-w-[305px] rounded-full bg-gradient-to-r from-[#ff5a2f] to-[#ffb127] text-white text-[16px] font-medium shadow-[0_8px_18px_rgba(255,140,0,0.35)] hover:opacity-95 transition"
->
-  Cancel Booking
-</button>
+          <button
+            onClick={() =>
+              onConfirm({
+                reason,
+                description,
+              })
+            }
+            disabled={loading}
+            className="h-[40px] min-w-[305px] rounded-full bg-gradient-to-r from-[#ff5a2f] to-[#ffb127] text-white text-[16px] font-medium shadow-[0_8px_18px_rgba(255,140,0,0.35)] hover:opacity-95 transition disabled:opacity-50"
+          >
+            {loading ? "Cancelling..." : "Cancel Booking"}
+          </button>
         </div>
       </div>
     </div>

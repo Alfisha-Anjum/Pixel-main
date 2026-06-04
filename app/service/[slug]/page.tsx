@@ -60,7 +60,9 @@ const ACRepairLayout = () => {
 const [wishlistItems, setWishlistItems] = useState<number[]>([]);
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const brandsRef = useRef<HTMLDivElement | null>(null);
-
+const [showDifferentServiceModal, setShowDifferentServiceModal] =
+  useState(false);
+const [pendingCartItem, setPendingCartItem] = useState<any>(null);
   const [serviceDetails, setServiceDetails] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<string>(
     service?.types?.[0]?.id || "",
@@ -100,8 +102,37 @@ const {
     ? apiService.gallery_images
     : [];
 
+    const handleAddService = (subService: any) => {
+  const newItem = {
+    id: subService.id,
+    name: subService.name,
+    subService: subService.name,
+    serviceName: apiService?.name,
+    price: subService.discountedPrice,
+    discountedPrice: subService.discountedPrice,
+    originalPrice: subService.originalPrice,
+    quantity: 1,
+    service_id: Number(serviceId),
+    service_category_id: apiService?.service_category_id || apiService?.id,
+    service_sub_category_id: activeTab,
+    service_issue_id: subService.id,
+  };
+
+  const hasDifferentService =
+    cartItems.length > 0 &&
+    cartItems.some((item: any) => Number(item.service_id) !== Number(serviceId));
+
+  if (hasDifferentService) {
+    setPendingCartItem(newItem);
+    setShowDifferentServiceModal(true);
+    return;
+  }
+
+  addToCart(newItem as any);
+};
+
   const safeImage = (img?: string | null) => {
-    return img && img.trim() !== "" ? img : "/10.svg";
+    return img && img.trim() !== "" ? img : "/tas.logo.png";
   };
 const handleWishlist = async (serviceIssueId: number | string) => {
   const id = Number(serviceIssueId);
@@ -670,24 +701,7 @@ const updateQuantity = (
                                 setSelectedService(subService);
                                 setShowCapacityModal(true);
                               } else {
-                                addToCart({
-                                  id: subService.id,
-                                  name: subService.name,
-                                  subService: subService.name,
-                                  serviceName: apiService?.name,
-
-                                  price: subService.discountedPrice,
-                                  discountedPrice: subService.discountedPrice,
-                                  originalPrice: subService.originalPrice,
-                                  quantity: 1,
-
-                                  service_id: Number(serviceId),
-                                  service_category_id:
-                                    apiService?.service_category_id ||
-                                    apiService?.id,
-                                  service_sub_category_id: activeTab,
-                                  service_issue_id: subService.id,
-                                } as any);
+                                handleAddService(subService);
                               }
                             }}
                             className="-mt-4 border z-10 border-orange-500 text-orange-500 px-4 py-1 rounded-lg text-sm font-medium bg-white shadow-sm"
@@ -800,7 +814,48 @@ const updateQuantity = (
               </div>
             </div>
           </div>
+          {showDifferentServiceModal && (
+            <div className="fixed inset-0 z-[9999] bg-black/50 flex items-center  justify-center px-4">
+              <div className="bg-white w-full max-w-md p-6 shadow-xl rounded-xl">
+                <h2 className="text-2xl font-bold mb-5">
+                  Different Service Type
+                </h2>
 
+                <p className="text-xl leading-7 mb-8">
+                  Adding this service will clear your current cart. Do you want
+                  to continue?
+                </p>
+
+                <div className="flex justify-end gap-8">
+                  <button
+                    onClick={() => {
+                      setShowDifferentServiceModal(false);
+                      setPendingCartItem(null);
+                    }}
+                    className="text-[#8FE3D6] font-bold text-lg"
+                  >
+                    CANCEL
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("cartItems");
+                      cartItems.forEach((item: any) => removeFromCart(item.id));
+
+                      setTimeout(() => {
+                        addToCart(pendingCartItem);
+                        setShowDifferentServiceModal(false);
+                        setPendingCartItem(null);
+                      }, 100);
+                    }}
+                    className="text-[#8FE3D6] font-bold text-lg"
+                  >
+                    CONTINUE
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="lg:col-span-1 px-4 sm:px-0">
             <div className="sticky top-24 space-y-0 sm:space-y-6">
               <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5 sticky top-20">
