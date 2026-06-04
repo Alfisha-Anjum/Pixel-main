@@ -81,6 +81,7 @@ export default {
         xl: "1rem",
         "2xl": "1.25rem",
       },
+      plugins: [require("@tailwindcss/typography")],
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

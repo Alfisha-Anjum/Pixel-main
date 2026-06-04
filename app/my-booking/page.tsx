@@ -41,6 +41,8 @@ import Link from "next/link";
 import { AccountSidebar } from "@/components/account";
 import Breadcrumb from "@/components/account/Breadcrumb";
 import { usePathname, useSearchParams } from "next/navigation";
+import axios from "axios";
+
 // import { AddNewAddressModal } from "@/components/booking-flow/AddNewAddressModal";
 
 const MyBookingPage = () => {
@@ -68,7 +70,7 @@ const MyBookingPage = () => {
   const [showBookingDetailsPage, setShowBookingDetailsPage] = useState(false);
   const [showSelectAddressModal, setShowSelectAddressModal] = useState(false);
   const [showAddNewAddressModal, setShowAddNewAddressModal] = useState(false);
-
+const [bookingDetails, setBookingDetails] = useState<any>(null);
   // AMC Specific States
   const [showEquipmentModal, setShowEquipmentModal] = useState(false);
   const [showComplaintModal, setShowComplaintModal] = useState(false);
@@ -80,6 +82,8 @@ const MyBookingPage = () => {
     "billingStatus",
   ]);
 
+  const BASE_URL = "https://taskpro.itmingo.com/api";
+  
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
@@ -87,6 +91,164 @@ const MyBookingPage = () => {
   const [showOffers, setShowOffers] = useState(false);
 
   const router = useRouter();
+
+  const [bookings, setBookings] = useState<any[]>([]);
+const [loading, setLoading] = useState(false);
+
+const fetchBookings = async () => {
+  try {
+    setLoading(true);
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      "https://taskpro.itmingo.com/api/customers/customer-bookings?page=1",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+
+    console.log("Bookings API:", response.data);
+
+    if (response.data?.data?.data) {
+      setBookings(response.data.data.data);
+    }
+  } catch (error) {
+    console.error("Booking fetch error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchBookings();
+}, []);
+
+// import axios from "axios";
+
+const cancelBooking = async (
+  bookingId: number | string,
+  data: { reason: string; description: string },
+) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const reasonMap: Record<string, number> = {
+      "Change of plans": 1,
+      "Booked by mistake": 2,
+      "Found another service": 3,
+      "Timing issue": 4,
+      "Price issue": 5,
+    };
+
+    const payload = {
+      cancel_reason_id: reasonMap[data.reason] || 1,
+      cancel_reason: data.description || data.reason,
+    };
+
+    const response = await axios.put(
+      `https://taskpro.itmingo.com/api/customers/cancel-booking-detail/${bookingId}/`,
+      payload,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+setBookings((prev: any[]) =>
+  prev.filter((booking: any) => String(booking.id) !== String(bookingId)),
+);
+
+
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Cancel booking failed:",
+      error.response?.data || error.message,
+    );
+    throw error;
+  }
+};
+
+// import axios from "axios";
+
+const rescheduleBooking = async ({
+  booking_id,
+  booking_detail_id,
+  slot_id,
+  date,
+  customer_notes,
+}: {
+  booking_id: number;
+  booking_detail_id: number;
+  slot_id: number;
+  date: string;
+  customer_notes: string;
+}) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const payload = {
+      booking_id,
+      booking_detail_id,
+      slot_id,
+      date,
+      customer_notes,
+    };
+
+    const response = await axios.post(
+      "https://taskpro.itmingo.com/api/customers/bookings-reschedule",
+      payload,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Reschedule booking failed:",
+      error.response?.data || error.message,
+    );
+    throw error;
+  }
+};
+
+const handleReschedule = async (data: {
+  slot_id: number;
+  date: string;
+  customer_notes: string;
+}) => {
+  if (!selectedBooking) return;
+
+  try {
+    const result = await rescheduleBooking({
+      booking_id: selectedBooking.booking_id || selectedBooking.id,
+      booking_detail_id:
+        selectedBooking.booking_detail_id || selectedBooking.booking_detail?.id,
+      slot_id: data.slot_id,
+      date: data.date,
+      customer_notes: data.customer_notes,
+    });
+
+    console.log("Reschedule success:", result);
+    setShowRescheduleModal(false);
+    fetchBookings();
+  } catch (error) {
+    console.error("Reschedule error:", error);
+  }
+};
+
+
 
   const [amcBookings, setAmcBookings] = useState([
     {
@@ -164,20 +326,65 @@ const MyBookingPage = () => {
     setSelectedBooking(null);
     setSelectedAMC(null);
   }, [searchParams]);
-  const handleRescheduleContinue = (
-    date: string,
-    time: string,
-    notes: string,
-  ) => {
-    setSelectedBooking((prev: any) => ({
-      ...prev,
-      date,
-      time,
-      notes,
-    }));
+ const handleRescheduleContinue = async (
+   date: string,
+   time: string,
+   notes: string,
+ ) => {
+   if (!selectedBooking) return;
 
-    setShowRescheduleModal(false); // close modal after continue
-  };
+   try {
+     const token = localStorage.getItem("token");
+
+     const slotMap: Record<string, number> = {
+       "09:00 AM - 11:00 AM": 1,
+       "11:00 AM - 01:00 PM": 2,
+       "01:00 PM - 03:00 PM": 3,
+       "03:00 PM - 05:00 PM": 4,
+       "05:00 PM - 07:00 PM": 5,
+     };
+
+     const payload = {
+       booking_id: selectedBooking.booking_id || selectedBooking.id,
+       booking_detail_id:
+         selectedBooking.booking_detail_id || selectedBooking.bookingDetailId,
+       slot_id: slotMap[time] || 5,
+       date,
+       customer_notes: notes || "Need to reschedule due to personal reasons.",
+     };
+
+     const response = await axios.post(
+       "https://taskpro.itmingo.com/api/customers/bookings-reschedule",
+       payload,
+       {
+         headers: {
+           Accept: "application/json",
+           Authorization: `Bearer ${token}`,
+           "Content-Type": "application/json",
+         },
+       },
+     );
+
+     console.log("Reschedule success:", response.data);
+
+     setSelectedBooking((prev: any) => ({
+       ...prev,
+       date,
+       time,
+       notes,
+     }));
+
+     setShowRescheduleModal(false);
+     fetchBookings();
+     setShowSuccessModal(true);
+   } catch (error: any) {
+     console.error(
+       "Reschedule booking failed:",
+       error.response?.data || error.message,
+     );
+   }
+ };
+
 
   const handleOpenChat = (booking: any) => {
     setSelectedChatBooking(booking);
@@ -220,74 +427,87 @@ const MyBookingPage = () => {
   };
 
   // Mock booking data
-  const bookings = {
-    pending: [
-      {
-        id: "BK-001",
-        service: "AC Repair Service",
-        serviceImage: "/service-ac.jpg",
-        date: "15 Feb 2024",
-        time: "10:00 AM - 12:00 PM",
-        status: "Pending",
-        amount: 1299,
-        address: "123 Main Street, Raipur",
-        technician: "Raj Kumar",
-        technicianRating: 4.8,
-      } as PendingBooking,
-      {
-        id: "BK-002",
-        service: "Plumbing Service",
-        serviceImage: "/service-plumbing.jpg",
-        date: "18 Feb 2024",
-        time: "2:00 PM - 4:00 PM",
-        status: "Pending",
-        amount: 899,
-        address: "456 Park Avenue, Raipur",
-        technician: "Amit Sharma",
-        technicianRating: 4.9,
-      } as PendingBooking,
-    ],
-    rejected: [
-      {
-        id: "BK-003",
-        service: "Electrician Service",
-        serviceImage: "/service-electrician.jpg",
-        date: "10 Feb 2024",
-        time: "11:00 AM - 1:00 PM",
-        status: "Rejected",
-        amount: 1599,
-        address: "789 Oak Street, Raipur",
-        reason: "Technician unavailable for selected slot",
-      } as RejectedBooking,
-    ],
-    completed: [
-      {
-        id: "BK-004",
-        service: "Home Cleaning",
-        serviceImage: "/service-cleaning.jpg",
-        date: "01 Feb 2024",
-        time: "9:00 AM - 11:00 AM",
-        status: "Completed",
-        amount: 2499,
-        address: "321 Elm Road, Raipur",
-        rating: 5,
-        review: "Excellent service! Technician was professional and thorough.",
-      } as CompletedBooking,
-      {
-        id: "BK-005",
-        service: "Appliance Repair",
-        serviceImage: "/service-appliance.jpg",
-        date: "25 Jan 2024",
-        time: "3:00 PM - 5:00 PM",
-        status: "Completed",
-        amount: 1899,
-        address: "654 Pine Street, Raipur",
-        rating: 4,
-        review: "Good service, completed on time.",
-      } as CompletedBooking,
-    ],
-  };
+  // const bookings = {
+  //   pending: [
+  //     {
+  //       id: "BK-001",
+  //       service: "AC Repair Service",
+  //       serviceImage: "/service-ac.jpg",
+  //       date: "15 Feb 2024",
+  //       time: "10:00 AM - 12:00 PM",
+  //       status: "Pending",
+  //       amount: 1299,
+  //       address: "123 Main Street, Raipur",
+  //       technician: "Raj Kumar",
+  //       technicianRating: 4.8,
+  //     } as PendingBooking,
+  //     {
+  //       id: "BK-002",
+  //       service: "Plumbing Service",
+  //       serviceImage: "/service-plumbing.jpg",
+  //       date: "18 Feb 2024",
+  //       time: "2:00 PM - 4:00 PM",
+  //       status: "Pending",
+  //       amount: 899,
+  //       address: "456 Park Avenue, Raipur",
+  //       technician: "Amit Sharma",
+  //       technicianRating: 4.9,
+  //     } as PendingBooking,
+  //   ],
+  //   rejected: [
+  //     {
+  //       id: "BK-003",
+  //       service: "Electrician Service",
+  //       serviceImage: "/service-electrician.jpg",
+  //       date: "10 Feb 2024",
+  //       time: "11:00 AM - 1:00 PM",
+  //       status: "Rejected",
+  //       amount: 1599,
+  //       address: "789 Oak Street, Raipur",
+  //       reason: "Technician unavailable for selected slot",
+  //     } as RejectedBooking,
+  //   ],
+  //   completed: [
+  //     {
+  //       id: "BK-004",
+  //       service: "Home Cleaning",
+  //       serviceImage: "/service-cleaning.jpg",
+  //       date: "01 Feb 2024",
+  //       time: "9:00 AM - 11:00 AM",
+  //       status: "Completed",
+  //       amount: 2499,
+  //       address: "321 Elm Road, Raipur",
+  //       rating: 5,
+  //       review: "Excellent service! Technician was professional and thorough.",
+  //     } as CompletedBooking,
+  //     {
+  //       id: "BK-005",
+  //       service: "Appliance Repair",
+  //       serviceImage: "/service-appliance.jpg",
+  //       date: "25 Jan 2024",
+  //       time: "3:00 PM - 5:00 PM",
+  //       status: "Completed",
+  //       amount: 1899,
+  //       address: "654 Pine Street, Raipur",
+  //       rating: 4,
+  //       review: "Good service, completed on time.",
+  //     } as CompletedBooking,
+  //   ],
+  // };
+// const filteredBookings =
+//   bookings?.filter((booking) => {
+//     if (activeTab === "pending")
+//       return booking.status?.toLowerCase() === "pending";
 
+//     if (activeTab === "completed")
+//       return booking.status?.toLowerCase() === "completed";
+
+//     if (activeTab === "rejected")
+//       return booking.status?.toLowerCase() === "rejected";
+
+//     return true;
+//   }) || [];
+  
   const handleSubmitReview = () => {
     const data = {
       rating,
@@ -298,6 +518,28 @@ const MyBookingPage = () => {
 
     // API call yaha kar sakte ho
   };
+
+  const fetchBookingDetails = async (bookingId: number) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(
+      `${BASE_URL}/customers/customer-bookings/${bookingId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (res.data?.status) {
+      setBookingDetails(res.data.data);
+      setShowBookingDetailsPage(true);
+    }
+  } catch (error) {
+    console.error("Booking Details Error", error);
+  }
+};
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -467,39 +709,54 @@ const MyBookingPage = () => {
 
                       {/* Booking Cards */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-4 sm:gap-5 md:gap-6 lg:gap-7">
-                        {bookings[activeTab].length > 0 ? (
-                          bookings[activeTab].map((booking) => (
-                            <BookingCard
-                              isCompleted={activeTab === "completed"}
-                              key={booking.id}
-                              service={booking.service}
-                              subtitle={`Booking ID: ${booking.id} | ₹${booking.amount}`}
-                              rating={
-                                activeTab === "pending" &&
-                                "technician" in booking
-                                  ? (booking as PendingBooking).technicianRating
-                                  : 4.8
-                              }
-                              reviews={3287}
-                              date={booking.date}
-                              time={booking.time}
-                              status={
-                                booking.status as
-                                  | "Pending"
-                                  | "Completed"
-                                  | "Cancelled"
-                              }
-                              onChat={() => handleOpenChat(booking)}
-                              onViewDetails={() => {
-                                setSelectedBooking(booking);
-                                setShowBookingDetailsPage(true);
-                              }}
-                              // onReschedule={() => {
-                              //   setSelectedBooking(booking);
-                              //   setShowRescheduleModal(true);
-                              // }}
-                            />
-                          ))
+                        {(bookings || [])?.filter((booking) => {
+                          const status = booking.status?.toLowerCase();
+
+                          if (activeTab === "pending")
+                            return status === "pending";
+                          if (activeTab === "completed")
+                            return status === "completed";
+                          if (activeTab === "rejected")
+                            return status === "rejected";
+
+                          return true;
+                        }).length > 0 ? (
+                          (bookings || [])
+                            .filter((booking) => {
+                              const status = booking.status?.toLowerCase();
+
+                              if (activeTab === "pending")
+                                return status === "pending";
+                              if (activeTab === "completed")
+                                return status === "completed";
+                              if (activeTab === "rejected")
+                                return status === "rejected";
+
+                              return true;
+                            })
+                            .map((booking) => (
+                              <BookingCard
+                                key={booking.id}
+                                service={booking.title}
+                                subtitle={booking.subtitle}
+                                rating={booking.rating}
+                                reviews={Number(
+                                  String(booking.reviews).replace(/,/g, ""),
+                                )}
+                                date={booking.date}
+                                time={booking.time}
+                                status={booking.status}
+                                serviceImage={booking.image || "/ac.png"}
+                                isCompleted={
+                                  booking.status?.toLowerCase() === "completed"
+                                }
+                                onChat={() => handleOpenChat(booking)}
+                                onViewDetails={() => {
+                                  setSelectedBooking(booking);
+                                  fetchBookingDetails(booking.id);
+                                }}
+                              />
+                            ))
                         ) : (
                           <div className="bg-white rounded-[20px] shadow-sm p-6 sm:p-12 text-center md:col-span-2">
                             <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -688,22 +945,26 @@ const MyBookingPage = () => {
                         <div className="flex flex-col sm:flex-row w-full justify-between gap-2 sm:gap-3 min-w-0">
                           <div className="min-w-0 flex-1">
                             <h2 className="font-bold text-[clamp(14px,1.5vw,18px)] leading-tight truncate">
-                              {selectedBooking.service}
+                              {bookingDetails?.service_details?.title}
                             </h2>
                             {/* <p className="text-sm text-gray-500">
                                  Booking ID: {selectedBooking.id}
                                 </p> */}
 
                             <p className="text-sm text-gray-500">
-                              Less / No Cooling
+                              {bookingDetails?.service_details?.subtitle}
                             </p>
                             <p className="text-orange-600 font-bold mt-2">
-                              ₹{selectedBooking.amount}
+                              ₹{bookingDetails?.service_details?.price}
                             </p>
                           </div>
                           <div className="flex gap-2 sm:gap-3 sm:justify-center p-1 sm:p-2 flex-shrink-0">
                             <img
-                              src="/chat.png"
+                              src={
+                                bookingDetails?.service_details?.image
+                                  ? bookingDetails.service_details.image
+                                  : "/ac.png"
+                              }
                               alt="chat"
                               className="w-5 h-5 cursor-pointer"
                               onClick={() => handleOpenChat(selectedBooking)}
@@ -774,16 +1035,15 @@ const MyBookingPage = () => {
                         </div>
 
                         <p className="font-medium">
-                          {selectedBooking.customerName || "Tikesh Dewangan"}
+                          {bookingDetails?.customer_details?.name || "Customer"}
                         </p>
 
                         <p className="text-sm text-gray-600 leading-6 mt-2">
-                          {selectedBooking.address}
+                          {bookingDetails?.customer_details?.address}
                         </p>
 
                         <p className="text-sm text-gray-600 mt-3">
-                          C.N. :{" "}
-                          {selectedBooking.customerPhone || "+91 9876543210"}
+                          C.N. : {bookingDetails?.customer_details?.phone}
                         </p>
 
                         {/* <div className="mt-4 flex gap-3">
@@ -858,7 +1118,7 @@ const MyBookingPage = () => {
                             </span>
 
                             <span className="text-gray-900 text-end text-sm">
-                              22AAAAA0000A1Z5
+                              {bookingDetails?.gst_details?.gst_number}
                             </span>
                           </div>
 
@@ -866,7 +1126,7 @@ const MyBookingPage = () => {
                             <span className="text-sm text-gray-500"></span>
 
                             <span className="text-gray-900 text-end text-sm">
-                              Tikesh Dewangan
+                              {bookingDetails?.gst_details?.gst_name || "-"}
                             </span>
                           </div>
                         </div>
@@ -880,28 +1140,36 @@ const MyBookingPage = () => {
                         <div className="space-y-3 bg-white  p-5 rounded-xl text-sm border shadow-sm">
                           <div className="flex justify-between border-b pb-3">
                             <span>Item Total</span>
-                            <span>₹{selectedBooking.amount}</span>
+                            <span>
+                              ₹{bookingDetails?.payment_summary?.item_total}
+                            </span>
                           </div>
 
                           <div className="flex justify-between border-b pb-3 text-gray-500">
                             <span>Item Discount</span>
-                            <span>-₹200</span>
+                            <span>
+                              ₹{bookingDetails?.payment_summary?.item_discount}
+                            </span>
                           </div>
 
                           <div className="flex justify-between">
                             <span>Taxes and Fees</span>
-                            <span>₹49</span>
+                            <span>
+                              ₹{bookingDetails?.payment_summary?.taxes_and_fees}
+                            </span>
                           </div>
 
                           <div className="flex justify-between font-bold border-t pt-2">
                             <span>Total</span>
-                            <span>₹548</span>
+                            <span>
+                              ₹{bookingDetails?.payment_summary?.total}
+                            </span>
                           </div>
                         </div>
 
                         {/* BUTTONS */}
                         <button
-                          onClick={() => setShowRescheduleModal(true)}
+                          onClick={handleReschedule}
                           className="hidden md:block w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
                         >
                           Reschedule
@@ -922,7 +1190,7 @@ const MyBookingPage = () => {
                           Payment Method
                         </h3>
                         <p className="text-[clamp(12px,1.2vw,16px)]">
-                          Online Payment (UPI)
+                          {bookingDetails?.payment_method}
                         </p>
                       </div>
 
@@ -944,11 +1212,13 @@ const MyBookingPage = () => {
 
                             <div>
                               <p className="font-medium text-[clamp(14px,1.5vw,18px)] text-gray-800">
-                                Rahul Sharma
+                                {bookingDetails?.service_provider?.name?.trim() ||
+                                  "Not Assigned"}
                               </p>
                               <p className="text-xs text-gray-500 flex items-center gap-1">
                                 <MapPin size={14} />
-                                Raipur, Chhattisgarh
+                                {bookingDetails?.service_provider?.location?.trim() ||
+                                  "-"}
                               </p>
                             </div>
                           </div>
@@ -988,14 +1258,22 @@ const MyBookingPage = () => {
                           <div className="flex justify-between text-sm text-gray-600">
                             <span>Item Total</span>
                             <span className="font-medium text-gray-800">
-                              ₹{selectedBooking.amount}.00
+                              ₹
+                              {
+                                bookingDetails?.advance_payment_summary
+                                  ?.item_total
+                              }
                             </span>
                           </div>
 
                           <div className="flex justify-between text-sm text-gray-600">
                             <span>Item Discount</span>
                             <span className="font-medium text-gray-800">
-                              -₹100.00
+                              ₹
+                              {
+                                bookingDetails?.advance_payment_summary
+                                  ?.item_discount
+                              }
                             </span>
                           </div>
 
@@ -1004,7 +1282,11 @@ const MyBookingPage = () => {
                           <div className="flex justify-between text-sm text-gray-600">
                             <span>Taxes and Fees</span>
                             <span className="font-medium text-gray-800">
-                              ₹49.00
+                              ₹
+                              {
+                                bookingDetails?.advance_payment_summary
+                                  ?.taxes_and_fees
+                              }
                             </span>
                           </div>
 
@@ -1012,13 +1294,23 @@ const MyBookingPage = () => {
 
                           <div className="flex justify-between font-semibold text-gray-900">
                             <span>Total</span>
-                            <span>₹548.00</span>
+                            <span>
+                              ₹
+                              {
+                                bookingDetails?.advance_payment_summary
+                                  ?.total_balance
+                              }
+                            </span>
                           </div>
 
                           <div className="flex justify-between text-sm text-gray-600">
                             <span>Advance Payment</span>
                             <span className="font-medium text-gray-800">
-                              ₹148.00
+                              ₹
+                              {
+                                bookingDetails?.advance_payment_summary
+                                  ?.advance_payment
+                              }
                             </span>
                           </div>
                         </div>
@@ -1051,9 +1343,21 @@ const MyBookingPage = () => {
                         <h3 className="font-semibold mb-3">Work Status</h3>
 
                         <ul className="space-y-3 text-sm">
-                          <li className="text-green-600">✔ Order Confirmed</li>
-                          <li className="text-gray-400">○ Shipped</li>
-                          <li className="text-gray-400">○ Out for Delivery</li>
+                          {bookingDetails?.tracking_info?.tracking_steps?.map(
+                            (step: any) => (
+                              <li
+                                key={step.id}
+                                className={
+                                  step.status === "completed"
+                                    ? "text-green-600"
+                                    : "text-gray-400"
+                                }
+                              >
+                                {step.status === "completed" ? "✔" : "○"}{" "}
+                                {step.title}
+                              </li>
+                            ),
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -1386,14 +1690,24 @@ const MyBookingPage = () => {
           )}
         </div>
       </div>
+
       <SelectDateTimeModal
         isOpen={showRescheduleModal}
         onClose={() => setShowRescheduleModal(false)}
-        onContinue={handleRescheduleContinue}
         showLocation={true}
         location={selectedBooking?.address}
+        serviceId={
+          selectedBooking?.service_id ||
+          selectedBooking?.booking_detail?.service_id
+        }
+        onContinue={(date, time, customer_notes, slot_id) =>
+          handleReschedule({
+            slot_id: slot_id || 0,
+            date,
+            customer_notes,
+          })
+        }
       />
-
       {showSelectAddressModal && (
         <SelectAddressModal
           isOpen={showSelectAddressModal}
@@ -1410,7 +1724,6 @@ const MyBookingPage = () => {
           addresses={[]}
         />
       )}
-
       <AddNewAddressModal
         isOpen={showAddNewAddressModal}
         onClose={() => setShowAddNewAddressModal(false)}
@@ -1427,20 +1740,28 @@ const MyBookingPage = () => {
           // setShowTCModal(true);
         }}
       />
-
       {showCancelModal && selectedBooking && (
         <CancelBookingModal
           booking={selectedBooking}
           onClose={() => setShowCancelModal(false)}
-          onConfirm={(data) => {
-            console.log("Cancel data:", data);
+          onConfirm={async (data) => {
+            try {
+              if (!data) return;
 
-            setShowCancelModal(false);
-            successBookingCancel();
+              const result = await cancelBooking(selectedBooking.id, data);
+
+              console.log("Cancel success:", result);
+              setShowCancelModal(false);
+              successBookingCancel();
+            } catch (error: any) {
+              console.error(
+                "Cancel booking failed:",
+                error.response?.data || error.message,
+              );
+            }
           }}
         />
       )}
-
       {showCancelledSuccess && (
         <BookingCancelledModal
           // booking={selectedBooking}
@@ -1450,13 +1771,11 @@ const MyBookingPage = () => {
           }}
         />
       )}
-
       <SplitACModal
         isOpen={showSplitModal}
         onClose={() => setShowSplitModal(false)}
       />
       {/* Modals */}
-
       {/* MODAL 1: Equipment Details */}
       {showEquipmentModal && selectedAMC && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -1523,7 +1842,6 @@ const MyBookingPage = () => {
           </div>
         </div>
       )}
-
       {/* MODAL 2: Raise Complaint */}
       {showComplaintModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -1547,7 +1865,6 @@ const MyBookingPage = () => {
           </div>
         </div>
       )}
-
       {/* <Footer / */}
     </div>
   );

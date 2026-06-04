@@ -3,17 +3,17 @@ import { Star } from "lucide-react";
 interface BookingCardProps {
   service: string;
   subtitle: string;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
   date: string;
   time: string;
-  status: "Pending" | "Completed" | "Cancelled";
+  status: string;
   serviceImage?: string;
+  warrantyText?: string;
   onViewDetails?: () => void;
   onChat?: () => void;
   isCompleted?: boolean;
 }
-
 const BookingCard: React.FC<BookingCardProps> = ({
   service,
   subtitle,
@@ -23,9 +23,11 @@ const BookingCard: React.FC<BookingCardProps> = ({
   time,
   status,
   serviceImage = "/ac.png",
+  warrantyText,
   onViewDetails,
   onChat,
   isCompleted = false,
+
 }) => {
   return (
     <div

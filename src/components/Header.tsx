@@ -29,6 +29,37 @@ const Header = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeTab = searchParams.get("tab");
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [states, setStates] = useState<any[]>([]);
+  const [cities, setCities] = useState<any[]>([]);
+  const [selectedState, setSelectedState] = useState<any>(null);
+  const [selectedCity, setSelectedCity] = useState<any>(null);
+
+  const fetchStates = async () => {
+  try {
+    const res = await axios.get(
+      "https://taskpro.itmingo.com/api/states",
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+
+    setStates(res.data?.data || []);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const fetchCities = async (stateId: number) => {
+  const res = await axios.get("https://taskpro.itmingo.com/api/cities", {
+    params: {
+      state_id: stateId,
+    },
+  });
+
+  setCities(res.data?.data || []);
+};
 
   const getProfileImage = (img?: string | null) => {
     if (!img) return "/profile.png";
@@ -40,29 +71,14 @@ const Header = () => {
     return `https://taskpro.itmingo.com/storage/customers/${img}`;
   };
   console.log("USER:", user);
-  useEffect(() => {
-    const savedLocation = localStorage.getItem("user_location");
+useEffect(() => {
+  const savedLocation = localStorage.getItem("selected_location");
 
-    if (savedLocation) {
-      const parsed = JSON.parse(savedLocation);
-      setCurrentCity(parsed.city || parsed.state || "Raipur");
-    }
-
-    const handleLocationUpdate = () => {
-      const updatedLocation = localStorage.getItem("user_location");
-
-      if (updatedLocation) {
-        const parsed = JSON.parse(updatedLocation);
-        setCurrentCity(parsed.city || parsed.state || "Raipur");
-      }
-    };
-
-    window.addEventListener("location-updated", handleLocationUpdate);
-
-    return () => {
-      window.removeEventListener("location-updated", handleLocationUpdate);
-    };
-  }, []);
+  if (savedLocation) {
+    const location = JSON.parse(savedLocation);
+    setCurrentCity(location.city);
+  }
+}, []);
 
   useEffect(() => {
     setIsClient(true);
@@ -96,6 +112,29 @@ const Header = () => {
       window.location.href = "/login";
     }
   };
+const handleCitySelect = (city: any) => {
+  const locationData = {
+    city: city.name,
+    city_id: city.id,
+    state: selectedState.name,
+    state_id: selectedState.id,
+  };
+
+  localStorage.setItem("selected_location", JSON.stringify(locationData));
+
+  setCurrentCity(city.name);
+
+  window.dispatchEvent(
+    new CustomEvent("location-changed", {
+      detail: locationData,
+    }),
+  );
+
+  setShowLocationModal(false);
+  setSelectedState(null);
+};
+
+
 
   return (
     <header className="sticky top-0 z-20 bg-[#fafafa] border-b border-gray-200">
@@ -108,7 +147,13 @@ const Header = () => {
                 Hey! {user?.firstName || "User"}
               </h2>
 
-              <div className="flex items-center gap-1 mt-1 text-sm">
+              <div
+                onClick={() => {
+                  setShowLocationModal(true);
+                  fetchStates();
+                }}
+                className="flex items-center gap-1 mt-1 text-sm cursor-pointer"
+              >
                 <MapPin className="w-5 h-5 text-orange-500 fill-orange-500" />
                 <span className="text-gray-700">{currentCity}</span>
                 <span className="text-gray-400">,</span>
@@ -200,7 +245,14 @@ const Header = () => {
 
           {/* Location + Search */}
           <div className="flex justify-between items-center lg:px-0 px-3 border rounded-full overflow-hidden bg-gray-50 w-full md:max-w-sm lg:max-w-xl">
-            <div className="flex items-center gap-2 px-4 py-2 md:border-r text-sm">
+            <div
+              onClick={() => {
+                console.log("Location clicked");
+                setShowLocationModal(true);
+                fetchStates();
+              }}
+              className="flex items-center gap-2 px-4 py-2 md:border-r text-sm cursor-pointer"
+            >
               <MapPin className="w-4 h-4 text-orange-500" />
               <span className="text-gray-700 truncate max-w-[90px]">
                 {currentCity}
@@ -314,6 +366,49 @@ const Header = () => {
           )}
         </div>
       </div>
+      {showLocationModal && (
+        <div className="fixed inset-0 bg-black/40 z-[999] flex items-end">
+          <div className="bg-white w-full rounded-t-3xl max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-5 border-b">
+              <h2 className="text-xl font-semibold">
+                {selectedState ? "Select City" : "Select State"}
+              </h2>
+
+              <button
+                onClick={() => {
+                  setShowLocationModal(false);
+                  setSelectedState(null);
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {!selectedState
+              ? states.map((state) => (
+                  <div
+                    key={state.id}
+                    onClick={() => {
+                      setSelectedState(state);
+                      fetchCities(state.id);
+                    }}
+                    className="p-5 border-b cursor-pointer hover:bg-gray-50"
+                  >
+                    {state.name}
+                  </div>
+                ))
+              : cities.map((city) => (
+                  <div
+                    key={city.id}
+                    onClick={() => handleCitySelect(city)}
+                    className="p-5 border-b cursor-pointer hover:bg-gray-50"
+                  >
+                    {city.name}
+                  </div>
+                ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
