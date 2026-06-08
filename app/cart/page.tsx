@@ -193,6 +193,8 @@ export default function CartPage() {
     } finally {
       setCartLoading(false);
     }
+    // console.log("BOOKING DATE:", bookingDateTime);
+    console.log("ADDRESS:", selectedAddress);
   };
 
   const handleDateTimeContinue = (
@@ -465,6 +467,9 @@ export default function CartPage() {
           addresses={addresses}
           onContinue={(address) => {
             setSelectedAddress(address);
+
+            localStorage.setItem("selectedAddress", JSON.stringify(address));
+
             setShowAddressModal(false);
             setShowTCModal(true);
           }}
