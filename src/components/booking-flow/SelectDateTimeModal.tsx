@@ -79,8 +79,8 @@ useEffect(() => {
         params: {
           service_id: serviceId,
           date: selectedDate,
-          state_name: locationData.state || "",
-          city_name: locationData.city || "",
+          state_name: locationData.state_name || "Chhattisgarh",
+          city_name: locationData.city_name || "Raipur",
         },
         headers: {
           Accept: "application/json",
@@ -124,6 +124,7 @@ const handleContinue = () => {
     slotId ? Number(slotId) : undefined,
   );
 };
+
 
 if (!isOpen) return null;
 
@@ -187,7 +188,15 @@ if (!isOpen) return null;
               <p className="col-span-3 text-sm text-gray-500">
                 Loading slots...
               </p>
-            ) : timeSlots.length > 0 ? (
+            ) : !selectedDate ? (
+              <p className="col-span-3 text-sm text-gray-500">
+                Select date to view slots
+              </p>
+            ) : timeSlots.length === 0 ? (
+              <p className="col-span-3 text-sm text-red-500">
+                No slots available
+              </p>
+            ) : (
               timeSlots.map((slot: any) => (
                 <button
                   key={slot.id}
@@ -205,10 +214,6 @@ if (!isOpen) return null;
                   {slot.slot_time}
                 </button>
               ))
-            ) : (
-              <p className="col-span-3 text-sm text-gray-500">
-                Select date to view slots
-              </p>
             )}
           </div>
         </div>

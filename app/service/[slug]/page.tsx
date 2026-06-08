@@ -622,10 +622,11 @@ const updateQuantity = (
                 </button>
               )}
 
-              <div
-                ref={tabsRef}
-                className="flex gap-5 overflow-x-auto hide-scrollbar w-full px-2 py-2"
-              >
+             <div className="overflow-hidden">
+  <div
+    ref={tabsRef}
+    className="flex gap-5 overflow-x-auto hide-scrollbar w-full px-2 py-2"
+  >
                 {tabs.map((tab: any) => (
                   <div key={tab.id} className="flex-shrink-0">
                     <div
@@ -657,7 +658,7 @@ const updateQuantity = (
                   </div>
                 ))}
               </div>
-
+</div>
               {activeScroll === "tabs" && canScroll && !atEnd && (
                 <button
                   onClick={() => scroll(tabsRef, "right")}
@@ -1099,10 +1100,9 @@ const updateQuantity = (
         />
       </div>
 
-      <div className="my-10 overflow-x-auto">
+      <div className="overflow-x-auto hide-scrollbar">
         <DeepCleaningServices />
       </div>
-
       <MobilePhotos galleryImages={galleryImages} />
 
       {apiService?.need_from_you?.length > 0 && (
@@ -1314,7 +1314,7 @@ const ReviewsSection = ({ reviews, displayServices, apiService }: any) => {
           </div>
 
           <div className="hidden md:flex flex-col max-w-4xl mx-auto">
-            <div className="flex md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-8 pb-5 overflow-x-auto hide-scrollbar">
+            <div className="flex md:flex-row w-full mx-auto bg-transparent rounded-2xl gap-8 pb-5 hide-scrollbar">
               {reviews.map((review: any) => (
                 <div key={review.id} className="min-w-[300px]">
                   <div className="flex items-start bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl p-4">

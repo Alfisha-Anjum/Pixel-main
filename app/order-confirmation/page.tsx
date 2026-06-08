@@ -15,7 +15,7 @@ import { SelectAddressModal } from "@/components/booking-flow/SelectAddressModal
 import AddNewAddressModal from "@/components/AddNewAddressModal";
 
 export default function OrderConfirmation() {
-  const { selectedAddress, setSelectedAddress } = useBooking();
+const { selectedAddress, setSelectedAddress, cartItems } = useBooking();
 
   const [addresses, setAddresses] = useState<any[]>([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
@@ -26,7 +26,21 @@ export default function OrderConfirmation() {
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   const displayAddress = selectedAddress || addresses[0];
+const totalAmount = cartItems.reduce(
+  (sum: number, item: any) =>
+    sum + (item.price || item.discountedPrice || 0) * (item.quantity || 1),
+  0,
+);
 
+const totalMRP = cartItems.reduce(
+  (sum: number, item: any) =>
+    sum +
+    (item.originalPrice || item.price || item.discountedPrice || 0) *
+      (item.quantity || 1),
+  0,
+);
+
+const totalDiscount = totalMRP - totalAmount;
   const getCustomerAddresses = async (token: string) => {
     const res = await axios.get(
       "https://taskpro.itmingo.com/api/customers/customer-addresses",
@@ -159,7 +173,13 @@ export default function OrderConfirmation() {
 
           <div className="w-full max-w-[400px] flex flex-col gap-5">
             <CouponCard />
-            <AmountSummary />
+            <AmountSummary
+              totalItems={cartItems.length}
+              totalMRP={totalMRP}
+              totalDiscount={totalDiscount}
+              couponDiscount={50}
+              totalAmount={totalAmount}
+            />
 
             <div className="hidden md:block flex justify-center mt-6">
               <Link href="/" className="w-full">
