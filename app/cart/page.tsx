@@ -30,6 +30,7 @@ export default function CartPage() {
   const [cartLoading, setCartLoading] = useState(false);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
+  const [isBookingFlow, setIsBookingFlow] = useState(false);
 
   const displayAddress = selectedAddress || addresses[0];
 
@@ -107,20 +108,22 @@ export default function CartPage() {
       contact_number: cleanPhone(
         formData.contactNumber || formData.phone || "",
       ),
-      postal_code: formData.postalCode || formData.pincode || "",
-      latitude: 21.2514,
-      longitude: 81.6296,
+
+      postal_code: formData.postalCode || "",
+
+      latitude: formData.latitude || 21.2514,
+      longitude: formData.longitude || 81.6296,
+
       state_id: 1,
       city_id: 1,
+
+      state_name: formData.state_name || formData.state || "",
+      city_name: formData.city_name || formData.city || "",
+
       house_number: formData.houseNo || "",
-      street:
-        formData.street ||
-        formData.landmark ||
-        formData.roadLandmark ||
-        formData.location ||
-        formData.address ||
-        formData.houseNo ||
-        "",
+
+      street: formData.roadLandmark || formData.location || "",
+
       type: "Home",
       is_active: 1,
     };
@@ -128,6 +131,7 @@ export default function CartPage() {
     payload.alt_contact_number =
       altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
 
+      
     const res = await axios.post(
       "https://taskpro.itmingo.com/api/customers/customer-addresses",
       payload,
@@ -197,20 +201,22 @@ export default function CartPage() {
     console.log("ADDRESS:", selectedAddress);
   };
 
-  const handleDateTimeContinue = (
-    date: string,
-    time: string,
-    notes: string,
-    slotId?: number,
-  ) => {
-    localStorage.setItem(
-      "bookingDateTime",
-      JSON.stringify({ date, time, notes, slotId }),
-    );
+const handleDateTimeContinue = (
+  date: string,
+  time: string,
+  notes: string,
+  slotId?: number,
+) => {
+  localStorage.setItem(
+    "bookingDateTime",
+    JSON.stringify({ date, time, notes, slotId }),
+  );
 
-    setShowDateTimeModal(false);
-    setShowAddressModal(true);
-  };
+  setShowDateTimeModal(false);
+
+  setIsBookingFlow(true); // booking flow
+  setShowAddressModal(true);
+};
 
   return (
     <>
@@ -266,7 +272,10 @@ export default function CartPage() {
                   </div>
 
                   <button
-                    onClick={() => setShowAddressModal(true)}
+                    onClick={() => {
+                      setIsBookingFlow(false); // normal address change
+                      setShowAddressModal(true);
+                    }}
                     className="border border-orange-500 text-orange-500 px-4 py-1.5 rounded-lg text-sm"
                   >
                     Change Address
@@ -471,7 +480,10 @@ export default function CartPage() {
             localStorage.setItem("selectedAddress", JSON.stringify(address));
 
             setShowAddressModal(false);
-            setShowTCModal(true);
+
+            if (isBookingFlow) {
+              setShowTCModal(true); // only after slot selection
+            }
           }}
           onAddNew={() => {
             setEditingAddress(null);

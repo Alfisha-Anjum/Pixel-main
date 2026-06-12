@@ -115,6 +115,11 @@ const handleClose = () => {
 const handleContinue = () => {
   if (!selectedDate) return;
 
+  // if slots are available, user must select one
+  if (timeSlots.length > 0 && !selectedTime) {
+    return;
+  }
+
   const slotId = localStorage.getItem("selectedSlotId");
 
   onContinue(
@@ -251,12 +256,13 @@ if (!isOpen) return null;
         {/* Button */}
         <button
           onClick={handleContinue}
-          disabled={!selectedDate}
+          disabled={!selectedDate || timeSlots.length === 0 || !selectedTime}
           className="w-full py-3 rounded-full text-white font-semibold"
           style={{
-            background: selectedDate
-              ? "linear-gradient(90deg, #FF6B00, #FFA500)"
-              : "#D1D5DB",
+            background:
+              !selectedDate || (timeSlots.length > 0 && !selectedTime)
+                ? "#D1D5DB"
+                : "linear-gradient(90deg, #FF6B00, #FFA500)",
           }}
         >
           Continue
