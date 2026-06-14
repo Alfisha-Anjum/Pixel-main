@@ -147,59 +147,76 @@ export default function CartPage() {
     return res.data;
   };
 
-  const createCustomerCart = async () => {
-    if (!cartItems.length) return alert("Cart is empty");
+ const createCustomerCart = async () => {
+   const token = localStorage.getItem("token");
 
-    try {
-      setCartLoading(true);
+   if (!token) {
+     alert("Please login to continue booking.");
+     router.push("/login");
+     return;
+   }
 
-      const token = localStorage.getItem("token");
+   if (!cartItems.length) {
+     alert("Cart is empty");
+     return;
+   }
 
-      const payload = {
-        service_category_id: Number(
-          cartItems[0]?.service_category_id ||
-            cartItems[0]?.serviceCategoryId ||
-            1,
-        ),
-        service_id: Number(
-          cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
-        ),
-        carts: cartItems.map((item: any) => ({
-          service_sub_category_id: Number(
-            item.service_sub_category_id ||
-              item.serviceSubCategoryId ||
-              item.sub_category_id ||
-              1,
-          ),
-          service_issue_id: Number(item.service_issue_id || item.id),
-          quantity: Number(item.quantity || 1),
-        })),
-      };
+   try {
+     setCartLoading(true);
 
-      const res = await axios.post(
-        "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
-        payload,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+     const payload = {
+       service_category_id: Number(
+         cartItems[0]?.service_category_id ||
+           cartItems[0]?.serviceCategoryId ||
+           1,
+       ),
+       service_id: Number(
+         cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
+       ),
+       carts: cartItems.map((item: any) => ({
+         service_sub_category_id: Number(
+           item.service_sub_category_id ||
+             item.serviceSubCategoryId ||
+             item.sub_category_id ||
+             1,
+         ),
+         service_issue_id: Number(item.service_issue_id || item.id),
+         quantity: Number(item.quantity || 1),
+       })),
+     };
 
-      if (res.data?.status) {
-        setShowDateTimeModal(true);
-      }
-    } catch (error: any) {
-      console.log("CART API ERROR:", error?.response?.data || error);
-      setShowDateTimeModal(true);
-    } finally {
-      setCartLoading(false);
-    }
-    // console.log("BOOKING DATE:", bookingDateTime);
-    console.log("ADDRESS:", selectedAddress);
-  };
+     const res = await axios.post(
+       "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
+       payload,
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+           Accept: "application/json",
+           "Content-Type": "application/json",
+         },
+       },
+     );
+
+     if (res.data?.status) {
+       setShowDateTimeModal(true);
+     }
+   } catch (error: any) {
+     // Handle expired/invalid token
+     if (
+       error?.response?.status === 401 ||
+       error?.response?.data?.message === "Unauthenticated."
+     ) {
+       alert("Session expired. Please login again.");
+       localStorage.removeItem("token");
+       router.push("/login");
+       return;
+     }
+
+     console.log("CART API ERROR:", error?.response?.data || error);
+   } finally {
+     setCartLoading(false);
+   }
+ };
 
 const handleDateTimeContinue = (
   date: string,

@@ -12,7 +12,7 @@ import axios from "axios";
 
 export default function PaymentPage() {
   const router = useRouter();
-  const { cartItems } = useBooking();
+ const { cartItems, clearCart } = useBooking();
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
   const [step, setStep] = useState<"options" | "card" | "otp">("options");
   const [showOTPModal, setShowOTPModal] = useState(false);
@@ -135,10 +135,15 @@ const createBooking = async (paymentMethod: string) => {
       },
     );
 
-    if (res.data?.status) {
-      alert("Booking Created Successfully!");
-      router.push("/order-confirmation");
-    }
+   if (res.data?.status) {
+  clearCart();
+
+  localStorage.removeItem("bookingDateTime");
+  localStorage.removeItem("selectedAddress");
+
+  alert("Booking Created Successfully!");
+  router.push("/order-confirmation");
+}
   } catch (error: any) {
     console.log("BOOKING API ERROR:", error?.response?.data || error);
     alert("Booking failed");

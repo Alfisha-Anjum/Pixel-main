@@ -6,7 +6,10 @@ import { ChevronDown, X } from "lucide-react";
 interface Props {
   booking: any;
   onClose: () => void;
-  onConfirm: (data?: { reason: string; description: string }) => void;
+  onConfirm: (data?: {
+    cancel_reason_id: number;
+    cancel_reason: string;
+  }) => void;
   loading?: boolean;
 }
 
@@ -20,14 +23,14 @@ const CancelBookingModal = ({
   const [reason, setReason] = useState("Cancellation Reason");
   const [description, setDescription] = useState("");
   const [showReasons, setShowReasons] = useState(false);
-
-  const reasons = [
-    "Change of plans",
-    "Booked by mistake",
-    "Found another service",
-    "Timing issue",
-    "Price issue",
-  ];
+const [selectedReason, setSelectedReason] = useState<any>(null);
+ const reasons = [
+   { id: 1, label: "Change of plans" },
+   { id: 2, label: "Booked by mistake" },
+   { id: 3, label: "Found another service" },
+   { id: 4, label: "Timing issue" },
+   { id: 5, label: "Price issue" },
+ ];
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4">
@@ -78,15 +81,16 @@ const CancelBookingModal = ({
             <div className="absolute top-[60px] left-0 w-full bg-white border border-gray-200 rounded-xl shadow-lg z-20 overflow-hidden">
               {reasons.map((item) => (
                 <button
-                  key={item}
+                  key={item.id}
                   type="button"
                   onClick={() => {
-                    setReason(item);
+                    setSelectedReason(item);
+                    setReason(item.label);
                     setShowReasons(false);
                   }}
                   className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-orange-50"
                 >
-                  {item}
+                  {item.label}
                 </button>
               ))}
             </div>
@@ -108,8 +112,8 @@ const CancelBookingModal = ({
           <button
             onClick={() =>
               onConfirm({
-                reason,
-                description,
+                cancel_reason_id: selectedReason?.id,
+                cancel_reason: description || selectedReason?.label,
               })
             }
             disabled={loading}

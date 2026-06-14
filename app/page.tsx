@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import ServiceReels from "@/components/ServiceReels";
+import Header from "@/components/Header";
 
 export default function Home() {
   const router = useRouter();
@@ -294,7 +295,7 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HomeStartupModal />
-
+{/* <Header />                           */}
       <main>
         <ServiceSection
           data={dashboardData?.categories || []}

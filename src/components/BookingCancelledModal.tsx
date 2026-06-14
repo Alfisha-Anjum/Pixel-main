@@ -1,12 +1,21 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { useEffect } from "react";
 
 interface Props {
   onClose: () => void;
 }
 
 const BookingCancelledModal = ({ onClose }: Props) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div
       className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4"
