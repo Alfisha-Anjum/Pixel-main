@@ -30,6 +30,7 @@ export default function CartPage() {
   const [cartLoading, setCartLoading] = useState(false);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
+  const [isBookingFlow, setIsBookingFlow] = useState(false);
 
   const displayAddress = selectedAddress || addresses[0];
 
@@ -107,20 +108,22 @@ export default function CartPage() {
       contact_number: cleanPhone(
         formData.contactNumber || formData.phone || "",
       ),
-      postal_code: formData.postalCode || formData.pincode || "",
-      latitude: 21.2514,
-      longitude: 81.6296,
+
+      postal_code: formData.postalCode || "",
+
+      latitude: formData.latitude || 21.2514,
+      longitude: formData.longitude || 81.6296,
+
       state_id: 1,
       city_id: 1,
+
+      state_name: formData.state_name || formData.state || "",
+      city_name: formData.city_name || formData.city || "",
+
       house_number: formData.houseNo || "",
-      street:
-        formData.street ||
-        formData.landmark ||
-        formData.roadLandmark ||
-        formData.location ||
-        formData.address ||
-        formData.houseNo ||
-        "",
+
+      street: formData.roadLandmark || formData.location || "",
+
       type: "Home",
       is_active: 1,
     };
@@ -128,6 +131,7 @@ export default function CartPage() {
     payload.alt_contact_number =
       altDigits.length === 10 ? `+91 ${altDigits}` : payload.contact_number;
 
+      
     const res = await axios.post(
       "https://taskpro.itmingo.com/api/customers/customer-addresses",
       payload,
@@ -143,74 +147,93 @@ export default function CartPage() {
     return res.data;
   };
 
-  const createCustomerCart = async () => {
-    if (!cartItems.length) return alert("Cart is empty");
+ const createCustomerCart = async () => {
+   const token = localStorage.getItem("token");
 
-    try {
-      setCartLoading(true);
+   if (!token) {
+     alert("Please login to continue booking.");
+     router.push("/login");
+     return;
+   }
 
-      const token = localStorage.getItem("token");
+   if (!cartItems.length) {
+     alert("Cart is empty");
+     return;
+   }
 
-      const payload = {
-        service_category_id: Number(
-          cartItems[0]?.service_category_id ||
-            cartItems[0]?.serviceCategoryId ||
-            1,
-        ),
-        service_id: Number(
-          cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
-        ),
-        carts: cartItems.map((item: any) => ({
-          service_sub_category_id: Number(
-            item.service_sub_category_id ||
-              item.serviceSubCategoryId ||
-              item.sub_category_id ||
-              1,
-          ),
-          service_issue_id: Number(item.service_issue_id || item.id),
-          quantity: Number(item.quantity || 1),
-        })),
-      };
+   try {
+     setCartLoading(true);
 
-      const res = await axios.post(
-        "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
-        payload,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+     const payload = {
+       service_category_id: Number(
+         cartItems[0]?.service_category_id ||
+           cartItems[0]?.serviceCategoryId ||
+           1,
+       ),
+       service_id: Number(
+         cartItems[0]?.service_id || cartItems[0]?.serviceId || 1,
+       ),
+       carts: cartItems.map((item: any) => ({
+         service_sub_category_id: Number(
+           item.service_sub_category_id ||
+             item.serviceSubCategoryId ||
+             item.sub_category_id ||
+             1,
+         ),
+         service_issue_id: Number(item.service_issue_id || item.id),
+         quantity: Number(item.quantity || 1),
+       })),
+     };
 
-      if (res.data?.status) {
-        setShowDateTimeModal(true);
-      }
-    } catch (error: any) {
-      console.log("CART API ERROR:", error?.response?.data || error);
-      setShowDateTimeModal(true);
-    } finally {
-      setCartLoading(false);
-    }
-    // console.log("BOOKING DATE:", bookingDateTime);
-    console.log("ADDRESS:", selectedAddress);
-  };
+     const res = await axios.post(
+       "https://taskpro.itmingo.com/api/customers/customer-carts?state_id=1&city_id=1&state_name=Chhattisgarh&city_name=Raipur",
+       payload,
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+           Accept: "application/json",
+           "Content-Type": "application/json",
+         },
+       },
+     );
 
-  const handleDateTimeContinue = (
-    date: string,
-    time: string,
-    notes: string,
-    slotId?: number,
-  ) => {
-    localStorage.setItem(
-      "bookingDateTime",
-      JSON.stringify({ date, time, notes, slotId }),
-    );
+     if (res.data?.status) {
+       setShowDateTimeModal(true);
+     }
+   } catch (error: any) {
+     // Handle expired/invalid token
+     if (
+       error?.response?.status === 401 ||
+       error?.response?.data?.message === "Unauthenticated."
+     ) {
+       alert("Session expired. Please login again.");
+       localStorage.removeItem("token");
+       router.push("/login");
+       return;
+     }
 
-    setShowDateTimeModal(false);
-    setShowAddressModal(true);
-  };
+     console.log("CART API ERROR:", error?.response?.data || error);
+   } finally {
+     setCartLoading(false);
+   }
+ };
+
+const handleDateTimeContinue = (
+  date: string,
+  time: string,
+  notes: string,
+  slotId?: number,
+) => {
+  localStorage.setItem(
+    "bookingDateTime",
+    JSON.stringify({ date, time, notes, slotId }),
+  );
+
+  setShowDateTimeModal(false);
+
+  setIsBookingFlow(true); // booking flow
+  setShowAddressModal(true);
+};
 
   return (
     <>
@@ -266,7 +289,10 @@ export default function CartPage() {
                   </div>
 
                   <button
-                    onClick={() => setShowAddressModal(true)}
+                    onClick={() => {
+                      setIsBookingFlow(false); // normal address change
+                      setShowAddressModal(true);
+                    }}
                     className="border border-orange-500 text-orange-500 px-4 py-1.5 rounded-lg text-sm"
                   >
                     Change Address
@@ -471,7 +497,10 @@ export default function CartPage() {
             localStorage.setItem("selectedAddress", JSON.stringify(address));
 
             setShowAddressModal(false);
-            setShowTCModal(true);
+
+            if (isBookingFlow) {
+              setShowTCModal(true); // only after slot selection
+            }
           }}
           onAddNew={() => {
             setEditingAddress(null);

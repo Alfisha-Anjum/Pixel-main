@@ -129,98 +129,64 @@ useEffect(() => {
 
 // import axios from "axios";
 
-const cancelBooking = async (
-  bookingId: number | string,
-  data: { reason: string; description: string },
-) => {
-  try {
-    const token = localStorage.getItem("token");
+const cancelBooking = async (bookingId: number, data: any) => {
+  const token = localStorage.getItem("token");
 
-    const reasonMap: Record<string, number> = {
-      "Change of plans": 1,
-      "Booked by mistake": 2,
-      "Found another service": 3,
-      "Timing issue": 4,
-      "Price issue": 5,
-    };
+  const payload = {
+    cancel_reason_id: Number(data.cancel_reason_id),
+    cancel_reason: data.cancel_reason,
+  };
 
-    const payload = {
-      cancel_reason_id: reasonMap[data.reason] || 1,
-      cancel_reason: data.description || data.reason,
-    };
+  console.log("Sending payload:", payload);
 
-    const response = await axios.put(
-      `https://taskpro.itmingo.com/api/customers/cancel-booking-detail/${bookingId}/`,
-      payload,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+  const res = await axios.put(
+    `https://taskpro.itmingo.com/api/customers/cancel-booking/${bookingId}/`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-    );
-setBookings((prev: any[]) =>
-  prev.filter((booking: any) => String(booking.id) !== String(bookingId)),
-);
+    },
+  );
 
-
-    return response.data;
-  } catch (error: any) {
-    console.error(
-      "Cancel booking failed:",
-      error.response?.data || error.message,
-    );
-    throw error;
-  }
+  return res.data;
 };
 
 // import axios from "axios";
 
 const rescheduleBooking = async ({
   booking_id,
-  booking_detail_id,
   slot_id,
   date,
   customer_notes,
 }: {
   booking_id: number;
-  booking_detail_id: number;
   slot_id: number;
   date: string;
   customer_notes: string;
 }) => {
-  try {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    const payload = {
+  const response = await axios.post(
+    "https://taskpro.itmingo.com/api/customers/bookings-reschedule",
+    {
       booking_id,
-      booking_detail_id,
       slot_id,
       date,
       customer_notes,
-    };
-
-    const response = await axios.post(
-      "https://taskpro.itmingo.com/api/customers/bookings-reschedule",
-      payload,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    );
+    },
+  );
 
-    return response.data;
-  } catch (error: any) {
-    console.error(
-      "Reschedule booking failed:",
-      error.response?.data || error.message,
-    );
-    throw error;
-  }
+  return response.data;
 };
 
 const handleReschedule = async (data: {
@@ -233,8 +199,6 @@ const handleReschedule = async (data: {
   try {
     const result = await rescheduleBooking({
       booking_id: selectedBooking.booking_id || selectedBooking.id,
-      booking_detail_id:
-        selectedBooking.booking_detail_id || selectedBooking.booking_detail?.id,
       slot_id: data.slot_id,
       date: data.date,
       customer_notes: data.customer_notes,
@@ -243,12 +207,10 @@ const handleReschedule = async (data: {
     console.log("Reschedule success:", result);
     setShowRescheduleModal(false);
     fetchBookings();
-  } catch (error) {
-    console.error("Reschedule error:", error);
+  } catch (error: any) {
+    console.log("API ERROR", error?.response?.status, error?.response?.data);
   }
 };
-
-
 
   const [amcBookings, setAmcBookings] = useState([
     {
@@ -384,7 +346,6 @@ const handleReschedule = async (data: {
      );
    }
  };
-
 
   const handleOpenChat = (booking: any) => {
     setSelectedChatBooking(booking);
@@ -583,7 +544,10 @@ const handleReschedule = async (data: {
           |<span className="text-orange-500 font-medium">Profile</span>
         </div> */}
         <Breadcrumb
-          items={[{ label: "Home", href: "/" }, { label: "My Booking" }]}
+          items={[
+            { label: "Home", href: "/my-booking" },
+            { label: "My Booking" },
+          ]}
         />
         <div className="flex flex-col md:flex-row gap-5 md:gap-10 w-full mx-auto">
           {/* Sidebar */}
@@ -627,7 +591,7 @@ const handleReschedule = async (data: {
           <div className="w-full flex justify-between items-center md:hidden">
             {/* Back */}
             <button
-              onClick={() => router.back()}
+              onClick={() => router.push("/my-booking")}
               className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
             >
               <ArrowLeft size={20} />
@@ -944,25 +908,31 @@ const handleReschedule = async (data: {
 
                         <div className="flex flex-col sm:flex-row w-full justify-between gap-2 sm:gap-3 min-w-0">
                           <div className="min-w-0 flex-1">
-                            <h2 className="font-bold text-[clamp(14px,1.5vw,18px)] leading-tight truncate">
+                            <h2 className="font-bold text-[clamp(14px,1.5vw,18px)]">
                               {bookingDetails?.service_details?.title}
                             </h2>
-                            {/* <p className="text-sm text-gray-500">
-                                 Booking ID: {selectedBooking.id}
-                                </p> */}
 
-                            <p className="text-sm text-gray-500">
-                              {bookingDetails?.service_details?.subtitle}
-                            </p>
-                            <p className="text-orange-600 font-bold mt-2">
-                              ₹{bookingDetails?.service_details?.price}
-                            </p>
+                            {bookingDetails?.service_details?.items?.map(
+                              (item: any, index: number) => (
+                                <div key={index} className="mt-2">
+                                  <p className="text-sm text-gray-500">
+                                    {item.subtitle}
+                                  </p>
+
+                                  <p className="text-orange-600 font-bold">
+                                    ₹{item.price}
+                                  </p>
+                                </div>
+                              ),
+                            )}
                           </div>
                           <div className="flex gap-2 sm:gap-3 sm:justify-center p-1 sm:p-2 flex-shrink-0">
                             <img
                               src={
-                                bookingDetails?.service_details?.image
-                                  ? bookingDetails.service_details.image
+                                bookingDetails?.service_details?.items?.[0]
+                                  ?.image
+                                  ? bookingDetails.service_details.items[0]
+                                      .image
                                   : "/ac.png"
                               }
                               alt="chat"
@@ -1170,7 +1140,7 @@ const handleReschedule = async (data: {
                         {/* BUTTONS */}
                         <button
                           onClick={handleReschedule}
-                          className="hidden md:block w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
+                          className="block w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
                         >
                           Reschedule
                         </button>
@@ -1179,7 +1149,7 @@ const handleReschedule = async (data: {
                           onClick={() => {
                             setShowCancelModal(true);
                           }}
-                          className="hidden md:block w-full mt-3 bg-orange-500 text-white py-3 rounded-full shadow-md"
+                          className="block w-full mt-3 bg-orange-500 text-white py-3 rounded-full shadow-md"
                         >
                           Cancel Booking
                         </button>
@@ -1748,11 +1718,23 @@ const handleReschedule = async (data: {
             try {
               if (!data) return;
 
-              const result = await cancelBooking(selectedBooking.id, data);
+              const payload = {
+                cancel_reason_id: data.cancel_reason_id,
+                cancel_reason: data.cancel_reason,
+              };
 
-              console.log("Cancel success:", result);
-              setShowCancelModal(false);
-              successBookingCancel();
+          const result = await cancelBooking(selectedBooking.id, payload);
+
+          setBookings((prev) =>
+            prev.map((item) =>
+              item.id === selectedBooking.id
+                ? { ...item, status: "Cancelled" }
+                : item,
+            ),
+          );
+
+          setShowCancelModal(false);
+          setShowCancelledSuccess(true);
             } catch (error: any) {
               console.error(
                 "Cancel booking failed:",
@@ -1764,7 +1746,6 @@ const handleReschedule = async (data: {
       )}
       {showCancelledSuccess && (
         <BookingCancelledModal
-          // booking={selectedBooking}
           onClose={() => {
             setShowCancelledSuccess(false);
             setShowBookingDetailsPage(false);

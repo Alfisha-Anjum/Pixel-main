@@ -12,7 +12,7 @@ import axios from "axios";
 
 export default function PaymentPage() {
   const router = useRouter();
-  const { cartItems } = useBooking();
+ const { cartItems, clearCart } = useBooking();
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
   const [step, setStep] = useState<"options" | "card" | "otp">("options");
   const [showOTPModal, setShowOTPModal] = useState(false);
@@ -135,10 +135,15 @@ const createBooking = async (paymentMethod: string) => {
       },
     );
 
-    if (res.data?.status) {
-      alert("Booking Created Successfully!");
-      router.push("/order-confirmation");
-    }
+   if (res.data?.status) {
+  clearCart();
+
+  localStorage.removeItem("bookingDateTime");
+  localStorage.removeItem("selectedAddress");
+
+  alert("Booking Created Successfully!");
+  router.push("/order-confirmation");
+}
   } catch (error: any) {
     console.log("BOOKING API ERROR:", error?.response?.data || error);
     alert("Booking failed");
@@ -185,12 +190,12 @@ const handlePayNow = (paymentMethod?: string) => {
     <div className="min-h-screen ">
       {/* <Header /> */}
 
-      <main className="max-w-7xl mx-auto px-8">
+      <main className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* LEFT SIDE */}
           <div className="lg:col-span-2">
-            <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
-            <div className="bg-white border rounded-xl p-6">
+            <h1 className="text-lg md:text-2xl font-semibold mb-6">Checkout</h1>
+            <div className="bg-white border rounded-xl p-4 md:p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-gray-700">Payment Option</h2>
                 <button className="border border-orange-500 text-orange-500 px-4 w-32 py-1 rounded-md text-sm">
@@ -247,18 +252,18 @@ const handlePayNow = (paymentMethod?: string) => {
                       console.log(method);
                       setSelectedPayment(method.payment_type);
                     }}
-                    className="bg-white border border-gray-200 rounded-[24px] px-6 py-7 flex items-center justify-between cursor-pointer shadow-sm"
+                    className="bg-white border border-gray-200 rounded-2xl p-3 md:px-6 md:py-7 flex items-center justify-between cursor-pointer shadow-sm"
                   >
-                    <div className="flex items-center gap-5">
-                      <div className="w-16 h-16 rounded-full flex items-center justify-center">
+                    <div className="flex items-center gap-3 md:gap-5 flex-1 min-w-0">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0">
                         {method.payment_type === "ONLINE" ? (
-                          <CreditCard className="w-8 h-8 text-gray-500" />
+                          <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-gray-500" />
                         ) : (
-                          <Banknote className="w-8 h-8 text-gray-500" />
+                          <Banknote className="w-6 h-6 md:w-8 md:h-8 text-gray-500" />
                         )}
                       </div>
 
-                      <h3 className="text-xl font-semibold text-black">
+                      <h3 className="text-sm md:text-xl font-semibold text-black break-words">
                         {method.payment_type === "ONLINE"
                           ? "Online Payment"
                           : "Cash on Delivery"}
@@ -266,7 +271,19 @@ const handlePayNow = (paymentMethod?: string) => {
                     </div>
 
                     <div
-                      className={`w-10 h-10 rounded-full border-2 flex items-center justify-center ${
+                      className={`w-7 h-7 md:w-10 md:h-10 rounded-full border-2 flex md:hidden items-center justify-center shrink-0 ${
+                        selectedPayment === method.payment_type
+                          ? "border-orange-500"
+                          : "border-gray-300"
+                      }`}
+                    >
+                      {selectedPayment === method.payment_type && (
+                        <div className="w-3 h-3 md:w-5 md:h-5 rounded-full bg-orange-500" />
+                      )}
+                    </div>
+
+                    <div
+                      className={`w-10 h-10 rounded-full border-2 hidden md:flex items-center justify-center ${
                         selectedPayment === method.payment_type
                           ? "border-orange-500"
                           : "border-gray-300"
