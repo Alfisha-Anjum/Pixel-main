@@ -19,6 +19,10 @@ import {
   Info,
   X,
   ArrowLeft,
+  UserRound,
+  ClipboardList,
+  Wrench,
+  House,
 } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -204,11 +208,18 @@ const handleReschedule = async (data: {
       customer_notes: data.customer_notes,
     });
 
-    console.log("Reschedule success:", result);
-    setShowRescheduleModal(false);
-    fetchBookings();
+    if (result.status) {
+      alert(result.message);
+
+      setShowRescheduleModal(false);
+
+      await fetchBookings();
+
+      // if you have booking details api
+      // await fetchBookingDetails(selectedBooking.id);
+    }
   } catch (error: any) {
-    console.log("API ERROR", error?.response?.status, error?.response?.data);
+    console.log("API ERROR", error?.response?.data);
   }
 };
 
@@ -588,15 +599,17 @@ const handleReschedule = async (data: {
             </div>
           </div> */}
           <AccountSidebar />
-          <div className="w-full flex justify-between items-center md:hidden">
-            {/* Back */}
+          <div className="relative w-full flex items-center justify-center md:hidden">
+            {/* Back Button */}
             <button
               onClick={() => router.push("/my-booking")}
-              className="text-black dark:text-white font-medium flex items-center gap-2 hover:text-orange-500 transition"
+              className="absolute left-0 text-black dark:text-white hover:text-orange-500 transition"
             >
               <ArrowLeft size={20} />
-              My Bookings
             </button>
+
+            {/* Center Title */}
+            <p className="text-center font-medium">My Bookings</p>
           </div>
           {/* Main Content */}
           {showChatBot ? (
@@ -617,7 +630,7 @@ const handleReschedule = async (data: {
 
                   <div className=" mb-1">
                     <div className="">
-                      <nav className="flex">
+                      <nav className="flex ">
                         <button
                           onClick={() => router.push("/my-booking?tab=home")}
                           className={`px-4 sm:px-6 font-medium text-sm sm:text-base lg:text-lg border-b-2 transition-colors ${
@@ -1139,7 +1152,7 @@ const handleReschedule = async (data: {
 
                         {/* BUTTONS */}
                         <button
-                          onClick={handleReschedule}
+                          onClick={() => setShowRescheduleModal(true)}
                           className="block w-full mt-5 border border-orange-500 text-orange-500 py-2 rounded-full"
                         >
                           Reschedule
@@ -1309,7 +1322,7 @@ const handleReschedule = async (data: {
                         </div>
                       </div>
 
-                      <div className="hidden md:block bg-white rounded-xl p-5 shadow-sm border">
+                      <div className=" bg-white rounded-xl p-5 shadow-sm border">
                         <h3 className="font-semibold mb-3">Work Status</h3>
 
                         <ul className="space-y-3 text-sm">
@@ -1660,7 +1673,53 @@ const handleReschedule = async (data: {
           )}
         </div>
       </div>
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-md z-50 md:hidden">
+        <div className="grid grid-cols-4 h-16">
+          <Link
+            href="/"
+            className={`flex flex-col items-center justify-center ${
+              pathname === "/" ? "text-orange-500" : "text-gray-500"
+            }`}
+          >
+            <House className="w-5 h-5" />
+            <span className="text-[11px] mt-1 font-medium">Home</span>
+          </Link>
 
+          <Link
+            href="/my-booking?tab=amc"
+            className={`flex flex-col items-center justify-center ${
+              pathname.startsWith("/my-booking") && activeTab === "amc"
+                ? "text-orange-500"
+                : "text-gray-500"
+            }`}
+          >
+            <Wrench className="w-5 h-5" />
+            <span className="text-[11px] mt-1 font-medium">AMC Services</span>
+          </Link>
+
+          <Link
+            href="/my-booking?tab=home"
+            className={`flex flex-col items-center justify-center ${
+              pathname.startsWith("/my-booking") && activeTab !== "amc"
+                ? "text-orange-500"
+                : "text-gray-500"
+            }`}
+          >
+            <ClipboardList className="w-5 h-5" />
+            <span className="text-[11px] mt-1 font-medium">Booking</span>
+          </Link>
+
+          <Link
+            href="/account"
+            className={`flex flex-col items-center justify-center ${
+              pathname === "/account" ? "text-orange-500" : "text-gray-500"
+            }`}
+          >
+            <UserRound className="w-5 h-5" />
+            <span className="text-[11px] mt-1 font-medium">Account</span>
+          </Link>
+        </div>
+      </div>
       <SelectDateTimeModal
         isOpen={showRescheduleModal}
         onClose={() => setShowRescheduleModal(false)}
@@ -1723,18 +1782,18 @@ const handleReschedule = async (data: {
                 cancel_reason: data.cancel_reason,
               };
 
-          const result = await cancelBooking(selectedBooking.id, payload);
+              const result = await cancelBooking(selectedBooking.id, payload);
 
-          setBookings((prev) =>
-            prev.map((item) =>
-              item.id === selectedBooking.id
-                ? { ...item, status: "Cancelled" }
-                : item,
-            ),
-          );
+              setBookings((prev) =>
+                prev.map((item) =>
+                  item.id === selectedBooking.id
+                    ? { ...item, status: "Cancelled" }
+                    : item,
+                ),
+              );
 
-          setShowCancelModal(false);
-          setShowCancelledSuccess(true);
+              setShowCancelModal(false);
+              setShowCancelledSuccess(true);
             } catch (error: any) {
               console.error(
                 "Cancel booking failed:",

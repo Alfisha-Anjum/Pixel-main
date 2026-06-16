@@ -35,7 +35,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
       className="bg-white rounded-xl border border-gray-100 shadow-lg p-4 sm:p-5 flex flex-col gap-4 hover:shadow-md transition cursor-pointer"
     >
       {/* TOP SECTION */}
-      <div className="flex flex-col sm:flex-row gap-4 sm:items-start justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 justify-between">
         {/* LEFT */}
         <div className="flex gap-3 w-full">
           {/* IMAGE */}
