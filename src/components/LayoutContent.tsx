@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Suspense } from "react";
 
 export default function LayoutContent({
   children,
@@ -17,16 +18,18 @@ export default function LayoutContent({
     <>
       {/* HEADER */}
       {isHomePage ? (
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
       ) : (
         <div className="hidden md:block">
-          <Header />
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
         </div>
       )}
 
-      <div className="mx-auto px-4 md:px-8 lg:px-0 py-6">
-        {children}
-      </div>
+      <div className="mx-auto px-4 md:px-8 lg:px-0 py-6">{children}</div>
 
       {/* FOOTER */}
       {isHomePage ? (

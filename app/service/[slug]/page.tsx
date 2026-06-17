@@ -450,11 +450,13 @@ const updateQuantity = (
   }
 };
 
-  const totalSavings = cartItems.reduce(
-    (acc, item) =>
-      acc + (item.originalPrice + 50 - item.discountedPrice) * item.quantity,
-    0,
-  );
+const totalSavings = cartItems.reduce(
+  (acc, item: any) =>
+    acc +
+    ((item.originalPrice || 0) + 50 - (item.discountedPrice || 0)) *
+      item.quantity,
+  0,
+);
 
   return (
     <>
@@ -1160,7 +1162,25 @@ const updateQuantity = (
         onClose={() => setShowAMCModal(false)}
         onConfirm={() => {
           if (selectedService && selectedCapacity) {
-            addToCart(selectedService);
+            addToCart({
+              id: String(selectedService.id),
+              name: selectedService.name,
+              serviceId: String(serviceId),
+              serviceName: apiService?.name || "",
+              subService: selectedService.name,
+              capacity: selectedCapacity,
+              price: selectedService.discountedPrice,
+              discountedPrice: selectedService.discountedPrice,
+              originalPrice: selectedService.originalPrice,
+              image: selectedService.image,
+              duration: selectedService.duration,
+              rating: selectedService.rating,
+              reviews: selectedService.reviews,
+              quantity: 1,
+              service_id: Number(serviceId),
+              service_category_id:
+                apiService?.service_category_id || apiService?.id,
+            });
           }
 
           setShowAMCModal(false);
@@ -1174,7 +1194,10 @@ const updateQuantity = (
         onClose={() => setShowModal(false)}
         service={selectedService}
         onAdd={() => {
-          if (selectedService) addToCart(selectedService);
+          if (selectedService) {
+            handleAddService(selectedService);
+          }
+
           setShowModal(false);
         }}
       />

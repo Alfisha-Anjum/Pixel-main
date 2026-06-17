@@ -4,6 +4,7 @@ import React, { createContext, useState, ReactNode, useEffect } from "react";
 
 export interface CartItem {
   id: string;
+  name: string;
   serviceId: string;
   serviceName: string;
   subService: string;
@@ -14,7 +15,11 @@ export interface CartItem {
   duration: string;
   rating: number;
   reviews: number;
-  quantity?: number;
+  quantity: number;
+
+  service_category_id: number;
+  serviceCategoryId: number;
+  service_id?: number;
 }
 
 export interface BookingContextType {

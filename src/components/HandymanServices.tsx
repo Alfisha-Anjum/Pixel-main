@@ -5,24 +5,34 @@ import LayoutContainer from "./LayoutContainer";
 
 const handymanServices = [
   {
+    id: 1,
     label: "Electrician",
     image: "/electrician.png",
+    slug: "electrician",
   },
   {
+    id: 2,
     label: "Carpenter",
     image: "/Carpenter.png",
+    slug: "carpenter",
   },
   {
+    id: 3,
     label: "Plumber",
     image: "/plumber.png",
+    slug: "plumber",
   },
   {
+    id: 4,
     label: "Furniture Assembly & Dismantle",
     image: "/Furniture Assembly & Dismantle.png",
+    slug: "furniture-assembly-dismantle",
   },
   {
+    id: 5,
     label: "House Reparer",
     image: "/House Repairer.png",
+    slug: "house-repairer",
   },
 ];
 

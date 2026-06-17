@@ -25,70 +25,19 @@ export default function PaymentPage() {
 
   // const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0); 
 
-  const paymentMethods = [
-  {
-    id: 1,
-    payment_type: "ONLINE",
-  },
-  {
-    id: 2,
-    payment_type: "COD",
-  },
-];
-
-//  const paymentMethods = [
-//    {
-//      id: "card",
-//      img: "/credit.png",
-//      label: "Credit Card / Debit Card",
-//      sub: "Visa, Mastercard, Rupay",
-//    },
-//    {
-//      id: "gpay",
-//      img: "/google.png",
-//      label: "Google Pay",
-//      sub: "Pay using Google Pay",
-//    },
-//    {
-//      id: "paypal",
-//      img: "/paypal.png",
-//      label: "PayPal",
-//      sub: "Secure international payments",
-//    },
-//    {
-//      id: "applepay",
-//      img: "/apple.png",
-//      label: "Apple Pay",
-//      sub: "Fast checkout with Apple devices",
-//    },
-//    {
-//      id: "cod",
-//      img: "/cod.png",
-//      label: "Cash on Delivery",
-//      sub: "Pay cash after service",
-//    },
-//  ];
+//   const paymentMethods = [
+//   {
+//     id: 1,
+//     payment_type: "ONLINE",
+//   },
+//   {
+//     id: 2,
+//     payment_type: "COD",
+//   },
+// ];
+const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
 
 
-// const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
-
-// useEffect(() => {
-//   fetchPaymentMethods();
-// }, []);
-
-const fetchPaymentMethods = async () => {
-  try {
-    const res = await axios.get(
-      "https://taskpro.itmingo.com/api/payment-types"
-    );
-
-    if (res.data?.status) {
-      setPaymentMethods(res.data.data);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const createBooking = async (paymentMethod: string) => {
     console.log("CREATE BOOKING CALLED");
