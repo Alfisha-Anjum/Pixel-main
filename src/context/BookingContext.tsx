@@ -16,11 +16,14 @@ export interface CartItem {
   rating: number;
   reviews: number;
   quantity: number;
+  discountedPrice: number;
+  originalPrice: number;
 
-  service_category_id: number;
-  serviceCategoryId: number;
+  service_category_id?: number;
+  serviceCategoryId?: number;
   service_id?: number;
 }
+
 
 export interface BookingContextType {
   cartItems: CartItem[];

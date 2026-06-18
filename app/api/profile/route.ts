@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Mock database storage - in a real app, this would connect to MongoDB
 const usersDB: Record<string, any> = {};
+export const dynamic = "force-dynamic";
 
 export async function PUT(request: NextRequest) {
   try {

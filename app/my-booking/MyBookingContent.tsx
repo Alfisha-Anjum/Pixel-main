@@ -57,7 +57,7 @@ const MyBookingContent = () => {
   const [activeTab, setActiveTab] = useState<
     "pending" | "rejected" | "completed"
   >("pending");
-  const bookingType = (searchParams.get("tab") as "home" | "amc") || "home";
+ const bookingType = (searchParams?.get("tab") ?? "home") as "home" | "amc";
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSplitModal, setShowSplitModal] = useState(false);
   const [showAMCDetailsPage, setShowAMCDetailsPage] = useState(false);
@@ -1688,7 +1688,7 @@ const MyBookingContent = () => {
           <Link
             href="/my-booking?tab=amc"
             className={`flex flex-col items-center justify-center ${
-              pathname.startsWith("/my-booking") && bookingType === "amc"
+              pathname?.startsWith("/my-booking") && bookingType === "amc"
                 ? "text-orange-500"
                 : "text-gray-500"
             }`}
@@ -1700,7 +1700,7 @@ const MyBookingContent = () => {
           <Link
             href="/my-booking?tab=home"
             className={`flex flex-col items-center justify-center ${
-              pathname.startsWith("/my-booking") && bookingType !== "amc"
+              pathname?.startsWith("/my-booking") && bookingType !== "amc"
                 ? "text-orange-500"
                 : "text-gray-500"
             }`}
