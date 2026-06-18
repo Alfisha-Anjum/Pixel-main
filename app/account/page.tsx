@@ -20,6 +20,8 @@ import Payment from "@/components/account/Payment";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
+import { House, Wrench, ClipboardList, UserRound } from "lucide-react";
 
 export default function AccountPage() {
   const { user } = useAuth();
@@ -102,31 +104,67 @@ export default function AccountPage() {
     );
   }
 
-  return (
-    <div className="w-full bg-white dark:bg-gray-900">
-      {/* Content */}
-      <div className="flex flex-col-reverse lg:flex-row">
-        {/* Content */}
-        <div className="w-full lg:flex-1">{renderContent()}</div>
+return (
+  <div className="w-full bg-white dark:bg-gray-900 pb-24">
+    {/* Content */}
+    <div className="flex flex-col-reverse lg:flex-row">
+      <div className="w-full lg:flex-1">{renderContent()}</div>
 
-        {/* Profile */}
-        {activeView === "default" && (
-          <div className="w-full lg:w-[390px] px-10">
-            <ProfileCard profile={profile} />
-          </div>
-        )}
-      </div>
-
-      {/* Logout Button */}
       {activeView === "default" && (
-        <div className="md:mt-10 flex justify-start lg:ml-12">
-          <GradientButton
-            text="Logout"
-            width="w-full max-w-[390px]"
-            textClassName="text-[20px] font-medium"
-          />
+        <div className="w-full lg:w-[390px] px-10">
+          <ProfileCard profile={profile} />
         </div>
       )}
     </div>
-  );
+
+    {/* Logout Button */}
+    {activeView === "default" && (
+      <div className="md:mt-10 flex justify-start lg:ml-12">
+        <GradientButton
+          text="Logout"
+          width="w-full max-w-[390px]"
+          textClassName="text-[20px] font-medium"
+        />
+      </div>
+    )}
+
+    {/* Mobile Bottom Navigation */}
+    <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-md z-50 md:hidden">
+      <div className="grid grid-cols-4 h-16">
+        <Link
+          href="/"
+          className="flex flex-col items-center justify-center text-gray-500"
+        >
+          <House className="w-5 h-5" />
+          <span className="text-[11px] mt-1 font-medium">Home</span>
+        </Link>
+
+        <Link
+          href="/my-booking?tab=amc"
+          className="flex flex-col items-center justify-center text-gray-500"
+        >
+          <Wrench className="w-5 h-5" />
+          <span className="text-[11px] mt-1 font-medium">AMC Services</span>
+        </Link>
+
+        <Link
+          href="/my-booking?tab=home"
+          className="flex flex-col items-center justify-center text-gray-500"
+        >
+          <ClipboardList className="w-5 h-5" />
+          <span className="text-[11px] mt-1 font-medium">Booking</span>
+        </Link>
+
+        <Link
+          href="/account"
+          className="flex flex-col items-center justify-center text-orange-500"
+        >
+          <UserRound className="w-5 h-5" />
+          <span className="text-[11px] mt-1 font-medium">Account</span>
+        </Link>
+      </div>
+    </div>
+  </div>
+);
 }
+

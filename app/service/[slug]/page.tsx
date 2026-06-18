@@ -450,11 +450,13 @@ const updateQuantity = (
   }
 };
 
-  const totalSavings = cartItems.reduce(
-    (acc, item) =>
-      acc + (item.originalPrice + 50 - item.discountedPrice) * item.quantity,
-    0,
-  );
+const totalSavings = cartItems.reduce(
+  (acc, item: any) =>
+    acc +
+    ((item.originalPrice || 0) + 50 - (item.discountedPrice || 0)) *
+      item.quantity,
+  0,
+);
 
   return (
     <>
@@ -622,43 +624,43 @@ const updateQuantity = (
                 </button>
               )}
 
-             <div className="overflow-hidden">
-  <div
-    ref={tabsRef}
-    className="flex gap-5 overflow-x-auto hide-scrollbar w-full px-2 py-2"
-  >
-                {tabs.map((tab: any) => (
-                  <div key={tab.id} className="flex-shrink-0">
-                    <div
-                      onClick={() => setActiveTab(String(tab.id))}
-                      className={`w-40 h-[105px] p-2 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${
-                        activeTab === String(tab.id)
-                          ? "border-[#FF6A00] shadow-[0_4px_12px_rgba(255,106,0,0.18)]"
-                          : "border-gray-200 bg-white"
-                      }`}
-                    >
-                      {/* IMAGE */}
-                      <img
-                        src="/10.svg"
-                        alt={tab.name}
-                        className=" hidden sm:block w-14 h-10 object-contain mb-3"
-                      />
-
-                      {/* TEXT */}
-                      <p
-                        className={`text-sm sm:text-[12px] font-semibold ${
+              <div className="overflow-hidden">
+                <div
+                  ref={tabsRef}
+                  className="flex gap-5 overflow-x-auto hide-scrollbar w-full px-2 py-2"
+                >
+                  {tabs.map((tab: any) => (
+                    <div key={tab.id} className="flex-shrink-0">
+                      <div
+                        onClick={() => setActiveTab(String(tab.id))}
+                        className={`w-40 h-[105px] p-2 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${
                           activeTab === String(tab.id)
-                            ? "text-[#FF6A00]"
-                            : "text-[#222]"
+                            ? "border-[#FF6A00] shadow-[0_4px_12px_rgba(255,106,0,0.18)]"
+                            : "border-gray-200 bg-white"
                         }`}
                       >
-                        {tab.name?.replace(/repair/gi, "").trim()}
-                      </p>
+                        {/* IMAGE */}
+                        <img
+                          src="/10.svg"
+                          alt={tab.name}
+                          className=" hidden sm:block w-14 h-10 object-contain mb-3"
+                        />
+
+                        {/* TEXT */}
+                        <p
+                          className={`text-sm sm:text-[12px] font-semibold ${
+                            activeTab === String(tab.id)
+                              ? "text-[#FF6A00]"
+                              : "text-[#222]"
+                          }`}
+                        >
+                          {tab.name?.replace(/repair/gi, "").trim()}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-</div>
               {activeScroll === "tabs" && canScroll && !atEnd && (
                 <button
                   onClick={() => scroll(tabsRef, "right")}
@@ -1134,7 +1136,9 @@ const updateQuantity = (
         </div>
       )}
 
-      <ServicesSection />
+      <div className="hidden sm:block">
+        <ServicesSection />
+      </div>
 
       {showWarrantyModal && (
         <WarrantyModal
@@ -1158,7 +1162,25 @@ const updateQuantity = (
         onClose={() => setShowAMCModal(false)}
         onConfirm={() => {
           if (selectedService && selectedCapacity) {
-            addToCart(selectedService);
+            addToCart({
+              id: String(selectedService.id),
+              name: selectedService.name,
+              serviceId: String(serviceId),
+              serviceName: apiService?.name || "",
+              subService: selectedService.name,
+              capacity: selectedCapacity,
+              price: selectedService.discountedPrice,
+              discountedPrice: selectedService.discountedPrice,
+              originalPrice: selectedService.originalPrice,
+              image: selectedService.image,
+              duration: selectedService.duration,
+              rating: selectedService.rating,
+              reviews: selectedService.reviews,
+              quantity: 1,
+              service_id: Number(serviceId),
+              service_category_id:
+                apiService?.service_category_id || apiService?.id,
+            });
           }
 
           setShowAMCModal(false);
@@ -1172,7 +1194,10 @@ const updateQuantity = (
         onClose={() => setShowModal(false)}
         service={selectedService}
         onAdd={() => {
-          if (selectedService) addToCart(selectedService);
+          if (selectedService) {
+            handleAddService(selectedService);
+          }
+
           setShowModal(false);
         }}
       />

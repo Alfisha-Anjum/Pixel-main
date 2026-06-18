@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+// import "./globals.css";
+import { Suspense } from "react";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-
+import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Providers } from "./providers";
+import LayoutContent from "@/components/LayoutContent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,18 +28,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Providers>
-          {/* HEADER */}
-          <Header />
+          <LayoutContent>{children}</LayoutContent>
 
-          {/* GLOBAL CONTAINER */}
-          <div className=" mx-auto px-4 md:px-8 lg:px-0 py-6 md:py-10 lg:py-[100px]">
-            {children}
-          </div>
-
-          {/* FOOTER */}
-          <Footer />
-
-          {/* TOASTERS */}
           <Toaster />
           <Sonner />
         </Providers>

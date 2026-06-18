@@ -28,12 +28,20 @@ const Header = () => {
   const [currentCity, setCurrentCity] = useState("Raipur");
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab");
+ const [activeTab, setActiveTab] = useState<string | null>(null);
+
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [states, setStates] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
   const [selectedState, setSelectedState] = useState<any>(null);
   const [selectedCity, setSelectedCity] = useState<any>(null);
+
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    setActiveTab(params.get("tab"));
+  }
+}, []);
 
   const fetchStates = async () => {
   try {
