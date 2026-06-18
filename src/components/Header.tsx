@@ -206,7 +206,7 @@ const handleCitySelect = (city: any) => {
               <Link
                 href="/my-booking?tab=amc"
                 className={`flex flex-col items-center justify-center ${
-                  pathname.startsWith("/my-booking") && activeTab === "amc"
+                  pathname?.startsWith("/my-booking") && activeTab === "amc"
                     ? "text-orange-500"
                     : "text-gray-500"
                 }`}
@@ -220,7 +220,7 @@ const handleCitySelect = (city: any) => {
               <Link
                 href="/my-booking?tab=home"
                 className={`flex flex-col items-center justify-center ${
-                  pathname.startsWith("/my-booking") && activeTab !== "amc"
+                  pathname?.startsWith("/my-booking") && activeTab !== "amc"
                     ? "text-orange-500"
                     : "text-gray-500"
                 }`}

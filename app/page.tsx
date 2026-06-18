@@ -83,7 +83,7 @@ export default function Home() {
 
 useEffect(() => {
   fetchDashboardData("Chhattisgarh", "Raipur");
-  fetchServicesApi();
+  fetchServicesApi("Chhattisgarh", "Raipur");
 }, []);
 
 const fetchDashboardData = async (

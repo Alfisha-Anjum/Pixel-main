@@ -127,7 +127,7 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
-      <Header />
+      {/* <Header /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
@@ -978,7 +978,7 @@ export const AccountLayout: React.FC<{ initial?: string }> = ({
           </div>
         </div>
       </Modal>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
